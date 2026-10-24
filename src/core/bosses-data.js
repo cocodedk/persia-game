@@ -148,7 +148,36 @@ const giantCow = boss('giant-cow', 'Giant Cow', 'cow', 270, { w: 640, h: 300 }, 
   ], { rate: 1.5, minions: [minion('cow', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'curl')] }),
 ]);
 
-export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow];
+// Level 6's giant dog, face on: each floppy ear and the black nose are its plates; the round eyes and
+// the barking mouth under the pale muzzle burn, and the dogs pour from the mouth. A rabbit leaves the
+// nose in every phase, as the cow's leaves its curl.
+const giantDog = boss('giant-dog', 'Giant Dog', 'dog', 270, { w: 640, h: 300 }, [
+  armor('earL', -210, 0, 100, 220, 6),
+  armor('earR', 210, 0, 100, 220, 6),
+  armor('nose', 0, 10, 100, 60, 8),
+  weak('eyeL', -90, -40, 80, 60, 44),
+  weak('eyeR', 90, -40, 80, 60, 44),
+  weak('mouth', 0, 105, 120, 70, 70),
+], [
+  phase(0.65, 'sway', [
+    atk('aimed', 2, 'mouth', { speed: 0.9 }),
+    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
+    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
+  ], { minions: [minion('dog', 1, 10, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
+  phase(0.3, 'sway', [
+    atk('fan', 3, 'mouth', { count: 5, spread: 0.8 }),
+    atk('aimed', 2.4, 'eyeL'),
+    atk('aimed', 2.4, 'eyeR'),
+  ], { rate: 1.3, minions: [minion('dog', 2, 9, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
+  phase(0, 'charge', [
+    atk('ring', 4.2, 'mouth', { count: 14, speed: 0.85 }),
+    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
+    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
+    atk('laser', 8, 'mouth'),
+  ], { rate: 1.5, minions: [minion('dog', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
+]);
+
+export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 

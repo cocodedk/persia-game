@@ -24,8 +24,9 @@ import giantMouse from './giant-mouse.js';
 import giantFish from './giant-fish.js';
 import giantBird from './giant-bird.js';
 import giantCow from './giant-cow.js';
+import giantDog from './giant-dog.js';
 
-export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish, 'giant-bird': giantBird, 'giant-cow': giantCow };
+export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish, 'giant-bird': giantBird, 'giant-cow': giantCow, 'giant-dog': giantDog };
 const cache = new Map();
 
 export function painterFor(mod, id) {

@@ -8,8 +8,8 @@ import { EMIT } from '../../src/core/patterns.js';
 
 const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 
-test("the giant cat, mouse, fish, bird and cow are the bosses, looked up by kind", () => {
-  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow']);
+test("the giant cat, mouse, fish, bird, cow and dog are the bosses, looked up by kind", () => {
+  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow', 'giant-dog']);
   for (const def of BOSS_DEFS) assert.equal(bossDef(def.kind), def);
   assert.equal(bossDef('nope'), undefined);
 });
@@ -83,4 +83,14 @@ test('the giant cow: two horns and a curl for plates, two eyes and a mouth to bu
   const from = (ph, species) => ph.minions.filter((m) => m.species === species);
   assert.deepEqual(def.phases.map((ph) => from(ph, 'cow').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
   for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'curl']]);
+});
+
+test('the giant dog: two ears and a nose for plates, two eyes and a mouth to burn, dogs from the mouth and a rabbit from the nose in every phase', () => {
+  const def = bossDef('giant-dog');
+  assert.equal(def.species, 'dog');
+  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['earL', 'earR', 'nose']);
+  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
+  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
+  assert.deepEqual(def.phases.map((ph) => from(ph, 'dog').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
+  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'nose']]);
 });

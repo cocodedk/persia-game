@@ -15,9 +15,10 @@ export function bossWorld(kind, opts) {
   return world;
 }
 export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
-// The boss as its level fights it, at the level's difficulty, without the waves before it.
+// The boss as its level fights it, at the level's difficulty, without the waves before it. A boss no
+// level has yet (the giant dog, until level 6 lands) is fought as the last level would.
 export function realLevel(kind) {
-  const lv = LEVELS.find((l) => l.boss === kind);
+  const lv = LEVELS.find((l) => l.boss === kind) ?? LEVELS.at(-1);
   return bossLevel(kind, lv.d, { seed: lv.seed });
 }
 
