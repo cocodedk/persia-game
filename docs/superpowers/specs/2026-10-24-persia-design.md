@@ -256,6 +256,54 @@ Failing level 4 retries level 4 from wave 16.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
+## Level 5 specification
+
+Decided with Babak on 2026-10-24, after level 4 went live.
+
+**Shape.** Five waves and a boss, a step harder than level 4. The waves are 21 to 25.
+
+**Where.** The Tomb of Cyrus at Pasargadae at night: the stone tomb on its six stepped tiers, the
+small gabled chamber on top with its low door, floodlit warm from below, alone on a wide plain. A few
+lone columns and low wall stumps of the palaces stand off to the sides; the Zagros lie low behind. The
+tomb is small in life, so it is drawn large and central, the only tall thing on the plain. The sky,
+the blood moon, the far mountains, the palette and the music stay the world's.
+
+**Enemies.** The eight animals; the cow, the boss's species, fills more rows than before. Wave 22 is
+the escort with the rabbits, as waves 12 and 17.
+
+**Boss.** A giant cow, face on: its two horns and the curl of hair between them are its plates; the
+round eyes and the wide mouth under the pink muzzle burn, and cows pour from the mouth. A rabbit
+leaves the curl in every phase. Its name is said as it arrives, and it lights up while the name is
+said.
+
+**Stars.** From wave 23 to the end, the giant's fight included, stars fall: a shower of shooting
+stars across the upper sky, setting behind the landmark and the mountains, so they never cross in front
+of them or of what fights.
+As it begins the voice says ستاره (setare) after the wave's number and species, and the word moment
+shows it as it shows باران. It fades in over two seconds, follows reduced motion (fewer, slower), and
+thins out at half quality but never stops, as the rain does. Rain and stars are one mechanism: a
+level's weather names its kind and the wave, within the level, it begins with.
+
+**Spoken set.** Level 4's set, plus `counting-2199-tal-21` (۲۱, bist-o-yek), `word-bridge-setareh`
+(ستاره), and four clips for 22 to 25 (`counting-2199-tal-22` to `-25`). Those four do not exist yet:
+they are made and approved first, in a review round in the lessons repo (Babak, 2026-10-24), as
+extra catalog entries beside its counting lesson, which stays as it is. Every clip carries
+`reviewedBy: ["cocodedk"]`. A wave's word moment shows its Persian digits with the Latin beside them
+(bist-o-do).
+
+**The fourth step of the Persian ramp.** The giant's name bar in the HUD reads the cow's Persian word,
+گاو, instead of GIANT COW: the word the player has heard all through the level. It is drawn in the
+pack's word face as one whole word with no letter spacing, so its letters stay joined. Everything
+level 4 shows in Persian digits stays Persian. The shot-down card's sentence about the giant stays
+English, and so does the title menu.
+
+**The title.** Five cards side by side, still fitting at 1920 x 1080 and in a 1280 x 720 window.
+
+**Reaching it.** Open like levels 2 to 4: the title lists Level 5, level 4's results offer Next.
+Failing level 5 retries level 5 from wave 21.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
 ## Word pack
 
 One data file, for example `src/data/pack.js`, that is the only place language lives:
