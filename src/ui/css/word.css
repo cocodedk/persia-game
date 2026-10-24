@@ -16,6 +16,18 @@
   text-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.9), 0 0 0.6em rgba(0, 0, 0, 0.6);
 }
 .word-moment.show .say { animation: word-fade var(--said) both; }
+/* A species' face, its own enemy sprite made big, right of the word: it lunges in with a snap of the
+   head, then holds as long as the word. */
+.word-moment .face {
+  position: absolute; left: 100%; top: 50%; translate: 0 -50%; margin-left: 0.25em;
+  width: 1.8em; height: 1.8em; filter: drop-shadow(0 0.04em 0.06em rgba(0, 0, 0, 0.85));
+}
+.word-moment.show .face { animation: word-face 0.4s both; }
+@keyframes word-face {
+  0% { scale: 0.3; rotate: -14deg; }
+  55% { scale: 1.12; rotate: 6deg; }
+  100% { scale: 1; rotate: 0deg; }
+}
 
 /* in by 0.12 s, held to 1.0 s, out by 1.35 s */
 @keyframes word-moment {
@@ -31,4 +43,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .word-moment.show { animation-name: word-fade; }
+  .word-moment.show .face { animation: none; }
 }

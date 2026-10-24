@@ -10,9 +10,11 @@
 //                                       bakes it bigger, at that resolution)
 //   warmAliens(look)                    bake the whole set, damage included (call when a level's
 //                                       view is built): nothing is baked on a hit, mid-fight
+//   portrait(look, species, scale)      one canvas: frame 0's body with its lights added on top,
+//                                       as drawn in play (the word moment's face); not kept here
 // A painter is (b, l, frame, colour): it draws centred on (0, 0) in world px into the body context
 // b and the lights context l (see kit.js), colour = look.palette.alien[species].
-import { makeCanvas, white } from '../sprites.js';
+import { makeCanvas, white, lighter } from '../sprites.js';
 import { SPECIES } from '../../core/kinds.js';
 import { CRACKABLE, cracked } from './cracks.js';
 import animals from './animals.js';
@@ -51,6 +53,17 @@ export function speciesSprites(look, species, scale = 1) {
   let shelf = shelves.get(scale);
   if (!shelf) shelves.set(scale, (shelf = {}));
   return (shelf[species] ??= bakeSet(ART[species], look.palette.alien[species], SPECIES_LIST.indexOf(species) + 1, scale));
+}
+
+export function portrait(look, species, scale) {
+  const size = SIZE * scale;
+  const [c, g] = canvasAt(size, scale);
+  const [lc, lg] = canvasAt(size, scale);
+  ART[species](g, lg, 0, look.palette.alien[species]);
+  g.resetTransform();
+  lighter(g);
+  g.drawImage(lc, 0, 0);
+  return c;
 }
 
 export function warmAliens(look) {

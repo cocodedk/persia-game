@@ -82,7 +82,7 @@ Things that would make the level a failure even if it runs:
 | On-screen text | Clean screen. Picture plus voice plus the Persian word, each letter its own colour. No Danish. | Babak |
 | Teaching ramp | Level 1 teaches nothing visibly. Later levels and richer endings add the layer gradually. | Babak |
 | Backdrops | Known places in Iran, later. | Babak |
-| Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it. Added after playing the build. | Babak |
+| Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 
 ## Level 1 specification

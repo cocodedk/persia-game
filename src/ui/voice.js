@@ -1,5 +1,5 @@
 // The voice: the core's events, said with the pack's approved clips on a bus of their own, every
-// line shown, its Latin name beside it, as it is said (show/hide: word-moment.js).
+// line shown as it is said (show(pack entry)/hide: word-moment.js).
 //   createVoice(pack, { nodes, duck, fetch, decode, show, hide }) -> { hear(events), update(dt), speak(line), clear() }
 // Every clip is fetched and decoded once, at creation, on an offline context: the game's context
 // waits for a gesture, and wave 1 is said on the first frame of play. A failed fetch or decode is
@@ -39,17 +39,17 @@ export function createVoice(pack, { nodes = audioNodes, duck = duckSpeech, fetch
       if (line) voice.speak(line);
     },
     speak(line) {
-      const { clip, ms, word, say } = clipOf(pack, line);
-      show(word, say, ms);
+      const entry = clipOf(pack, line);
+      show(entry);
       const n = nodes();
-      const buffer = buffers.get(clip);
+      const buffer = buffers.get(entry.clip);
       if (!n || !buffer) return;
       playing = n.ctx.createBufferSource();
       playing.buffer = buffer;
       playing.connect(n.voice);
       playing.start();
       duck(UNDER_SPEECH);
-      lift = ms / 1000;
+      lift = entry.ms / 1000;
     },
     clear() {
       clearQueue(q);

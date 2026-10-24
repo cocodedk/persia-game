@@ -28,7 +28,7 @@ function rig({ audio = true, fetch = bytes, decode = async (b) => ({ clip: b.url
   const r = { started, ducks, shown, bus, hidden: 0, audio };
   r.voice = createVoice(PACK, {
     nodes: () => (r.audio ? { ctx, voice: bus } : null), duck: (level) => ducks.push(level), fetch, decode,
-    show: (word, say, ms) => { shown.push(word); r.said = { say, ms }; }, hide: () => { r.hidden += 1; },
+    show: (entry) => { shown.push(entry.word); r.said = entry; }, hide: () => { r.hidden += 1; },
   });
   return r;
 }
@@ -39,13 +39,13 @@ test('with no audio nodes the word still shows on schedule', async () => {
   r.voice.hear([{ type: 'wave', wave: 1, species: ['dog'] }]);
   r.voice.update(0); // one, unheard
   assert.deepEqual(r.shown, [number(1).word]);
-  assert.deepEqual(r.said, { say: number(1).say, ms: number(1).ms });
+  assert.equal(r.said, number(1), 'the whole pack entry: its word, Latin name and length');
   r.voice.hear([{ type: 'kill' }]); // a tick with nothing to say keeps the backlog
   r.voice.update(0.9);
   assert.deepEqual(r.shown, [number(1).word]);
   r.voice.update(0.02);
   assert.deepEqual(r.shown, [number(1).word, species('dog').word]);
-  assert.deepEqual(r.said, { say: species('dog').say, ms: species('dog').ms }, 'its name beside it, as long as it is said');
+  assert.equal(r.said, species('dog'), 'and for a species its id, so its face shows too');
   assert.deepEqual(r.ducks, [], 'nothing played, so nothing ducked');
 });
 
