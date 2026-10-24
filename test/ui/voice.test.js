@@ -89,6 +89,25 @@ test('a decoded clip plays on the voice bus and ducks to 0.45, then lifts after 
   assert.deepEqual(r.ducks, [0.45, 1]);
 });
 
+test('saying() is the species whose name is being said, for its length; a number names none', async () => {
+  const r = rig({ audio: false }); // muted: the enemies still light up on time
+  await settle();
+  r.voice.hear([{ type: 'wave', wave: 1, species: ['dog'] }]);
+  r.voice.update(0); // one
+  assert.equal(r.voice.saying(), null);
+  r.voice.update(0.92); // one's length and the gap: the dog starts
+  assert.equal(r.voice.saying(), 'dog');
+  r.voice.update(species('dog').ms / 1000 - 0.01);
+  assert.equal(r.voice.saying(), 'dog');
+  r.voice.update(0.02);
+  assert.equal(r.voice.saying(), null);
+  r.voice.hear([{ type: 'boss', kind: 'giant', species: 'cat' }]);
+  r.voice.update(0.2); // the gap after the dog's line
+  assert.equal(r.voice.saying(), 'cat');
+  r.voice.clear(); // Restart, mid-line
+  assert.equal(r.voice.saying(), null);
+});
+
 test('clear() drops the queue, hides the word and lifts the duck', async () => {
   const r = rig();
   await settle();

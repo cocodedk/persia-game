@@ -1,13 +1,14 @@
 // The voice: the core's events, said with the pack's approved clips on a bus of their own, every
 // line shown as it is said (show(pack entry)/hide: word-moment.js).
-//   createVoice(pack, { nodes, duck, fetch, decode, show, hide }) -> { hear(events), update(dt), speak(line), clear() }
+//   createVoice(pack, { nodes, duck, fetch, decode, show, hide }) -> { hear(events), update(dt), speak(line), clear(),
+//   saying() }   saying(): sayingOf the queue (voice-queue.js); the parade's own lines name none
 // Every clip is fetched and decoded once, at creation, on an offline context: the game's context
 // waits for a gesture, and wave 1 is said on the first frame of play. A failed fetch or decode is
 // silence. A line whose clip is not decoded when it starts is skipped, never played late; its word
 // still shows, and so it does with the sound locked or muted. A playing line ducks the music and
 // effects for its length.
 import { audioNodes, duckSpeech } from './audio.js';
-import { voiceLines, clipOf, createQueue, enqueue, stepQueue, clearQueue } from './voice-queue.js';
+import { voiceLines, clipOf, createQueue, enqueue, stepQueue, clearQueue, sayingOf } from './voice-queue.js';
 
 const UNDER_SPEECH = 0.45; // the music and effects level while a line plays
 
@@ -59,6 +60,7 @@ export function createVoice(pack, { nodes = audioNodes, duck = duckSpeech, fetch
       duck(1);
       hide();
     },
+    saying: () => sayingOf(q),
   };
   return voice;
 }

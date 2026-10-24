@@ -3,7 +3,8 @@
 //   createView(canvas, level) -> view   view.look: the look (looks/), view.quality: the
 //     auto-quality state (main feeds sampleFrame(view.quality, workMs, intervalMs) every frame, work
 //     = performance.now() around its core steps + fx + drawFrame, and sets fx.density from it),
-//     view.showHud: false hides the HUD (title backdrop)
+//     view.showHud: false hides the HUD (title backdrop); view.named: the species whose name is
+//     being said (voice.saying(), set by scenes.js), whose aliens light up
 //   drawFrame(view, world, fx, t)   t: seconds, any monotonic clock (animation only)
 // The canvas is sized to its CSS box; the 1920 x 1080 world is letterboxed into it, and the backing
 // store never exceeds 1:1 with the world (Pi 4 fill rate). No camera: only fx shake moves the field.
@@ -33,7 +34,7 @@ export function createView(canvas, level) {
   return {
     canvas, ctx: canvas.getContext('2d'), level, look,
     sky: buildSky(look), layers: buildLayers(look, level.seed ?? 1),
-    quality: createQuality(), hud: { lag: null }, showHud: true,
+    quality: createQuality(), hud: { lag: null }, showHud: true, named: null,
     fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 },
   };
 }
@@ -72,7 +73,7 @@ function field(ctx, v, world, fx, t) {
   ctx.translate(fx.shakeX, fx.shakeY);
   drawLayers(ctx, v.layers, world.ship.x, t, q);
   drawBoss(ctx, world, look, t, q); // under the aliens: minions launch from it and fly over it (R27)
-  drawAliens(ctx, world, look, t);
+  drawAliens(ctx, world, look, t, v.named);
   drawPickups(ctx, world, look, t);
   drawLasers(ctx, world, look, t);
   drawBullets(ctx, world, look, t, q);

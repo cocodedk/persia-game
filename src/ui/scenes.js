@@ -44,6 +44,7 @@ export function runScene(sc, dt, t, step) {
   if (sc.mode === 'backdrop' && session.over > BACKDROP_AGAIN) {
     sc.session = createSession(sc.level, seed()); // the same level: no bake
   }
+  view.named = sc.voice?.saying();
   drawFrame(view, sc.session.world, sc.session.fx, t);
   const ship = sc.session.world.ship;
   if (sc.sound) setBeam(step && ship.beam && sc.session.world.state === 'play', ship.x);
