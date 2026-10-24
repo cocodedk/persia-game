@@ -46,13 +46,16 @@ the level shorthand and the core rules.
 - Pause on blur, M mutes, frame time capped at 0.1 s, `prefers-reduced-motion` respected.
 - `localStorage` only under `persia.` keys, always inside try/catch. The game works without it.
 - Clean screen in play: no captions, translations or help text. Invaders' HUD stays. The only
-  language on screen is the word moment. No Danish anywhere. Chrome is English. No English animal
+  language on screen is the word moment. Every spoken line is shown as it is said (a species word,
+  a wave's Persian digit), its Latin spelling (pack `say`) beside it. Level 1 is the floor of the
+  Persian ramp (spec decisions): later levels move points and text to Persian, so build none of
+  that here. No Danish anywhere. Chrome is English. No English animal
   name is ever shown, because it would be a translation.
 - The code never contains a Persian word. Arabic-script characters (U+0600–U+06FF) appear in `src/`
   and `test/` only in `src/data/pack.js`. Species ids in code are English (`dog`, `cat`, …).
 - Persian text rules: ک U+06A9, never ك U+0643. ی U+06CC, never ي U+064A. ZWNJ U+200C for
-  نیم‌فاصله. No diacritics in pack words. Digits ۰–۹ only if digits are shown, and none are in
-  level 1.
+  نیم‌فاصله. No diacritics in pack words. The only digits shown are Persian ۰–۹ (U+06F0–U+06F9): a
+  wave's number in the word moment.
 - Persian text renders as a DOM overlay, never as per-letter canvas text.
 - Only these twelve approved clips, copied with provenance:
   `vocabulary-5-{sag,gorbe,asb,gav,mahi,parande,khargush}` and `number-{1..5}-word`. No synthesis,

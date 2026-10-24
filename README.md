@@ -1,92 +1,79 @@
 # Persia
 
-An arcade shooter for the browser. Five waves of angry animals come at you (dogs, cats, horses,
-cows, fish, birds and rabbits), and then a giant cat. Spread shot, laser, rapid fire, shield and
-smart bombs drop along the way, and combos push the score up.
-
-The animals are named in Persian. When a species arrives in a wave, a voice says its name once and
-the word lights up over the fight for about a second, each letter in its own colour. The menus and
-the score are in English. The level opens like a film, with the lights going down, and ends with
-the seven animals parading past, each named one more time. Then your score, and "Again".
+Persia is an arcade shooter for a laptop, played with keyboard and mouse in your browser. There is nothing to install and no account to make.
 
 [![Persia: a formation of angry pixel cats and dogs under a blood-red moon, a Persian word in four colours, and the PERSIA logo](og.png)](https://persia.cocode.dk)
 
-## Play
+## What it is
 
-**[persia.cocode.dk](https://persia.cocode.dk)**: free, nothing to install. It is made for a laptop
-or desktop with a keyboard and mouse. Play with the sound on, because the names are spoken.
+You fly a ship along the bottom of the screen and shoot angry pixel animals. The one level so far has five waves, and a wave is a group of enemies that flies in together. Across them you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish. After wave 5 a giant cat arrives as the boss.
 
-## Controls
+You have three lives. Lose all three and you start again from wave 1. Beat the boss and the seven animals parade past, each named once. Then you see your score, and "Again".
+
+The first time you press Play after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
+
+A voice speaks Persian as things happen. It says each wave's number as the wave starts, and each animal's name the first time that animal appears in a wave. Whatever it says also shows on screen for about a second:
+
+- the Persian word, each letter in its own colour (for a wave number, the Persian digit);
+- the same word in Latin letters beside it while it is said, so the cat shows گربه next to "gorbe";
+- for an animal, its face drawn big.
+
+There are no captions or translations. The menus and the score are in English.
+
+Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what this one level runs.
+
+## How to play
+
+Open [persia.cocode.dk](https://persia.cocode.dk) and press Play, or press Enter. Play with the sound on, because the names are spoken. Sound starts after your first key press or click, because browsers keep pages silent until then.
 
 | Action | Keyboard | Mouse |
 |---|---|---|
-| Move | Arrows or WASD | the ship follows the pointer |
-| Fire (hold for auto-fire) | Space | left button |
-| Smart bomb | B or Shift | right button |
+| Move | Arrow keys or W A S D | Move the pointer; the ship follows it |
+| Fire | Space (hold to keep firing) | Left button |
+| Bomb | B or Shift | Right button |
 | Pause | P or Esc | |
-| Mute | M | |
-| Confirm in menus | Enter | click |
+| Sound on or off | M | |
+| Menus | Arrow keys to move, Enter or Space to choose | Click |
 
-You have three lives. Lose them all and you start again from wave 1. The opening plays on the first
-Play after the page loads, and any key skips it once it has run for a second.
+Shoot a rabbit and it drops a power-up (spread shot, laser, rapid fire or shield) or a bomb. Fly into it to pick it up. A bomb removes every enemy bullet and hits everything on screen. You start with one and can hold three.
 
-## Run locally
+The pause menu offers Resume, Restart and Title. Switching to another tab pauses the game too.
 
-Plain HTML, CSS and JavaScript modules: no dependencies, no build step, no network requests at
-runtime. Every URL is relative, so the folder also works under a sub-path.
+## Run it locally
 
-```sh
-git clone https://github.com/cocodedk/persia-game.git
-cd persia-game
-python3 -m http.server 8000   # then open http://localhost:8000/
-```
+You need Python 3, or any other static file server.
 
-Any static file server works. Opening `index.html` straight from disk does not, because browsers
-block ES modules on `file://`.
+1. Open a terminal in the project folder (`git clone https://github.com/cocodedk/persia-game.git` if you don't have it yet).
+2. Run `python3 -m http.server 8000`. It prints that it is serving on port 8000.
+3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with a Play button.
 
-## Tests and layout
+Browsers do not run module scripts from a `file://` address, so double-clicking `index.html` will not work. There are no dependencies, no build step and no network requests while you play.
 
-```sh
-npm test
-```
+## Tests and code layout
 
-Node 22 or newer, nothing to install. Persia started as a fork of
-[Invaders](https://github.com/cocodedk/invaders) and was cut down to what this one level runs.
+Run `npm test`. It uses Node's built-in test runner, so there is nothing to install first. You need Node.js 22 or newer. A passing run ends with a summary that shows `fail 0`.
 
-| Path | What lives there |
-|---|---|
-| `src/core/` | the simulation: fixed 1/60 s steps in a 1920 x 1080 world, the waves, the giant, weapons and scoring |
-| `src/fx/` | effects state: particles, camera shake, slow motion |
-| `src/ui/` | everything that touches the browser: drawing, sound, the voice, the word on screen, the menus |
-| `src/data/pack.js` | the word pack: each Persian word, the clip it plays, the letter colours and the font |
-| `src/main.js` | boot and the frame loop |
-| `public/audio/` | the twelve voice clips and `manifest.json` |
-| `public/fonts/` | Vazirmatn Bold, the face the words are set in |
-| `test/` | `node:test` suites for core, fx, ui and the pack, plus checks on the repo itself |
+- `src/core/` holds the game rules. It never touches the browser, `Math.random` or the clock. Randomness comes from a seeded generator and time from the step size, so tests replay a game exactly.
+- `src/fx/` holds particles and camera effects, under the same rules.
+- `src/ui/` is everything that touches the page: drawing, screens, input and sound. `voice.js` plays the clips and `word-moment.js` draws the word on screen as real text, so the letters stay joined.
+- `src/data/pack.js` is the word pack and the only place a Persian word appears. It lists the words, their Latin spellings, the clip files and the letter colours. Another language would be a separate fork with its own pack.
+- `src/main.js` starts the game and runs the frame loop.
+- `test/` mirrors `core`, `fx` and `ui`. It also checks the repo itself: every code file stays under 200 lines, the game loads nothing from other sites, every Persian character stays inside `src/data/pack.js`, and every export is used.
+- `public/` holds the voice clips and the font.
 
-`src/core/` and `src/fx/` never touch the browser: randomness comes from a seeded generator and time
-from the step, so the tests can run the game in Node. The repo checks keep every code file under
-200 lines, the game free of external URLs, every Persian character inside `src/data/pack.js`, and
-every export in use. The design spec and the build plan are in `docs/superpowers/`.
+The design spec and the build plan are in `docs/superpowers/`.
 
-## The voice clips
+## Voice clips
 
-Persia plays twelve clips: the seven animal names, and the numbers one to five, said as each wave
-starts. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons)
-repository. Each was synthesised with the Piper voice `fa_IR-ganji-medium` and then approved by a
-native Persian reviewer, and only approved clips were copied (`scripts/lift-clips.mjs` refuses any
-other). `public/audio/manifest.json` keeps each clip's provenance: its source ID and SHA-256, its
-length, the text it was synthesised from, the voice model and its checksum, the engine version,
-who reviewed it and its licence.
+There are twelve clips, in `public/audio/`: the seven animal names and the numbers one to five. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
 
-The game never synthesises speech itself, and no clip goes in without a review.
+`public/audio/manifest.json` records, for every clip, the text it speaks, the voice model and its checksum, the engine version, the reviewer and the clip's own SHA-256 checksum. The script that copied the clips in, `scripts/lift-clips.mjs`, refuses any clip with no reviewer on record.
 
 ## Licences
 
-- Code: Apache-2.0, see [LICENSE](LICENSE).
-- Vazirmatn, by Saber Rastikerdar: SIL Open Font License 1.1, see
-  [public/fonts/OFL.txt](public/fonts/OFL.txt).
-- Voice clips: "MIT model; CC0 dataset", as the manifest records for every clip.
+- The code is under the Apache License 2.0, copyright 2026 Babak Bandpey / Cocode. See [LICENSE](LICENSE).
+- The font is Vazirmatn Bold by Saber Rastikerdar, under the SIL Open Font License 1.1. The full text is in [public/fonts/OFL.txt](public/fonts/OFL.txt).
+- For the voice clips, the manifest records the voice model as MIT-licensed and its dataset as CC0.
 
 ## Contributing
 

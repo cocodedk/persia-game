@@ -5,6 +5,7 @@ import { createVoice } from '../../src/ui/voice.js';
 import { installAudio, node } from './audio-kit.js';
 
 const species = (id) => PACK.species.find((s) => s.id === id);
+const number = (n) => PACK.numbers.find((x) => x.n === n);
 const settle = () => new Promise((r) => setTimeout(r, 0)); // every pending fetch and decode resolves
 const bytes = (url) => Promise.resolve({ ok: true, arrayBuffer: async () => ({ url }) });
 
@@ -27,7 +28,7 @@ function rig({ audio = true, fetch = bytes, decode = async (b) => ({ clip: b.url
   const r = { started, ducks, shown, bus, hidden: 0, audio };
   r.voice = createVoice(PACK, {
     nodes: () => (r.audio ? { ctx, voice: bus } : null), duck: (level) => ducks.push(level), fetch, decode,
-    show: (word) => shown.push(word), hide: () => { r.hidden += 1; },
+    show: (entry) => { shown.push(entry.word); r.said = entry; }, hide: () => { r.hidden += 1; },
   });
   return r;
 }
@@ -37,11 +38,14 @@ test('with no audio nodes the word still shows on schedule', async () => {
   await settle();
   r.voice.hear([{ type: 'wave', wave: 1, species: ['dog'] }]);
   r.voice.update(0); // one, unheard
+  assert.deepEqual(r.shown, [number(1).word]);
+  assert.equal(r.said, number(1), 'the whole pack entry: its word, Latin name and length');
   r.voice.hear([{ type: 'kill' }]); // a tick with nothing to say keeps the backlog
   r.voice.update(0.9);
-  assert.deepEqual(r.shown, []);
+  assert.deepEqual(r.shown, [number(1).word]);
   r.voice.update(0.02);
-  assert.deepEqual(r.shown, [species('dog').word]);
+  assert.deepEqual(r.shown, [number(1).word, species('dog').word]);
+  assert.equal(r.said, species('dog'), 'and for a species its id, so its face shows too');
   assert.deepEqual(r.ducks, [], 'nothing played, so nothing ducked');
 });
 
@@ -95,7 +99,7 @@ test('clear() drops the queue, hides the word and lifts the duck', async () => {
   assert.equal(r.hidden, 1);
   assert.deepEqual(r.ducks, [0.45, 1]);
   r.voice.update(5);
-  assert.deepEqual(r.shown, [], 'the cow and the rabbit are never said');
+  assert.deepEqual(r.shown, [number(2).word], 'two was shown as it was said; the cow and the rabbit never are');
   assert.equal(r.started.length, 1);
   assert.deepEqual(r.ducks, [0.45, 1], 'and the old line does not lift the duck again');
 });
