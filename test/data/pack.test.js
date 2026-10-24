@@ -24,6 +24,10 @@ test('the digits are the ten Persian ones, 0 to 9, never Arabic-Indic or ASCII',
   assert.equal(PACK.digits, Array.from({ length: 10 }, (_, d) => String.fromCharCode(0x06f0 + d)).join(''));
 });
 
+test('thousands are grouped with the Arabic thousands separator (U+066C), never a comma', () => {
+  assert.equal(PACK.group, String.fromCharCode(0x066c));
+});
+
 test('every number is written in those digits', () => {
   for (const { n, word } of PACK.numbers) assert.equal(word, [...String(n)].map((d) => PACK.digits[d]).join(''), `${n}`);
 });

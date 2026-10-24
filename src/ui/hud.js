@@ -10,7 +10,7 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { fmt, waveText } from './format.js';
+import { scoreText, waveText } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { panel, text, label, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
@@ -25,9 +25,11 @@ const MAIN = TOP + 55; // big number row
 const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
 
-let shown = { n: NaN, text: '' }; // the score as last formatted
+let shown = { n: NaN, level: null, text: '' }; // the score as last formatted, and for which level
 function score(ctx, world) {
-  if (world.score !== shown.n) shown = { n: world.score, text: fmt(world.score) };
+  if (world.score !== shown.n || world.level !== shown.level) {
+    shown = { n: world.score, level: world.level, text: scoreText(world.level, world.score) };
+  }
   panel(ctx, 32, TOP, 360, PH);
   label(ctx, 'SCORE', 56, CAP);
   text(ctx, shown.text, 54, MAIN, 46, '#ffffff', 'left', 900);

@@ -7,6 +7,7 @@
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms } for 1..15; `word` is n in Persian digits, shown as it is said
 //   digits        the ten digits, 0 to 9, a number is written in where the screen shows it in Persian
+//   group         the mark that groups such a number's thousands
 //   letterColours the colours the word moment cycles through, one per letter
 export const PACK = {
   lang: 'fa', dir: 'rtl',
@@ -39,5 +40,6 @@ export const PACK = {
     { n: 15, word: '۱۵', say: 'panzdah', clip: 'public/audio/panzdah.mp3', ms: 1070 },
   ],
   digits: '۰۱۲۳۴۵۶۷۸۹',
+  group: '٬',
   letterColours: ['#ffd23a', '#3affc8', '#ff5ad8', '#7aa8ff', '#ff8a3a'],
 };

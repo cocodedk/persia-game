@@ -46,7 +46,7 @@ const LEVEL_2 = {
 
 const LEVEL_3 = {
   id: 'level-3', name: 'Level 3', seed: 31249, d: 0.3, boss: 'giant-fish', landmark: 'hafez',
-  persian: ['wave'],
+  persian: ['wave', 'score'],
   waves: [
     w('dive', 10, 'bff', 'fan', 1.05), // 11: birds and fish swoop
     w('escort', 3, 'oro', 'aimed', 1.05), // 12: cows guard the rabbits: the power-ups
