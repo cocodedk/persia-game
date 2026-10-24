@@ -10,7 +10,7 @@
 /* the levels, a card each: the landmark's picture, then the level and its place; the row holds any
    number of cards on one line, each shrinking from 17rem until they all fit */
 .level-cards { gap: 1rem; flex-wrap: nowrap; max-width: 89rem; margin-top: 1.2rem; }
-.level-card { width: auto; flex: 0 1 17rem; min-width: 0; padding: 0.7rem 0.7rem 1rem; border-radius: 1.2rem; }
+.level-card { flex: 0 1 17rem; min-width: 0; padding: 0.7rem 0.7rem 1rem; border-radius: 1.2rem; }
 .card-face { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
 .card-art { display: block; width: 100%; margin-bottom: 0.7rem; border-radius: 0.6rem;
   image-rendering: pixelated; }

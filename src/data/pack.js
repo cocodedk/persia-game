@@ -6,7 +6,8 @@
 //                 also the parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
-//   numbers       { n, word, say, clip, ms } one per wave of the game, 1 to the last; `word` is n in Persian digits, shown as it is said
+//   numbers       { n, word, say, clip, ms }, one per wave of the game, 1 to the last; `word` is n in
+//                 Persian digits, shown as it is said
 //   weather       { rain, stars, petals }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
 //                 said after the number and species of the wave the weather begins with, shown as a
 //                 species' word is, without a face
