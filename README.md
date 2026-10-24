@@ -6,21 +6,21 @@ Persia is an arcade shooter for a laptop, played with keyboard and mouse in your
 
 ## What it is
 
-You fly a ship along the bottom of the screen and shoot angry pixel animals. The one level so far has five waves, and a wave is a group of enemies that flies in together. Across them you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish. After wave 5 a giant cat arrives as the boss.
+You fly a ship along the bottom of the screen and shoot angry pixel animals. There are two levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Both levels are open from the start: Play on the title screen is level 1, and Level 2 sits under it.
 
-You have three lives. Lose all three and you start again from wave 1. Beat the boss and the seven animals parade past, each named once. Then you see your score, and "Again".
+You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after level 1), Again and Title.
 
 The first time you press Play after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
 
 A voice speaks Persian as things happen. It says each wave's number as the wave starts, and each animal's name the first time that animal appears in a wave. Whatever it says also shows on screen for about a second:
 
-- the Persian word, each letter in its own colour (for a wave number, the Persian digit);
+- the Persian word, each letter in its own colour (for a wave number, its Persian digits);
 - the same word in Latin letters beside it while it is said, so the cat shows گربه next to "gorbe";
 - for an animal, its face drawn big.
 
-There are no captions or translations. The menus and the score are in English.
+There are no captions or translations. The menus and the score are in English. In level 2 the wave count at the top of the screen is in Persian digits too.
 
-Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what this one level runs.
+Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what these two levels run.
 
 ## How to play
 
@@ -65,7 +65,7 @@ The design spec and the build plan are in `docs/superpowers/`.
 
 ## Voice clips
 
-There are twelve clips, in `public/audio/`: the seven animal names and the numbers one to five. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
+There are eighteen clips, in `public/audio/`: the eight animal names and the numbers one to ten. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
 
 `public/audio/manifest.json` records, for every clip, the text it speaks, the voice model and its checksum, the engine version, the reviewer and the clip's own SHA-256 checksum. The script that copied the clips in, `scripts/lift-clips.mjs`, refuses any clip with no reviewer on record.
 

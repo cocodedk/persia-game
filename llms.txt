@@ -1,8 +1,8 @@
 # Persia
 
-> Persia is a free arcade shooter that runs in the browser. You shoot down five waves of angry animals and then a giant cat, and each animal's name is spoken in Persian when it first shows up.
+> Persia is a free arcade shooter that runs in the browser. Across two levels you shoot down waves of angry animals and a giant boss at the end of each, first a cat and then a mouse, and each animal's name is spoken in Persian when it first shows up.
 
-The seven animals are dog, cat, horse, cow, fish, bird and rabbit. When a species arrives in a wave, a voice says its Persian name once and the word appears large over the fight for about a second, each letter in its own colour. The menus and the score are in English. It opens like a film: the lights go down and eyes blink open in the dark around the title. When the giant falls, the seven animals parade past, each named once more, and then come the score and "Again". Spread shot, laser, rapid fire, shield and smart bombs drop along the way. It is made for a laptop or desktop with a keyboard and mouse.
+The eight animals are dog, cat, horse, cow, fish, bird, rabbit and mouse. When a species arrives in a wave, a voice says its Persian name once and the word appears large over the fight for about a second, each letter in its own colour. Level 1 plays over the ruins of Persepolis; level 2 plays over Si-o-se-pol in Isfahan at night, where the waves count on from six to ten in Persian digits. The menus and the score are in English. It opens like a film: the lights go down and eyes blink open in the dark around the title. When a giant falls, that level's animals parade past, each named once more, and then the score comes up, with Next or Again. Spread shot, laser, rapid fire, shield and smart bombs drop along the way. It is made for a laptop or desktop with a keyboard and mouse.
 
 Every clip is synthesised speech that a native Persian speaker approved before it went in; the game never synthesises speech itself. It is plain HTML, CSS and JavaScript ES modules with no dependencies, no build step and no network requests at runtime. Made by Babak Bandpey at Cocode, released under Apache-2.0.
 
