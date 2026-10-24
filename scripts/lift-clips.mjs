@@ -1,4 +1,4 @@
-// Copies the twelve approved clips level 1 speaks from the lessons repo into public/audio/ and writes
+// Copies the approved clips the levels speak from the lessons repo into public/audio/ and writes
 // public/audio/manifest.json with each clip's review provenance. Run from the repo root:
 //   node scripts/lift-clips.mjs ../Danish-Persian-Lessons
 import { createHash } from 'node:crypto';

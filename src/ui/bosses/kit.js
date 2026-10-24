@@ -3,8 +3,8 @@
 // Bake-time only, but for throb (a painter's live()). A painter draws centred on (0, 0) in world px:
 // the hull in boss coordinates, a part in its own (its rect is w x h around the origin and its art
 // must cover it, since the rect is the hit box).
-import { pixels, path, line, bloom } from '../aliens/kit.js';
-import { glow, rgba } from '../sprites.js';
+import { pixels, path, line, bloom, phosphor } from '../aliens/kit.js';
+import { glow, rgba, shade } from '../sprites.js';
 
 export { TAU, path, bloom, phosphor, line, pixels } from '../aliens/kit.js';
 
@@ -13,7 +13,7 @@ export const RED = '#ff2a3a';
 export const AMBER = '#ffb03a';
 export const PINK = '#ff5a8a';
 export const FANG = '#fff8e8';
-export const PUPIL = '#0a0612';
+const PUPIL = '#0a0612';
 export const LID = '#1a0a20';
 
 // Pixel art from a function: at(i, j) -> null | colour | [colour, lit], over cols x rows cells of
@@ -63,6 +63,15 @@ export function litCells(l, cols, rows, pick, colour) {
     }
   }
 }
+
+// A giant's eye painter from its bitmap (L lid, Y lit iris, y its lower half, k pupil, g glint),
+// the iris burning in the palette's weak colour.
+export const eyeArt = (rows) => (b, l, _part, S) => {
+  const w = S.pal.weak;
+  pixels(b, l, rows, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: PUPIL, g: ['#ffffff', true] });
+  bloom(l, 0, 0, 44, w, 0.35);
+  phosphor(b, l, 0.25, 4);
+};
 
 // Whiskers from (±x0, y0) out to (±x1, y1), one per [y0, x1, y1] spoke, mirrored; lights only.
 export function whiskers(l, x0, spokes, colour, a, w) {

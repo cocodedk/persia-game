@@ -5,6 +5,9 @@ import { CHAIN } from '../../src/core/boss-phase.js';
 import { BOSS_ART, painterFor } from '../../src/ui/bosses/bake.js';
 import { partStage } from '../../src/ui/bosses/parts.js';
 import { collapse } from '../../src/ui/bosses/death.js';
+import { HUD_BOTTOM } from '../../src/core/kinds.js';
+import { LOOK } from '../../src/ui/looks/index.js';
+import { sink } from './dom-kit.js';
 
 const parts = (kind) => BOSS_DEFS.find((d) => d.kind === kind).parts.map((p) => ({ ...p }));
 const dying = (kind, left) => ({ kind, dying: left, parts: parts(kind) });
@@ -22,6 +25,27 @@ test('every boss def has a painter, which draws each of its part ids and nothing
       used.add(found[0]);
     }
     assert.equal(used.size, Object.keys(art.parts).length, `${def.kind}: no part painter is left over`);
+  }
+});
+
+// Ruling R28 on what is drawn, not only on the hit boxes (boss-data.test.js): art may overhang its
+// part's rect, so at rest the highest body cell of the hull and of every part is below the HUD.
+test("at rest no boss's drawn body reaches up under the HUD", () => {
+  const topOf = (paint) => {
+    let top = Infinity;
+    const b = new Proxy(sink, { get: (_, k) => (k === 'fillRect' ? (x, y) => { top = Math.min(top, y); } : sink) });
+    paint(b);
+    return top;
+  };
+  for (const def of BOSS_DEFS) {
+    const art = BOSS_ART[def.kind];
+    const S = { def, pal: LOOK.palette.boss, look: LOOK, W: 0, H: 0, pad: 0 };
+    const hull = def.y + topOf((b) => art.hull(b, sink, S));
+    assert.ok(Number.isFinite(hull) && hull >= HUD_BOTTOM, `${def.kind} hull drawn up to y ${hull}`);
+    for (const p of def.parts) {
+      const top = def.y + p.dy + topOf((b) => painterFor(art, p.id)[0](b, sink, p, S));
+      assert.ok(Number.isFinite(top) && top >= HUD_BOTTOM, `${def.kind}/${p.id} drawn up to y ${top}`);
+    }
   }
 });
 

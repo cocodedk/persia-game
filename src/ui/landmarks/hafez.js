@@ -44,33 +44,36 @@ function hall({ box, post, slab, F, BW }) {
 }
 
 // Cypresses and orange trees in turn on each side of the platform, out to the band's edges.
-function garden({ box, rng, lights, L, F, BW }, mid) {
+function garden(art, mid) {
+  const { rng, BW } = art;
   for (const s of [-1, 1]) {
-    for (let k = 0, x = mid + s * (SPAN / 2 + 22); x > 4 && x < BW - 4; k++, x += s * (14 + Math.floor(rng() * 5))) {
-      if (k % 2 === 0) cypress(box, x, F, 36 + Math.floor(rng() * 16));
-      else orange(box, rng, x, F, lights, L);
+    let x = mid + s * (SPAN / 2 + 22);
+    for (let k = 0; x > 4 && x < BW - 4; k++) {
+      if (k % 2 === 0) cypress(art, x, 36 + Math.floor(rng() * 16));
+      else orange(art, x);
+      x += s * (14 + Math.floor(rng() * 5));
     }
   }
 }
 
-// A cypress `tall` blocks high on row y: a dark flame, pointed at the top and widest low down.
-function cypress(box, x, y, tall) {
+// A cypress `tall` blocks high on the floor: a dark flame, pointed at the top and widest low down.
+function cypress({ box, F }, x, tall) {
   for (let j = 0; j < tall; j++) {
     const t = j / tall;
     const half = Math.round(4.2 * Math.min(1, t * 1.6) * (1 - 0.3 * t));
-    box(x - half, y - tall + j, half * 2 + 1, 1, 't');
+    box(x - half, F - tall + j, half * 2 + 1, 1, 't');
   }
 }
 
-// An orange tree on row y: a short trunk under a round crown dotted with lit fruit.
-function orange(box, rng, x, y, lights, L) {
-  box(x, y - 8, 2, 8, 't');
+// An orange tree on the floor: a short trunk under a round crown dotted with lit fruit.
+function orange({ box, rng, lights, L, F }, x) {
+  box(x, F - 8, 2, 8, 't');
   for (let j = -7; j <= 7; j++) {
     const half = Math.round(Math.sqrt(49 - j * j) * 1.15);
-    box(x - half, y - 15 + j, half * 2 + 2, 1, 't');
+    box(x - half, F - 15 + j, half * 2 + 2, 1, 't');
   }
-  for (let k = 0; k < 8; k++) box(x - 6 + Math.floor(rng() * 14), y - 21 + Math.floor(rng() * 12), 1, 1, 'o');
-  lights.push({ x: (x + 1) * PIXEL, y: (y - 15) * PIXEL, r: 30, color: L.fruit, ph: rng(), a: 0.2 });
+  for (let k = 0; k < 8; k++) box(x - 6 + Math.floor(rng() * 14), F - 21 + Math.floor(rng() * 12), 1, 1, 'o');
+  lights.push({ x: (x + 1) * PIXEL, y: (F - 15) * PIXEL, r: 30, color: L.fruit, ph: rng(), a: 0.2 });
 }
 
 // The pavilion: three steps up, the glowing room round the tombstone, the columns, the tiled

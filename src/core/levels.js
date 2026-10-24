@@ -5,7 +5,7 @@
 // difficulty (difficulty.js), `name` what the screens call it, `landmark` its backdrop (looks/).
 // A world counts its waves across its levels: `first` is the number of the level's first wave, set
 // below from the levels played before it.
-// `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count).
+// `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count, 'score': the score).
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
 //   w(formation, cols, rows, pattern, speed)  one wave. `rows` is one species letter per row, top

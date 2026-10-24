@@ -12,12 +12,13 @@ export const fmt = (n) => Math.round(n).toLocaleString('en-US');
 
 export const localDigits = (n, digits) => [...String(n)].map((d) => digits[d]).join('');
 
+// s with its digits and thousands marks in the pack's, when the level shows `part` of the HUD in Persian.
+const PERSIAN = { ...PACK.digits, ',': PACK.group };
+const local = (level, part, s) => (level.persian.includes(part) ? localDigits(s, PERSIAN) : s);
+
 export function waveText(level, wave) {
-  const show = (n) => (level.persian.includes('wave') ? localDigits(n, PACK.digits) : String(n));
+  const show = (n) => local(level, 'wave', String(n));
   return `WAVE ${show(waveNumber(level, Math.max(1, wave)))} / ${show(waveNumber(level, level.waves.length))}`;
 }
 
-export function scoreText(level, score) {
-  if (!level.persian.includes('score')) return fmt(score);
-  return [...fmt(score)].map((c) => (c === ',' ? PACK.group : PACK.digits[c])).join('');
-}
+export const scoreText = (level, score) => local(level, 'score', fmt(score));

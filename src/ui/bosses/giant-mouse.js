@@ -3,7 +3,7 @@
 // lit red brows; a great round ear at each side, pink inside; the snout plate with its pink nose;
 // the weak points burn underneath: two beady eyes and the buck-toothed mouth the mice pour out of.
 // The brows throb quicker as the fight heats up, and the whiskers light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, grid, inside, whiskers, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, LID, grid, inside, whiskers, throb, eyeArt } from './kit.js';
 import { shade } from '../sprites.js';
 
 const fur = (S) => S.look.palette.alien.mouse;
@@ -67,16 +67,9 @@ function snout(b, l, _part, S) {
 
 // Bitmaps: L lid, Y lit iris, y its lower half, k pupil, g glint, w tooth, R the lit red of an open
 // mouth, G its burning throat, p tongue.
+// An eye (drawn as the left one): round and beady under a heavy scowling lid, burning.
 const EYE = ['LLLL.....', 'YYYLLLL..', 'YYYYYYYL.', 'YgYkkYYYL', 'YYkkkkYYY', '.yYkkYYy.', '..yyyyy..'];
 const MOUTH = ['LLLLLLLLL', 'LRwwLwwRL', 'LRwwLwwRL', 'LGwwLwwGL', 'LGGGGGGGL', '.LGpppGL.', '..LLLLL..'];
-
-// An eye (drawn as the left one): round and beady under a heavy scowling lid, burning.
-function eye(b, l, _part, S) {
-  const w = S.pal.weak;
-  pixels(b, l, EYE, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: PUPIL, g: ['#ffffff', true] });
-  bloom(l, 0, 0, 44, w, 0.35);
-  phosphor(b, l, 0.25, 4);
-}
 
 // The mouth: two great buck teeth over a burning throat.
 function mouth(b, l, _part, S) {
@@ -91,7 +84,7 @@ export default {
   margin: 40,
   crack: AMBER,
   hull,
-  parts: { ear, snout, eye, mouth },
+  parts: { ear, snout, eye: eyeArt(EYE), mouth },
   rage: [null, (l) => whiskers(l, 96, WHISKERS, AMBER, 0.9, 3), (l) => whiskers(l, 96, WHISKERS, RED, 1, 4)],
   live: throb(96, -26), // the brows throb, quicker with every phase
 };

@@ -4,7 +4,7 @@
 // reaches out at each side, claws bared; the weak points burn underneath: two slit eyes and the
 // snarling mouth. Lit red brows throb over the eyes, quicker as the fight heats up, and the whiskers
 // and stripes light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, grid, inside, litCells, whiskers, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, LID, grid, inside, litCells, whiskers, throb, eyeArt } from './kit.js';
 import { shade } from '../sprites.js';
 
 const side = (px, py, ax, ay, bx, by) => (px - bx) * (ay - by) - (ax - bx) * (py - by);
@@ -95,16 +95,9 @@ function paw(b, l, _part, S) {
 
 // Bitmaps: L lid and lip, Y lit iris, y its lower half, k slit pupil, g glint, w fang, R the lit
 // red of an open mouth, G its burning throat, p tongue.
+// An eye (drawn as the left one): slanted angry under a heavy lid, burning round a slit pupil.
 const EYE = ['LL.......', 'YYLLL....', 'YYYYkLLL.', 'YgYYkYYYL', '.yYYkYYy.', '..yykyy..'];
 const MOUTH = ['.LLL.LLL.', 'LwRRLRRwL', 'LwRRRRRwL', 'LRRGGGRRL', 'LRwGGGwRL', '.LRpppRL.', '..LLLLL..'];
-
-// An eye (drawn as the left one): slanted angry under a heavy lid, burning round a slit pupil.
-function eye(b, l, _part, S) {
-  const w = S.pal.weak;
-  pixels(b, l, EYE, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: PUPIL, g: ['#ffffff', true] });
-  bloom(l, 0, 0, 44, w, 0.35);
-  phosphor(b, l, 0.25, 4);
-}
 
 // The mouth: wide open in a snarl under a cat's split lip, four fangs, burning in the throat.
 function mouth(b, l, _part, S) {
@@ -120,7 +113,7 @@ export default {
   margins: { brow: 64 }, // the ears stand above the plate
   crack: AMBER,
   hull,
-  parts: { brow, paw, eye, mouth },
+  parts: { brow, paw, eye: eyeArt(EYE), mouth },
   rage: [
     null,
     (l) => {

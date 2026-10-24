@@ -4,7 +4,7 @@
 // pectoral fin fanned out at each side; the weak points burn underneath: two round eyes and the
 // pink pouting mouth the fish are spat from. The brows throb quicker as the fight heats up, and the
 // gills light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, PUPIL, LID, grid, inside, litCells, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, grid, inside, litCells, throb, eyeArt } from './kit.js';
 import { shade } from '../sprites.js';
 
 const scale = (S) => S.look.palette.alien.fish;
@@ -57,10 +57,11 @@ function fan(b, l, cols, rows, root, spread, r, c) {
   grid(b, l, cols, rows, (x, y) => {
     const dx = x - root[0];
     const dy = y - root[1];
-    const a = Math.atan2(dy, -dx) * root[2]; // 0 points out, away from the root
+    const a = Math.atan2(dy, -dx); // 0 points out, away from the root
     const d = Math.hypot(dx, dy);
-    if (Math.abs(a - spread[0]) > spread[1] || d > r(a)) return null;
-    if (d > r(a) - PX) return [shade(c, 0.5), true]; // the lit rim
+    const rim = r(a);
+    if (Math.abs(a - spread[0]) > spread[1] || d > rim) return null;
+    if (d > rim - PX) return [shade(c, 0.5), true]; // the lit rim
     const onRib = Math.abs(a / RIB - Math.round(a / RIB)) < 0.3;
     return onRib ? shade(c, -0.55) : shade(c, 0.45 - d / 300);
   });
@@ -69,26 +70,19 @@ function fan(b, l, cols, rows, root, spread, r, c) {
 
 // A pectoral fin (drawn as the left one): fanned out from its root at the cheek.
 function fin(b, l, _part, S) {
-  fan(b, l, 15, 14, [66, -6, 1], [0.12, 0.72], (a) => 124 - 10 * Math.abs(Math.sin(a * 6.5)), scale(S));
+  fan(b, l, 15, 14, [66, -6], [0.12, 0.72], (a) => 124 - 10 * Math.abs(Math.sin(a * 6.5)), scale(S));
 }
 
 // The crest: the dorsal fin, fanned up from the top of the head.
 function crest(b, l, _part, S) {
-  fan(b, l, 23, 10, [0, 35, 1], [-Math.PI / 2, 1.1], (a) => 84 - 12 * Math.abs(Math.sin(a * 6)), scale(S));
+  fan(b, l, 23, 10, [0, 35], [-Math.PI / 2, 1.1], (a) => 84 - 12 * Math.abs(Math.sin(a * 6)), scale(S));
 }
 
 // Bitmaps: L lid, Y lit iris, y its lower half, k pupil, g glint, P lit pink lip, p its shadow,
 // R the lit red of the open mouth, G its burning throat.
+// An eye (drawn as the left one): round and staring under a heavy scowling lid, burning.
 const EYE = ['LLLLL...', 'LLYYYLL.', '.YYkkYYL', 'YgkkkkYY', 'YYkkkkYY', '.yYkkYy.'];
 const MOUTH = ['...pppppp...', '.ppPPPPPPpp.', 'pPPRRRRRRPPp', 'pPRGGGGGGRPp', 'pPPRRRRRRPPp', '.ppPPPPPPpp.', '...pppppp...'];
-
-// An eye (drawn as the left one): round and staring under a heavy scowling lid, burning.
-function eye(b, l, _part, S) {
-  const w = S.pal.weak;
-  pixels(b, l, EYE, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: PUPIL, g: ['#ffffff', true] });
-  bloom(l, 0, 0, 44, w, 0.35);
-  phosphor(b, l, 0.25, 4);
-}
 
 // The mouth: puckered pink lips round a burning throat, as the pack's fish pout.
 function mouth(b, l, _part, S) {
@@ -103,7 +97,7 @@ export default {
   margin: 40,
   crack: AMBER,
   hull,
-  parts: { crest, fin, eye, mouth },
+  parts: { crest, fin, eye: eyeArt(EYE), mouth },
   rage: [null, (l) => gills(l, AMBER), (l) => gills(l, RED)],
   live: throb(110, -48), // the brows throb, quicker with every phase
 };
