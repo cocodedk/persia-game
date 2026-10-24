@@ -4,7 +4,7 @@ import { installCanvas } from './dom-kit.js';
 
 // What is baked when (Pi 4: at load, never mid-fight). Canvases are stand-ins that swallow every call.
 installCanvas(64);
-const { warmAliens, speciesSprites, SPECIES_LIST } = await import('../../src/ui/aliens/bake.js');
+const { warmAliens, speciesSprites, SPECIES_LIST, PARADE_SCALE } = await import('../../src/ui/aliens/bake.js');
 const { CRACKABLE } = await import('../../src/ui/aliens/cracks.js');
 const { bossArt, warmBoss } = await import('../../src/ui/bosses/bake.js');
 const { BOSS_DEFS } = await import('../../src/core/bosses-data.js');
@@ -18,6 +18,19 @@ test('warmAliens bakes the cracked bodies of every species whose role can be hur
     const n = CRACKABLE.includes(SPECIES[s]) ? 4 : 0;
     assert.equal(Object.keys(speciesSprites(LOOK, s).cracks).length, n, `${s}: 2 frames x 2 stages, or none`);
   }
+});
+
+test("warmAliens bakes the parade's bigger set too, so its first frame bakes nothing", () => {
+  warmAliens(LOOK);
+  const create = document.createElement;
+  let made = 0;
+  document.createElement = (...args) => {
+    made += 1;
+    return create(...args);
+  };
+  for (const s of SPECIES_LIST) speciesSprites(LOOK, s, PARADE_SCALE);
+  document.createElement = create;
+  assert.equal(made, 0);
 });
 
 test('warmBoss bakes every damage state the fight can show, and the hull flash; bossArt alone does not', () => {

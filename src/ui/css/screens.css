@@ -60,11 +60,11 @@
 
 /* ---- parade --------------------------------------------------------------- */
 /* the line the animals walk, as wide as the world and centred at 62 % of its height; the scrim
-   darkens only below the word (#words sits under the stage), and a glow in the ground line's amber
-   is the floor they walk on */
+   darkens only below the word (#words sits under the stage), and a glow in the look's accent (set
+   on the screen by parade.js), the ground line's amber, is the floor they walk on */
 .parade { background: linear-gradient(180deg, rgba(4, 5, 12, 0) 42%, rgba(4, 5, 12, 0.55) 60%, rgba(4, 5, 12, 0.8)); }
 .parade-line { position: absolute; left: 50%; top: calc(50% + 6.48rem); width: 96rem; translate: -50% -50%;
-  background: radial-gradient(ellipse 48% 14% at 50% 74%, rgba(255, 176, 58, 0.24), rgba(255, 176, 58, 0)); }
+  background: radial-gradient(ellipse 48% 14% at 50% 74%, color-mix(in srgb, var(--accent) 24%, transparent), transparent); }
 
 /* ---- results and failed --------------------------------------------------- */
 .results { gap: 2.6rem; }

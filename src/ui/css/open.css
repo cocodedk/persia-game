@@ -1,8 +1,9 @@
 /* The cinematic open (screens/open.js): each beat adds .at-<beat> to the screen, and the rules below
    play it. One light source: the warm line across the middle lights the title from below; only the
-   eyes glow on their own. Colours are the night look's: its amber ground line, its rose and mint. */
+   eyes glow on their own. Colours are the look's palette, set on the screen by open.js: --accent (the lamp,
+   the ground line's amber), --rose and --mint (the eyes). */
 .open, .open.leaving { /* no scale in or out: the bars stay flush with the screen's edges */
-  --lamp: #ffb03a; --lamp-hot: #fff1d2; --bar: 7rem; transform: none;
+  --lamp: var(--accent); --lamp-hot: #fff1d2; --bar: 7rem; transform: none;
   background: radial-gradient(ellipse 70% 60% at 50% 50%, #0b0618, #040209 70%, #000);
 }
 
@@ -34,8 +35,8 @@
 /* the eyes: a scowling pair (each lid slants down to the nose), slit pupils, each in its own glow */
 .eye-pair { position: absolute; display: flex; gap: 0.55em; font-size: calc(1rem * var(--s)); translate: -50% -50%;
   opacity: 0; --c: var(--lamp); filter: drop-shadow(0 0 0.35em var(--c)) drop-shadow(0 0 1.2em var(--c)); }
-.eye-pair:nth-child(4n + 2) { --c: #ff5ad8; }
-.eye-pair:nth-child(4n + 3) { --c: #3affc8; }
+.eye-pair:nth-child(4n + 2) { --c: var(--rose); }
+.eye-pair:nth-child(4n + 3) { --c: var(--mint); }
 .eye-pair b { position: relative; width: 1.5em; height: 0.85em; border-radius: 50%;
   background: radial-gradient(ellipse 60% 70% at 50% 62%, #fffbe8 0 18%, var(--c) 55%, color-mix(in srgb, var(--c), #000 45%));
   clip-path: polygon(0 0, 100% 52%, 100% 100%, 0 100%); }

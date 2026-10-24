@@ -2,8 +2,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { PACK } from '../../src/data/pack.js';
 import { letterRuns } from '../../src/ui/word-moment.js';
+import { species } from './pack-kit.js';
 
-const word = (id) => PACK.species.find((s) => s.id === id).word;
+const word = (id) => species(id).word;
 const ZWNJ = '\u200c';
 
 test('letterRuns gives each letter its own colour in order, wrapping the palette', () => {

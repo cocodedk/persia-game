@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { SPECIES, POWERS } from '../../src/core/kinds.js';
 import { level, wave, playing } from '../core/world-kit.js';
 import { LOOK } from '../../src/ui/looks/index.js';
-import { ART, SPECIES_LIST, speciesSprites, warmAliens } from '../../src/ui/aliens/bake.js';
+import { RATE, HALO, PAINTERS } from '../../src/ui/aliens/animals.js';
+import { SPECIES_LIST, speciesSprites, warmAliens } from '../../src/ui/aliens/bake.js';
 import { crackStage } from '../../src/ui/aliens/index.js';
 import { ICONS } from '../../src/ui/pickup-skins.js';
 import { installCanvas } from './dom-kit.js';
@@ -20,11 +21,10 @@ function hardGunner() {
 
 test('every species has a painter and a palette colour, and no painter is left over', () => {
   assert.deepEqual(SPECIES_LIST, Object.keys(SPECIES));
-  const painters = Object.keys(ART).filter((k) => typeof ART[k] === 'function');
-  assert.deepEqual(painters.toSorted(), SPECIES_LIST.toSorted());
+  assert.deepEqual(Object.keys(PAINTERS).toSorted(), SPECIES_LIST.toSorted());
   assert.deepEqual(Object.keys(LOOK.palette.alien).toSorted(), SPECIES_LIST.toSorted());
   for (const s of SPECIES_LIST) assert.match(LOOK.palette.alien[s], /^#[0-9a-f]{6}$/, `${s} colour`);
-  assert.ok(ART.rate > 0 && ART.halo >= 0, 'motion');
+  assert.ok(RATE > 0 && HALO >= 0, 'motion');
 });
 
 test('speciesSprites bakes two frames of body, lights and flash for each species', () => {
@@ -35,6 +35,7 @@ test('speciesSprites bakes two frames of body, lights and flash for each species
     assert.equal(speciesSprites(LOOK, s), set, `${s} is baked once`);
     const big = speciesSprites(LOOK, s, 2);
     assert.equal(big.scale, 2);
+    assert.equal(big.flash, null, `${s} at scale 2 is never hit, so it bakes no flash`);
     assert.equal(big.size, set.size * 2, `${s} at scale 2 is drawn twice the size`);
     assert.equal(big.body[0].width, set.body[0].width * 2, `${s} at scale 2 is baked at twice the resolution`);
   }

@@ -2,11 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { PACK } from '../../src/data/pack.js';
 import { SPECIES } from '../../src/core/kinds.js';
+import { root } from '../repo-kit.js';
 
-const root = fileURLToPath(new URL('../..', import.meta.url));
 const MANIFEST = JSON.parse(readFileSync(`${root}public/audio/manifest.json`, 'utf8'));
 const LINES = [...PACK.species, ...PACK.numbers];
 

@@ -1,6 +1,7 @@
 // The seven animals, angry and a little absurd, as crisp pixel sprites on a CRT: every cell a lit
 // phosphor dot with an afterglow, the eyes and lights burning. Every one but the rabbit glares from
 // under lit red brows. The whole formation steps in time; frame 2 is the snarl, the beat, the claws.
+// Exports RATE, HALO and PAINTERS, a painter per species id (bake.js bakes them).
 // Original bitmaps, at most 11 cells wide (no wider than the hit): X body, h highlight, d shadow,
 // k ink (sockets, mouths, nostrils), w teeth and claws, b lit brow, o lit eye, y lit cat's eye,
 // p lit lips, nose and tongue, a beak, n horn, m muzzle, r lit nose ring, c lit core, s lit spit.
@@ -71,7 +72,6 @@ const painter = (rows) => (b, l, f, c) => {
   phosphor(b, l, 0.45, 4);
 };
 
-export default {
-  rate: 1.5, halo: 0.3,
-  ...Object.fromEntries(Object.entries(ROWS).map(([id, rows]) => [id, painter(rows)])),
-};
+export const RATE = 1.5; // frames/s: the whole formation steps in time
+export const HALO = 0.3; // alpha of an alien's halo
+export const PAINTERS = Object.fromEntries(Object.entries(ROWS).map(([id, rows]) => [id, painter(rows)]));

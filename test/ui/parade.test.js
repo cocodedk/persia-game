@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { installElements } from './dom-kit.js';
+import { installElements, walkFrames, FRAMES } from './dom-kit.js';
 
 // The parade (screens/parade.js): the seven animals cross the middle of a 1920-wide line, right to
 // left, one at a time, and each is named as it crosses.
@@ -14,12 +14,9 @@ const END = PARADE_LEAD + (N - 1) * PARADE_STEP + PARADE_TAIL;
 // Walk the parade's clock in uneven frames; -> [{ i, t }] for every cue, with the frame's end time.
 function walk(frames) {
   const cues = [];
-  let t = 0;
-  for (let k = 0; t < END; k++) {
-    const t1 = t + frames[k % frames.length];
-    for (const i of paradeCues(t, t1, N)) cues.push({ i, t: t1 });
-    t = t1;
-  }
+  walkFrames(END, (t0, t1) => {
+    for (const i of paradeCues(t0, t1, N)) cues.push({ i, t: t1 });
+  }, frames);
   return cues;
 }
 
@@ -36,7 +33,7 @@ test('every animal crosses the middle once, PARADE_STEP apart, starting at PARAD
 });
 
 test('paradeCues splits cleanly across frames', () => {
-  for (const frames of [[0.016, 0.1, 0.033, 0.0071, 0.067], [0.1], [0.25, 0.001]]) {
+  for (const frames of [FRAMES, [0.1], [0.25, 0.001]]) {
     assert.deepEqual(walk(frames).map((c) => c.i), [0, 1, 2, 3, 4, 5, 6], `frames ${frames}`);
   }
   assert.deepEqual(paradeCues(0, PARADE_LEAD, N), [0], 'a cue on a frame edge belongs to the frame it ends');

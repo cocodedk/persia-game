@@ -1,5 +1,6 @@
 // Tiny DOM helpers shared by the screens (from Barrage): element building, focusable buttons, and
-// arrow-key navigation over a list or grid that keeps mouse hover and keyboard focus in step.
+// arrow-key navigation over a list or grid that keeps mouse hover and keyboard focus in step, and
+// the cue and skip rules the timed screens (open, parade) share.
 import { play } from '../audio.js';
 import { MOVE, isConfirm } from '../keys.js';
 import { MAX_STARS } from '../../core/scoring.js';
@@ -71,6 +72,15 @@ export function armed(ms = 450) {
 export function endKeys(items, ready, settled) {
   return (code, e) => !ready() || (!settled() && (code === 'Space' || Boolean(e?.repeat))) || navigate(items, code);
 }
+
+// The timed screens (the open, the parade) cue things on their own clock. A cue at `at` s belongs to the
+// frame (t0, t1] it falls in: one on a frame's edge belongs to the frame it ends.
+export const crossed = (at, t0, t1) => t0 < at && at <= t1;
+
+// A key may cut a timed screen short only once it has run SKIP_AFTER s, and never as the repeat of a
+// key still held from the fight. t = how long the screen has run; e = the key event, if any.
+export const SKIP_AFTER = 1;
+export const skippable = (t, e) => t >= SKIP_AFTER && !e?.repeat;
 
 // A world's sky as a CSS background: its gradient stops, top to bottom.
 export const skyCss = (look) => `linear-gradient(180deg, ${look.sky.map(([s, c]) => `${c} ${s * 100}%`).join(', ')})`;

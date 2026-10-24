@@ -3,9 +3,8 @@ import assert from 'node:assert/strict';
 import { PACK } from '../../src/data/pack.js';
 import { createVoice } from '../../src/ui/voice.js';
 import { installAudio, node } from './audio-kit.js';
+import { species, number } from './pack-kit.js';
 
-const species = (id) => PACK.species.find((s) => s.id === id);
-const number = (n) => PACK.numbers.find((x) => x.n === n);
 const settle = () => new Promise((r) => setTimeout(r, 0)); // every pending fetch and decode resolves
 const bytes = (url) => Promise.resolve({ ok: true, arrayBuffer: async () => ({ url }) });
 
@@ -87,6 +86,35 @@ test('a decoded clip plays on the voice bus and ducks to 0.45, then lifts after 
   assert.deepEqual(r.ducks, [0.45]);
   r.voice.update(0.02);
   assert.deepEqual(r.ducks, [0.45, 1]);
+});
+
+test('the duck lifts as each line ends and ducks again as the next starts', async () => {
+  const r = rig();
+  await settle();
+  r.voice.hear([{ type: 'wave', wave: 1, species: ['dog'] }]);
+  r.voice.update(0); // one
+  r.voice.update(number(1).ms / 1000 + 0.001); // its length: lifted, in the gap
+  assert.deepEqual(r.ducks, [0.45, 1]);
+  r.voice.update(0.15); // the dog starts
+  assert.deepEqual(r.ducks, [0.45, 1, 0.45]);
+  r.voice.update(species('dog').ms / 1000 + 0.001);
+  assert.deepEqual(r.ducks, [0.45, 1, 0.45, 1]);
+});
+
+test("queue(entry) is the parade's way in: said in turn, shown, played, and the duck lifts as it ends", async () => {
+  const r = rig();
+  await settle();
+  r.voice.queue(species('rabbit'));
+  assert.equal(r.shown.length, 0, 'nothing until the queue is stepped');
+  r.voice.update(0);
+  assert.equal(r.said, species('rabbit'));
+  assert.equal(r.started[0].buffer.clip, species('rabbit').clip);
+  assert.equal(r.voice.saying(), 'rabbit');
+  r.voice.update(species('rabbit').ms / 1000 - 0.01);
+  assert.deepEqual(r.ducks, [0.45]);
+  r.voice.update(0.02);
+  assert.deepEqual(r.ducks, [0.45, 1]);
+  assert.equal(r.voice.saying(), null);
 });
 
 test('saying() is the species whose name is being said, for its length; a number names none', async () => {

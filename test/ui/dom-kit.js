@@ -4,6 +4,9 @@
 //   installCanvas(n)   document.createElement gives an n x n canvas whose context is sink
 //   element(tag)       a stand-in element that keeps what is appended to it
 //   installElements()  document.createElement gives such elements
+//   FRAMES             uneven frame lengths (s), as a real frame clock gives
+//   walkFrames(end, onFrame, frames = FRAMES)   steps a clock from 0 to `end` in frames cycling through
+//                      `frames`, calling onFrame(t0, t1) for each
 export const sink = new Proxy(() => sink, { get: (f, k) => (k === Symbol.toPrimitive ? () => 0 : sink), apply: () => sink });
 
 export function installCanvas(size = 1) {
@@ -14,7 +17,7 @@ export function installCanvas(size = 1) {
 }
 
 export const element = (tag) => ({
-  tag, className: '', children: [], textContent: '', style: {},
+  tag, className: '', children: [], textContent: '', style: { setProperty(k, v) { this[k] = v; } },
   classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
   append(...kids) { this.children.push(...kids); },
   addEventListener() {}, setAttribute() {}, focus() {},
@@ -22,4 +25,15 @@ export const element = (tag) => ({
 
 export function installElements() {
   globalThis.document = { createElement: element, addEventListener() {}, activeElement: null, hidden: false };
+}
+
+export const FRAMES = [0.016, 0.1, 0.033, 0.0071, 0.067];
+
+export function walkFrames(end, onFrame, frames = FRAMES) {
+  let t = 0;
+  for (let k = 0; t < end; k++) {
+    const t1 = t + frames[k % frames.length];
+    onFrame(t, t1);
+    t = t1;
+  }
 }

@@ -2,11 +2,13 @@
 // across the middle like a projector, PERSIA tightens in over it, eyes blink open in the dark, and an
 // impact cuts to the first wave. The beats run on the frame clock (update(dt)); each adds `at-<name>`
 // to the screen's classes, and open.css plays it.
-//   OPEN_BEATS  [{ at, name }] in order;  SKIP_AFTER  s before a key may skip
+//   OPEN_BEATS  [{ at, name }] in order
 //   beatsBetween(t0, t1) -> the names of the beats with t0 < at <= t1, in order
-//   openScreen({ onDone }) -> a stage screen. Any key after SKIP_AFTER jumps to impact; done follows.
-import { h, shell } from './dom.js';
+//   openScreen({ onDone }) -> a stage screen. A fresh key after SKIP_AFTER (dom.js) jumps to impact; done
+//   follows. Its colours are the look's: --accent, --rose and --mint are set on it for open.css.
+import { h, shell, crossed, skippable } from './dom.js';
 import { play, duck } from '../audio.js';
+import { LOOK } from '../looks/index.js';
 
 export const OPEN_BEATS = [
   { at: 0.05, name: 'dark' }, // music ducks to 0; letterbox bars slide in over 0.6 s
@@ -17,7 +19,6 @@ export const OPEN_BEATS = [
   { at: 7.6, name: 'impact' }, // a white flash; the title and bars cut away
   { at: 8.2, name: 'done' },
 ];
-export const SKIP_AFTER = 1.0; // s before a key may skip
 
 const IMPACT = OPEN_BEATS.find((b) => b.name === 'impact').at;
 
@@ -28,7 +29,7 @@ const EYES = [
   [82, 52, 0.7, 1.4], [91, 66, 1.3, 0.15], [77, 81, 0.85, 1.05], [5, 82, 0.95, 0.55],
 ];
 
-export const beatsBetween = (t0, t1) => OPEN_BEATS.filter((b) => t0 < b.at && b.at <= t1).map((b) => b.name);
+export const beatsBetween = (t0, t1) => OPEN_BEATS.filter((b) => crossed(b.at, t0, t1)).map((b) => b.name);
 
 function eyePair([x, y, s, d]) {
   const el = h('i', 'eye-pair', h('b'), h('b'));
@@ -38,6 +39,10 @@ function eyePair([x, y, s, d]) {
 
 export function openScreen({ onDone }) {
   const el = shell('open');
+  const { palette } = LOOK;
+  el.style.setProperty('--accent', palette.accent);
+  el.style.setProperty('--rose', palette.enemy);
+  el.style.setProperty('--mint', palette.alien.bird);
   el.append(
     h('div', 'open-beam'),
     h('div', 'open-eyes', ...EYES.map(eyePair)),
@@ -61,8 +66,8 @@ export function openScreen({ onDone }) {
   let t = 0;
   return {
     el,
-    onKey() {
-      if (t >= SKIP_AFTER && t < IMPACT) {
+    onKey(code, e) {
+      if (skippable(t, e) && t < IMPACT) {
         t = IMPACT;
         beat('impact');
       }
