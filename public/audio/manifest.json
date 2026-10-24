@@ -366,5 +366,85 @@
     ],
     "license": "MIT model; CC0 dataset",
     "sourceFile": "public/audio/number-15-word.587a1260a6dc.mp3"
+  },
+  {
+    "file": "public/audio/shanzdah.mp3",
+    "clipId": "number-16-word",
+    "sha256": "7623fb909f34218d368b9f1982cb1f52b7f6800f5043e9545f9d79199de82fee",
+    "durationMs": 910,
+    "transcript": "شانزدَه",
+    "synthesisText": "شانزدَه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-16-word.7623fb909f34.mp3"
+  },
+  {
+    "file": "public/audio/hafdah.mp3",
+    "clipId": "number-17-word",
+    "sha256": "2e38633259674c39d5c910596139fff28c3934c4bf8927bb3a73f250c8b8f787",
+    "durationMs": 780,
+    "transcript": "هَفدَه",
+    "synthesisText": "هَفدَه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-17-word.2e3863325967.mp3"
+  },
+  {
+    "file": "public/audio/hojdah.mp3",
+    "clipId": "number-18-word",
+    "sha256": "1c1d3c625807b6f8e5077b141824a1dea93927b4aef9e36fabf167976178ce76",
+    "durationMs": 910,
+    "transcript": "هُجدَه",
+    "synthesisText": "هُجدَه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-18-word.1c1d3c625807.mp3"
+  },
+  {
+    "file": "public/audio/nuzdah.mp3",
+    "clipId": "number-19-word",
+    "sha256": "7b65271aed4402d39ced8f28b92cb0bdb720487646e136fb60990ae4c22f8c31",
+    "durationMs": 860,
+    "transcript": "نوزدَه",
+    "synthesisText": "نوزدَه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-19-word.7b65271aed44.mp3"
+  },
+  {
+    "file": "public/audio/bist.mp3",
+    "clipId": "number-20-word",
+    "sha256": "a320dc7f48d6a1904b2c10ef80443b1977aa81f76ca9631e321df8321da17c06",
+    "durationMs": 760,
+    "transcript": "بیست",
+    "synthesisText": "بیست",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-20-word.a320dc7f48d6.mp3"
   }
 ]

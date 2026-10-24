@@ -6,7 +6,7 @@ import { MOTION } from '../../src/core/formations.js';
 import { EMIT } from '../../src/core/patterns.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 
-const [, LEVEL_2, LEVEL_3] = LEVELS;
+const [, LEVEL_2, LEVEL_3, LEVEL_4] = LEVELS;
 
 test('level 1 is five waves, then the giant; level 2 five more, then the giant mouse', () => {
   assert.equal(LEVELS[0], LEVEL);
@@ -48,6 +48,13 @@ test('level 3 brings all eight, the fish, its boss, in four or more rows', () =>
   assert.ok(LEVEL_3.waves.flatMap((x) => x.species).filter((id) => id === 'fish').length >= 4);
 });
 
+test('level 4 brings all eight, the bird, its boss, in more rows than the fish had in level 3', () => {
+  assert.deepEqual(levelSpecies(LEVEL_4).toSorted(), Object.keys(SPECIES).sort());
+  assert.equal(bossDef(LEVEL_4.boss).species, 'bird');
+  assert.ok(LEVEL_4.waves.flatMap((x) => x.species).filter((id) => id === 'bird').length > 4);
+  for (const p of bossDef(LEVEL_4.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `phase until ${p.until}`);
+});
+
 test('level 3 drops more power-ups than level 2: six rabbits in its escort, and its giant sends one in every phase', () => {
   const rabbits = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => id === 'rabbit').length, 0);
   assert.equal(rabbits(LEVEL_3), 6);
@@ -55,12 +62,14 @@ test('level 3 drops more power-ups than level 2: six rabbits in its escort, and 
   for (const p of bossDef(LEVEL_3.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `phase until ${p.until}`);
 });
 
-test('the world counts its waves across the levels: level 2 from six, level 3 from eleven', () => {
+test('the world counts its waves across the levels: level 2 from six, level 3 from eleven, level 4 from sixteen', () => {
   assert.equal(waveNumber(LEVEL, 1), 1);
   assert.equal(waveNumber(LEVEL_2, 1), 6);
   assert.equal(waveNumber(LEVEL_2, 5), 10);
   assert.equal(waveNumber(LEVEL_3, 1), 11);
   assert.equal(waveNumber(LEVEL_3, 5), 15);
+  assert.equal(waveNumber(LEVEL_4, 1), 16);
+  assert.equal(waveNumber(LEVEL_4, 5), 20);
 });
 
 test('a level shows in Persian only parts of the HUD the game knows', () => {

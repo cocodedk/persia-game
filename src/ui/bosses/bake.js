@@ -22,8 +22,9 @@ import { cracked, exposed, wreck } from './cracks.js';
 import giant from './giant.js';
 import giantMouse from './giant-mouse.js';
 import giantFish from './giant-fish.js';
+import giantBird from './giant-bird.js';
 
-export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish };
+export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish, 'giant-bird': giantBird };
 const cache = new Map();
 
 export function painterFor(mod, id) {

@@ -90,7 +90,36 @@ const giantFish = boss('giant-fish', 'Giant Fish', 'fish', 270, { w: 640, h: 300
   ], { rate: 1.5, minions: [minion('fish', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'crest')] }),
 ]);
 
-export const BOSS_DEFS = [giant, giantMouse, giantFish];
+// Level 4's giant bird, face on, wings spread: each wing and the crest of head feathers are its
+// plates; the round eyes and the open beak burn, and the birds pour from the beak. A rabbit leaves the
+// crest in every phase, as the fish's does.
+const giantBird = boss('giant-bird', 'Giant Bird', 'bird', 270, { w: 640, h: 300 }, [
+  armor('crest', 0, -115, 160, 70, 8),
+  armor('wingL', -240, 0, 160, 150, 6),
+  armor('wingR', 240, 0, 160, 150, 6),
+  weak('eyeL', -80, -20, 70, 60, 44),
+  weak('eyeR', 80, -20, 70, 60, 44),
+  weak('beak', 0, 75, 90, 90, 70),
+], [
+  phase(0.65, 'sway', [
+    atk('aimed', 2, 'beak', { speed: 0.9 }),
+    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
+    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
+  ], { minions: [minion('bird', 1, 10, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
+  phase(0.3, 'sway', [
+    atk('fan', 3, 'beak', { count: 5, spread: 0.8 }),
+    atk('aimed', 2.4, 'eyeL'),
+    atk('aimed', 2.4, 'eyeR'),
+  ], { rate: 1.3, minions: [minion('bird', 2, 9, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
+  phase(0, 'charge', [
+    atk('ring', 4.2, 'beak', { count: 14, speed: 0.85 }),
+    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
+    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
+    atk('laser', 8, 'beak'),
+  ], { rate: 1.5, minions: [minion('bird', 2, 8, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
+]);
+
+export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 

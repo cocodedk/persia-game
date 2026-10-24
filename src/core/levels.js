@@ -57,7 +57,19 @@ const LEVEL_3 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3];
+const LEVEL_4 = {
+  id: 'level-4', name: 'Level 4', place: 'Azadi Tower', seed: 41659, d: 0.35, boss: 'giant-bird', landmark: 'azadi',
+  persian: ['wave', 'score'],
+  waves: [
+    w('sway', 8, 'bbh', 'fan', 1.1), // 16: birds over a row of horses
+    w('escort', 3, 'orro', 'aimed', 1.1), // 17: cows guard two rows of rabbits
+    w('dive', 10, 'bbcc', 'fan', 1.15), // 18: birds and cats swoop
+    w('grid', 10, 'ddmm', 'aimed', 1.2), // 19: dogs over mice
+    w('spiral', 10, 'bbff', 'ring', 1.3), // 20: forty birds and fish
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

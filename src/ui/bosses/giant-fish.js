@@ -4,7 +4,7 @@
 // pectoral fin fanned out at each side; the weak points burn underneath: two round eyes and the
 // pink pouting mouth the fish are spat from. The brows throb quicker as the fight heats up, and the
 // gills light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, grid, inside, litCells, throb, eyeArt } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, grid, inside, litCells, throb, eyeArt, fan } from './kit.js';
 import { shade } from '../sprites.js';
 
 const scale = (S) => S.look.palette.alien.fish;
@@ -49,24 +49,6 @@ function hull(b, l, S) {
 
 // Every gill cell lit in one colour (the rage overlays).
 const gills = (l, colour) => litCells(l, COLS, ROWS, (x, y) => headAt(x, y) && gillAt(x, y), colour);
-
-// A fan of fin from a root: ribs radiating out to a scalloped, lit rim. r(a) is the rim's reach at
-// angle a (radians from straight out), ribs every RIB.
-const RIB = 0.36;
-function fan(b, l, cols, rows, root, spread, r, c) {
-  grid(b, l, cols, rows, (x, y) => {
-    const dx = x - root[0];
-    const dy = y - root[1];
-    const a = Math.atan2(dy, -dx); // 0 points out, away from the root
-    const d = Math.hypot(dx, dy);
-    const rim = r(a);
-    if (Math.abs(a - spread[0]) > spread[1] || d > rim) return null;
-    if (d > rim - PX) return [shade(c, 0.5), true]; // the lit rim
-    const onRib = Math.abs(a / RIB - Math.round(a / RIB)) < 0.3;
-    return onRib ? shade(c, -0.55) : shade(c, 0.45 - d / 300);
-  });
-  phosphor(b, l, 0.22, 4);
-}
 
 // A pectoral fin (drawn as the left one): fanned out from its root at the cheek.
 function fin(b, l, _part, S) {

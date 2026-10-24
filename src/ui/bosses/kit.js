@@ -64,6 +64,24 @@ export function litCells(l, cols, rows, pick, colour) {
   }
 }
 
+// A fan from a root (a fish's fin, a bird's wing or crest): ribs radiating out to a scalloped, lit
+// rim. r(a) is the rim's reach at angle a (radians from straight out), ribs every RIB.
+const RIB = 0.36;
+export function fan(b, l, cols, rows, root, spread, r, c) {
+  grid(b, l, cols, rows, (x, y) => {
+    const dx = x - root[0];
+    const dy = y - root[1];
+    const a = Math.atan2(dy, -dx); // 0 points out, away from the root
+    const d = Math.hypot(dx, dy);
+    const rim = r(a);
+    if (Math.abs(a - spread[0]) > spread[1] || d > rim) return null;
+    if (d > rim - PX) return [shade(c, 0.5), true]; // the lit rim
+    const onRib = Math.abs(a / RIB - Math.round(a / RIB)) < 0.3;
+    return onRib ? shade(c, -0.55) : shade(c, 0.45 - d / 300);
+  });
+  phosphor(b, l, 0.22, 4);
+}
+
 // A giant's eye painter from its bitmap (L lid, Y lit iris, y its lower half, k pupil, g glint),
 // the iris burning in the palette's weak colour.
 export const eyeArt = (rows) => (b, l, _part, S) => {

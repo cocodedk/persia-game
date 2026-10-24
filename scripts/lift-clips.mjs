@@ -29,6 +29,11 @@ const NAMES = {
   'number-13-word': 'sizdah',
   'number-14-word': 'chahardah',
   'number-15-word': 'panzdah',
+  'number-16-word': 'shanzdah',
+  'number-17-word': 'hafdah',
+  'number-18-word': 'hojdah',
+  'number-19-word': 'nuzdah',
+  'number-20-word': 'bist',
 };
 
 const lessons = process.argv[2];
