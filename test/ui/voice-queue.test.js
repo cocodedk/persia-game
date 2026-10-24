@@ -29,8 +29,8 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [species('cat')]);
 });
 
-test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one', () => {
-  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']]]) {
+test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one, twenty-six', () => {
+  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']], [5, 26, ['dog', 'cat']]]) {
     assert.deepEqual(lines(createWorld(LEVELS[i]).events), [number(n), ...ids.map(species)], LEVELS[i].id);
   }
 });
@@ -52,17 +52,31 @@ test('a wave that begins the petals says the petals line in the same place, and 
   assert.equal(lines([wave(29, 'dog')]).includes(PACK.weather.petals), false);
 });
 
-// Everything level 5 says, wave by wave, from a fresh world (a retry is one): the stars once, at 23.
-test("level 5 says the stars once, with wave 23, and a retry is clear until then", () => {
-  const w = playing(LEVELS[4]);
-  const waves = [lines(createWorld(LEVELS[4]).events)];
-  for (let i = 1; i < LEVELS[4].waves.length; i++) {
+// Everything a level says, wave by wave, from a fresh world (a retry is one).
+function sayLevel(level) {
+  const w = playing(level);
+  const waves = [lines(createWorld(level).events)];
+  for (let i = 1; i < level.waves.length; i++) {
     clear(w);
     seconds(w, 1.3);
     waves.push(lines(events(w)));
   }
+  return waves;
+}
+
+test('level 5 says the stars once, with wave 23, and a retry is clear until then', () => {
+  const waves = sayLevel(LEVELS[4]);
   assert.deepEqual(waves.map((said) => said.includes(PACK.weather.stars)), [false, false, true, false, false]);
   assert.deepEqual(waves.map((said) => said[0]), [21, 22, 23, 24, 25].map(number));
+});
+
+test('level 6 says the petals once, with wave 28, after the number and the species, and again on a retry', () => {
+  const waves = sayLevel(LEVELS[5]);
+  assert.deepEqual(waves.map((said) => said.includes(PACK.weather.petals)), [false, false, true, false, false]);
+  assert.deepEqual(waves.map((said) => said[0]), [26, 27, 28, 29, 30].map(number));
+  assert.deepEqual(waves[2], [number(28), species('dog'), species('bird'), PACK.weather.petals]);
+  assert.ok(sayLevel(LEVELS[4]).every((said) => !said.includes(PACK.weather.petals)), 'level 5 keeps its stars');
+  assert.deepEqual(sayLevel(LEVELS[5]), waves, 'again on a retry');
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

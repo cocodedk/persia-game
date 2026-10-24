@@ -6,7 +6,7 @@
 //                 also the parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
-//   numbers       { n, word, say, clip, ms } for 1..25; `word` is n in Persian digits, shown as it is said
+//   numbers       { n, word, say, clip, ms } for 1..30; `word` is n in Persian digits, shown as it is said
 //   weather       { rain, stars, petals }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
 //                 said after the number and species of the wave the weather begins with, shown as a
 //                 species' word is, without a face
@@ -54,6 +54,11 @@ export const PACK = {
     { n: 23, word: '۲۳', say: 'bist-o-se', clip: 'public/audio/bist-o-se.mp3', ms: 890 },
     { n: 24, word: '۲۴', say: 'bist-o-chahar', clip: 'public/audio/bist-o-chahar.mp3', ms: 890 },
     { n: 25, word: '۲۵', say: 'bist-o-panj', clip: 'public/audio/bist-o-panj.mp3', ms: 1070 },
+    { n: 26, word: '۲۶', say: 'bist-o-shesh', clip: 'public/audio/bist-o-shesh.mp3', ms: 1100 },
+    { n: 27, word: '۲۷', say: 'bist-o-haft', clip: 'public/audio/bist-o-haft.mp3', ms: 970 },
+    { n: 28, word: '۲۸', say: 'bist-o-hasht', clip: 'public/audio/bist-o-hasht.mp3', ms: 1070 },
+    { n: 29, word: '۲۹', say: 'bist-o-noh', clip: 'public/audio/bist-o-noh.mp3', ms: 990 },
+    { n: 30, word: '۳۰', say: 'si', clip: 'public/audio/si.mp3', ms: 760 },
   ],
   weather: {
     rain: { word: 'باران', say: 'baran', clip: 'public/audio/baran.mp3', ms: 760 },

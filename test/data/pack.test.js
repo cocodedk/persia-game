@@ -44,9 +44,9 @@ test('every line carries the name it is said by, in plain lowercase Latin letter
   for (const { clip, say } of LINES) assert.match(say ?? '', /^[a-z]+(-[a-z]+)*$/, clip);
 });
 
-test('pack species are exactly the core SPECIES ids, and numbers are 1..25', () => {
+test('pack species are exactly the core SPECIES ids, and numbers are 1..30', () => {
   assert.deepEqual(PACK.species.map((s) => s.id).sort(), Object.keys(SPECIES).sort());
-  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: 25 }, (_, i) => i + 1));
+  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: 30 }, (_, i) => i + 1));
 });
 
 test('every pack clip is on disk, listed once in the manifest with its sha256, ms equal to durationMs, reviewed', () => {

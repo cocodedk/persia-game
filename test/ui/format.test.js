@@ -26,10 +26,9 @@ test("level 1 counts its waves in ASCII; level 2 counts on from six in the pack'
   assert.equal(waveText(LEVELS[1], 5), `WAVE ${D[1]}${D[0]} / ${D[1]}${D[0]}`);
 });
 
-test("a level with 'waveWord' leads its wave count with the pack's word; levels 1 to 5 keep WAVE n / m", () => {
-  const probe = { ...LEVELS[4], first: 26, persian: [...LEVELS[4].persian, 'waveWord'] };
-  assert.equal(waveText(probe, 1), `${PACK.hud.wave} ${D[2]}${D[6]} / ${D[3]}${D[0]}`);
-  assert.equal(waveText({ ...probe, persian: ['waveWord'] }, 1), `${PACK.hud.wave} 26 / 30`, 'the word and the digits are separate parts');
+test("a level with 'waveWord' leads its wave count with the pack's word, as level 6 does; levels 1 to 5 keep WAVE n / m", () => {
+  assert.equal(waveText(LEVELS[5], 1), `${PACK.hud.wave} ${D[2]}${D[6]} / ${D[3]}${D[0]}`);
+  assert.equal(waveText({ ...LEVELS[5], persian: ['waveWord'] }, 1), `${PACK.hud.wave} 26 / 30`, 'the word and the digits are separate parts');
   for (const level of LEVELS.slice(0, 5)) assert.ok(waveText(level, 1).startsWith('WAVE '), level.id);
 });
 

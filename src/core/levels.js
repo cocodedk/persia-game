@@ -10,7 +10,7 @@
 // score, 'combo': the combo, 'level': its own number wherever play names it, 'boss': its giant's name
 // as the species' word, 'waveWord': the wave line's label, the pack's word in place of 'WAVE', the
 // line then read right to left).
-// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars';
+// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars', 'petals';
 // ui/weather.js draws each kind and the pack words it) and `from` is the number within the level of
 // the wave it begins with; it lasts to the end, the giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
@@ -87,7 +87,19 @@ const LEVEL_5 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5];
+const LEVEL_6 = {
+  id: 'level-6', name: 'Level 6', place: 'Yazd', seed: 61847, d: 0.45, boss: 'giant-dog', landmark: 'yazd',
+  persian: ['wave', 'score', 'combo', 'level', 'boss', 'waveWord'], weather: { kind: 'petals', from: 3 },
+  waves: [
+    w('grid', 10, 'ddcc', 'aimed', 1.2), // 26: dogs over cats
+    w('escort', 3, 'orro', 'aimed', 1.2), // 27: cows guard two rows of rabbits
+    w('dive', 10, 'ddbb', 'fan', 1.25), // 28: dogs and birds swoop, and the petals begin
+    w('sway', 8, 'hhff', 'fan', 1.3), // 29: the gunners
+    w('spiral', 10, 'ddmm', 'ring', 1.4), // 30: forty dogs and mice
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

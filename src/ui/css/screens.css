@@ -8,8 +8,8 @@
   linear-gradient(180deg, rgba(4, 5, 12, 0.5) 0%, rgba(4, 5, 12, 0.05) 45%, rgba(4, 5, 12, 0.72) 100%); }
 .title-stack { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
 /* the levels, a card each: the landmark's picture, then the level and its place */
-.level-cards { gap: 1.2rem; margin-top: 1.2rem; }
-.level-card { width: 17rem; padding: 0.7rem 0.7rem 1rem; border-radius: 1.2rem; }
+.level-cards { gap: 1rem; margin-top: 1.2rem; }
+.level-card { width: 14rem; padding: 0.7rem 0.7rem 1rem; border-radius: 1.2rem; }
 .card-face { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
 .card-art { display: block; width: 100%; margin-bottom: 0.7rem; border-radius: 0.6rem;
   image-rendering: pixelated; }
