@@ -109,3 +109,11 @@ test('the URL check lets head metadata through and still flags anything the brow
   for (const html of live) assert.notDeepEqual(externalUrls(html, true), [], html);
   assert.notDeepEqual(externalUrls('// <meta name="a" content="https://x.dk/">', false), [], 'src gets no pass');
 });
+
+// The code never holds a Persian word: tests take theirs from PACK or write them as \u escapes.
+test('no file in src or test outside src/data/pack.js contains Arabic-script characters', () => {
+  const pack = join(root, 'src', 'data', 'pack.js');
+  for (const f of [...walk(join(root, 'src')), ...walk(join(root, 'test'))]) {
+    if (f !== pack) assert.doesNotMatch(readFileSync(f, 'utf8'), /[\u0600-\u06FF]/, f);
+  }
+});

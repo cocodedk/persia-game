@@ -1,0 +1,194 @@
+[
+  {
+    "file": "public/audio/sag.mp3",
+    "clipId": "vocabulary-5-sag",
+    "sha256": "f73ac0170eedb771a4f824047f828e693cf6a9105bad2977c0fe0b5e7c0b2e18",
+    "durationMs": 760,
+    "transcript": "سَگ",
+    "synthesisText": "سَگ",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-sag.f73ac0170eed.mp3"
+  },
+  {
+    "file": "public/audio/gorbe.mp3",
+    "clipId": "vocabulary-5-gorbe",
+    "sha256": "526a69e0c5e1e3d9a4faf9c0aefd43f6ec89725c0e76bea6bb001c9b099f8d52",
+    "durationMs": 760,
+    "transcript": "گُربه",
+    "synthesisText": "گُربه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-gorbe.526a69e0c5e1.mp3"
+  },
+  {
+    "file": "public/audio/asb.mp3",
+    "clipId": "vocabulary-5-asb",
+    "sha256": "85f0ca5d7497b2fdeacc970d6722cd1345b5a78646dda80ebd800da9bb4af964",
+    "durationMs": 760,
+    "transcript": "اَسب",
+    "synthesisText": "اَسب",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-asb.85f0ca5d7497.mp3"
+  },
+  {
+    "file": "public/audio/gav.mp3",
+    "clipId": "vocabulary-5-gav",
+    "sha256": "05020994144c12413a28525ee7ae056e1216495c70b469b11b88c9e368774e9f",
+    "durationMs": 760,
+    "transcript": "گاو",
+    "synthesisText": "گاو",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-gav.05020994144c.mp3"
+  },
+  {
+    "file": "public/audio/mahi.mp3",
+    "clipId": "vocabulary-5-mahi",
+    "sha256": "110a58a18c700feff9c9e4052c9aa5c04dd1062f6f2851eacc017986a328c8bb",
+    "durationMs": 860,
+    "transcript": "ماهی",
+    "synthesisText": "ماهی",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-mahi.110a58a18c70.mp3"
+  },
+  {
+    "file": "public/audio/parande.mp3",
+    "clipId": "vocabulary-5-parande",
+    "sha256": "3db1dfffc287d8957524698b090fa561e1aed51ccd402a7e1aa99a1709b98f6e",
+    "durationMs": 780,
+    "transcript": "پَرَنده",
+    "synthesisText": "پَرَنده",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-parande.3db1dfffc287.mp3"
+  },
+  {
+    "file": "public/audio/khargush.mp3",
+    "clipId": "vocabulary-5-khargush",
+    "sha256": "574187d3f95f98193f660377715d261e4a7a3067b378d1992f44df364dbf9803",
+    "durationMs": 1070,
+    "transcript": "خَرگوش",
+    "synthesisText": "خَرگوش",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-khargush.574187d3f95f.mp3"
+  },
+  {
+    "file": "public/audio/yek.mp3",
+    "clipId": "number-1-word",
+    "sha256": "c65da9198b270359e7cf41d54f5de11dc7aa62b879e9d586eba02aa56244cc9a",
+    "durationMs": 760,
+    "transcript": "یِک",
+    "synthesisText": "یِک",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-1-word.c65da9198b27.mp3"
+  },
+  {
+    "file": "public/audio/do.mp3",
+    "clipId": "number-2-word",
+    "sha256": "e7cbdf247df644824e3722413c28b7e0e580e17bc96863bb985371a645916988",
+    "durationMs": 760,
+    "transcript": "دو",
+    "synthesisText": "دو",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-2-word.e7cbdf247df6.mp3"
+  },
+  {
+    "file": "public/audio/se.mp3",
+    "clipId": "number-3-word",
+    "sha256": "987b97c54436eb0d7bf4a50cc100e34707b29a88311f82244a4a286eea834e2e",
+    "durationMs": 760,
+    "transcript": "سِه",
+    "synthesisText": "سِه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-3-word.987b97c54436.mp3"
+  },
+  {
+    "file": "public/audio/chahar.mp3",
+    "clipId": "number-4-word",
+    "sha256": "f8452c763139b34026467e11bd681c508460bc29e8c9ef969a72c7035518d302",
+    "durationMs": 760,
+    "transcript": "چَهار",
+    "synthesisText": "چَهار",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-4-word.f8452c763139.mp3"
+  },
+  {
+    "file": "public/audio/panj.mp3",
+    "clipId": "number-5-word",
+    "sha256": "7e6a3652191f730263be9f7609d48bab2ba4c1a80e45751de786c8ee92fa586a",
+    "durationMs": 840,
+    "transcript": "پَنج",
+    "synthesisText": "پَنج",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-5-word.7e6a3652191f.mp3"
+  }
+]

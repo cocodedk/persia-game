@@ -444,7 +444,7 @@ test('it survives the first 60 s of level-1 with its three lives, on the level s
 - `PACK` has no consumer in `src` until Task 7. That is the only export allowed to wait, and Task
   8's gate checks it.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```js
 // test/data/pack.test.js
@@ -465,13 +465,13 @@ test('no file in src or test outside src/data/pack.js contains Arabic-script cha
 //   tests take their Persian from PACK or write it as \u escapes
 ```
 
-- [ ] **Step 2: Run the new tests.** `npm test` should FAIL on the missing pack and files.
-- [ ] **Step 3: Lift the assets and write the pack.**
+- [x] **Step 2: Run the new tests.** `npm test` should FAIL on the missing pack and files.
+- [x] **Step 3: Lift the assets and write the pack.**
   - Write `lift-clips.mjs` and run it.
   - Copy `Vazirmatn-Bold.woff2` and `OFL.txt` from `../Danish-Persian-Lessons/public/fonts/`.
   - Write `pack.js`.
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures.
-- [ ] **Step 5: Commit.**
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures.
+- [x] **Step 5: Commit.**
   `git add -A && git commit -m "feat(data): add the word pack, twelve approved clips and their provenance"`
 
 ### Task 6: The animals and the giant

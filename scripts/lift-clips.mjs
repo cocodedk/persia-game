@@ -1,0 +1,48 @@
+// Copies the twelve approved clips level 1 speaks from the lessons repo into public/audio/ and writes
+// public/audio/manifest.json with each clip's review provenance. Run from the repo root:
+//   node scripts/lift-clips.mjs ../Danish-Persian-Lessons
+import { createHash } from 'node:crypto';
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const NAMES = {
+  'vocabulary-5-sag': 'sag',
+  'vocabulary-5-gorbe': 'gorbe',
+  'vocabulary-5-asb': 'asb',
+  'vocabulary-5-gav': 'gav',
+  'vocabulary-5-mahi': 'mahi',
+  'vocabulary-5-parande': 'parande',
+  'vocabulary-5-khargush': 'khargush',
+  'number-1-word': 'yek',
+  'number-2-word': 'do',
+  'number-3-word': 'se',
+  'number-4-word': 'chahar',
+  'number-5-word': 'panj',
+};
+
+const lessons = process.argv[2];
+if (!lessons) {
+  console.error('usage: node scripts/lift-clips.mjs <lessons-repo-dir>');
+  process.exit(1);
+}
+
+const approved = JSON.parse(readFileSync(join(lessons, 'src/audio/approved.generated.json'), 'utf8'));
+// Check every clip before copying any, so a refusal leaves public/audio as it was.
+const records = Object.keys(NAMES).map((clipId) => {
+  const record = approved.find((r) => r.clipId === clipId);
+  if (!record) throw new Error(`${clipId} is not in the approved list`);
+  if (!record.reviewedBy?.length) throw new Error(`${clipId} has no reviewer`);
+  return record;
+});
+
+mkdirSync('public/audio', { recursive: true });
+const manifest = records.map((record) => {
+  const { clipId, durationMs, transcript, synthesisText, voiceModel, modelSha256, engineVersion, reviewedBy, license } = record;
+  const file = `public/audio/${NAMES[clipId]}.mp3`;
+  const sourceFile = `public${record.file}`;
+  copyFileSync(join(lessons, sourceFile), file);
+  const sha256 = createHash('sha256').update(readFileSync(file)).digest('hex');
+  return { file, clipId, sha256, durationMs, transcript, synthesisText, voiceModel, modelSha256, engineVersion, reviewedBy, license, sourceFile };
+});
+writeFileSync('public/audio/manifest.json', `${JSON.stringify(manifest, null, 2)}\n`);
+console.log(`lifted ${manifest.length} clips into public/audio/`);
