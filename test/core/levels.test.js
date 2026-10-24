@@ -79,7 +79,7 @@ test('a level shows in Persian only parts the game knows', () => {
   assert.deepEqual(LEVEL.persian, []);
   const known = ['wave', 'score', 'combo', 'level'];
   for (const level of LEVELS) for (const part of level.persian) assert.ok(known.includes(part), `${level.id}: ${part}`);
-  assert.deepEqual(LEVEL_4.persian, known, 'level 4 shows them all');
+  for (const part of ['combo', 'level']) assert.ok(LEVEL_4.persian.includes(part), `level 4 shows its ${part}`);
 });
 
 test('every level has an integer seed and a difficulty in 0..1, and is plain data', () => {

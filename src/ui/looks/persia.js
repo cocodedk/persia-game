@@ -18,7 +18,7 @@ export default {
     hafez: [{ ...FAR, height: 520 }, { kind: 'hafez', ...STONE, height: 488, glow: '#c8782a', lamp: '#ffd36a', tree: '#120a24',
       fruit: '#ff8a2a', dome: '#24404a', rib: '#4a7a7a', tile: '#1e6a7a', tomb: '#d8c8b8' }, GROUND],
     azadi: [{ ...FAR, height: 500 }, { kind: 'azadi', ...STONE, height: 560, glow: '#c8782a', lamp: '#ffd36a',
-      tower: '#5e5080', towerLit: '#8a7aa8' }, GROUND],
+      tower: '#6e6488', towerLit: '#b4aac8' }, GROUND],
   },
   ambient: [
     { kind: 'twinkle', phase: 'sky', n: 60, colors: ['#ffffff', '#ffe0b8', '#c8b8ff'], alpha: 1 },

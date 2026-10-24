@@ -36,7 +36,7 @@ export function createView(canvas, level) {
   return {
     canvas, ctx: canvas.getContext('2d'), level, look,
     sky: buildSky(look), layers: buildLayers(look, look.landmarks[level.landmark], level.seed ?? 1),
-    quality: createQuality(), hud: { lag: null }, showHud: true, named: null, rain: { k: 0, t: 0 },
+    quality: createQuality(), hud: { lag: null }, showHud: true, named: null, rain: { k: 0, t: null },
     reduced: globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
     fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 },
   };

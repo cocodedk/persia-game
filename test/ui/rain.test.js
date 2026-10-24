@@ -4,8 +4,9 @@ import { fadeRain, drawRain } from '../../src/ui/rain.js';
 
 // The rain fades in over two seconds, and draws nothing below full quality.
 
-test('the rain fades in over 2 s once it begins', () => {
-  const r = { k: 0, t: 0 };
+test('the rain fades in over 2 s once it begins, from the first frame too', () => {
+  assert.equal(fadeRain({ k: 0, t: null }, true, 500), 0, 'a world that rains from its start fades in too');
+  const r = { k: 0, t: null };
   assert.equal(fadeRain(r, false, 10), 0, 'dry');
   assert.equal(fadeRain(r, true, 11), 0.5);
   assert.equal(fadeRain(r, true, 13), 1);
