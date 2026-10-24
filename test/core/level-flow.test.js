@@ -6,16 +6,11 @@ import { BOSS_GAP } from '../../src/core/world-step.js';
 import { CHAIN } from '../../src/core/boss-phase.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 import { SPECIES } from '../../src/core/kinds.js';
-import { TICK, IDLE, level, wave, step, seconds, playing, drain, ofType } from './world-kit.js';
+import { TICK, IDLE, level, wave, step, seconds, playing, drain, ofType, clear } from './world-kit.js';
 import { bossLevel, leave } from './boss-kit.js';
 
 // Level 1 runs its waves in order, each naming its species, then the giant after a gap.
 
-// Wipe the field (no kills scored), and step the tick that notices it.
-const clear = (w) => {
-  for (const a of w.aliens) a.hp = 0;
-  step(w);
-};
 const oneWaveThenGiant = () => playing(level([wave()], 0, { boss: 'giant' }));
 
 test('spawning a wave emits its number and its distinct species in row order', () => {

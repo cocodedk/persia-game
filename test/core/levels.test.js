@@ -15,8 +15,10 @@ test('level 1 is five waves, then the giant; level 2 five more, then the giant m
   assert.equal(LEVEL_2.waves.length, 5);
   assert.equal(bossDef(LEVEL_2.boss).kind, 'giant-mouse');
   assert.equal(new Set(LEVELS.map((l) => l.id)).size, LEVELS.length, 'ids are unique');
-  for (const level of LEVELS) assert.equal(typeof level.name, 'string');
-  for (const level of LEVELS) assert.ok(level.place, `${level.id} names its place`);
+  for (const level of LEVELS) {
+    assert.equal(typeof level.name, 'string');
+    assert.ok(level.place, `${level.id} names its place`);
+  }
   assert.equal(new Set(LEVELS.map((l) => l.place)).size, LEVELS.length, 'every level is somewhere else');
 });
 
@@ -52,14 +54,15 @@ test('level 4 brings all eight, the bird, its boss, in more rows than the fish h
   assert.deepEqual(levelSpecies(LEVEL_4).toSorted(), Object.keys(SPECIES).sort());
   assert.equal(bossDef(LEVEL_4.boss).species, 'bird');
   assert.ok(LEVEL_4.waves.flatMap((x) => x.species).filter((id) => id === 'bird').length > 4);
-  for (const p of bossDef(LEVEL_4.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `phase until ${p.until}`);
 });
 
-test('level 3 drops more power-ups than level 2: six rabbits in its escort, and its giant sends one in every phase', () => {
+test('level 3 drops more power-ups than level 2: six rabbits in its escort; its giant and level 4\'s send one in every phase', () => {
   const rabbits = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => id === 'rabbit').length, 0);
   assert.equal(rabbits(LEVEL_3), 6);
   assert.ok(rabbits(LEVEL_3) > rabbits(LEVEL_2));
-  for (const p of bossDef(LEVEL_3.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `phase until ${p.until}`);
+  for (const level of [LEVEL_3, LEVEL_4]) {
+    for (const p of bossDef(level.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `${level.id} until ${p.until}`);
+  }
 });
 
 test('the world counts its waves across the levels: level 2 from six, level 3 from eleven, level 4 from sixteen', () => {

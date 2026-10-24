@@ -44,7 +44,7 @@ export function createRouter({ canvas, stage, input, voice }) {
     leave('title');
     // Every level, by its name, its place and a picture of its landmark. Nothing is locked.
     const items = LEVELS.map((level) => ({
-      label: level.name, place: level.place, art: landmarkArt(LOOK, level), pick: () => r.startLevel(level, !app.opened),
+      label: level.name, place: level.place, art: landmarkArt(level), pick: () => r.startLevel(level, !app.opened),
     }));
     setWorld(LOOK);
     stage.show(titleScreen({ items, nowShowing: LEVEL.name }));

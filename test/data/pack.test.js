@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
+import { spoken } from '../../src/ui/voice-queue.js';
 import { SPECIES } from '../../src/core/kinds.js';
 import { root } from '../repo-kit.js';
 
 const MANIFEST = JSON.parse(readFileSync(`${root}public/audio/manifest.json`, 'utf8'));
-const LINES = [...PACK.species, ...PACK.numbers, PACK.rain];
+const LINES = spoken(PACK);
 
 // A species word: Arabic script and ZWNJ only; never Arabic kaf or yeh, a diacritic, or a digit of any
 // kind; no ZWNJ at either end. Written as escapes: only the pack holds Arabic-script characters.

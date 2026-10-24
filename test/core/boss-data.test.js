@@ -10,10 +10,7 @@ const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 
 test("the giant cat, mouse, fish and bird are the bosses, looked up by kind", () => {
   assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird']);
-  assert.equal(bossDef('giant'), BOSS_DEFS[0]);
-  assert.equal(bossDef('giant-mouse'), BOSS_DEFS[1]);
-  assert.equal(bossDef('giant-fish'), BOSS_DEFS[2]);
-  assert.equal(bossDef('giant-bird'), BOSS_DEFS[3]);
+  for (const def of BOSS_DEFS) assert.equal(bossDef(def.kind), def);
   assert.equal(bossDef('nope'), undefined);
 });
 

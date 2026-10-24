@@ -1,7 +1,8 @@
 // Persia's night, in pixels: a blood-red moon low over a mountain and, under it, each level's
 // landmark: Persepolis's ruins on their terrace with fire bowls burning, Si-o-se-pol's lit arches
-// over the river, Hafez's pavilion among cypresses, or the Azadi Tower over Tehran. A black ground with an amber line, stars and a CRT's scanlines; brass in a Persian
-// mode. Data only (the shape is described in looks/index.js).
+// over the river, Hafez's pavilion among cypresses, or the Azadi Tower over Tehran. A black ground
+// with an amber line, stars and a CRT's scanlines; brass in a Persian mode. Data only (the shape is
+// described in looks/index.js).
 const FAR = { kind: 'mountains', color: '#2c1c48', height: 420, speed: 0.06, roughness: 0.5 };
 const GROUND = { kind: 'ground', color: '#05030a', height: 80, speed: 0.6, roughness: 0, line: '#ffb03a', rim: '#ffb03a', haze: 0 };
 const STONE = { color: '#22123a', lit: '#74365e', rim: '#9a4a6a', ink: '#150a20', speed: 0.22 }; // the landmarks' stone

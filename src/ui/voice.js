@@ -10,7 +10,7 @@
 // still shows, and so it does with the sound locked or muted. A playing line ducks the music and
 // effects until the queue's line ends.
 import { audioNodes, duckSpeech } from './audio.js';
-import { voiceLines, createQueue, enqueue, stepQueue, clearQueue, sayingOf, LINE_GAP } from './voice-queue.js';
+import { voiceLines, createQueue, enqueue, stepQueue, clearQueue, sayingOf, LINE_GAP, spoken } from './voice-queue.js';
 
 const UNDER_SPEECH = 0.45; // the music and effects level while a line plays
 
@@ -19,7 +19,7 @@ const decodeOffline = (bytes) => (offline ??= new OfflineAudioContext(1, 1, 4800
 
 export function createVoice(pack, { nodes = audioNodes, duck = duckSpeech, fetch = globalThis.fetch, decode = decodeOffline, show, hide }) {
   const buffers = new Map();
-  for (const { clip } of [...pack.numbers, ...pack.species, pack.rain]) {
+  for (const { clip } of spoken(pack)) {
     fetch(clip).then((r) => (r.ok ? r.arrayBuffer() : null)).then((bytes) => bytes && decode(bytes))
       .then((buffer) => buffer && buffers.set(clip, buffer))
       .catch(() => {});

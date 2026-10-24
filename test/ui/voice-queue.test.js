@@ -28,28 +28,16 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [species('cat')]);
 });
 
-test("level 2's first wave says six, not one: the voice counts on from level 1", () => {
-  const said = lines(createWorld(LEVELS[1]).events);
-  assert.equal(said[0], number(6));
-  assert.deepEqual(said.slice(1), [species('dog'), species('mouse')]);
-});
-
-test("level 3's first wave says eleven: the count goes on", () => {
-  const said = lines(createWorld(LEVELS[2]).events);
-  assert.equal(said[0], number(11));
-  assert.deepEqual(said.slice(1), [species('bird'), species('fish')]);
+test('each later level\'s first wave counts on from the one before: six, eleven, sixteen', () => {
+  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']]]) {
+    assert.deepEqual(lines(createWorld(LEVELS[i]).events), [number(n), ...ids.map(species)], LEVELS[i].id);
+  }
 });
 
 test("level 4's third wave says eighteen, its species, then the rain", () => {
   const said = lines([{ type: 'wave', n: 18, species: ['bird', 'cat'], rain: true }]);
   assert.deepEqual(said, [number(18), species('bird'), species('cat'), PACK.rain]);
   assert.equal(lines([wave(19, 'dog')]).includes(PACK.rain), false, 'only the wave the rain begins with says it');
-});
-
-test("level 4's first wave says sixteen", () => {
-  const said = lines(createWorld(LEVELS[3]).events);
-  assert.equal(said[0], number(16));
-  assert.deepEqual(said.slice(1), [species('bird'), species('horse')]);
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

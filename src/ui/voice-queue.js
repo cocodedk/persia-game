@@ -10,9 +10,12 @@
 //   stepQueue(q, dt) -> the entry that starts now, or null. Stepped only while the scene steps, so
 //   the pause menu holds it.
 //   sayingOf(q) -> the species id whose line is under way (for its ms), else null; a number names none
+//   spoken(pack) -> every line the pack can say: each entry with a clip
 export const LINE_GAP = 0.15; // s of silence between lines
 
 const NONE = Object.freeze([]);
+
+export const spoken = (pack) => Object.values(pack).flat().filter((x) => x?.clip);
 const speciesOf = (pack, id) => pack.species.find((s) => s.id === id);
 
 export function voiceLines(events, pack) {

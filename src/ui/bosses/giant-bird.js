@@ -9,6 +9,7 @@ import { shade } from '../sprites.js';
 const plume = (S) => S.look.palette.alien.bird;
 const COLS = 36;
 const ROWS = 30;
+const BROW = [85, -58]; // the brows' glow, which throbs in live()
 
 // The hull, in boss coordinates: the head, the breast below it, the V of each brow, and the edges of
 // the breast's feathers, in rows of chevrons.
@@ -31,7 +32,7 @@ function hullCell(x, y, c) {
 
 function hull(b, l, S) {
   grid(b, l, COLS, ROWS, (x, y) => hullCell(x, y, plume(S)));
-  for (const s of [-1, 1]) bloom(l, s * 85, -58, 60, RED, 0.25);
+  for (const s of [-1, 1]) bloom(l, s * BROW[0], BROW[1], 60, RED, 0.25);
   phosphor(b, l, 0.16, 5);
 }
 
@@ -69,5 +70,5 @@ export default {
   hull,
   parts: { crest, wing, eye: eyeArt(EYE), beak },
   rage: [null, (l) => feathers(l, AMBER), (l) => feathers(l, RED)],
-  live: throb(85, -58), // the brows throb, quicker with every phase
+  live: throb(...BROW), // the brows throb, quicker with every phase
 };

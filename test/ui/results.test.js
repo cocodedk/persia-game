@@ -12,6 +12,7 @@ const { failedScreen } = await import('../../src/ui/screens/failed.js');
 const results = (o) => resultsScreen({ level: LEVEL, score: 1200, stars: 2, best: { score: 3400, stars: 3 }, newBest: false, ...o },
   { again() {}, title() {} });
 const bestLines = (o) => texts(results(o).el, (e) => e.className.startsWith('result-best'));
+const kicker = (el) => texts(el, (e) => e.className === 'banner-kicker');
 
 test('the results card shows the best, or New best!', () => {
   assert.deepEqual(bestLines({ best: { score: 3400, stars: 3 }, newBest: false }), ['Best 3,400']);
@@ -22,7 +23,7 @@ test('results offer Again and Title, and no Next', () => {
   const { el } = results({});
   assert.deepEqual(texts(el, (e) => e.tag === 'button'), ['Again', 'Title']);
   assert.deepEqual(texts(el, (e) => e.className === 'banner-title'), ['Victory']);
-  assert.deepEqual(texts(el, (e) => e.className === 'banner-kicker'), ['Level 1']);
+  assert.deepEqual(kicker(el), ['Level 1']);
 });
 
 test('failed shows the wave or the giant\'s hp', () => {
@@ -52,11 +53,10 @@ test("level 3's end cards give the score and the best in the pack's digits; leve
   assert.deepEqual(bestLines({ level: LEVELS[1] }), ['Best 3,400']);
   const lost = failedScreen({ score: 900, world: { level: LEVELS[2], wave: 2, boss: null } }, { retry() {}, title() {} });
   assert.deepEqual(score(lost.el), [`${D[9]}${D[0]}${D[0]}`]);
-  assert.deepEqual(texts(lost.el, (e) => e.className === 'banner-kicker'), ['Level 3']);
+  assert.deepEqual(kicker(lost.el), ['Level 3']);
 });
 
 test("level 4's end cards name it in the pack's digits", () => {
-  const kicker = (el) => texts(el, (e) => e.className === 'banner-kicker');
   const four = `Level ${PACK.digits[4]}`;
   assert.deepEqual(kicker(results({ level: LEVELS[3] }).el), [four]);
   const lost = failedScreen({ score: 900, world: { level: LEVELS[3], wave: 3, boss: null } }, { retry() {}, title() {} });

@@ -34,6 +34,12 @@ export function playing(lv, { seed = 1, quiet = true } = {}) {
 }
 
 export const drain = (world) => world.events.splice(0);
+
+// Wipe the field (no kills scored), and step the tick that notices it.
+export function clear(world) {
+  for (const a of world.aliens) a.hp = 0;
+  step(world);
+}
 export const ofType = (events, type) => events.filter((e) => e.type === type);
 
 // A ship shot placed at (x, y) flying straight up (and returned), a ship shot placed on an alien, and

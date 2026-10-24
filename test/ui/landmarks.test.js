@@ -33,6 +33,6 @@ test('the Persepolis pictures are rectangles of known tones', () => {
 
 // The title bakes each level's picture once; coming back to the title reuses it.
 test("a level's landmark picture is baked once", () => {
-  for (const level of LEVELS) assert.equal(landmarkArt(LOOK, level), landmarkArt(LOOK, level), level.id);
-  assert.notEqual(landmarkArt(LOOK, LEVELS[0]), landmarkArt(LOOK, LEVELS[1]));
+  for (const level of LEVELS) assert.equal(landmarkArt(level), landmarkArt(level), level.id);
+  assert.notEqual(landmarkArt(LEVELS[0]), landmarkArt(LEVELS[1]));
 });

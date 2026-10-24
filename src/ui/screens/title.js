@@ -1,7 +1,7 @@
 // Title: the logo over a live autopilot battle, and the main menu.
 //   titleScreen({ items: [{ label, place, art, pick }], nowShowing }) -> screen
-// items is the menu in order, one card per level: its picture (`art`, a canvas, when given) over its
-// name and its place; nowShowing names the backdrop's level.
+// items is the menu in order, one card per level: its picture (`art`, a canvas) over its name and
+// its place; nowShowing names the backdrop's level.
 import { h, button, navigate, shell } from './dom.js';
 import { play } from '../audio.js';
 
@@ -12,7 +12,6 @@ export function titleScreen({ items, nowShowing }) {
     h('span', 'logo-glow', word), h('span', 'logo-chroma c1', word), h('span', 'logo-chroma c2', word),
     h('span', 'logo-text', word), h('span', 'logo-shine', word));
   const cards = items.map((it) => {
-    if (it.art) it.art.className = 'card-art';
     const face = h('span', 'card-face', it.art, h('span', 'card-number', it.label), h('span', 'card-place', it.place));
     return button(face, () => { play('select'); it.pick(); }, 'btn level-card');
   });
