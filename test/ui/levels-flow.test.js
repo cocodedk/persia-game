@@ -2,8 +2,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { installElements, all, texts } from './dom-kit.js';
 
-// From one level to the next: the title offers every level, and the results of a level that has a
-// next one offer Next. Nothing is locked, so none of it reads storage.
+// From one level to the next: the title offers every level, each level's parade walks its own
+// animals, and the results of a level that has a next one offer Next. Nothing is locked, so none of
+// it reads storage.
 installElements();
 globalThis.requestAnimationFrame = () => 0;
 let now = 0;
@@ -21,10 +22,11 @@ function setup() {
   let shown = null;
   const stage = { show: (s) => (shown = s) };
   const r = createRouter({ canvas: {}, stage, input: {}, voice: { clear() {}, queue() {} } });
-  const flow = createFlow(r, stage, { clear() {}, queue() {} });
+  const said = [];
+  const flow = createFlow(r, stage, { clear() {}, queue: (line) => said.push(line.id) });
   const started = [];
   r.startLevel = (level) => started.push(level);
-  return { r, flow, started, screen: () => shown };
+  return { r, flow, started, said, screen: () => shown };
 }
 
 test('the title offers Play for level 1 and Level 2 for level 2, from the first visit', () => {
@@ -34,6 +36,18 @@ test('the title offers Play for level 1 and Level 2 for level 2, from the first 
   press(screen(), 'Play');
   press(screen(), 'Level 2');
   assert.deepEqual(started, [LEVEL, LEVELS[1]]);
+});
+
+test("each level's parade names its own animals: level 1 seven, level 2 the eight with the mouse", () => {
+  const { flow, said, screen } = setup();
+  const walk = (level) => {
+    said.length = 0;
+    flow.showParade({ level, score: 100, stars: 1, best: { score: 100, stars: 1 }, newBest: true });
+    screen().update(60); // past every animal's cue
+    return [...said];
+  };
+  assert.deepEqual(walk(LEVEL), ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish']);
+  assert.deepEqual(walk(LEVELS[1]), ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish', 'mouse']);
 });
 
 test("level 1's results offer Next, which plays level 2, and Again replays the level just played", () => {

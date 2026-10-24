@@ -3,7 +3,7 @@
 //   sink               a canvas context that takes any call or read and returns itself (0 as a number)
 //   installCanvas(n)   document.createElement gives an n x n canvas whose context is sink
 //   element(tag)       a stand-in element that keeps what is appended to it, and its click handler
-//                      as onClick
+//                      as onClick; as a canvas, its context is sink
 //   installElements()  document.createElement gives such elements
 //   all(el)            el and every stand-in element under it, in document order
 //   texts(el, pick)    the text of each element under el (el too) that pick(e) keeps
@@ -27,7 +27,7 @@ export const element = (tag) => ({
   classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
   append(...kids) { this.children.push(...kids); },
   addEventListener(type, fn) { if (type === 'click') this.onClick = fn; },
-  setAttribute() {}, focus() {},
+  setAttribute() {}, focus() {}, getContext: () => sink,
 });
 
 export function installElements() {
