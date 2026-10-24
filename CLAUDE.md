@@ -3,8 +3,8 @@
 A 2D arcade shooter for a laptop, forked from invaders (`../invaders`), that plays Persian as the
 soundtrack of what happens on screen. It is a game first and never calls itself a lesson. The design
 is `docs/superpowers/specs/2026-10-24-persia-design.md` and the build plan goes in
-`docs/superpowers/plans/`; the spec is the authority. Scope now: one concept level (world 1, animals),
-then Babak plays it and we judge. Deploys to `persia.cocode.dk`.
+`docs/superpowers/plans/`; the spec is the authority. Scope now: world 1 (animals), three levels so far;
+Babak plays each one before the next is planned. Deploys to `persia.cocode.dk`.
 
 Invaders is the reference architecture: copy and adapt from it, never import across repos. The lessons
 repo (`../Danish-Persian-Lessons`) lends approved voice clips, pictures and the Persian text-rule tests;
