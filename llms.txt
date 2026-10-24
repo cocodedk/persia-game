@@ -1,0 +1,20 @@
+# Invaders
+
+> Invaders is a free cinematic arcade shooter that runs in the browser: fly anywhere in the lower half of the screen, shoot down alien formations and beat a boss at the end of each of 8 worlds, 40 levels in all.
+
+Each world has its own look, music and one rule only it has. Power-ups (spread shot, laser, rapid fire, shield) and smart bombs drop along the way. After every cleared level the game cuts a movie trailer from the player's own run, re-simulated from the recorded inputs; the Cinema on the title screen keeps the best run of every level, and a lost level plays a short blooper. It is plain HTML, CSS and JavaScript ES modules with no dependencies, no build step and no network requests at runtime. Made by Babak Bandpey at Cocode, released under Apache-2.0.
+
+## Play
+
+- [Invaders](https://invaders.cocode.dk/): the game itself; keyboard or mouse
+
+## Source
+
+- [Repository](https://github.com/cocodedk/invaders): source code and issues
+- [README](https://github.com/cocodedk/invaders/blob/main/README.md): what it is, controls, running locally and tests
+- [Contributing](https://github.com/cocodedk/invaders/blob/main/CONTRIBUTING.md): setup, git hooks and house rules
+
+## Optional
+
+- [Security policy](https://github.com/cocodedk/invaders/blob/main/SECURITY.md): how to report a vulnerability
+- [Cocode](https://cocode.dk): the author's company

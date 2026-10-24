@@ -106,7 +106,7 @@ the level shorthand and the core rules.
 **Interfaces:**
 - Produces: the invaders game, renamed, with `PREFIX = 'persia.'` in `src/ui/storage.js`.
 
-- [ ] **Step 1: Copy the tree**
+- [x] **Step 1: Copy the tree**
 
 ```bash
 git -C ../invaders archive 332a622 | tar -x --exclude=CLAUDE.md --exclude=README.md --exclude=docs --exclude=og.png
@@ -114,15 +114,15 @@ git -C ../invaders archive 332a622 | tar -x --exclude=CLAUDE.md --exclude=README
 
 Expected: 288 files land. This repo's `CLAUDE.md`, `docs/` and `memory/` are untouched.
 
-- [ ] **Step 2: Rename the identity.**
+- [x] **Step 2: Rename the identity.**
   - In `storage.js`, set `PREFIX = 'persia.'` and update the key comments. Update the expected keys
     in `storage.test.js` to match.
   - Set `"name":"persia"` in `package.json` and `persia.cocode.dk` in `CNAME`.
   - Set `<title>Persia</title>` in `index.html` and `const word = 'PERSIA'` in `title.js`.
   - Leave the rest of the site copy for Task 11.
-- [ ] **Step 3: Install the hooks and run the suite.**
+- [x] **Step 3: Install the hooks and run the suite.**
   Run `bash scripts/install-hooks.sh && npm test`. Expect every test to pass, with 0 failures.
-- [ ] **Step 4: Commit.** Leave `.mcp.json` and `.claude/` out:
+- [x] **Step 4: Commit.** Leave `.mcp.json` and `.claude/` out:
   `git add -A -- . ':!.mcp.json' ':!.claude' && git commit -m "chore: fork invaders at 332a622"`
 
 ### Task 2: Strip the trailer, cinema, demo, lobby and run recording
