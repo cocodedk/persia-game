@@ -12,14 +12,13 @@ We will acknowledge within 5 business days and aim to release a fix within 30 da
 
 ## Scope
 
-Invaders is a static page with no server, no accounts and no network requests at runtime. The only
-data it keeps is in the browser's `localStorage`: the best score and stars per level, the best run
-of each level (the inputs its trailer is re-simulated from), the sound setting and whether the demo
-has been seen.
+Persia is a static page with no server, no accounts and no network requests at runtime beyond its
+own files. The only data it keeps is in the browser's `localStorage`, under `persia.` keys: the
+best score and stars for the level, and the sound setting.
 
 ## Supported Versions
 
 | Version | Supported |
 |---------|-----------|
-| latest (`main`, as served at https://invaders.cocode.dk) | ✅ |
+| latest (`main`, as served at https://persia.cocode.dk) | ✅ |
 | older   | ❌ |

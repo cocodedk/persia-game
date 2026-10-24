@@ -801,21 +801,21 @@ Persian. It never says lesson, learn, teach or course.
 - Update: the vault note `memory/persia-state-2026-10-24.md`, with what is built and what Babak does
   next.
 
-- [ ] **Step 1: Write the copy and the head.** The README covers:
+- [x] **Step 1: Write the copy and the head.** The README covers:
   - what the game is
   - how to play it locally
   - the tests and the layout
   - where the clips came from (the manifest, native review)
   - the licences: Apache-2.0 for the code, OFL for Vazirmatn, and the clips' licence as the manifest
     gives it
-- [ ] **Step 2: Render `og.png` and check it.** Open the PNG. It should show the Persia title over
+- [x] **Step 2: Render `og.png` and check it.** Open the PNG. It should show the Persia title over
   the night look with animals, and no Persian beyond one species word at most.
-- [ ] **Step 3: Run the suite.** `npm test` should report 0 failures, including the external-URL,
+- [x] **Step 3: Run the suite.** `npm test` should report 0 failures, including the external-URL,
   line-count and dead-code checks. Then run
   `grep -rniE "invaders|lesson|learn" index.html og.html llms.txt sitemap.xml robots.txt`.
   It should print nothing.
-- [ ] **Step 4: Commit.** `git add -A && git commit -m "docs: Persia site, README, Open Graph image and favicon"`
-- [ ] **Step 5: Hand over to Babak.**
+- [x] **Step 4: Commit.** `git add -A && git commit -m "docs: Persia site, README, Open Graph image and favicon"`
+- [x] **Step 5: Hand over to Babak.**
   - Before the first push: create `cocodedk/persia-game` on GitHub and the DNS record for
     `persia.cocode.dk`.
   - After it: turn on Pages from `main` at the root.

@@ -1,4 +1,4 @@
-# Contributing to Invaders
+# Contributing to Persia
 
 ## Local setup
 
@@ -24,8 +24,8 @@ npm test                       # all tests
 python3 -m http.server 8000    # play locally
 ```
 
-`dev.html` renders a frozen frame of any level for rendering work (`dev.html?level=w3-2&t=12`); its
-options are listed at the top of the file. Add `?debug` to the game's URL for a frame-time readout.
+Two URL switches help when checking the game by hand: `?debug&boss` starts straight at the giant,
+and `?debug&auto` lets the autopilot fly the level.
 
 ## Git hooks
 
@@ -38,7 +38,7 @@ options are listed at the top of the file. Add `?debug` to the game's URL for a 
   deletion of, `main`.
 
 `core.hooksPath` is per-clone config, so a fresh clone has no hooks until the script runs.
-`--no-verify` skips them; CI runs the same tests anyway.
+Don't skip them with `--no-verify`; if a hook fails, fix the cause. CI runs the same tests anyway.
 
 ## House rules
 
@@ -46,10 +46,17 @@ options are listed at the top of the file. Add `?debug` to the game's URL for a 
   URL is relative, so the game also works offline and under a sub-path.
 - Every code file stays under 200 lines. Split by responsibility when one gets close.
 - `src/core/` and `src/fx/` stay pure: no `window`, `document`, canvas, `Math.random` or
-  `Date.now`. Randomness comes from a seeded `rng`, time from `dt`, so a run replays exactly.
+  `Date.now`. Randomness comes from a seeded `rng`, time from `dt`.
+- No dead code. If the game no longer runs something, delete it; git keeps the history. A repo
+  test fails on any export nothing uses.
+- Every Persian word lives in `src/data/pack.js`, and nowhere else in `src/` or `test/` (a test
+  checks). Pack words use Persian code points (ک U+06A9, ی U+06CC) and no diacritics, and they
+  render as DOM text so the letters stay joined.
+- Voice clips come only from the approved set in `public/audio/manifest.json`. No new clips
+  without a native speaker's review, and no speech synthesis at runtime.
 - Every behaviour has a test. Pixels are not tested; the state that drives them is.
-- Keep it at 60 fps on a Raspberry Pi 4: no per-frame `shadowBlur`, at most 600 particles and
-  400 enemy bullets.
+- Keep it at 60 fps on a modest laptop: no per-frame `shadowBlur`, at most 600 particles and 400
+  enemy bullets.
 - Names and lines are original: no film titles, characters or quoted lines.
 
 ## Pull requests
@@ -58,5 +65,5 @@ Branch from `main` with a prefix that matches the commit type (`feature/`, `fix/
 `refactor/`, `chore/`, `ci/`), in kebab-case.
 
 - [ ] `npm test` passes.
-- [ ] Played the change in a browser (`dev.html` helps for rendering work).
+- [ ] Played the change in a browser.
 - [ ] Docs updated if behaviour or controls changed.
