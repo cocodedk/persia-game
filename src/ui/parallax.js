@@ -2,7 +2,7 @@
 // frame, baked once per level, and shifted sideways against the ship's x so the world has depth as
 // the ship flies, pixelated (sprites.js). A layer may carry lights (fire, the ground line's glow) that
 // pulse on top.
-//   buildLayers(look, layers, seed): layers is the level's list in look.landmarks
+//   buildLayers(look, level): the level's list in look.landmarks, on the level's seed
 //   layers[i] = { kind, color, height (a multiple of PIXEL), speed 0 far .. 1 near, roughness?,
 //                 rim?, haze?, and the tones its painter reads (a landmark's lit, ink, fire...) }
 import { W, H, PIXEL, makeCanvas, rgba, shade, glow, lin, pixelate } from './sprites.js';
@@ -12,8 +12,9 @@ import { paintLayer } from './parallax-shapes.js';
 const MARGIN = 160; // spare width each side, so a shift never shows an edge
 const SHIFT = 0.15; // px of layer shift per px of ship offset, at speed 1
 
-export function buildLayers(look, layers, seed) {
-  return layers.map((L, i) => {
+export function buildLayers(look, level) {
+  const seed = level.seed ?? 1;
+  return look.landmarks[level.landmark].map((L, i) => {
     const w = W + MARGIN * 2;
     const h = L.height;
     const c = makeCanvas(w, h);

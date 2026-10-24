@@ -21,7 +21,7 @@ const openAt = (y) => OPEN * Math.max(0, 1 - y / APEX) ** 0.6;
 
 export function azadi(g, w, h, rng, L, lights) {
   const tone = {
-    '#': L.color, '+': L.lit, '-': L.ink, g: L.glow, G: L.lamp, h: mix(L.glow, L.ink, 0.55),
+    '#': L.color, '+': L.lit, '-': L.ink, G: L.lamp, h: mix(L.glow, L.ink, 0.55),
     c: mix(L.color, L.ink, 0.35), w: L.tower, W: L.towerLit, x: mix(L.tower, L.ink, 0.3), v: mix(L.tower, L.ink, 0.6),
   };
   const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };

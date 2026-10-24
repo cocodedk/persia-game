@@ -27,7 +27,7 @@ export const element = (tag) => ({
   classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
   append(...kids) { this.children.push(...kids); },
   addEventListener(type, fn) { if (type === 'click') this.onClick = fn; },
-  setAttribute() {}, focus() {}, getContext: () => sink,
+  setAttribute() {}, focus() { document.activeElement = this; }, click() { this.onClick?.(); }, getContext: () => sink,
 });
 
 export function installElements() {

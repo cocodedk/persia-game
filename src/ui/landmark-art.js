@@ -2,7 +2,8 @@
 // level bakes them, over the look's sky, seen as the battle opens (the ship at the centre) and cropped
 // to the frame's lower middle. CSS sets its size on the card.
 //   landmarkArt(level) -> canvas, baked once per level
-import { W, H, cached, lin } from './sprites.js';
+import { W, cached } from './sprites.js';
+import { paintSky } from './sky.js';
 import { buildLayers, drawLayers } from './parallax.js';
 import { LOOK } from './looks/index.js';
 
@@ -11,7 +12,6 @@ const CROP = { x: 480, y: 480, w: 960, h: 600 }; // on the pixel grid, so the bl
 export const landmarkArt = (level) => cached(`landmark:${level.id}`, CROP.w, CROP.h, (g) => {
   g.canvas.className = 'card-art';
   g.translate(-CROP.x, -CROP.y);
-  g.fillStyle = lin(g, 0, 0, 0, H, LOOK.sky);
-  g.fillRect(0, 0, W, H);
-  drawLayers(g, buildLayers(LOOK, LOOK.landmarks[level.landmark], level.seed), W / 2, 0, 1);
+  paintSky(g, LOOK);
+  drawLayers(g, buildLayers(LOOK, level), W / 2, 0, 1);
 });

@@ -43,10 +43,6 @@ test('the arrows move along the cards and Enter plays the one in focus', () => {
   const { r, started, screen } = setup();
   r.goTitle();
   const cards = buttons(screen());
-  for (const c of cards) {
-    c.focus = () => (document.activeElement = c);
-    c.click = c.onClick;
-  }
   document.activeElement = cards[0];
   screen().onKey('ArrowRight');
   assert.equal(document.activeElement, cards[1]);
