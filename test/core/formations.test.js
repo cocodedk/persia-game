@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { FORMATIONS } from '../../src/core/kinds.js';
-import { makeSlots, slotPosition, entryPosition, marchRate } from '../../src/core/formations.js';
+import { makeSlots, slotPosition, entryPosition, marchRate, MOTION } from '../../src/core/formations.js';
 import { wave, SHAPES, CTXS, ONE } from './wave-shapes.js';
+
+const FORMATIONS = Object.keys(MOTION);
 
 test('makeSlots lays out rows x cols slots, row by row, each with its row role', () => {
   const w = wave(4, 6);
@@ -80,17 +81,6 @@ test('dir mirrors the grid march sideways', () => {
   assert.ok(a.x > s.sx);
   assert.ok(Math.abs(a.x - s.sx + (b.x - s.sx)) < 1e-9);
   assert.equal(a.y, b.y);
-});
-
-test('split sends the left half left and the right half right, then rejoins', () => {
-  const slots = makeSlots(wave(2, 8));
-  const left = slots[0];
-  const right = slots[7];
-  const mid = slotPosition('split', left, 3.1, ONE);
-  assert.ok(mid.x < left.sx - 50);
-  assert.ok(slotPosition('split', right, 3.1, ONE).x > right.sx + 50);
-  const back = slotPosition('split', left, 2 * 3.125, ONE);
-  assert.ok(Math.abs(back.x - left.sx) < 1);
 });
 
 test('unknown formations are an error, not a silent hold', () => {

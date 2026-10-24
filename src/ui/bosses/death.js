@@ -107,7 +107,7 @@ export function drawDying(ctx, b, B, t) {
     b.parts.forEach((p, i) => {
       if (P.parts[i] || Math.sign(p.dx) !== h.s) return;
       const set = parts[p.id];
-      partImg(ctx, set, p.dx, p.dy, wreck(set, p.open));
+      partImg(ctx, set, p.dx, p.dy, wreck(set));
       ctx.globalCompositeOperation = 'lighter';
       ctx.globalAlpha = fade * P.white;
       partImg(ctx, set, p.dx, p.dy, set.flash);
@@ -134,7 +134,7 @@ export function drawDying(ctx, b, B, t) {
     ctx.translate(b.x + p.dx + f.dx, b.y + p.dy + f.dy);
     ctx.rotate(f.rot);
     ctx.globalAlpha = f.a * fade;
-    partImg(ctx, set, 0, 0, wreck(set, p.open));
+    partImg(ctx, set, 0, 0, wreck(set));
     ctx.restore();
   });
   ctx.globalAlpha = 1;

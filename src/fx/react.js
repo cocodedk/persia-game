@@ -7,9 +7,6 @@ import { WORLD } from './react-world.js';
 
 const HANDLERS = { ...FIGHT, ...BOSS, ...WORLD };
 
-// Every event type fx reacts to.
-export const REACTS = Object.keys(HANDLERS);
-
 export function applyEvent(fx, ev, rng, world) {
   if (Object.hasOwn(HANDLERS, ev.type)) HANDLERS[ev.type](fx, ev, rng, world);
 }

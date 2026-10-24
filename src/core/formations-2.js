@@ -1,4 +1,4 @@
-import { clamp, lerp, TAU, smooth, easeOut } from './math.js';
+import { clamp, lerp, smooth, easeOut } from './math.js';
 import { WIDTH, MID_X, EDGE } from './kinds.js';
 
 // How aliens arrive (entryPosition, 1.5 s) and how a diver swoops (diveCurve, 2.2 s). Both are pure
@@ -14,19 +14,14 @@ const quad = (a, b, c, e) => ({
   y: (1 - e) * (1 - e) * a.y + 2 * (1 - e) * e * b.y + e * e * c.y,
 });
 
-const ENTRY = {
+// How each formation flies in, by name (formations.js MOTION has the same names).
+export const ENTRY = {
   // Rows slide down from above, top row first.
   grid: (s, u) => ({ x: s.sx, y: lerp(-100, s.sy, late(u, s.row, 0.06)) }),
   // Drop in from above with a sideways flourish that unwinds, column by column.
   sway: (s, u) => {
     const e = late(u, s.col, 0.04);
     return { x: s.sx + side(s) * 260 * (1 - e), y: lerp(-100, s.sy, e) };
-  },
-  // Swing in around a shrinking circle.
-  orbit: (s, u) => {
-    const e = late(u, s.col, 0.03);
-    const th = (u * 1.5 + s.col * 0.5) * TAU;
-    return { x: s.sx + 100 * (1 - e) * Math.cos(th), y: lerp(-160, s.sy, e) + 100 * (1 - e) * Math.sin(th) };
   },
   // Corkscrew down onto the slot: fall from above while winding two turns from side to side, the
   // swing tightening to nothing on arrival. It only ever descends, so it crosses the HUD band once
@@ -36,15 +31,8 @@ const ENTRY = {
     const th = 4 * Math.PI * (1 - e) * (s.col % 2 ? 1 : -1); // two turns
     return { x: s.sx + (700 + 60 * s.row) * (1 - e) * Math.sin(th), y: lerp(-160 - 60 * s.row, s.sy, e) };
   },
-  // One column drops in down the middle, then fans out to the slots.
-  split: (s, u) => {
-    const e = late(u, s.row, 0.05);
-    return { x: lerp(MID_X, s.sx, easeOut(u * 1.3 - 0.3)), y: lerp(-120 - 40 * s.row, s.sy, e) };
-  },
   // Slide in from the left or right edge, level with the slot.
   escort: (s, u) => ({ x: lerp(side(s) < 0 ? -140 : 2060, s.sx, late(u, s.col, 0.05)), y: s.sy }),
-  // Columns fall in from above one after another.
-  rain: (s, u) => ({ x: s.sx, y: lerp(-100, s.sy, late(u, s.col, 0.09)) }),
   // A swooping dive: stream in from alternate sides on a curve that dips low before climbing to the slot.
   dive: (s, u) => {
     const left = (s.col + s.row) % 2 === 0;

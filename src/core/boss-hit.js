@@ -2,7 +2,7 @@ import { syncBoss } from './boss-phase.js';
 import { emit } from './util.js';
 
 // What hurts a boss. The parts are the targets: damage.js lists them, and these are the rules.
-//   weak part  full damage        armor plate  25 %        bare hull  none (it still soaks shots)
+//   weak part  full damage        armor plate  25 %
 // A shot or the beam goes through that rule (hurtPart); a bomb is raw damage (bombBoss). A part at
 // 0 hp is gone and no longer blocks. Every change re-adds the boss's hp (syncBoss), which is where
 // phases change, plates crack open when no weak point is left, and the boss dies.
@@ -34,15 +34,15 @@ function damagePart(world, p, dealt, at = p) {
 
 // `dmg` through the part's rule.
 export function hurtPart(world, p, dmg, at = p) {
-  damagePart(world, p, dmg * (p.weak ? 1 : p.armor ? ARMOR : 0), at);
+  damagePart(world, p, dmg * (p.weak ? 1 : ARMOR), at);
 }
 
 // A bomb takes 8 % of the boss's max hp as raw damage (the armour rule does not apply), shared
-// equally by the live parts that can be damaged, weak ones first. What a part cannot take moves on
-// to the next, and what is still left after the last goes back to the first that can take it, so
-// the total is min(8 % of max hp, what the parts have left). A bare hull is not touched.
+// equally by the live parts, weak ones first. What a part cannot take moves on to the next, and
+// what is still left after the last goes back to the first that can take it, so the total is
+// min(8 % of max hp, what the parts have left).
 export function bombBoss(world) {
-  const live = liveParts(world).filter((p) => p.weak || p.armor);
+  const live = liveParts(world);
   const order = [...live.filter((p) => p.weak), ...live.filter((p) => !p.weak)];
   if (!order.length) return;
   const share = (world.boss.maxHp * BOMB_BOSS_SHARE) / order.length;

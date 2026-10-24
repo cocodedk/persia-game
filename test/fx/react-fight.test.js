@@ -77,10 +77,8 @@ test('shipHit: a red flash over the frame, a ring, sparks and a hard shake', () 
 test('hit: sparks at the impact, more and paler on a plate than on a plain alien', () => {
   const plain = react({ type: 'hit', id: 3, role: 'gunner', x: 300, y: 200, hp: 1, dmg: 1 });
   const plate = react({ type: 'hit', id: 'capL', role: 'boss', part: 'capL', x: 300, y: 200, hp: 5, dmg: 0.25, weak: false });
-  const hull = react({ type: 'hit', id: 'hull', role: 'boss', part: 'hull', x: 300, y: 200, hp: 5, dmg: 0, weak: false });
   assert.ok(plain.particles.length > 0 && plain.particles.every((p) => p.kind === 'spark'));
   assert.ok(plate.particles.length >= plain.particles.length);
-  assert.ok(hull.particles.length > 0 && hull.particles.length < plain.particles.length, 'a hull only pings');
   assert.ok(plain.particles.every((p) => Math.abs(p.x - 300) < 1 && Math.abs(p.y - 200) < 1));
 });
 

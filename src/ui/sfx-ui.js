@@ -45,10 +45,6 @@ export const UI = {
     hiss(a, { type: 'highpass', f0: 6000, attack: 0.02, dur: 0.12, peak: 0.03 });
     return 0.3;
   },
-  back(a) {
-    tone(a, { type: 'triangle', f0: noteHz(a.kit, 4, 5), f1: noteHz(a.kit, 0, 5), dur: 0.12, peak: 0.08 });
-    return 0.15;
-  },
   pause(a) {
     tone(a, { f0: 320, f1: 140, dur: 0.22, peak: 0.12, cut: 900 });
     hiss(a, { type: 'lowpass', f0: 700, dur: 0.1, peak: 0.05 });

@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { BOSSES } from '../../src/core/kinds.js';
-import { bossDef } from '../../src/core/bosses-data.js';
+import { BOSS_DEFS, bossDef } from '../../src/core/bosses-data.js';
 import { ofType } from './world-kit.js';
 import { botFight, reachable } from './boss-kit.js';
 
@@ -9,7 +8,7 @@ import { botFight, reachable } from './boss-kit.js';
 // firing, with a ship that cannot be hurt, wins inside 120 simulated seconds. Task 6's autopilot
 // builds on the same promise. A boss is the centrepiece of its world, so the bot's win takes 40 to
 // 60 s (task 13b: the weak parts' hp is what sets it).
-for (const kind of BOSSES) {
+for (const { kind } of BOSS_DEFS) {
   test(`the ${bossDef(kind).name} loses to a bot that just stands under it and fires, in 40 to 60 s`, () => {
     const { world, log } = botFight(kind);
     assert.equal(world.state, 'cleared', `${kind} still standing at ${world.t.toFixed(1)} s, hp ${world.boss.hp}`);
@@ -27,7 +26,7 @@ for (const kind of BOSSES) {
 // "At least one weak part exposed in every phase" has to hold while the fight runs, not just on
 // paper: on every tick from the end of the fly-in to the boss's death some live weak part has a
 // clear column from the player zone.
-for (const kind of BOSSES) {
+for (const { kind } of BOSS_DEFS) {
   test(`the ${bossDef(kind).name} always has a live weak part a shot can reach`, () => {
     let ticks = 0;
     const { world } = botFight(kind, 120, (w) => {

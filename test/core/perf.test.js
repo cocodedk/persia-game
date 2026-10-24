@@ -7,17 +7,18 @@ import { TICK } from '../../src/core/kinds.js';
 import { level, wave } from './world-kit.js';
 
 // The Pi 4 gets 16 ms a frame for everything, so the simulation gets a small slice of it.
-// BUSY is the busiest wave level invaders had (its world 5, level 4), built here: flown by the
-// autopilot it holds the most enemy bullets and has gunners, rings and spirals all at once.
+// BUSY is the busiest wave level invaders had (its world 5, level 4), rebuilt from the formations
+// and patterns level 1 has: flown by the autopilot it holds the most enemy bullets, with gunners,
+// rings and fans all at once.
 const ROLE = { g: 'grunt', d: 'diver', u: 'gunner', a: 'armored', c: 'carrier' };
 const w = (formation, cols, roles, pattern, speed) =>
   wave({ formation, rows: roles.length, cols, roles: [...roles].map((c) => ROLE[c]), pattern, speed });
 const BUSY = level([
-  w('split', 8, 'dg', 'ring', 1.15),
-  w('spiral', 6, 'gaag', 'spiral', 1.2),
-  w('orbit', 6, 'gag', 'homing', 1.2),
-  w('rain', 10, 'ugd', 'spiral', 1.2),
-  w('escort', 3, 'aca', 'homing', 1.25),
+  w('sway', 8, 'dg', 'ring', 1.15),
+  w('spiral', 6, 'gaag', 'ring', 1.2),
+  w('dive', 6, 'gug', 'fan', 1.2),
+  w('grid', 10, 'ugd', 'ring', 1.2),
+  w('escort', 3, 'aca', 'fan', 1.25),
 ], 23 / 39, { seed: 51902 });
 
 const p95 = (list) => [...list].sort((a, b) => a - b)[Math.floor(list.length * 0.95)];

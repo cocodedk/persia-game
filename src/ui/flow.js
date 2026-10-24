@@ -2,7 +2,6 @@
 // pause menu during the slow motion does not lose it (M10); once that moment has played out, the
 // outcome goes to flow.showResults or flow.showFailed.
 //   outcome = { level, score, stars, best, newBest, world }   best and newBest only on a clear
-import { LEVELS } from '../core/levels.js';
 import { stars } from '../core/world.js';
 import { store } from './storage.js';
 import { play, setBeam } from './audio.js';
@@ -43,12 +42,10 @@ export function createFlow(r, stage) {
       app.screen = 'results';
       play('cleared');
       const { level } = o; // the buttons close over this, not over o (its world)
-      const next = LEVELS[LEVELS.indexOf(level) + 1];
       stage.show(resultsScreen({
         label: level.name, title: level.boss ? 'Victory' : 'Cleared',
         score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
       }, {
-        next: next && (() => r.startLevel(next)),
         retry: () => r.startLevel(level),
         title: r.goTitle,
       }));

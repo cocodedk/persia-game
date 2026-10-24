@@ -52,7 +52,7 @@ function explode(fx, ev, rng) {
 
 function hit(fx, ev, rng) {
   const plate = ev.role === 'armored' || (ev.role === 'boss' && !ev.weak);
-  const k = ev.dmg > 0 ? (plate ? 6 : 4) : 2;
+  const k = plate ? 6 : 4;
   sparks(fx, rng, ev.x, ev.y, k, plate ? 260 : 200, plate ? PALE : FIRE);
   addFlash(fx, { x: ev.x, y: ev.y, r: 36, life: 0.06, tag: 'hit' });
 }

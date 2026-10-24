@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ROLES, FORMATIONS, PATTERNS, POWERS, BOSSES, SPECIES } from '../../src/core/kinds.js';
+import { ROLES, POWERS, SPECIES } from '../../src/core/kinds.js';
 
 test('ROLES carry the agreed hp, score and fire rate', () => {
   assert.deepEqual(ROLES, {
@@ -12,11 +12,8 @@ test('ROLES carry the agreed hp, score and fire rate', () => {
   });
 });
 
-test('kind lists are the agreed names in the agreed order', () => {
-  assert.deepEqual(FORMATIONS, ['grid', 'sway', 'dive', 'spiral', 'split', 'escort', 'rain', 'orbit']);
-  assert.deepEqual(PATTERNS, ['aimed', 'fan', 'ring', 'spiral', 'laser', 'rain', 'homing']);
+test('the powers are the agreed names in the agreed order', () => {
   assert.deepEqual(POWERS, ['spread', 'laser', 'rapid', 'shield']);
-  assert.deepEqual(BOSSES, ['giant']);
 });
 
 test('each of the seven species fights as an invaders role', () => {

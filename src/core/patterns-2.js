@@ -1,32 +1,20 @@
-import { clamp, angleTo, segDist2, wrapAngle } from './math.js';
+import { segDist2 } from './math.js';
 import { WIDTH, HEIGHT } from './kinds.js';
 
 // The life of one enemy bullet after it is fired, plus the laser's geometry. Bullets are the plain
-// objects emitPattern returns: { pattern, x, y, vx, vy, r, life, warn?, turn? }.
+// objects emitPattern returns: { pattern, x, y, vx, vy, r, life, warn? }.
 
 export const LASER_WARN = 0.8; // s of harmless warning line before the beam
 export const LASER_BEAM = 0.6; // s the beam then burns
 
-// Turn the velocity toward `to` by at most `b.turn` rad/s, keeping the speed.
-function steer(b, dt, to) {
-  const speed = Math.hypot(b.vx, b.vy);
-  const heading = Math.atan2(b.vy, b.vx);
-  const diff = wrapAngle(angleTo(b, to) - heading);
-  const next = heading + clamp(diff, -b.turn * dt, b.turn * dt);
-  b.vx = Math.cos(next) * speed;
-  b.vy = Math.sin(next) * speed;
-}
-
-// Advance one bullet by `dt`. `world.ship` is what a homing bullet chases. A laser never moves: it
-// counts its warning down to 0 and then burns until `life` runs out. Callers drop bullets whose
-// `life` is <= 0.
-export function stepBullet(b, dt, world) {
+// Advance one bullet by `dt`. A laser never moves: it counts its warning down to 0 and then burns
+// until `life` runs out. Callers drop bullets whose `life` is <= 0.
+export function stepBullet(b, dt) {
   b.life -= dt;
   if (b.pattern === 'laser') {
     b.warn = Math.max(0, b.warn - dt);
     return;
   }
-  if (b.turn && world?.ship) steer(b, dt, world.ship);
   b.x += b.vx * dt;
   b.y += b.vy * dt;
 }

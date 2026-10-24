@@ -19,7 +19,7 @@ export { stars } from './scoring.js';
 // waves; march is null from then on. slow and cool carry bullet time (bullet-time.js).
 // `events` is only pushed to here; main drains it after every step.
 
-export const INTRO = 1.5; // s before play begins; the first wave flies in meanwhile
+const INTRO = 1.5; // s before play begins; the first wave flies in meanwhile
 
 export function createWorld(level, seed = level.seed) {
   const world = {

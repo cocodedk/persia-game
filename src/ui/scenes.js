@@ -4,7 +4,6 @@
 //   mode 'backdrop' (the title's autopilot battle, silent, no HUD, no voice) | 'play'
 //   runScene(sc, dt, t, step)   one frame: step it (unless frozen), then draw it. The voice is
 //   stepped with the scene, so a paused screen holds its lines.
-import { LEVELS } from '../core/levels.js';
 import { autopilot } from '../core/autopilot.js';
 import { createSession, stepSession } from './session.js';
 import { createView, drawFrame } from './view.js';
@@ -14,12 +13,6 @@ import { play, setBeam } from './audio.js';
 
 const seed = () => crypto.getRandomValues(new Uint32Array(1))[0];
 const BACKDROP_AGAIN = 2.5; // s after the backdrop battle ends before it starts over
-
-// A random wave level, flown by the autopilot behind the logo.
-export function pickBackdrop() {
-  const waves = LEVELS.filter((l) => l.waves);
-  return waves[seed() % waves.length];
-}
 
 export function backdropScene(canvas, level) {
   const view = createView(canvas, level);

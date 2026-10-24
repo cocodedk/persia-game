@@ -3,7 +3,7 @@
 //   bossArt(look, kind)   -> { mod, S, hull, parts } (baked on first call, then kept)
 //     hull  = { body, lights, flash, rage: [canvas | null per phase], x0, y0 } boss-local top-left
 //             (flash: null until hullFlash(B) bakes it; only the dying boss needs it)
-//     parts = { [id]: set }, set = { body, lights, flash, open?, w, h, m, seed, crack, cracks, ... }
+//     parts = { [id]: set }, set = { body, lights, flash, w, h, m, seed, crack, cracks, ... }
 //             drawn at the part's centre; the damage states (cracks.js) are baked on first use
 //   warmBoss(look, kind)  bossArt plus everything the fight will need, the damage states and the hull
 //                         flash included, so nothing is baked mid-fight (createView, on a level with a boss)
@@ -12,8 +12,7 @@
 //                         mirrored for an id ending in R (eyeR from eye), or null
 // A module is { pad?, margin?, margins?: { [id]: px }, crack?, hull(b, l, S),
 //   parts: { [id | base]: (b, l, p, S) } (margin: px of canvas round a part's rect for art that
-//   overhangs it, 34 by default; margins overrides it per part id),
-//   opened?: { [id]: painter } (art once a phase opens the part), rage?: [(l, S) | null per phase]
+//   overhangs it, 34 by default; margins overrides it per part id), rage?: [(l, S) | null per phase]
 //   (extra hull lights that fade in with that phase), live?(ctx, boss, t) (per-frame extras
 //   in boss coordinates, 'lighter', cached sprites only) }.
 // S = { def, pal: look.palette.boss, look, W, H, pad }; b, l are the body and lights contexts.
@@ -49,14 +48,7 @@ function bakePart(mod, p, S, i) {
   const [paint, flip] = painterFor(mod, p.id);
   const [[body, b], [lights, l]] = pair(w, h, w / 2, h / 2, flip);
   paint(b, l, p, S);
-  const set = { body, lights, flash: white(body), w: p.w, h: p.h, m, seed: 31 + i * 17, crack: mod.crack ?? null, cracks: {} };
-  const open = mod.opened?.[p.id];
-  if (open) {
-    const [[ob, obg], [ol, olg]] = pair(w, h, w / 2, h / 2, flip);
-    open(obg, olg, p, S);
-    set.open = { body: ob, lights: ol };
-  }
-  return set;
+  return { body, lights, flash: white(body), w: p.w, h: p.h, m, seed: 31 + i * 17, crack: mod.crack ?? null, cracks: {} };
 }
 
 function bake(look, kind) {
@@ -98,7 +90,6 @@ export function warmBoss(look, kind) {
     cracked(set, 2);
     if (p.armor) exposed(set, look.palette.boss.weak); // a plate cracks open once no weak part is left
     wreck(set);
-    if (set.open) wreck(set, true);
   }
   hullFlash(B);
   return B;

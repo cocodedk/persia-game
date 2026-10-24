@@ -668,20 +668,20 @@ dead code out for the rest of the plan.
   `difficulty()` (`scaled` stays) and every sound no event or screen plays.
 - `LEVELS` and `levelById` go if nothing but tests reads them, and `LEVEL` is imported directly.
 
-- [ ] **Step 1: Write the gate tests in `repo-dead.test.js`.**
+- [x] **Step 1: Write the gate tests in `repo-dead.test.js`.**
   - "every export in src is used": another `src` file imports it by name (or imports the module's
     default, for a default export), or it is used in its own file and a test imports it.
   - "every formation and pattern in kinds.js is flown by level 1 or fired by the giant"
   - "every boss move is one the giant's phases use"
   - "every sound in SFX is named by a play(...) call or an event mapping in src"
-- [ ] **Step 2: Run them.** `npm test` should FAIL, and the failures list the dead code.
-- [ ] **Step 3: Cut until the gate passes.** Delete each item the gate lists, along with its tests
+- [x] **Step 2: Run them.** `npm test` should FAIL, and the failures list the dead code.
+- [x] **Step 3: Cut until the gate passes.** Delete each item the gate lists, along with its tests
   and every branch that existed only for it.
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures. Report
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures. Report
   `git ls-files src | xargs wc -l | tail -1` next to the number from Task 3.
-- [ ] **Step 5: Play level 1 to the end in the browser** (`?debug&auto`). Expect the same game as
+- [x] **Step 5: Play level 1 to the end in the browser** (`?debug&auto`). Expect the same game as
   after Task 7, and no console errors.
-- [ ] **Step 6: Commit.** `git add -A && git commit -m "refactor: cut every kind and export level 1 never uses"`
+- [x] **Step 6: Commit.** `git add -A && git commit -m "refactor: cut every kind and export level 1 never uses"`
 
 ### Task 9: The cinematic open
 

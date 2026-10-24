@@ -3,7 +3,6 @@
 //                                            from the boss fly over it; ruling R27)
 // q is the view's quality level: below 1 the phases' rage overlays (hull-sized, purely decorative
 // glow) are skipped, the biggest fill a boss frame has on a Pi.
-//   partStage(p)                             0 | 1 | 2, how cracked a part is drawn (parts.js)
 // Per frame, bottom to top: the hull and its lights (the phase's own lights cross-fading in on a
 // phase change), the glow round each live weak point, the parts in their states, their lights, the
 // module's live extras, a charge-up on every pending warn (parts.js). Once dying, death.js draws
@@ -12,8 +11,6 @@ import { bossArt } from './bake.js';
 import { drawDying } from './death.js';
 import { halos, partBodies, partLights, warns } from './parts.js';
 import { smooth } from '../../core/math.js';
-
-export { partStage } from './parts.js';
 
 const FADE = 0.9; // s a phase's own lights take to come up
 const bossMemo = new WeakMap(); // boss -> { phase, prev, at }: when the phase last changed

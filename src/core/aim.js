@@ -45,14 +45,14 @@ function openColumns(parts, p) {
   return out;
 }
 
-// The weak parts a shot can reach, or the plates when none is weak (a bare hull takes nothing).
+// The weak parts a shot can reach, or the plates when none is weak.
 function bossTargets(world, muzzle) {
   const parts = liveParts(world);
   if (!parts.length) return [];
-  const open = new Map(parts.filter((p) => p.weak || p.armor).map((p) => [p, openColumns(parts, p)]));
+  const open = new Map(parts.map((p) => [p, openColumns(parts, p)]));
   const reachable = (p) => open.get(p).length > 0;
   const weak = parts.filter((p) => p.weak && reachable(p));
-  const pool = weak.length ? weak : parts.filter((p) => p.armor && reachable(p));
+  const pool = weak.length ? weak : parts.filter(reachable);
   const shifts = bossShifts(world, 45);
   const out = [];
   for (const p of pool) {

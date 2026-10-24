@@ -1,7 +1,7 @@
 // Sound patches of the fight: the ship's gun (the style's signature, varied by power-up), enemy
 // fire, hits and the ship's scrapes (kills by role: sfx-kill.js; pickups: sfx-power.js).
 // A patch is (a, o) -> seconds it rings; a = { ctx, t, out, tail, noise, kit } (audio-kit.js).
-import { tone, hiss, fm, wobble, crush } from './audio-kit.js';
+import { tone, hiss, fm, crush } from './audio-kit.js';
 import { LASER_WARN, LASER_BEAM } from '../core/patterns.js';
 import { kill } from './sfx-kill.js';
 
@@ -20,13 +20,10 @@ function enemy(a, o) {
   const k = kit.pitch * (o.boss ? 0.7 : 1);
   const w = { type: kit.wave, cut: Math.min(kit.cut, 3000), peak: 0.05 };
   switch (o.pattern) {
-    case 'homing': wobble(a, tone(a, { ...w, f0: 330 * k, f1: 250 * k, dur: 0.32 }).frequency, 11, 25, a.t, 0.32); return 0.35;
-    case 'rain': tone(a, { f0: 1300 * k, f1: 420 * k, dur: 0.07, peak: 0.05 }); return 0.1;
     case 'ring': case 'fan':
       tone(a, { ...w, f0: 520 * k, f1: 190 * k, dur: 0.14 });
       tone(a, { ...w, f0: 780 * k, f1: 290 * k, dur: 0.12, peak: 0.03 });
       return 0.18;
-    case 'spiral': tone(a, { ...w, f0: 300 * k, f1: 700 * k, dur: 0.1 }); return 0.13;
     default: tone(a, { ...w, f0: 620 * k, f1: 200 * k, dur: 0.12 }); return 0.15;
   }
 }

@@ -2,8 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { WARN } from '../../src/core/boss-attack.js';
-import { bossDef } from '../../src/core/bosses-data.js';
-import { BOSSES } from '../../src/core/kinds.js';
+import { BOSS_DEFS, bossDef } from '../../src/core/bosses-data.js';
 import { IDLE, TICK, seconds, drain, ofType, shotAt } from './world-kit.js';
 import { bossLevel, bossWorld, part, leave, realLevel } from './boss-kit.js';
 
@@ -14,7 +13,7 @@ const live = (kind, d = 1) => {
 };
 
 test('every attack is announced by a bossWarn at least 0.6 s before its bullets appear', () => {
-  for (const kind of BOSSES) {
+  for (const { kind } of BOSS_DEFS) {
     const w = live(kind);
     const warns = [];
     let fired = 0;
@@ -91,7 +90,7 @@ test('later phases bring minions that fly at the ship, and a carrier among them 
 });
 
 test('the boss stays on screen and above the player zone in every phase of a real fight', () => {
-  for (const kind of BOSSES) {
+  for (const { kind } of BOSS_DEFS) {
     const def = bossDef(kind);
     const w = createWorld(realLevel(kind));
     w.ship.invuln = Infinity;

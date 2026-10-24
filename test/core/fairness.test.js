@@ -2,10 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { IDLE, TICK, level, wave, input, step, seconds, playing, drain, ofType, bulletAt } from './world-kit.js';
-import { bossLevel, bossWorld, leave, part, shotOn, realLevel } from './boss-kit.js';
+import { bossLevel, bossWorld, leave, part, shotOn } from './boss-kit.js';
 
-// Small fairness rules (task 13a): near misses that end early still count (wipes do not, R37),
-// minions come only from parts still standing, and gunner minions shoot, but not point blank.
+// Small fairness rules (task 13a): near misses that end early still count (wipes do not, R37), and
+// minions come only from parts still standing.
 
 test('a bullet that runs out of life inside the near band is still a near miss', () => {
   const w = playing(level([wave()]));
@@ -71,27 +71,4 @@ test('a destroyed part launches no minions; a live one still does', () => {
     for (const a of w.aliens) seen.add(a.species);
   }
   assert.deepEqual([...seen], ['cat']);
-});
-
-// A gunner minion held `dy` px above the ship (negative: below it) for 20 s: how often it fires.
-function minionShots(dy) {
-  const w = createWorld(realLevel('giant'));
-  w.ship.invuln = Infinity;
-  while (w.state !== 'play' || w.boss.enter > 0) stepWorld(w, TICK, IDLE);
-  const m = { id: 999, role: 'gunner', x: 0, y: 0, hp: 2, maxHp: 2, slot: null, mode: 'dive', t: 0, dive: null, minion: true, vx: 0 };
-  w.aliens.push(m);
-  let n = 0;
-  for (let i = 0; i < 60 * 20; i++) {
-    Object.assign(m, { x: w.ship.x + 40, y: w.ship.y - dy, hp: 2 });
-    stepWorld(w, TICK, IDLE);
-    n += w.events.filter((e) => e.type === 'fire' && e.id === 999).length;
-    w.events.length = 0;
-  }
-  return n;
-}
-
-test('a gunner minion holds its fire inside 180 px of the ship, and once it is below the ship', () => {
-  assert.ok(minionShots(400) > 0, 'it fires from afar');
-  assert.equal(minionShots(150), 0, 'not point blank');
-  assert.equal(minionShots(-60), 0, 'not from below');
 });

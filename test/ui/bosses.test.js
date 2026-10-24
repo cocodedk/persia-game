@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { BOSS_DEFS } from '../../src/core/bosses-data.js';
 import { CHAIN } from '../../src/core/boss-phase.js';
 import { BOSS_ART, painterFor } from '../../src/ui/bosses/bake.js';
-import { partStage } from '../../src/ui/bosses/index.js';
+import { partStage } from '../../src/ui/bosses/parts.js';
 import { collapse } from '../../src/ui/bosses/death.js';
 import giant from '../../src/ui/bosses/giant.js';
 

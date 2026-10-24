@@ -15,7 +15,7 @@ test('bossWarn: a charge glow on the firing part that builds until the shot, plu
 });
 
 test('bossPhase: a white-out blink, a wide shockwave, sparks, smoke and a shake', () => {
-  const fx = react({ type: 'bossPhase', kind: 'giant', phase: 1, x: 960, y: 250, hp: 40, open: [] });
+  const fx = react({ type: 'bossPhase', kind: 'giant', phase: 1, x: 960, y: 250, hp: 40 });
   assert.ok(fx.flashes.some((f) => f.full));
   assert.ok(fx.rings[0].maxR > 500);
   assert.ok(fx.shake >= 15);

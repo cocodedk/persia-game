@@ -2,13 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
 import { hurtPart } from '../../src/core/boss-hit.js';
-import { BOSSES } from '../../src/core/kinds.js';
-import { bossDef } from '../../src/core/bosses-data.js';
+import { BOSS_DEFS, bossDef } from '../../src/core/bosses-data.js';
 import { step, seconds, drain, ofType } from './world-kit.js';
 import { bossLevel, bossWorld, part, shotOn, leave } from './boss-kit.js';
 
 test('every boss level spawns its boss: parts copied from the definition, hp the sum of the parts', () => {
-  for (const kind of BOSSES) {
+  for (const { kind } of BOSS_DEFS) {
     const w = createWorld(bossLevel(kind), 1);
     const b = w.boss;
     assert.equal(b.kind, kind);
@@ -36,16 +35,15 @@ test('the boss flies in during the intro and cannot be hurt until it has arrived
   assert.equal(w.boss.enter, 0);
 });
 
-test('a weak part takes full damage, an armour plate 25 %, and a bare hull none', () => {
+test('a weak part takes full damage and an armour plate 25 %', () => {
   const w = bossWorld('giant');
-  const [eye, paw, brow] = ['eyeL', 'pawL', 'brow'].map((id) => part(w, id));
-  Object.assign(brow, { weak: false, armor: false }); // a bare hull
-  const before = [eye.hp, paw.hp, brow.hp];
-  for (const p of [eye, paw, brow]) shotOn(w, p);
+  const [eye, paw] = ['eyeL', 'pawL'].map((id) => part(w, id));
+  const before = [eye.hp, paw.hp];
+  for (const p of [eye, paw]) shotOn(w, p);
   step(w);
-  assert.deepEqual([eye.hp, paw.hp, brow.hp], [before[0] - 1, before[1] - 0.25, before[2]]);
+  assert.deepEqual([eye.hp, paw.hp], [before[0] - 1, before[1] - 0.25]);
   const hits = ofType(drain(w), 'hit').filter((e) => e.role === 'boss');
-  assert.deepEqual(hits.map((e) => [e.part, e.dmg]).sort(), [['brow', 0], ['eyeL', 1], ['pawL', 0.25]]);
+  assert.deepEqual(hits.map((e) => [e.part, e.dmg]).sort(), [['eyeL', 1], ['pawL', 0.25]]);
   assert.equal(w.shots.filter((s) => s.life > 0).length, 0, 'every shot was spent');
   assert.equal(w.boss.hp, w.boss.maxHp - 1.25);
 });
@@ -84,18 +82,6 @@ test('when the last weak part falls the plates crack open: bossExpose once, and 
   assert.equal(paw.hp, hp - 1, 'a cracked plate takes a whole point');
   seconds(w, 3);
   assert.equal(ofType(drain(w), 'bossExpose').length, 0, 'once per occurrence');
-});
-
-test('cracking leaves a bare hull alone', () => {
-  const w = bossWorld('giant');
-  const brow = Object.assign(part(w, 'brow'), { weak: false, armor: false }); // a bare hull
-  part(w, 'eyeL').hp = 0;
-  part(w, 'eyeR').hp = 0;
-  step(w);
-  hurtPart(w, part(w, 'mouth'), 1000);
-  const ev = ofType(drain(w), 'bossExpose');
-  assert.deepEqual(ev.map((e) => e.parts), [['pawL', 'pawR']]);
-  assert.deepEqual([brow.weak, brow.cracked], [false, false], 'the brow is no plate');
 });
 
 test('a destroyed part reports itself and stops blocking', () => {

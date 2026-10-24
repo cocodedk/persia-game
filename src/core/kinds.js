@@ -1,4 +1,4 @@
-// The shared vocabulary: every name a level, a formation, a pattern, a boss or a species may use.
+// The shared vocabulary: the roles aliens fight as, the powers, the species, and the playfield.
 
 // fire = shots per second at difficulty 0.
 export const ROLES = {
@@ -9,10 +9,7 @@ export const ROLES = {
   carrier: { hp: 1, score: 250, fire: 0 },
 };
 
-export const FORMATIONS = ['grid', 'sway', 'dive', 'spiral', 'split', 'escort', 'rain', 'orbit'];
-export const PATTERNS = ['aimed', 'fan', 'ring', 'spiral', 'laser', 'rain', 'homing'];
 export const POWERS = ['spread', 'laser', 'rapid', 'shield'];
-export const BOSSES = ['giant'];
 
 // The animal an alien is drawn as and named by; its value is the invaders role it fights as.
 export const SPECIES = { dog: 'grunt', cat: 'diver', bird: 'diver', fish: 'gunner', horse: 'gunner', cow: 'armored', rabbit: 'carrier' };

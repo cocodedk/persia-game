@@ -26,16 +26,6 @@ test('a bomb takes exactly 8 % of the boss\'s max hp, shared equally, plates and
   assert.ok(hits.every((e) => Math.abs(e.dmg - share) < 1e-9), 'raw damage, whatever the rule');
 });
 
-test('a bare hull takes no part of the bomb, and the others share it', () => {
-  const w = bossWorld('giant');
-  const brow = Object.assign(part(w, 'brow'), { weak: false, armor: false }); // a bare hull
-  bomb(w);
-  assert.equal(brow.hp, brow.max);
-  close(w.boss.maxHp - w.boss.hp, w.boss.maxHp * 0.08);
-  const share = (w.boss.maxHp * 0.08) / 5;
-  lost(w, ['eyeL', 'eyeR', 'mouth', 'pawL', 'pawR']).forEach((l) => close(l, share));
-});
-
 test('a part with less hp than its share gives the rest to the next, weak parts first', () => {
   const w = bossWorld('giant');
   const share = (w.boss.maxHp * 0.08) / 6;

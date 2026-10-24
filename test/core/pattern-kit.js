@@ -9,5 +9,5 @@ export const AIM = angleTo(FROM, TARGET);
 export const P = { speed: 400 };
 export const heading = (b) => Math.atan2(b.vy, b.vx);
 export const speedOf = (b) => Math.hypot(b.vx, b.vy);
-export { wrapAngle as wrap } from '../../src/core/math.js';
+export const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a)); // an angle folded into -PI..PI
 export const emit = (pattern, p = P, seed = 1) => emitPattern(pattern, FROM, TARGET, p, createRng(seed));

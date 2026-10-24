@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { eventSounds, SILENT } from '../../src/ui/sounds.js';
+import { eventSounds } from '../../src/ui/sounds.js';
 import { SFX } from '../../src/ui/sfx.js';
 import { STYLES, SCALES, NOTES, kitFor, degreeMidi, midiHz } from '../../src/ui/sound-data.js';
 import { LOOK } from '../../src/ui/looks/index.js';
@@ -12,6 +12,14 @@ const coreDir = fileURLToPath(new URL('../../src/core/', import.meta.url));
 // Every event type the core emits, read from its emit(world, '<type>', ...) calls.
 const EMITTED = [...new Set(readdirSync(coreDir).flatMap((f) =>
   [...readFileSync(coreDir + f, 'utf8').matchAll(/emit\(world, '(\w+)'/g)].map((m) => m[1])))];
+
+// The events eventSounds leaves silent on purpose, and why.
+const SILENT = {
+  failed: 'the failed screen plays the stinger',
+  cleared: 'the results screen plays the stinger after the slow motion',
+  wave: 'the voice speaks it (voice.js)',
+  boss: 'the voice speaks it (voice.js)',
+};
 
 test('every event the core emits makes a sound that exists, or is silent on purpose', () => {
   assert.ok(EMITTED.length >= 20, `found ${EMITTED.length} event types`);

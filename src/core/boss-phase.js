@@ -7,21 +7,12 @@ import { emit } from './util.js';
 const BOSS_SCORE = 10000;
 export const CHAIN = 3; // s of destruction chain between the death and the clear
 
-// Begin phase `i`: fresh attack and minion countdowns, and the parts it opens (those become weak).
-// Returns the ids of the parts it opened.
+// Begin phase `i`: fresh attack and minion countdowns.
 export function beginPhase(b, i) {
   const ph = bossDef(b.kind).phases[i];
   b.phase = i;
   b.cd = ph.attacks.map((a, k) => a.every * (0.55 + 0.2 * (k % 3)));
   b.mcd = (ph.minions ?? []).map((m) => m.every * 0.5);
-  const opened = ph.open ?? [];
-  for (const p of b.parts) {
-    if (opened.includes(p.id)) {
-      p.weak = true;
-      p.open = true;
-    }
-  }
-  return opened;
 }
 
 // The boss is dead: its score, an end to everything it was throwing, and the chain begins.
@@ -42,7 +33,7 @@ function die(world, b) {
 
 // When no weak point is left alive the plates crack open: every live armor part becomes weak (and
 // is no longer armor), so a fight never turns into a grind at 25 % with nothing to aim at. One
-// bossExpose per occurrence names the parts. A bare hull is not a plate and stays shut.
+// bossExpose per occurrence names the parts.
 function crack(world, b) {
   if (b.parts.some((p) => p.hp > 0 && p.weak)) return;
   const plates = b.parts.filter((p) => p.hp > 0 && p.armor);
@@ -64,8 +55,8 @@ export function syncBoss(world) {
   b.hp = b.parts.reduce((n, p) => n + p.hp, 0);
   const phases = bossDef(b.kind).phases;
   while (b.phase < phases.length - 1 && b.hp / b.maxHp <= phases[b.phase].until) {
-    const open = beginPhase(b, b.phase + 1);
-    emit(world, 'bossPhase', { kind: b.kind, phase: b.phase, x: b.x, y: b.y, hp: b.hp, open });
+    beginPhase(b, b.phase + 1);
+    emit(world, 'bossPhase', { kind: b.kind, phase: b.phase, x: b.x, y: b.y, hp: b.hp });
   }
   if (b.hp <= 0) die(world, b);
   else crack(world, b);

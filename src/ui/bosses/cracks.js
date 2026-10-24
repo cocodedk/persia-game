@@ -90,12 +90,9 @@ export function exposed(set, weak) {
 }
 
 // Destroyed: the body charred nearly black, scorched, its cracks glowing ember-orange (on the body).
-// `open`: the part was destroyed open (a port a phase opened), so it is the open art that chars,
-// not the closed doors.
-export function wreck(set, open = false) {
-  const key = open && set.open ? 'openWreck' : 'wreck';
-  if (set[key]) return set[key];
-  const [c, g] = over(set, key === 'openWreck' ? set.open.body : set.body);
+export function wreck(set) {
+  if (set.wreck) return set.wreck;
+  const [c, g] = over(set, set.body);
   g.fillStyle = 'rgba(14,8,6,0.74)';
   g.fillRect(-c.width / 2, -c.height / 2, c.width, c.height);
   for (let i = 0; i < 4; i++) {
@@ -110,6 +107,6 @@ export function wreck(set, open = false) {
     path(g, pts, true);
     line(g, rgba(shade('#ff6a1a', 0.1), 0.85), 1.4);
   }
-  set[key] = c;
+  set.wreck = c;
   return c;
 }

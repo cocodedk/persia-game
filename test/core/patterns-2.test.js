@@ -1,58 +1,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PATTERNS } from '../../src/core/kinds.js';
-import { angleTo } from '../../src/core/math.js';
-import { stepBullet, laserSegment, laserHits, LASER_WARN, LASER_BEAM } from '../../src/core/patterns.js';
-import { FROM, TARGET, AIM, heading, speedOf, wrap, emit } from './pattern-kit.js';
+import { stepBullet, laserSegment, laserHits, LASER_WARN, LASER_BEAM, EMIT } from '../../src/core/patterns.js';
+import { FROM, AIM, emit } from './pattern-kit.js';
 
 test('stepBullet integrates position and counts life down', () => {
   const [b] = emit('aimed');
   const { x, y, vx, vy, life } = b;
-  stepBullet(b, 0.5, {});
+  stepBullet(b, 0.5);
   assert.ok(Math.abs(b.x - (x + vx * 0.5)) < 1e-9 && Math.abs(b.y - (y + vy * 0.5)) < 1e-9);
   assert.ok(Math.abs(b.life - (life - 0.5)) < 1e-12);
 });
 
-test('homing: slow, 4 s of life, turns toward the ship', () => {
-  const [b] = emit('homing');
-  assert.equal(b.life, 4);
-  assert.ok(Math.abs(b.turn - Math.PI / 3) < 1e-12, 'turn rate is 60 degrees a second');
-  assert.ok(speedOf(b) < 400);
-  const speed = speedOf(b);
-  const ship = { x: 100, y: 900 };
-  const before = Math.abs(wrap(angleTo(b, ship) - heading(b)));
-  stepBullet(b, 1 / 60, { ship });
-  assert.ok(Math.abs(wrap(angleTo(b, ship) - heading(b))) < before, 'closer to facing the ship');
-  assert.ok(Math.abs(speedOf(b) - speed) < 1e-9, 'turning keeps the speed');
-});
-
-test('homing never turns faster than 60 degrees a second, and settles on a reachable target', () => {
-  const b = { ...emit('homing')[0], x: 960, y: 500, vx: 100, vy: 0 };
-  const behind = { x: 960 + Math.cos(2.5) * 1e5, y: 500 + Math.sin(2.5) * 1e5 };
-  const start = heading(b);
-  for (let i = 0; i < 30; i++) {
-    const h = heading(b);
-    stepBullet(b, 1 / 60, { ship: behind });
-    assert.ok(Math.abs(wrap(heading(b) - h)) <= Math.PI / 3 / 60 + 1e-9, `tick ${i}`);
-  }
-  const swept = Math.abs(wrap(heading(b) - start));
-  assert.ok(Math.abs(swept - Math.PI / 6) < 1e-6, `half a second turns 30 degrees, got ${swept}`);
-  const c = { ...emit('homing')[0], x: 0, y: 0, vx: 100, vy: 0 };
-  stepBullet(c, 1 / 60, { ship: { x: 1000, y: 5 } });
-  assert.ok(Math.abs(heading(c) - angleTo(c, { x: 1000, y: 5 })) < 0.02, 'no overshoot on a near-aligned target');
-});
-
-test('homing with no ship just flies straight', () => {
-  const [b] = emit('homing');
-  const h = heading(b);
-  stepBullet(b, 0.1, {});
-  assert.equal(heading(b), h);
-});
-
 test('life counts down to zero on every pattern', () => {
-  for (const name of PATTERNS) {
+  for (const name of Object.keys(EMIT)) {
     for (const b of emit(name)) {
-      for (let i = 0; i < 60 * 12; i++) stepBullet(b, 1 / 60, { ship: TARGET });
+      for (let i = 0; i < 60 * 12; i++) stepBullet(b, 1 / 60);
       assert.ok(b.life <= 0, name);
     }
   }
@@ -70,17 +32,17 @@ test('laser is one stationary warning line for 0.8 s, then a 0.6 s beam, aim fix
   const onLine = { x: 900, y: 600 };
   const ship = { ...onLine };
   for (let i = 0; i < 47; i++) {
-    stepBullet(b, 1 / 60, { ship: { x: 100, y: 100 } });
+    stepBullet(b, 1 / 60);
     assert.ok(!laserHits(b, ship, 14), 'harmless during the warning');
   }
   assert.deepEqual([b.x, b.y], [FROM.x, FROM.y], 'a laser never moves');
   assert.ok(Math.abs(Math.atan2(b.vy, b.vx) - AIM) < 1e-12, 'a laser never re-aims');
-  for (let i = 0; i < 3; i++) stepBullet(b, 1 / 60, {});
+  for (let i = 0; i < 3; i++) stepBullet(b, 1 / 60);
   assert.equal(b.warn, 0);
   assert.ok(laserHits(b, ship, 14), 'a beam hits a ship on the line');
-  for (let i = 0; i < 33; i++) stepBullet(b, 1 / 60, {});
+  for (let i = 0; i < 33; i++) stepBullet(b, 1 / 60);
   assert.ok(b.life <= 1e-9 || laserHits(b, ship, 14), 'the beam lasts about 0.6 s');
-  for (let i = 0; i < 3; i++) stepBullet(b, 1 / 60, {});
+  for (let i = 0; i < 3; i++) stepBullet(b, 1 / 60);
   assert.ok(b.life <= 0 && !laserHits(b, ship, 14), 'then it is gone');
 });
 

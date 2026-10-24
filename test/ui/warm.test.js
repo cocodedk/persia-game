@@ -31,7 +31,6 @@ test('warmBoss bakes every damage state the fight can show, and the hull flash; 
       const set = B.parts[p.id];
       assert.ok(set.cracks[1] && set.cracks[2] && set.wreck, `${def.kind}.${p.id} cracked and wreck`);
       if (p.armor) assert.ok(set.exposed, `${def.kind}.${p.id} exposed`);
-      if (set.open) assert.ok(set.openWreck, `${def.kind}.${p.id} wrecked open`);
     }
   }
 });

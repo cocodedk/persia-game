@@ -7,9 +7,9 @@ import { emit } from './util.js';
 
 // A boss fight. world.boss holds only data (the static layout is looked up by kind in bossDef):
 //   { kind, x, y, hp, maxHp, phase, parts, clock, enter, dying, blast, cd, mcd, warns }
-//   parts[] = { id, dx, dy, w, h, hp, max, weak, armor, open, cracked, x, y, part: true, burn }
-//     (x, y is the part's absolute centre, kept current every tick; open marks a part a phase opened,
-//     cracked a plate that became weak because no weak point was left: boss-phase.js)
+//   parts[] = { id, dx, dy, w, h, hp, max, weak, armor, cracked, x, y, part: true, burn }
+//     (x, y is the part's absolute centre, kept current every tick; cracked marks a plate that
+//     became weak because no weak point was left: boss-phase.js)
 //   clock the boss's own movement clock; enter seconds of flying in left (0 = fighting);
 //   dying null while alive, then the seconds of destruction chain left; blast the countdown to the
 //   next blast of that chain; cd/mcd the countdowns of this phase's attacks and minion launches;
@@ -28,7 +28,7 @@ export function spawnBoss(world, kind) {
   const def = bossDef(kind);
   const b = {
     kind, ...startAt(def), hp: def.maxHp, maxHp: def.maxHp, phase: 0,
-    parts: def.parts.map((p) => ({ ...p, max: p.hp, open: false, cracked: false, x: 0, y: 0, part: true, burn: 0 })),
+    parts: def.parts.map((p) => ({ ...p, max: p.hp, cracked: false, x: 0, y: 0, part: true, burn: 0 })),
     clock: 0, enter: ENTER, dying: null, blast: 0, cd: [], mcd: [], warns: [],
   };
   beginPhase(b, 0);

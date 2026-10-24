@@ -1,21 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { root, walk, stripComments } from './repo-kit.js';
 
-const root = fileURLToPath(new URL('..', import.meta.url));
 const SCHEME = ['http', 'https'].map((s) => `${s}://`);
-
-function walk(path, out = []) {
-  if (!existsSync(path)) return out;
-  if (statSync(path).isDirectory()) {
-    for (const name of readdirSync(path)) walk(join(path, name), out);
-  } else {
-    out.push(path);
-  }
-  return out;
-}
 
 const pages = readdirSync(root).filter((n) => n.endsWith('.html')).map((n) => join(root, n));
 const checked = [...walk(join(root, 'src')), ...walk(join(root, 'test')), ...pages];
@@ -27,34 +16,6 @@ test('every file in src, test and the root html pages is under 200 lines', () =>
     assert.ok(lines < 200, `${f} has ${lines} lines`);
   }
 });
-
-// Drop line and block comments so prose can say "window" or "document". Strings are kept as they are
-// (two slashes inside one are not a comment); the rare regex literal holding a quote can only make
-// this keep more text, never hide real code.
-function stripComments(src) {
-  let out = '';
-  let i = 0;
-  while (i < src.length) {
-    const c = src[i];
-    const pair = src.slice(i, i + 2);
-    if (pair === '//') {
-      while (i < src.length && src[i] !== '\n') i++;
-    } else if (pair === '/*') {
-      const end = src.indexOf('*/', i + 2);
-      i = end < 0 ? src.length : end + 2;
-      out += ' ';
-    } else if (c === '"' || c === "'" || c === '`') {
-      const start = i++;
-      while (i < src.length && src[i] !== c && (c === '`' || src[i] !== '\n')) i += src[i] === '\\' ? 2 : 1;
-      i++;
-      out += src.slice(start, i);
-    } else {
-      out += c;
-      i++;
-    }
-  }
-  return out;
-}
 
 // Real uses of the browser or of ambient randomness and time: `window.x`, `document[x]`, Math.random,
 // Date.now. The bare words, and any identifier that merely contains them, are fine.

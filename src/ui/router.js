@@ -9,12 +9,12 @@
 // Every route away from a level goes through leave(): the old scene stops stepping at once (the
 // loop only runs app.scene) and the level's own sounds (the laser hum) stop with it, as do its voice
 // lines and its word on screen.
-import { LEVELS } from '../core/levels.js';
+import { LEVEL } from '../core/levels.js';
 import { LOOK } from './looks/index.js';
 import { play, duck, setBeam } from './audio.js';
 import { setWorld } from './music.js';
 import { resetInput } from './input.js';
-import { backdropScene, pickBackdrop, playScene } from './scenes.js';
+import { backdropScene, playScene } from './scenes.js';
 import { titleScreen } from './screens/title.js';
 import { cardScreen } from './screens/card.js';
 import { pauseScreen } from './screens/pause.js';
@@ -38,10 +38,9 @@ export function createRouter({ canvas, stage, input, voice }) {
 
   r.goTitle = () => {
     leave('title');
-    const items = [{ label: 'Play', pick: () => r.startLevel(LEVELS[0]) }];
-    const level = app.backdrop?.level ?? pickBackdrop();
+    const items = [{ label: 'Play', pick: () => r.startLevel(LEVEL) }];
     setWorld(LOOK);
-    stage.show(titleScreen({ items, nowShowing: level.name }));
+    stage.show(titleScreen({ items, nowShowing: LEVEL.name }));
     if (app.backdrop) {
       app.scene = app.backdrop;
       return;
@@ -49,7 +48,7 @@ export function createRouter({ canvas, stage, input, voice }) {
     const token = app.token; // the first time, the battle is baked once the menu has painted
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (token !== app.token) return; // already gone (Play pressed at once): bake it next time
-      app.backdrop = backdropScene(canvas, level);
+      app.backdrop = backdropScene(canvas, LEVEL);
       app.scene = app.backdrop;
     }));
   };

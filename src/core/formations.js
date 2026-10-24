@@ -27,12 +27,8 @@ export const HUD_CLEAR = HUD_BOTTOM + ALIEN_R;
 const SPIRAL_Y = 8;
 const DIVE_Y = 14;
 const SWAY_Y = 22;
-const ORBIT_Y = 32;
-const SPLIT_Y = 70;
 const ESCORT_R = 40;
-const REACH = {
-  grid: 0, rain: 0, spiral: 2 * SPIRAL_Y, dive: 2 * DIVE_Y, sway: 2 * SWAY_Y, orbit: 2 * ORBIT_Y, split: SPLIT_Y, escort: 2 * ESCORT_R,
-};
+const REACH = { grid: 0, spiral: 2 * SPIRAL_Y, dive: 2 * DIVE_Y, sway: 2 * SWAY_Y, escort: 2 * ESCORT_R };
 const HALF_MAX = 560; // widest half-width of a wave: the rest is the grid's sideways room
 const SPAN_Y = 3 * ROW_GAP; // tallest block of rows, so even a deep wave stays above the floor
 
@@ -50,7 +46,7 @@ export function makeSlots(wave) {
   const { rows, cols, roles } = wave;
   const gx = cols > 1 ? Math.min(COL_GAP, (2 * HALF_MAX) / (cols - 1)) : 0;
   const gy = rows > 1 ? Math.min(ROW_GAP, SPAN_Y / (rows - 1)) : 0;
-  const top = Math.max(TOP, HUD_CLEAR + (REACH[wave.formation] ?? 0));
+  const top = Math.max(TOP, HUD_CLEAR + REACH[wave.formation]);
   const slots = [];
   for (let row = 0; row < rows; row++) {
     const species = wave.species?.[row] ?? null;
@@ -73,7 +69,6 @@ const swing = (a, w, t, phase) => a * (Math.sin(w * t + phase) - Math.sin(phase)
 // slot starts.
 const loop = (rx, ry, th, phase) =>
   ({ x: rx * (Math.cos(th + phase) - Math.cos(phase)), y: ry * (Math.sin(th + phase) - Math.sin(phase)) });
-const sideOf = (slot) => (slot.sx < MID_X ? -1 : slot.sx > MID_X ? 1 : slot.row % 2 ? 1 : -1);
 
 // The classic march: sweep to an edge, drop 24 px while turning, sweep back. The drop is spread over
 // GRID_SLIDE px of travel and capped, so the lowest row of any wave never goes below y 560.
@@ -97,21 +92,6 @@ function sway(slot, t, ctx) {
   return { x: slot.sx + ctx.dir * swing(130, w, t, -slot.row * 0.5), y: slot.sy + swing(SWAY_Y, 2 * w, t, slot.col * 0.7) };
 }
 
-// Every alien circles its own home; the whole ring also drifts slowly sideways.
-function orbit(slot, t, ctx) {
-  const th = TAU * 0.3 * ctx.speed * t * ctx.dir;
-  const phase = slot.col * 0.9 + slot.row * 1.3;
-  const drift = swing(90, TAU * 0.12 * ctx.speed, t, 0);
-  const o = loop(46, ORBIT_Y, th, phase);
-  return { x: slot.sx + drift + o.x, y: slot.sy + o.y };
-}
-
-// Columns fall one after another, 140 px down and back, a column's delay set by its place in line.
-function rain(slot, t, ctx) {
-  const a = Math.max(0, t * ctx.speed - slot.col * 0.18);
-  return { x: slot.sx + swing(14, TAU * 0.5 * ctx.speed, t, slot.col), y: slot.sy + 70 * (1 - Math.cos(TAU * 0.28 * a)) };
-}
-
 // Carriers sit in the middle and bob; everyone else circles them while the group sways.
 function escort(slot, t, ctx) {
   const x = slot.sx + ctx.dir * swing(110, TAU * 0.18 * ctx.speed, t, 0);
@@ -120,12 +100,6 @@ function escort(slot, t, ctx) {
   const phase = slot.col * 2.1 + slot.row * 1.1;
   const o = loop(ESCORT_R, ESCORT_R, th, phase);
   return { x: x + o.x, y: slot.sy + o.y };
-}
-
-// The formation parts down the middle: each half bows out and up along an arc, then rejoins.
-function split(slot, t, ctx) {
-  const p = (1 - Math.cos(TAU * 0.16 * ctx.speed * t)) / 2;
-  return { x: slot.sx + sideOf(slot) * 150 * p, y: slot.sy - SPLIT_Y * Math.sin(Math.PI * p) };
 }
 
 // Divers hover; the actual swoop is diveCurve, driven by the aliens module.
@@ -138,7 +112,8 @@ function spiral(slot, t, ctx) {
   return { x: slot.sx + ctx.dir * swing(24, TAU * 0.15 * ctx.speed, t, 0), y: slot.sy + swing(SPIRAL_Y, TAU * 0.4 * ctx.speed, t, slot.col * 0.6) };
 }
 
-const MOTION = { grid, sway, dive, spiral, split, escort, rain, orbit };
+// Every formation there is, by name: the hold motions the waves of levels.js fly.
+export const MOTION = { grid, sway, dive, spiral, escort };
 
 export function slotPosition(formation, slot, t, ctx) {
   const move = MOTION[formation];

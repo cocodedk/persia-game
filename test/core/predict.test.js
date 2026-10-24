@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
 import { LEVEL } from '../../src/core/levels.js';
-import { BOSSES } from '../../src/core/kinds.js';
+import { BOSS_DEFS } from '../../src/core/bosses-data.js';
 import { posAt, bossShifts } from '../../src/core/predict.js';
 import { step } from './world-kit.js';
 import { leave, realLevel } from './boss-kit.js';
@@ -71,7 +71,7 @@ test('posAt forecasts a wave that flies in after the first one', () => {
 });
 
 test('bossShifts forecasts the whole boss, in every phase style, to a hundredth of a pixel', () => {
-  for (const kind of BOSSES) {
+  for (const { kind } of BOSS_DEFS) {
     const world = still(realLevel(kind));
     step(world, 125);
     for (let n = 0; n < 12; n++) {

@@ -82,8 +82,8 @@ function settle(world) {
 export function stepPlay(world, dt, input) {
   const slow = enemyDt(world, dt); // enemy bullets, aliens and the boss move in this time
   tickCombo(world, dt);
-  for (const s of world.shots) stepBullet(s, dt, world);
-  for (const b of world.bullets) stepBullet(b, slow, world);
+  for (const s of world.shots) stepBullet(s, dt);
+  for (const b of world.bullets) stepBullet(b, slow);
   stepShip(world, dt, input);
   stepAliens(world, slow);
   stepBoss(world, slow);

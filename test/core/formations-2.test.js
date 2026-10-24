@@ -1,8 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { FORMATIONS } from '../../src/core/kinds.js';
 import { makeSlots, entryPosition, diveCurve } from '../../src/core/formations.js';
+import { ENTRY } from '../../src/core/formations-2.js';
 import { wave, SHAPES } from './wave-shapes.js';
+
+const FORMATIONS = Object.keys(ENTRY);
 
 test('entry starts off-screen and ends exactly on the slot, for every formation', () => {
   for (const f of FORMATIONS) {

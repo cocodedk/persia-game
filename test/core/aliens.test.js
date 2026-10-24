@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
 import { ROLES } from '../../src/core/kinds.js';
-import { slotPosition } from '../../src/core/formations.js';
+import { slotPosition, MOTION } from '../../src/core/formations.js';
 import { level, wave, step, seconds, playing, drain, ofType, shotAt } from './world-kit.js';
 
 const mixed = ['grunt', 'diver', 'gunner', 'armored', 'carrier'];
@@ -43,7 +43,7 @@ test('entry lasts 1.5 s, then every alien holds on its slot', () => {
 });
 
 test('entry hands over to hold without a jump, for every formation', () => {
-  for (const f of ['grid', 'sway', 'dive', 'spiral', 'split', 'escort', 'rain', 'orbit']) {
+  for (const f of Object.keys(MOTION)) {
     const w = createWorld(level([wave({ formation: f, rows: 2, cols: 5, roles: ['grunt', 'carrier'] })]), 1);
     step(w, 80);
     let prev = w.aliens.map((a) => ({ x: a.x, y: a.y }));

@@ -1,8 +1,8 @@
 import { ROLES, WIDTH, EDGE } from './kinds.js';
-import { addBullets, fire } from './aliens.js';
+import { addBullets } from './aliens.js';
 import { emitPattern } from './patterns.js';
 import { bossDef } from './bosses-data.js';
-import { clamp, dist2 } from './math.js';
+import { clamp } from './math.js';
 import { emit, prune } from './util.js';
 
 // What a boss throws. An attack is a countdown per phase entry; when it runs out the part warns
@@ -71,16 +71,9 @@ function launch(world, b, m) {
   }
 }
 
-// Gunner minions shoot as gunners do in a wave, plain aimed shots (the boss fight has no wave pattern);
-// the other roles only fly at the ship. A gunner diving at the ship holds its fire once it is within
-// POINT_BLANK of it, and once it is level with it or below: a shot from there could not be dodged.
-const POINT_BLANK = 180; // px
-const gunnerOf = (ship) => (a) =>
-  a.minion && a.role === 'gunner' && a.hp > 0 && a.y < ship.y && dist2(ship, a) >= POINT_BLANK ** 2;
-
+// Each minion group of the phase launches when its countdown runs out. Minions never shoot.
 export function stepMinions(world, b, def, dt) {
   if (world.scale.fireMult <= 0) return;
-  fire(world, dt, 'aimed', gunnerOf(world.ship));
   const list = def.phases[b.phase].minions ?? [];
   list.forEach((m, i) => {
     b.mcd[i] -= dt;

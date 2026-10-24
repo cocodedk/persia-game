@@ -120,13 +120,13 @@ function startDives(world, dt) {
   a.dive = { fx: a.x, fy: a.y, ax: world.ship.x, ay: world.ship.y };
 }
 
-// Each alien (each that `shoots`, for boss minions) fires ROLES[role].fire * fireMult times a
-// second, `pattern` at the ship: the wave's pattern, or the boss fight's plain aimed shot.
-export function fire(world, dt, pattern, shoots = null) {
+// Each alien of the wave fires ROLES[role].fire * fireMult times a second, the wave's `pattern` at
+// the ship.
+function fire(world, dt, pattern) {
   const { bullets, ship, scale } = world;
   for (const a of world.aliens) {
     const rate = ROLES[a.role].fire * scale.fireMult;
-    if (rate <= 0 || (shoots && !shoots(a)) || bullets.length >= MAX_BULLETS || rand(world.rng) >= rate * dt) continue;
+    if (rate <= 0 || bullets.length >= MAX_BULLETS || rand(world.rng) >= rate * dt) continue;
     addBullets(world, emitPattern(pattern, a, ship, { speed: scale.bulletSpeed }, world.rng));
     emit(world, 'fire', { side: 'enemy', id: a.id, role: a.role, x: a.x, y: a.y, pattern });
   }

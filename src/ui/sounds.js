@@ -1,18 +1,11 @@
 // Core events to sounds. DOM-free: `play(name, opts)` is passed in (audio.js play in the game), so
-// the mapping is tested in node. Every event type the core emits is either sounded here or listed
-// in SILENT with the reason.
+// the mapping is tested in node. Every event type the core emits is either sounded here or left
+// silent on purpose (sounds.test.js lists those, with the reason).
 //   eventSounds(events, world, play)   once per tick, with that tick's events
 // Alien deaths sound through `kill` (by role, with the combo); their `explode` is the same moment, so
 // only blasts with no kill of their own sound: the boss's death chain (swelling as it runs, k 0..1),
 // the ship's wreck (size 2) and the final white-out blast (size 3).
 import { CHAIN } from '../core/boss-phase.js';
-
-export const SILENT = {
-  failed: 'the failed screen plays the stinger',
-  cleared: 'the results screen plays the stinger after the slow motion',
-  wave: 'the voice speaks it (voice.js)',
-  boss: 'the voice speaks it (voice.js)',
-};
 
 const at = (e) => ({ x: e.x });
 // The pickups swept up at the clear (R51) all land on one tick: each chimes this long after the last,
@@ -30,7 +23,7 @@ export function eventSounds(events, world, play) {
         else play('enemyShot', { pattern: e.pattern, boss: e.role === 'boss', x: e.x });
         break;
       case 'hit':
-        if (e.role === 'boss') play('bossHit', { weak: e.weak, dmg: e.dmg, x: e.x });
+        if (e.role === 'boss') play('bossHit', { weak: e.weak, x: e.x });
         else play('hit', { role: e.role, x: e.x });
         break;
       case 'kill': play('kill', { role: e.role, mult: e.mult, x: e.x }); break;
@@ -50,10 +43,10 @@ export function eventSounds(events, world, play) {
       case 'bossWarn': play('warn', { warn: e.warn, x: e.x }); break;
       case 'bossExpose': play('expose', at(e)); break;
       case 'partDown': play('partDown', at(e)); break;
-      case 'bossPhase': play('phase', { phase: e.phase, open: e.open?.length > 0, x: e.x }); break;
+      case 'bossPhase': play('phase', { phase: e.phase, x: e.x }); break;
       case 'bossDeath': play('bossDeath', at(e)); break;
       case 'bulletTime': play(e.on ? 'bulletOn' : 'bulletOff'); break;
-      default: break; // SILENT
+      default: break; // silent on purpose
     }
   }
 }

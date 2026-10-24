@@ -28,7 +28,3 @@ export const LEVEL = {
     w('spiral', 10, 'ccdd', 'ring', 1.15), // 5: forty cats and dogs
   ],
 };
-
-export const LEVELS = [LEVEL];
-
-export const levelById = (id) => LEVELS.find((l) => l.id === id);

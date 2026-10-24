@@ -1,8 +1,7 @@
 // Sound patches of the boss fights and the big blasts, each landed on a moment the art stages:
 // the charge-up that peaks as the attack fires, weak points that crunch against plates
-// that clank and hull that swallows the hit, plates cracking open, parts torn off, a roar per
-// phase (harsher each time; a part a phase opens slides open into a reactor hum), and the death:
-// a scream, a groan as the hull snaps, blasts rising through the chain to the white-out.
+// that clank, plates cracking open, parts torn off, a roar per phase (harsher each time), and the
+// death: a scream, a groan as the hull snaps, blasts rising through the chain to the white-out.
 // The roar takes the style's voice (sound-data.js).
 import { tone, hiss, fm, wobble, crush, noteHz } from './audio-kit.js';
 
@@ -39,13 +38,8 @@ export const BOSS = {
       tone(a, { type: a.kit.wave, f0: 760, f1: 190, dur: 0.09, peak: 0.065, cut: 5000, dest: d });
       return 0.15;
     }
-    if (o.dmg > 0) { // armour: a dull clank
-      fm(a, { f0: 250, ratio: 2.1, index: 2.4, dur: 0.17, peak: 0.12, cut: 2200 });
-      return 0.2;
-    }
-    tone(a, { f0: 92, f1: 55, dur: 0.1, peak: 0.12 }); // hull: the hit is swallowed
-    hiss(a, { type: 'lowpass', f0: 420, dur: 0.05, peak: 0.08 });
-    return 0.14;
+    fm(a, { f0: 250, ratio: 2.1, index: 2.4, dur: 0.17, peak: 0.12, cut: 2200 }); // armour: a dull clank
+    return 0.2;
   },
   warn(a, o) { // the charge: a whine and a flutter that climb to the moment it fires
     const w = o.warn;
@@ -78,14 +72,7 @@ export const BOSS = {
     [0, 1, 2, 3].slice(0, 2 + h).forEach((i) => tone(a, {
       type: 'square', t: a.t + 0.1 + i * 0.22, f0: i % 2 ? 640 : 860, dur: 0.18, peak: 0.03, cut: 2400,
     }));
-    if (!o.open) return 1.8;
-    const t = a.t + 0.4; // the trench: a hydraulic slide, a clunk and white-hot light, then the reactor
-    hiss(a, { t, type: 'lowpass', f0: 180, f1: 1700, attack: 0.4, dur: 1.2, peak: 0.2 });
-    tone(a, { t, type: 'sawtooth', f0: 42, f1: 66, attack: 0.3, dur: 1.3, peak: 0.1, cut: 420 });
-    tone(a, { t: t + 1.6, f0: 130, f1: 40, dur: 0.32, peak: 0.45 });
-    hiss(a, { t: t + 1.6, type: 'highpass', f0: 2400, dur: 0.25, peak: 0.25 });
-    [55, 110, 165].forEach((f, i) => wobble(a, tone(a, { t: t + 1.7, f0: f, attack: 0.5, dur: 2.8, peak: 0.07 - i * 0.02 }).detune, 5, 12, t + 1.7, 3.3));
-    return 5.2;
+    return 1.8;
   },
   bossDeath(a) { // the scream, then the hull groans as it snaps
     roar(a, 2, 2, 0.45);

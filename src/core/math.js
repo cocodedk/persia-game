@@ -10,8 +10,6 @@ export const smooth = (x) => {
 };
 export const easeOut = (x) => 1 - (1 - clamp(x, 0, 1)) ** 3;
 
-// An angle folded into -PI..PI.
-export const wrapAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 
 // Move `v` toward `target` by at most `step` without overshooting.
 export const approach = (v, target, step) =>

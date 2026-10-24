@@ -1,6 +1,6 @@
 // The end of a cleared level: the kicker (the level's name), CLEARED, the stars stamping in one by
-// one, the score counting up, the best (or NEW BEST), and Next / Retry / Title.
-//   resultsScreen({ label, title, score, stars, best, newBest }, { next?, retry, title }) -> screen
+// one, the score counting up, the best (or NEW BEST), and Retry / Title.
+//   resultsScreen({ label, title, score, stars, best, newBest }, { retry, title }) -> screen
 // The buttons wait a moment (armed) so fire-button mashing at the clear cannot skip the card, and
 // the fire key waits for the count-up and the stars (endKeys).
 import { h, button, shell, starRow, armed, endKeys } from './dom.js';
@@ -21,10 +21,7 @@ export function resultsScreen(o, act) {
   const best = o.newBest
     ? h('p', 'result-best new', 'New best!')
     : h('p', 'result-best', `Best ${fmt(o.best.score)}`);
-  const items = [];
-  if (act.next) items.push(button('Next', go(act.next), 'btn btn-big'));
-  items.push(button('Retry', go(act.retry), 'btn btn-big'));
-  items.push(button('Title', go(act.title), 'btn btn-big'));
+  const items = [button('Retry', go(act.retry), 'btn btn-big'), button('Title', go(act.title), 'btn btn-big')];
   el.append(
     h('div', 'banner',
       h('p', 'banner-kicker', o.label),

@@ -10,7 +10,7 @@ import { liveParts, hurtPart, bombBoss } from './boss-hit.js';
 //                         max hp as raw damage, shared by its damageable parts (boss-hit.js)
 //   drip(world, t, amount) damage that arrives continuously, paid out in whole points
 // Both hurt through one private hurt(world, t, dmg): the kill and the hit event; a boss part applies
-// its own rule (weak 100 %, armor 25 %, bare hull 0).
+// its own rule (weak 100 %, armor 25 %).
 
 const BOMB_DAMAGE = 3;
 const EPS = 1e-9; // 8 / 60 added fifteen times is 2 only up to rounding

@@ -5,7 +5,10 @@ import { fileURLToPath } from 'node:url';
 import { makeRng } from '../../src/core/rng.js';
 import { createFx, stepFx } from '../../src/fx/fx.js';
 import { MAX_PARTICLES } from '../../src/fx/particles.js';
-import { applyEvent, applyEvents, REACTS } from '../../src/fx/react.js';
+import { applyEvent, applyEvents } from '../../src/fx/react.js';
+import { FIGHT } from '../../src/fx/react-fight.js';
+import { BOSS } from '../../src/fx/react-boss.js';
+import { WORLD } from '../../src/fx/react-world.js';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { autopilot } from '../../src/core/autopilot.js';
 import { LEVEL } from '../../src/core/levels.js';
@@ -13,7 +16,9 @@ import { realLevel } from '../core/boss-kit.js';
 import { TICK, react } from './fx-kit.js';
 import { sampleEvent } from '../event-sample.js';
 
-// Events the core emits that fx deliberately leaves to the screens and the voice.
+// Every event type fx reacts to (react.js merges these), and the events the core emits that fx
+// deliberately leaves to the screens and the voice.
+const REACTS = Object.keys({ ...FIGHT, ...BOSS, ...WORLD });
 const SILENT = ['failed', 'wave', 'boss'];
 
 test('every event type the core emits has a reaction, or is listed as silent here', () => {
