@@ -1,8 +1,9 @@
 // Level data, plain and serialisable:
-//   { id, name, seed, d, boss, landmark, first, persian,
+//   { id, name, place, seed, d, boss, landmark, first, persian,
 //     waves: [{ formation, cols, species: [id per row, top row first], pattern, speed }] }
 // The waves fly in order, then the boss. `seed` is the fixed seed of the level's world rng, `d` its
-// difficulty (difficulty.js), `name` what the screens call it, `landmark` its backdrop (looks/).
+// difficulty (difficulty.js), `name` what the screens call it, `place` where it is (the title's card
+// names it), `landmark` its backdrop (looks/).
 // A world counts its waves across its levels: `first` is the number of the level's first wave, set
 // below from the levels played before it.
 // `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count, 'score': the score).
@@ -22,7 +23,7 @@ const w = (formation, cols, rows, pattern, speed) =>
   ({ formation, cols, species: [...rows].map((c) => LETTER[c]), pattern, speed });
 
 export const LEVEL = {
-  id: 'level-1', name: 'Level 1', seed: 10417, d: 0.1, boss: 'giant', landmark: 'persepolis', persian: [],
+  id: 'level-1', name: 'Level 1', place: 'Persepolis', seed: 10417, d: 0.1, boss: 'giant', landmark: 'persepolis', persian: [],
   waves: [
     w('grid', 10, 'ddd', 'aimed', 0.9), // 1: a pack of dogs marches in
     w('escort', 3, 'oro', 'aimed', 0.95), // 2: cows guard the rabbits: the first power-ups
@@ -33,7 +34,7 @@ export const LEVEL = {
 };
 
 const LEVEL_2 = {
-  id: 'level-2', name: 'Level 2', seed: 20833, d: 0.2, boss: 'giant-mouse', landmark: 'siosepol',
+  id: 'level-2', name: 'Level 2', place: 'Si-o-se-pol', seed: 20833, d: 0.2, boss: 'giant-mouse', landmark: 'siosepol',
   persian: ['wave'],
   waves: [
     w('grid', 10, 'dmm', 'aimed', 1.0), // 6: mice behind a row of dogs
@@ -45,7 +46,7 @@ const LEVEL_2 = {
 };
 
 const LEVEL_3 = {
-  id: 'level-3', name: 'Level 3', seed: 31249, d: 0.3, boss: 'giant-fish', landmark: 'hafez',
+  id: 'level-3', name: 'Level 3', place: 'Tomb of Hafez', seed: 31249, d: 0.3, boss: 'giant-fish', landmark: 'hafez',
   persian: ['wave', 'score'],
   waves: [
     w('dive', 10, 'bff', 'fan', 1.05), // 11: birds and fish swoop

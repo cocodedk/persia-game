@@ -29,12 +29,33 @@ function setup() {
   return { r, flow, started, said, screen: () => shown };
 }
 
-test('the title offers every level by name, from the first visit', () => {
+test('the title offers every level as a card with its name and place, from the first visit', () => {
   const { r, started, screen } = setup();
   r.goTitle();
-  assert.deepEqual(labels(screen()), ['Level 1', 'Level 2', 'Level 3']);
-  for (const label of labels(screen())) press(screen(), label);
+  const spans = (cls) => texts(screen().el, (e) => e.className === cls);
+  assert.deepEqual(spans('card-number'), LEVELS.map((l) => l.name));
+  assert.deepEqual(spans('card-place'), LEVELS.map((l) => l.place));
+  for (const card of buttons(screen())) card.onClick();
   assert.deepEqual(started, LEVELS);
+});
+
+test('the arrows move along the cards and Enter plays the one in focus', () => {
+  const { r, started, screen } = setup();
+  r.goTitle();
+  const cards = buttons(screen());
+  for (const c of cards) {
+    c.focus = () => (document.activeElement = c);
+    c.click = c.onClick;
+  }
+  document.activeElement = cards[0];
+  screen().onKey('ArrowRight');
+  assert.equal(document.activeElement, cards[1]);
+  screen().onKey('ArrowLeft');
+  screen().onKey('ArrowLeft');
+  assert.equal(document.activeElement, cards.at(-1), 'the row wraps round');
+  screen().onKey('Enter');
+  assert.deepEqual(started, [LEVELS.at(-1)]);
+  document.activeElement = null;
 });
 
 test("each level's parade names its own animals: level 1 seven, levels 2 and 3 all eight", () => {

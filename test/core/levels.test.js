@@ -16,6 +16,8 @@ test('level 1 is five waves, then the giant; level 2 five more, then the giant m
   assert.equal(bossDef(LEVEL_2.boss).kind, 'giant-mouse');
   assert.equal(new Set(LEVELS.map((l) => l.id)).size, LEVELS.length, 'ids are unique');
   for (const level of LEVELS) assert.equal(typeof level.name, 'string');
+  for (const level of LEVELS) assert.ok(level.place, `${level.id} names its place`);
+  assert.equal(new Set(LEVELS.map((l) => l.place)).size, LEVELS.length, 'every level is somewhere else');
 });
 
 test('every wave brings one or two species, at most 40 aliens, in a real formation with a real pattern', () => {

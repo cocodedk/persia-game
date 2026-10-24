@@ -17,6 +17,7 @@ import { setWorld } from './music.js';
 import { resetInput } from './input.js';
 import { backdropScene, playScene } from './scenes.js';
 import { titleScreen } from './screens/title.js';
+import { landmarkArt } from './landmark-art.js';
 import { cardScreen } from './screens/card.js';
 import { openScreen } from './screens/open.js';
 import { pauseScreen } from './screens/pause.js';
@@ -40,8 +41,10 @@ export function createRouter({ canvas, stage, input, voice }) {
 
   r.goTitle = () => {
     leave('title');
-    // Every level, by its name. Nothing is locked.
-    const items = LEVELS.map((level) => ({ label: level.name, pick: () => r.startLevel(level, !app.opened) }));
+    // Every level, by its name, its place and a picture of its landmark. Nothing is locked.
+    const items = LEVELS.map((level) => ({
+      label: level.name, place: level.place, art: landmarkArt(LOOK, level), pick: () => r.startLevel(level, !app.opened),
+    }));
     setWorld(LOOK);
     stage.show(titleScreen({ items, nowShowing: LEVEL.name }));
     if (app.backdrop) {

@@ -7,6 +7,7 @@ installCanvas();
 const { PIXEL, W, H } = await import('../../src/ui/sprites.js');
 const { LOOK } = await import('../../src/ui/looks/index.js');
 const { LEVELS } = await import('../../src/core/levels.js');
+const { landmarkArt } = await import('../../src/ui/landmark-art.js');
 
 // pixelate works in whole blocks, and the landmark paints in them: a band off the grid blurs.
 test("the sky and every landmark's layer bands sit on the pixel grid", () => {
@@ -28,4 +29,10 @@ test('the Persepolis pictures are rectangles of known tones', () => {
       assert.match(row, /^[.#+\-fy]+$/, `${name}: ${row}`);
     }
   }
+});
+
+// The title bakes each level's picture once; coming back to the title reuses it.
+test("a level's landmark picture is baked once", () => {
+  for (const level of LEVELS) assert.equal(landmarkArt(LOOK, level), landmarkArt(LOOK, level), level.id);
+  assert.notEqual(landmarkArt(LOOK, LEVELS[0]), landmarkArt(LOOK, LEVELS[1]));
 });

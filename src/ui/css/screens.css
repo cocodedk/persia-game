@@ -7,6 +7,15 @@
   radial-gradient(ellipse 50% 24% at 50% 30%, rgba(4, 5, 12, 0.55), rgba(4, 5, 12, 0) 100%),
   linear-gradient(180deg, rgba(4, 5, 12, 0.5) 0%, rgba(4, 5, 12, 0.05) 45%, rgba(4, 5, 12, 0.72) 100%); }
 .title-stack { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+/* the levels, a card each: the landmark's picture, then the level and its place */
+.level-cards { gap: 1.6rem; margin-top: 1.2rem; }
+.level-card { width: 19rem; padding: 0.7rem 0.7rem 1rem; border-radius: 1.2rem; }
+.card-face { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
+.card-art { display: block; width: 100%; aspect-ratio: 8 / 5; margin-bottom: 0.7rem; border-radius: 0.6rem;
+  image-rendering: pixelated; }
+.card-number { font: 900 2.1rem/1.1 var(--display); font-stretch: condensed; letter-spacing: 0.04em; }
+.card-place { font-size: 1.25rem; font-weight: 700; color: var(--ink-dim); }
+.level-card:focus .card-place { color: var(--ink); }
 .logo { position: relative; margin: 0; font: 900 11rem/1 var(--display); font-stretch: condensed; letter-spacing: 0.12em;
   padding-left: 0.12em; animation: logo-in 0.9s cubic-bezier(0.2, 1.4, 0.3, 1) both, logo-float 6s ease-in-out 0.9s infinite; }
 .logo span { display: block; }
