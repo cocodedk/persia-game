@@ -100,7 +100,7 @@ export function drawFrame(v, world, fx, t = 0) {
   drawFlourishes(ctx, v.look, t);
   field(ctx, v, world, fx, t);
   drawScreenFx(ctx, fx);
-  drawAmbient(ctx, v.look, 'screen', t);
+  drawAmbient(ctx, v.look, 'screen', t, v.quality.level);
   if (v.showHud) drawHud(ctx, world, v.look, v.hud, t);
   ctx.restore();
 }

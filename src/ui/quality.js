@@ -1,7 +1,9 @@
 // Auto quality. The game's loop hands sampleFrame the measured WORK time of every frame (core steps
 // + fx + draw, performance.now() around them) and the rAF interval it ran in. Once a second (of
 // intervals) both averages are judged:
-//   drop to 0.5 (half the particle spawns via fx.density, no glow on the far parallax layer)
+//   drop to 0.5 (half the particle spawns via fx.density, no glow on the far parallax layer or under
+//     enemy bullets, no boss rage overlays, no CRT scanline overlay: it blends the whole frame every
+//     frame, so it is the dearest lever)
 //     when the work averages above DROP_MS, or the interval above DROP_RATIO x the display's
 //     base period, capped at DROP_CAP_MS (ruling R23: a GPU-bound Pi shows in the display's pace, not
 //     in the CPU work; R49: the cap keeps a 40-odd fps renderer from passing while base sits at 20);

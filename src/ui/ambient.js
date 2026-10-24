@@ -28,7 +28,10 @@ const tube = () => cached('crt', W, H, (g) => {
   g.fillRect(0, 0, W, H);
 });
 
-function scanlines(ctx, a, t) {
+// The overlay blends the whole 1920 x 1080 frame every frame, the dearest thing here: below full
+// quality (the view's auto-quality level) it is skipped.
+function scanlines(ctx, a, t, quality) {
+  if (quality < 1) return;
   ctx.globalAlpha = a.alpha;
   ctx.drawImage(tube(), 0, 0);
   ctx.globalCompositeOperation = 'lighter';
@@ -38,11 +41,11 @@ function scanlines(ctx, a, t) {
 
 const KINDS = { twinkle, scanlines };
 
-// Draw the ambient entries of this phase at time t.
-export function drawAmbient(ctx, look, phase, t) {
+// Draw the ambient entries of this phase at time t; quality is the view's auto-quality level.
+export function drawAmbient(ctx, look, phase, t, quality = 1) {
   for (const a of look.ambient) {
     if (a.phase !== phase) continue;
-    KINDS[a.kind](ctx, a, t);
+    KINDS[a.kind](ctx, a, t, quality);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
   }
