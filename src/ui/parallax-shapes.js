@@ -5,6 +5,7 @@
 import { profile, ridgeTop } from './parallax-kit.js';
 import { persepolis } from './landmarks/persepolis.js';
 import { siosepol } from './landmarks/siosepol.js';
+import { hafez } from './landmarks/hafez.js';
 
 // A flat floor whose top is one glowing line.
 function ground(g, w, h, rng, L, lights) {
@@ -19,6 +20,7 @@ const PAINTERS = {
   ground,
   persepolis,
   siosepol,
+  hafez,
 };
 
 export function paintLayer(g, w, h, rng, L, lights) {

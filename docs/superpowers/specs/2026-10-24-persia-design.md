@@ -85,6 +85,7 @@ Things that would make the level a failure even if it runs:
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 | Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
+| Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the HUD's score turns to Persian digits. Decided after playing level 2. | Babak |
 
 ## Level 1 specification
 
@@ -175,6 +176,35 @@ digits included.
 offer Next, which plays it. Nothing is locked. Failing level 2 retries level 2 from wave 6.
 
 **The ending.** The parade walks the animals the level brought, all eight here, in the pack's order.
+
+## Level 3 specification
+
+Decided with Babak on 2026-10-24, after he played level 2.
+
+**Shape.** Five waves and a boss, a step harder than level 2. The waves are 11 to 15.
+
+**Where.** The Tomb of Hafez in Shiraz at night: the poet's open pavilion, eight slender columns under
+a dome shaped like a dervish's hat, lit warm from inside, on a raised stone platform with steps, in a
+garden of cypresses and orange trees. The sky, the blood moon, the far mountains, the palette and the
+music stay the world's.
+
+**Enemies.** The eight animals. Every approved animal clip is already in the game, so there is no new
+species; the fish, the boss's species, fills more rows than before.
+
+**Boss.** A giant fish, face on: a wide gaping mouth, round eyes, fins spread at the sides and a crest
+of fin on top. Its name is said as it arrives, and it lights up while the name is said.
+
+**Spoken set.** Level 2's set, plus five approved clips: `number-11-word` to `number-15-word`
+(یازده، دوازده، سیزده، چهارده، پانزده, shown as ۱۱ to ۱۵), each with `reviewedBy: ["cocodedk"]`.
+
+**The second step of the Persian ramp.** The HUD's score shows Persian digits, its thousands grouped
+with the Persian separator (۱۴۶٬۸۰۰). The wave count stays Persian as in level 2. The score's label,
+the combo, the score popups and the end cards stay English with ASCII digits.
+
+**Reaching it.** Open like level 2: the title lists Level 3, level 2's results offer Next. Failing
+level 3 retries level 3 from wave 11.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
 
 ## Word pack
 
