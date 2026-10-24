@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
-import { LEVELS } from '../../src/core/levels.js';
+import { LEVELS, WORLDS } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
 import { TICK } from '../../src/core/kinds.js';
 
@@ -35,7 +35,7 @@ function shotShare(level) {
   return { share: landed / ended, state: world.state, ended };
 }
 
-for (let n = 1; n <= 8; n++) {
+for (const { id: n } of WORLDS) {
   test(`world ${n}: the autopilot clears its levels, and most of its shots land (waves 30 %, boss 65 %)`, () => {
     for (const level of LEVELS.filter((l) => l.world === n)) {
       const { share, state, ended } = shotShare(level);
