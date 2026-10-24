@@ -480,6 +480,22 @@
     "sourceFile": "public/audio/word-bridge-setareh.2ec9c289171c.mp3"
   },
   {
+    "file": "public/audio/gol.mp3",
+    "clipId": "vocabulary-3-gol",
+    "sha256": "c274848da7f3b98955ee76dce96cc43eaa131d987097dd4f8da2300170963681",
+    "durationMs": 760,
+    "transcript": "گُل",
+    "synthesisText": "گُل",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-gol.c274848da7f3.mp3"
+  },
+  {
     "file": "public/audio/bist-o-yek.mp3",
     "clipId": "counting-2199-tal-21",
     "sha256": "cf7ac678b18843f16cd7dcf8ad24dd0a12061e039c181c5012773110bb169d04",

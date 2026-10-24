@@ -46,6 +46,12 @@ test('a wave that begins the stars says the stars line in the same place', () =>
   assert.deepEqual(said, [number(23), species('bird'), species('cow'), PACK.weather.stars]);
 });
 
+test('a wave that begins the petals says the petals line in the same place, and only that wave', () => {
+  const said = lines([{ type: 'wave', n: 28, species: ['dog', 'bird'], weather: 'petals' }]);
+  assert.deepEqual(said, [number(28), species('dog'), species('bird'), PACK.weather.petals]);
+  assert.equal(lines([wave(29, 'dog')]).includes(PACK.weather.petals), false);
+});
+
 // Everything level 5 says, wave by wave, from a fresh world (a retry is one): the stars once, at 23.
 test("level 5 says the stars once, with wave 23, and a retry is clear until then", () => {
   const w = playing(LEVELS[4]);
