@@ -304,6 +304,47 @@ Failing level 5 retries level 5 from wave 21.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
+## Level 6 specification
+
+Decided with Babak on 2026-10-24, after level 5 went live.
+
+**Shape.** Five waves and a boss, a step harder than level 5. The waves are 26 to 30.
+
+**Where.** Yazd at night: the old city's flat mud-brick roofs and low domes, crowded with tall
+windcatchers (badgirs), each a square tower with tall dark vent slots at its top, and in the middle the
+tallest of them, Dowlat Abad's octagonal windcatcher, over its garden pool. The Jameh Mosque's twin
+minarets rise behind. Warm lamplight in doorways and on the walls; the mud brick glows ochre. The sky,
+the blood moon, the far mountains, the palette and the music stay the world's.
+
+**Enemies.** The eight animals; the dog, the boss's species, fills more rows than any level before.
+Wave 27 is the escort with the rabbits, as waves 12, 17 and 22.
+
+**Boss.** A giant dog, face on: its two floppy ears and its black nose are its plates; the round eyes
+and the barking mouth with its fangs burn, and dogs pour from the mouth. A rabbit leaves the nose in
+every phase. Its name is said as it arrives, it lights up while the name is said, and its HUD bar reads
+its Persian name as level 5's does.
+
+**Petals.** From wave 28 to the end, the giant's fight included, flower petals drift down over the
+fight, tumbling and swaying, behind the aliens, the bullets and the ship. As they begin the voice says
+گل (gol) after the wave's number and species, and the word moment shows it. They fade in over two
+seconds, follow reduced motion (fewer, slower), and thin out at half quality but never stop. Petals
+are the third kind of a level's weather, after rain and stars.
+
+**Spoken set.** Level 5's set, plus `counting-2199-ti-30` (۳۰, si), `vocabulary-3-gol` (گل), and four
+clips for 26 to 29 (`counting-2199-tal-26` to `-29`) made and approved first in a review round in the
+lessons repo, as 22 to 25 were. Every clip carries `reviewedBy: ["cocodedk"]`.
+
+**The fifth step of the Persian ramp.** The HUD's wave line reads in Persian: the word موج (mowj,
+wave) with the count, right to left, in the pack's word face. It is read, never heard. Everything level
+5 shows in Persian stays Persian; the title menu stays English.
+
+**The title.** Six cards side by side, still fitting at 1920 x 1080 and in a 1280 x 720 window.
+
+**Reaching it.** Open like levels 2 to 5: the title lists Level 6, level 5's results offer Next.
+Failing level 6 retries level 6 from wave 26.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
 ## Word pack
 
 One data file, for example `src/data/pack.js`, that is the only place language lives:
