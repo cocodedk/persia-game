@@ -1,13 +1,13 @@
 // The end of a cleared level, after the parade: the kicker (the level's name), VICTORY, the stars
 // stamping in one by one, the score counting up, the best (or NEW BEST), and Next (when there is a
 // next level, focused) / Again / Title.
-//   resultsScreen({ label, score, stars, best, newBest }, { next?, again, title }) -> screen
+//   resultsScreen({ level, score, stars, best, newBest }, { next?, again, title }) -> screen
 // The buttons wait a moment (armed) so fire-button mashing at the clear cannot skip the card, and
 // the fire key waits for the count-up and the stars (endKeys).
 import { h, button, shell, starRow, armed, endKeys } from './dom.js';
 import { play } from '../audio.js';
 import { easeOut } from '../../core/math.js';
-import { fmt } from '../format.js';
+import { scoreText } from '../format.js';
 
 const COUNT_TIME = 1.1; // s the score takes to count up
 const STAR_AT = [0.55, 0.85, 1.15]; // s each star stamps in
@@ -18,17 +18,17 @@ export function resultsScreen(o, act) {
   const go = (fn) => () => ready() && fn();
   const el = shell('results dim won');
   const stars = starRow(o.stars, 'stars stars-big');
-  const score = h('span', 'result-score', '0');
+  const score = h('span', 'result-score', scoreText(o.level, 0));
   const best = o.newBest
     ? h('p', 'result-best new', 'New best!')
-    : h('p', 'result-best', `Best ${fmt(o.best.score)}`);
+    : h('p', 'result-best', `Best ${scoreText(o.level, o.best.score)}`);
   const items = [
     ...(act.next ? [button('Next', go(act.next), 'btn btn-big')] : []),
     button('Again', go(act.again), 'btn btn-big'), button('Title', go(act.title), 'btn btn-big'),
   ];
   el.append(
     h('div', 'banner',
-      h('p', 'banner-kicker', o.label),
+      h('p', 'banner-kicker', o.level.name),
       h('h2', 'banner-title', 'Victory'),
       stars,
       h('p', 'result-line', h('span', 'result-cap', 'Score'), score),
@@ -44,7 +44,7 @@ export function resultsScreen(o, act) {
       if (t > COUNT_TIME + 2) return;
       t += dt;
       const k = Math.min(1, t / COUNT_TIME);
-      score.textContent = fmt(o.score * easeOut(k));
+      score.textContent = scoreText(o.level, o.score * easeOut(k));
       if (k < 1) play('count');
       while (stamped < o.stars && t >= STAR_AT[stamped]) {
         stamped += 1;

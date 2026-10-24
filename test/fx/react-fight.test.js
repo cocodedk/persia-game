@@ -12,6 +12,7 @@ test('kill makes debris and a pop-up showing the points actually scored (score x
   assert.ok(ofKind(fx, 'debris').length > 0);
   assert.equal(fx.popups.length, 1);
   assert.equal(fx.popups[0].text, '+600');
+  assert.ok(fx.popups[0].points, 'a score, so written in the level\'s digits');
   assert.ok(fx.popups[0].x === 500 && fx.popups[0].y < 300 && fx.popups[0].vy < 0);
 });
 

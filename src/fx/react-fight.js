@@ -32,7 +32,7 @@ function kill(fx, ev, rng) {
   if (!ev.scored || !(ev.score > 0)) return;
   const mult = ev.mult ?? 1;
   addPopup(fx, {
-    x: ev.x, y: ev.y - 18, text: '+' + ev.score, color: comboColor(mult),
+    x: ev.x, y: ev.y - 18, text: '+' + ev.score, points: true, color: comboColor(mult),
     scale: 1 + Math.min(mult, 8) * 0.08,
   });
 }
@@ -106,7 +106,7 @@ function waveClear(fx, ev) {
 
 function cleared(fx, ev) {
   addFlash(fx, { full: true, alpha: 0.3, life: 0.5, tag: 'clear' });
-  addPopup(fx, { x: MID_X, y: BONUS_Y, text: '+' + ev.bonus + ' BONUS', color: '#ffe14a', scale: 2, life: 2 });
+  addPopup(fx, { x: MID_X, y: BONUS_Y, text: '+' + ev.bonus + ' BONUS', points: true, color: '#ffe14a', scale: 2, life: 2 });
 }
 
 export const FIGHT = { kill, explode, hit, fire, shipHit, shieldHit, nearMiss, bomb, waveClear, cleared };

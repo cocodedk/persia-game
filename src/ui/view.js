@@ -81,7 +81,7 @@ function field(ctx, v, world, fx, t) {
   drawShots(ctx, world, look);
   drawShip(ctx, world, look, t);
   drawFx(ctx, fx);
-  drawPopups(ctx, fx);
+  drawPopups(ctx, fx, world.level);
   ctx.restore();
 }
 

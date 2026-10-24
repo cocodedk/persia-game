@@ -52,7 +52,7 @@ export function createFlow(r, stage, voice) {
       const { level } = o; // the buttons close over this, not over o (its world)
       const next = nextLevel(level);
       stage.show(resultsScreen({
-        label: level.name, score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
+        level, score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
       }, {
         next: next && (() => r.startLevel(next)),
         again: () => r.startLevel(level),
@@ -64,7 +64,7 @@ export function createFlow(r, stage, voice) {
       app.screen = 'failed';
       play('failed');
       const { level } = o; // the buttons close over this, not over o (its world)
-      stage.show(failedScreen({ label: level.name, score: o.score, world: o.world }, {
+      stage.show(failedScreen({ score: o.score, world: o.world }, {
         retry: () => r.startLevel(level),
         title: r.goTitle,
       }));

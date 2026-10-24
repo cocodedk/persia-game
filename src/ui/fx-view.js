@@ -5,6 +5,8 @@ import { INK, rgba, glow, soft } from './sprites.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { flashK } from '../fx/fx.js';
 import { TAU } from '../core/math.js';
+import { localText } from './format.js';
+import { FONT } from './hud-kit.js';
 
 function plain(ctx, p) {
   const f = p.life / p.max;
@@ -105,7 +107,7 @@ export function popupYs(popups, out = []) {
 
 const ys = [];
 
-export function drawPopups(ctx, fx) {
+export function drawPopups(ctx, fx, level) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.lineJoin = 'round';
@@ -115,12 +117,13 @@ export function drawPopups(ctx, fx) {
     const age = p.max - p.life;
     const pop = 1 + Math.max(0, 1 - age / 0.18) * 0.6;
     ctx.globalAlpha = Math.min(1, (p.life / p.max) * 2.5);
-    ctx.font = `900 ${Math.round(30 * p.scale * pop)}px system-ui, sans-serif`;
+    ctx.font = `900 ${Math.round(30 * p.scale * pop)}px ${FONT}`;
+    const text = p.points ? localText(level, 'score', p.text) : p.text;
     ctx.lineWidth = 7;
     ctx.strokeStyle = INK;
-    ctx.strokeText(p.text, p.x, ys[i]);
+    ctx.strokeText(text, p.x, ys[i]);
     ctx.fillStyle = p.color;
-    ctx.fillText(p.text, p.x, ys[i]);
+    ctx.fillText(text, p.x, ys[i]);
   }
   ctx.globalAlpha = 1;
 }

@@ -85,7 +85,7 @@ Things that would make the level a failure even if it runs:
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 | Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
-| Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the HUD's score turns to Persian digits. Decided after playing level 2. | Babak |
+| Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the score turns to Persian digits everywhere it shows. Decided after playing level 2. | Babak |
 
 ## Level 1 specification
 
@@ -197,9 +197,11 @@ of fin on top. Its name is said as it arrives, and it lights up while the name i
 **Spoken set.** Level 2's set, plus five approved clips: `number-11-word` to `number-15-word`
 (یازده، دوازده، سیزده، چهارده، پانزده, shown as ۱۱ to ۱۵), each with `reviewedBy: ["cocodedk"]`.
 
-**The second step of the Persian ramp.** The HUD's score shows Persian digits, its thousands grouped
-with the Persian separator (۱۴۶٬۸۰۰). The wave count stays Persian as in level 2. The score's label,
-the combo, the score popups and the end cards stay English with ASCII digits.
+**The second step of the Persian ramp.** The score shows Persian digits wherever level 3 shows it, its
+thousands grouped with the Persian separator (۱۴۶٬۸۰۰): the HUD, the points that pop up (+۸۰۰), and the
+end cards' score and best (Babak chose everywhere over the HUD alone). The wave count stays Persian
+as in level 2. The labels around them (SCORE, BONUS, Best) and the combo stay English, as do pick-up
+counts such as +1 BOMB.
 
 **Reaching it.** Open like level 2: the title lists Level 3, level 2's results offer Next. Failing
 level 3 retries level 3 from wave 11.

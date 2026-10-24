@@ -14,6 +14,7 @@ test('fmt groups thousands and rounds', () => {
 test('localDigits writes each digit in the given ten', () => {
   assert.equal(localDigits(10, D), D[1] + D[0]);
   assert.equal(localDigits(7, '0123456789'), '7');
+  assert.equal(localDigits('+10 BONUS', D), `+${D[1]}${D[0]} BONUS`, 'anything else is kept');
 });
 
 test("level 1 counts its waves in ASCII; level 2 counts on from six in the pack's digits", () => {

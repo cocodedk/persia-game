@@ -47,6 +47,7 @@ test('bossDeath: slow motion, a long white-out, a huge pop-up with the boss scor
   const white = fx.flashes.find((f) => f.full && f.tag === 'whiteout');
   assert.ok(white && white.alpha >= 0.9 && white.max >= 0.8);
   assert.equal(fx.popups[0].text, '+10000');
+  assert.ok(fx.popups[0].points);
   assert.ok(fx.popups[0].scale >= 2.5);
   assert.ok(fx.shake >= 25);
 });

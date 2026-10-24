@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { popupYs, POPUP_MIN_Y } from '../../src/ui/fx-view.js';
+import { drawPopups, popupYs, POPUP_MIN_Y } from '../../src/ui/fx-view.js';
+import { PACK } from '../../src/data/pack.js';
+import { LEVELS } from '../../src/core/levels.js';
+import { sink } from './dom-kit.js';
 
 const pop = (x, y, scale = 1, text = '+100') => ({ x, y, scale, text });
 
@@ -24,4 +27,14 @@ test('the output array is reused', () => {
   const out = [1, 2, 3, 4, 5];
   assert.equal(popupYs([pop(0, 500)], out), out);
   assert.deepEqual(out, [500]);
+});
+
+test("level 3 writes a score pop-up in the pack's digits; other pop-ups and other levels stay as they are", () => {
+  const D = PACK.digits; // the expected strings are built from the pack, so no Persian enters a test
+  const drawn = [];
+  const ctx = new Proxy(sink, { get: (_, k) => (k === 'fillText' ? (t) => drawn.push(t) : sink) });
+  const fx = { popups: [{ ...pop(500, 400, 1, '+800 BONUS'), points: true, life: 1, max: 1 }, { ...pop(900, 400, 1, '+1 BOMB'), life: 1, max: 1 }] };
+  drawPopups(ctx, fx, LEVELS[2]);
+  drawPopups(ctx, fx, LEVELS[1]);
+  assert.deepEqual(drawn, [`+${D[8]}${D[0]}${D[0]} BONUS`, '+1 BOMB', '+800 BONUS', '+1 BOMB']);
 });

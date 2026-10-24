@@ -19,6 +19,7 @@ test('a caught pickup also pops its points, above its name', () => {
   const fx = react({ type: 'pickup', kind: 'laser', x: 500, y: 700, points: 500 });
   const [name, points] = ['LASER', '+500'].map((t) => fx.popups.find((p) => p.text === t));
   assert.ok(name && points, fx.popups.map((p) => p.text).join());
+  assert.ok(points.points && !name.points, 'the points are a score, the name is not');
   assert.ok(name.y - points.y >= 40, 'the two do not overlap');
 });
 

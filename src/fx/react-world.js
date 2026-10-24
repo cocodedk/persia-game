@@ -27,7 +27,7 @@ function pickup(fx, ev, rng) {
   sparks(fx, rng, ev.x, ev.y, 8, 260, [color, '#ffffff']);
   const text = ev.kind === 'bomb' ? '+1 BOMB' : String(ev.kind).toUpperCase();
   addPopup(fx, { x: ev.x, y: ev.y - 24, text, color, scale: 1.3, life: 1.2 });
-  addPopup(fx, { x: ev.x, y: ev.y - 70, text: '+' + ev.points, color: POINTS, life: 1.2 });
+  addPopup(fx, { x: ev.x, y: ev.y - 70, text: '+' + ev.points, points: true, color: POINTS, life: 1.2 });
 }
 
 // Swept up at the clear (R51): its points pop up where it was, and a comet in its colour flies from
@@ -35,7 +35,7 @@ function pickup(fx, ev, rng) {
 // and live longer by as much, so every one of them lands on the ship.
 function sweep(fx, ev, rng, world) {
   const color = powerColor(ev.kind);
-  addPopup(fx, { x: ev.x, y: offBonus(ev.y - 24), text: '+' + ev.points, color: POINTS, scale: 1.2, life: 1.4 });
+  addPopup(fx, { x: ev.x, y: offBonus(ev.y - 24), text: '+' + ev.points, points: true, color: POINTS, scale: 1.2, life: 1.4 });
   const ship = world?.ship;
   if (!ship) return;
   const vx = (ship.x - ev.x) / STREAK;

@@ -43,7 +43,7 @@ function bossDeath(fx, ev, rng) {
   addFlash(fx, { full: true, alpha: 1, life: 1, tag: 'whiteout' });
   addRing(fx, { x: ev.x, y: ev.y, maxR: 1400, width: 12, color: '#ffffff', life: 0.9 });
   addRing(fx, { x: ev.x, y: ev.y, maxR: 800, width: 8, color: '#ffb14a', life: 0.7 });
-  addPopup(fx, { x: ev.x, y: ev.y, text: '+' + ev.score, color: '#ffe14a', scale: 3, life: 2.4 });
+  addPopup(fx, { x: ev.x, y: ev.y, text: '+' + ev.score, points: true, color: '#ffe14a', scale: 3, life: 2.4 });
   debris(fx, rng, ev.x, ev.y, 20, METAL, 400);
   sparks(fx, rng, ev.x, ev.y, 30, 520);
   addShake(fx, 28);

@@ -7,7 +7,8 @@
 //             full: lights the whole frame (x, y, r unused); ramp: the share of its life spent
 //             brightening before it fades (0 fades from the start, 1 a charge that peaks at its end);
 //             alpha is the peak; tag names the cause
-//   popups    floating text { x, y, vy, text, color, scale, life, max }
+//   popups    floating text { x, y, vy, text, color, scale, life, max, points? } (points: the text is
+//             a score, written in the level's digits)
 //   shake     screen-shake amplitude in px; shakeX/shakeY the offset to apply this frame
 //   slow      1, or SLOW_FACTOR during slow motion: main multiplies the logic dt by it
 //   bulletTime true while bullet time runs (tint the frame)
