@@ -98,20 +98,13 @@ test("results offer Next to the level after, none after the last, and Again repl
   assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[3], LEVELS[4], LEVELS[4]]);
 });
 
-test('failing level 2 retries level 2', () => {
-  const { flow, started, screen } = setup();
-  const world = { level: LEVELS[1], wave: 2, boss: null };
-  flow.showFailed({ level: LEVELS[1], score: 100, world });
-  later();
-  press(screen(), 'Retry');
-  assert.deepEqual(started, [LEVELS[1]]);
-});
-
-test('failing level 5 retries level 5, which begins again at wave 21', () => {
-  const { flow, started, screen } = setup();
-  flow.showFailed({ level: LEVELS[4], score: 100, world: { level: LEVELS[4], wave: 4, boss: null } });
-  later();
-  press(screen(), 'Retry');
-  assert.deepEqual(started, [LEVELS[4]]);
-  assert.equal(LEVELS[4].first, 21);
+LEVELS.slice(1).forEach((level, i) => {
+  test(`failing level ${i + 2} retries level ${i + 2}, which begins again at wave ${level.first}`, () => {
+    const { flow, started, screen } = setup();
+    flow.showFailed({ level, score: 100, world: { level, wave: 2, boss: null } });
+    later();
+    press(screen(), 'Retry');
+    assert.deepEqual(started, [level]);
+    assert.equal(level.first, [6, 11, 16, 21][i]);
+  });
 });

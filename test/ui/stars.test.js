@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { installCanvas } from './dom-kit.js';
+import { installCanvas, counting } from './dom-kit.js';
 
 // The stars thin out at half quality but never stop, and none are drawn before the weather has begun.
 installCanvas();
@@ -8,10 +8,9 @@ const { drawStars } = await import('../../src/ui/stars.js');
 
 // The stars (one tail each) a frame draws at time t.
 function stars(k, t, quality, reduced) {
-  let tails = 0;
-  const ctx = new Proxy({}, { get: (o, key) => (key in o ? o[key] : () => { if (key === 'moveTo') tails++; }), set: (o, key, value) => ((o[key] = value), true) });
+  const { ctx, count } = counting('moveTo');
   drawStars(ctx, k, t, quality, reduced);
-  return tails;
+  return count();
 }
 
 // What a quality draws across a minute of frames: the most at once, and every star seen.

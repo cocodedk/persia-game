@@ -1,6 +1,8 @@
 // Stand-ins for the DOM under node. Install one before importing the module under test (with
 // `await import(...)` after it), since the module may reach for `document` as it loads.
 //   sink               a canvas context that takes any call or read and returns itself (0 as a number)
+//   counting(key)      { ctx, count() }: a canvas context that keeps what is assigned to it, takes any
+//                      other call, and counts the calls to `key`
 //   installCanvas(n)   document.createElement gives an n x n canvas whose context is sink
 //   element(tag)       a stand-in element that keeps what is appended to it, and its click handler
 //                      as onClick; as a canvas, its context is sink
@@ -11,6 +13,12 @@
 //   walkFrames(end, onFrame, frames = FRAMES)   steps a clock from 0 to `end` in frames cycling through
 //                      `frames`, calling onFrame(t0, t1) for each
 export const sink = new Proxy(() => sink, { get: (f, k) => (k === Symbol.toPrimitive ? () => 0 : sink), apply: () => sink });
+
+export function counting(key) {
+  let n = 0;
+  const ctx = new Proxy({}, { get: (o, k) => (k in o ? o[k] : () => { if (k === key) n++; }) });
+  return { ctx, count: () => n };
+}
 
 export function installCanvas(size = 1) {
   globalThis.document = {

@@ -82,8 +82,9 @@ function bossBar(ctx, world, look, hud) {
   const y = TOP + 40;
   panel(ctx, x - 24, TOP, bw + 48, PH, rgba(look.palette.boss.weak, 0.7));
   const ink = shade(look.palette.boss.weak, 0.4);
-  if (showsPersian(world.level, 'boss')) word(ctx, bossName(world.level, def), W / 2, CAP, 22, ink);
-  else label(ctx, bossName(world.level, def), W / 2, CAP, 'center', ink);
+  const name = bossName(world.level, def);
+  if (showsPersian(world.level, 'boss')) word(ctx, name, W / 2, CAP, 22, ink);
+  else label(ctx, name, W / 2, CAP, 'center', ink);
   ctx.fillStyle = 'rgba(255,255,255,0.1)';
   ctx.fillRect(x, y, bw, 24);
   ctx.fillStyle = 'rgba(255,255,255,0.55)';

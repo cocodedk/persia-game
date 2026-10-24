@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { fadeWeather, drawWeather } from '../../src/ui/weather.js';
 import { LEVELS } from '../../src/core/levels.js';
-import { installCanvas } from './dom-kit.js';
+import { installCanvas, counting } from './dom-kit.js';
 
 installCanvas(); // the stars' heads are a baked sprite
 
@@ -19,10 +19,9 @@ test('the weather fades in over 2 s from the first frame it is drawn, a world th
 // The streaks or stars (one `moveTo` each) the weather draws in `phase` for `world` at t = 5 s, its
 // fade begun at 0.
 function drawn(world, phase, t = 5) {
-  let n = 0;
-  const ctx = new Proxy({}, { get: (o, key) => (key in o ? o[key] : () => { if (key === 'moveTo') n++; }), set: (o, key, value) => ((o[key] = value), true) });
+  const { ctx, count } = counting('moveTo');
   drawWeather(ctx, { weather: { since: 0 }, quality: { level: 1 }, reduced: false }, world, t, phase);
-  return n;
+  return count();
 }
 
 test("level 4's rain is drawn in the field and not in the sky; it is dry before its wave", () => {

@@ -8,11 +8,9 @@
 //   drawStars(ctx, k, t, quality, reduced)   k 0..1 how far it has faded in; fewer, slower stars under
 //     reduced motion; half as many lanes at half quality, never none, since the voice has named them
 import { W, hash, glow, lighter, normal } from './sprites.js';
+import { SHOOT } from './flourish.js';
 
 const LIFE = 1.1; // s a star lasts
-const RUN = 180; // tail: flourish.js's slope, up and to the right of the head
-const RISE = 95;
-const FALL = [800, 420]; // px/s the head moves left and down, along the tail
 const WEDGE = [1.05, 2]; // half the tail's width at the head, across its direction
 const FILL = 'rgba(205, 222, 255, 0.6)';
 
@@ -29,13 +27,13 @@ export function drawStars(ctx, k, t, quality, reduced) {
     const seed = (slot * 32 + lane) * 4;
     const age = (beat - slot) * period;
     if (age > LIFE || hash(seed) < 0.1) continue; // a lane rests some beats
-    const x = 300 + hash(seed + 1) * (W - 300) - age * FALL[0];
-    const y = 40 + hash(seed + 2) * 480 + age * FALL[1];
+    const x = 300 + hash(seed + 1) * (W - 300) - age * SHOOT.fall[0];
+    const y = 40 + hash(seed + 2) * 480 + age * SHOOT.fall[1];
     const grow = Math.min(1, age * 6);
     const fade = 1 - age / LIFE;
     const tail = grow * Math.min(1, fade * 2); // full length until half its life, then it shortens
     ctx.moveTo(x + WEDGE[0], y + WEDGE[1]);
-    ctx.lineTo(x + RUN * tail, y - RISE * tail);
+    ctx.lineTo(x + SHOOT.run * tail, y - SHOOT.rise * tail);
     ctx.lineTo(x - WEDGE[0], y - WEDGE[1]);
     ctx.globalAlpha = k * grow * fade;
     ctx.drawImage(glow('#ffffff'), x - 14, y - 14, 28, 28);

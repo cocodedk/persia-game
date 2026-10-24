@@ -35,7 +35,8 @@ export function pasargadae(g, w, h, rng, L, lights) {
   tone.R = mix(L.stone, L.lamp, 0.5); // a tread's lit front edge
   tone.T = mix(tone[at(0.88)], L.ink, 0.3); // the tympanum, recessed in the roof
   [0.35, 0.45, 0.52, 0.62, 0.72].forEach((d, i) => { tone[i + 1] = mix(L.stone, L.ink, d); }); // the ruins' stone
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };
+  const F = h / PIXEL - UNDER;
+  const art = { ...blocks(g, tone), rng, lights, L, F, row: (y) => F - 1 - y, BW: w / PIXEL }; // row: `y` blocks above the floor
   const mid = Math.round(art.BW / 2);
   g.save();
   g.scale(PIXEL, PIXEL);
@@ -48,25 +49,24 @@ export function pasargadae(g, w, h, rng, L, lights) {
 // A band of ashlar `n` rows high from `y` up, `bw` wide from x: row j is of level level(j), a joint
 // closes each course of `course` rows, and vertical joints a `gap` of blocks apart (picked from
 // the range once per band) are staggered by half a gap from course to course.
-function ashlar({ box, rng, F }, x, bw, y, n, level, course, range, k) {
+function ashlar({ box, rng, row }, x, bw, y, n, level, course, range, k) {
   const gap = range[0] + Math.floor(rng() * (range[1] - range[0] + 1));
   for (let j = 0; j < n; j++) {
     const c = at(level(j));
-    const row = F - 1 - (y + j);
+    const r = row(y + j);
     if (j % course === course - 1) {
-      box(x, row, bw, 1, c.toUpperCase());
+      box(x, r, bw, 1, c.toUpperCase());
       continue;
     }
-    box(x, row, bw, 1, c);
+    box(x, r, bw, 1, c);
     const start = ((k + Math.floor(j / course)) % 2 ? gap >> 1 : gap) - 1;
-    for (let u = x + start; u < x + bw; u += gap) box(u, row, 1, 1, c.toUpperCase());
+    for (let u = x + start; u < x + bw; u += gap) box(u, r, 1, 1, c.toUpperCase());
   }
 }
 
 // The tomb on the plain: the tiers, the chamber on them, the roof, and the floodlights.
 function tomb(art, mid) {
-  const { box, lights, L, F } = art;
-  const row = (y) => F - 1 - y; // the row `y` blocks above the floor
+  const { box, lights, L, F, row } = art;
   let y = 0;
   TIERS.forEach((tall, t) => {
     const half = BASE - t * INSET;
@@ -85,9 +85,9 @@ function tomb(art, mid) {
 // The chamber's end wall from row `y`: ashlar in dimmer stone, the door in a recess with a lighter
 // jamb under its lintel, and the shadow under the cornice.
 function chamber(art, mid, y) {
-  const { box, F } = art;
+  const { box, F, row } = art;
   ashlar(art, mid - HALL, HALL * 2, y, WALL - 1, (j) => 0.6 + (0.12 * j) / WALL, 8, [8, 10], 0);
-  box(mid - HALL, F - 1 - (y + WALL - 1), HALL * 2, 1, '-');
+  box(mid - HALL, row(y + WALL - 1), HALL * 2, 1, '-');
   const door = F - RISE - DOOR.h; // the door's top row
   box(mid - DOOR.w / 2, door, DOOR.w, DOOR.h, '-');
   box(mid - DOOR.w / 2, door, 1, DOOR.h, at(0.45));
@@ -96,8 +96,7 @@ function chamber(art, mid, y) {
 
 // The roof from row `y`: the cornice, a thick slab that overhangs the walls, the gable above it
 // in the dimmest stone with a lit edge up both slopes and its tympanum set in.
-function roof({ box, F }, mid, y) {
-  const row = (r) => F - 1 - r;
+function roof({ box, row }, mid, y) {
   box(mid - HALL - OVER, row(y), (HALL + OVER) * 2, 1, at(0.58));
   box(mid - HALL - OVER, row(y + 1), (HALL + OVER) * 2, 1, at(0.62));
   const half = (j) => (j >= GABLE ? 0 : Math.max(1, Math.round((HALL + OVER) * (1 - (j + 0.5) / GABLE))));
