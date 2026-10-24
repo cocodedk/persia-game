@@ -8,9 +8,9 @@
 // below from the levels played before it.
 // `persian` names the parts the level shows in Persian digits ('wave': the wave count, 'score': the
 // score, 'combo': the combo, 'level': its own number wherever play names it).
-// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain'; ui/weather.js
-// draws each kind and the pack words it) and `from` is the number within the level of the wave it
-// begins with; it lasts to the end, the giant's fight included.
+// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars';
+// ui/weather.js draws each kind and the pack words it) and `from` is the number within the level of
+// the wave it begins with; it lasts to the end, the giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
 //   w(formation, cols, rows, pattern, speed)  one wave. `rows` is one species letter per row, top

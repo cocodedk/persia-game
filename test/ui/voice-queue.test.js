@@ -40,6 +40,11 @@ test("level 4's third wave says eighteen, its species, then the rain", () => {
   assert.equal(lines([wave(19, 'dog')]).includes(PACK.weather.rain), false, 'only the wave the rain begins with says it');
 });
 
+test('a wave that begins the stars says the stars line in the same place', () => {
+  const said = lines([{ type: 'wave', n: 23, species: ['bird', 'cow'], weather: 'stars' }]);
+  assert.deepEqual(said, [number(23), species('bird'), species('cow'), PACK.weather.stars]);
+});
+
 test('a tick with no events, or none that speak, says nothing', () => {
   assert.equal(lines([]).length, 0);
   assert.equal(lines([]), lines([]), 'and allocates nothing');

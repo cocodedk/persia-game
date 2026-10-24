@@ -40,3 +40,13 @@ test("it rains through level 4's giant fight, and from the first frame when it s
   assert.equal(weatherOf(createWorld({ ...LEVELS[3], waves: null })), 'rain'); // ?debug&boss
   assert.equal(weatherOf(createWorld({ ...LEVELS[2], waves: null })), null);
 });
+
+// Weather is one mechanism with a kind: level 4 with stars from its third wave does what its rain does.
+test('a level whose weather is stars carries and names it the same way', () => {
+  const stars = { ...LEVELS[3], weather: { kind: 'stars', from: 3 } };
+  const { seen, world } = run(stars);
+  assert.deepEqual(seen.map(([e]) => e.weather ?? null), [null, null, 'stars', null, null]);
+  assert.deepEqual(seen.map(([, kind]) => kind), [null, null, 'stars', 'stars', 'stars']);
+  assert.equal(weatherOf(world), 'stars', 'through the giant');
+  assert.equal(weatherOf(createWorld({ ...stars, waves: null })), 'stars', 'and from the first frame at the giant');
+});

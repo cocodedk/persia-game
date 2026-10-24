@@ -35,6 +35,7 @@ const NAMES = {
   'number-19-word': 'nuzdah',
   'number-20-word': 'bist',
   'vocabulary-3-baran': 'baran',
+  'word-bridge-setareh': 'setare',
 };
 
 const lessons = process.argv[2];

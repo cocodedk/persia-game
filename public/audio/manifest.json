@@ -462,5 +462,21 @@
     ],
     "license": "MIT model; CC0 dataset",
     "sourceFile": "public/audio/vocabulary-3-baran.fb87360b118b.mp3"
+  },
+  {
+    "file": "public/audio/setare.mp3",
+    "clipId": "word-bridge-setareh",
+    "sha256": "2ec9c289171c6748bd5016bac473d95ca11db5d608f0e13419dc98e241dcb5bf",
+    "durationMs": 1120,
+    "transcript": "سِتاره",
+    "synthesisText": "سِتاره",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/word-bridge-setareh.2ec9c289171c.mp3"
   }
 ]

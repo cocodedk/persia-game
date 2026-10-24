@@ -7,9 +7,9 @@
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms } for 1..20; `word` is n in Persian digits, shown as it is said
-//   weather       { rain: { word, say, clip, ms } }, by a level's weather kind (levels.js): said after the
-//                 number and species of the wave the weather begins with, shown as a species' word is,
-//                 without a face
+//   weather       { rain, stars }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
+//                 said after the number and species of the wave the weather begins with, shown as a
+//                 species' word is, without a face
 //   digits        the ten digits, 0 to 9, a number is written in where the screen shows it in Persian
 //   group         the mark that groups such a number's thousands
 //   letterColours the colours the word moment cycles through, one per letter
@@ -50,6 +50,7 @@ export const PACK = {
   ],
   weather: {
     rain: { word: 'باران', say: 'baran', clip: 'public/audio/baran.mp3', ms: 760 },
+    stars: { word: 'ستاره', say: 'setare', clip: 'public/audio/setare.mp3', ms: 1120 },
   },
   digits: '۰۱۲۳۴۵۶۷۸۹',
   group: '٬',
