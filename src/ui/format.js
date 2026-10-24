@@ -2,6 +2,7 @@
 //   fmt(n)                          12,345 (rounded)
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
+//   showsPersian(level, part)       whether the level shows that part ('wave', 'score') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part ('wave', 'score') in Persian
 //   waveText(level, wave)           the HUD's wave count in the world's numbers, 'WAVE 6 / 10', in
@@ -16,7 +17,8 @@ export const fmt = (n) => Math.round(n).toLocaleString('en-US');
 export const localDigits = (n, digits) => [...String(n)].map((d) => digits[d] ?? d).join('');
 
 const PERSIAN = { ...PACK.digits, ',': PACK.group };
-export const localText = (level, part, s) => (level.persian.includes(part) ? localDigits(s, PERSIAN) : s);
+export const showsPersian = (level, part) => level.persian.includes(part);
+export const localText = (level, part, s) => (showsPersian(level, part) ? localDigits(s, PERSIAN) : s);
 
 export function waveText(level, wave) {
   const show = (n) => localText(level, 'wave', String(n));

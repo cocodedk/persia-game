@@ -83,6 +83,7 @@
 .result-line { display: flex; align-items: baseline; justify-content: center; gap: 1.2rem; margin: 0; }
 .result-cap { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-dim); }
 .result-score { font: 900 4.4rem var(--display); font-variant-numeric: tabular-nums; }
+.result-score.local { font-variant-numeric: normal; } /* Persian digits: tabular leaves gaps round a nought */
 .result-best { margin: 0; font-size: 1.7rem; font-weight: 800; color: var(--ink-dim); letter-spacing: 0.06em; }
 .result-best.new { opacity: 0; color: #1a1205; background: linear-gradient(180deg, #fff3b8, var(--gold)); padding: 0.3rem 1.4rem;
   border-radius: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; box-shadow: 0 0 2rem rgba(255, 190, 60, 0.7); }

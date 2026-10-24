@@ -40,11 +40,13 @@ test('failed shows the wave or the giant\'s hp', () => {
 test("level 3's end cards give the score and the best in the pack's digits; level 2's in ASCII", () => {
   const D = PACK.digits; // the expected strings are built from the pack, so no Persian enters a test
   const G = PACK.group;
-  const score = (el) => texts(el, (e) => e.className === 'result-score');
+  const score = (el) => texts(el, (e) => e.className.startsWith('result-score'));
   const won = results({ level: LEVELS[2], score: 146800 });
   assert.deepEqual(score(won.el), [D[0]], 'the count-up starts at nought');
   won.update(5); // the count-up is done
-  const counted = all(won.el).find((e) => e.className === 'result-score').textContent;
+  const span = all(won.el).find((e) => e.className.startsWith('result-score'));
+  assert.equal(span.className, 'result-score local', 'Persian digits are set proportional');
+  const counted = span.textContent;
   assert.equal(counted, `${D[1]}${D[4]}${D[6]}${G}${D[8]}${D[0]}${D[0]}`);
   assert.deepEqual(bestLines({ level: LEVELS[2] }), [`Best ${D[3]}${G}${D[4]}${D[0]}${D[0]}`]);
   assert.deepEqual(bestLines({ level: LEVELS[1] }), ['Best 3,400']);

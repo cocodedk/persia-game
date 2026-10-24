@@ -1,9 +1,10 @@
 // Tiny DOM helpers shared by the screens (from Barrage): element building, focusable buttons, and
 // arrow-key navigation over a list or grid that keeps mouse hover and keyboard focus in step, and
-// the cue and skip rules the timed screens (open, parade) share.
+// the cue and skip rules the timed screens (open, parade) share, and the end cards' score.
 import { play } from '../audio.js';
 import { MOVE, isConfirm } from '../keys.js';
 import { MAX_STARS } from '../../core/scoring.js';
+import { scoreText, showsPersian } from '../format.js';
 
 export function h(tag, cls, ...kids) {
   const el = document.createElement(tag);
@@ -11,6 +12,11 @@ export function h(tag, cls, ...kids) {
   for (const k of kids) if (k != null && k !== false) el.append(k);
   return el;
 }
+
+// An end card's score in the level's digits. Persian digits are set proportional ('local'): their
+// tabular widths leave gaps round the dot of a nought.
+export const scoreSpan = (level, n) =>
+  h('span', showsPersian(level, 'score') ? 'result-score local' : 'result-score', scoreText(level, n));
 
 function focusItem(el) {
   if (!el || el === document.activeElement) return;

@@ -4,7 +4,7 @@
 //   resultsScreen({ level, score, stars, best, newBest }, { next?, again, title }) -> screen
 // The buttons wait a moment (armed) so fire-button mashing at the clear cannot skip the card, and
 // the fire key waits for the count-up and the stars (endKeys).
-import { h, button, shell, starRow, armed, endKeys } from './dom.js';
+import { h, button, shell, starRow, armed, endKeys, scoreSpan } from './dom.js';
 import { play } from '../audio.js';
 import { easeOut } from '../../core/math.js';
 import { scoreText } from '../format.js';
@@ -18,7 +18,7 @@ export function resultsScreen(o, act) {
   const go = (fn) => () => ready() && fn();
   const el = shell('results dim won');
   const stars = starRow(o.stars, 'stars stars-big');
-  const score = h('span', 'result-score', scoreText(o.level, 0));
+  const score = scoreSpan(o.level, 0);
   const best = o.newBest
     ? h('p', 'result-best new', 'New best!')
     : h('p', 'result-best', `Best ${scoreText(o.level, o.best.score)}`);
