@@ -10,7 +10,8 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { fmt } from './format.js';
+import { fmt, waveText } from './format.js';
+import { PACK } from '../data/pack.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { panel, text, label, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
@@ -64,10 +65,9 @@ function combo(ctx, world, t) {
 }
 
 function wave(ctx, world, look) {
-  const total = world.level.waves?.length ?? 0;
   panel(ctx, W / 2 - 150, TOP, 300, PH);
   label(ctx, world.level.name.toUpperCase(), W / 2, CAP, 'center', look.palette.accent);
-  text(ctx, `WAVE ${Math.max(1, world.wave)} / ${total}`, W / 2, MAIN, 32, '#ffffff', 'center', 900);
+  text(ctx, waveText(world.level, world.wave, PACK.digits), W / 2, MAIN, 32, '#ffffff', 'center', 900);
 }
 
 function bossBar(ctx, world, look, hud) {

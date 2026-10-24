@@ -1,8 +1,11 @@
 // HUD building blocks shared by hud.js: panels, text, and the small icons (ships for lives, bombs).
 import { INK, roundRect } from './sprites.js';
 import { TAU } from '../core/math.js';
+import { PACK } from '../data/pack.js';
 
-const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+// The pack's face (word-moment.js loads it) is the fallback for glyphs the system face lacks: the
+// Persian digits of a wave count.
+export const FONT = `system-ui, -apple-system, "Segoe UI", Roboto, "${PACK.font.family}", sans-serif`;
 
 export function panel(ctx, x, y, w, h, border = 'rgba(255,255,255,0.16)', r = 16) {
   roundRect(ctx, x, y, w, h, r);
