@@ -2,8 +2,7 @@
 // tumble away, then it snaps in two down the middle, the halves sagging apart over a molten seam,
 // and the wreck burns white-hot before the final blast (fx draws the blasts, debris and white-out).
 //   collapse(b, t)  the pose, a pure function of the boss (kind, parts, dying) and the clock t (jitter)
-//   drawDying(ctx, b, B, t, light, bodies)  B = bossArt(...); bodies false draws the lights only
-//                                           (Neon Rain's darkness pass), at strength light
+//   drawDying(ctx, b, B, t)  B = bossArt(...)
 import { hash, glow, soft } from '../sprites.js';
 import { CHAIN } from '../../core/boss-phase.js';
 import { wreck } from './cracks.js';
@@ -83,7 +82,7 @@ function fires(ctx, S, s, k, t, seed, a) {
   ctx.globalAlpha = 1;
 }
 
-export function drawDying(ctx, b, B, t, light = 1, bodies = true) {
+export function drawDying(ctx, b, B, t) {
   const P = collapse(b, t);
   if (P.k >= 0.985) return;
   const fade = 1 - smooth((P.k - 0.93) / 0.055);
@@ -97,16 +96,16 @@ export function drawDying(ctx, b, B, t, light = 1, bodies = true) {
     ctx.save();
     clipHalf(ctx, h.s, S, pts);
     ctx.globalAlpha = fade;
-    if (bodies) ctx.drawImage(hull.body, hull.x0, hull.y0);
+    ctx.drawImage(hull.body, hull.x0, hull.y0);
     ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = fade * light * (1 - 0.7 * P.k) * (0.7 + 0.3 * Math.sin(t * 31));
+    ctx.globalAlpha = fade * (1 - 0.7 * P.k) * (0.7 + 0.3 * Math.sin(t * 31));
     ctx.drawImage(hull.lights, hull.x0, hull.y0);
     ctx.globalAlpha = fade * Math.max(P.white, 0.12 * P.k);
     ctx.drawImage(hullFlash(B), hull.x0, hull.y0);
     ctx.restore();
     ctx.globalAlpha = fade;
     b.parts.forEach((p, i) => {
-      if (P.parts[i] || Math.sign(p.dx) !== h.s || !bodies) return;
+      if (P.parts[i] || Math.sign(p.dx) !== h.s) return;
       const set = parts[p.id];
       partImg(ctx, set, p.dx, p.dy, wreck(set, p.open));
       ctx.globalCompositeOperation = 'lighter';
@@ -115,31 +114,29 @@ export function drawDying(ctx, b, B, t, light = 1, bodies = true) {
       ctx.globalCompositeOperation = 'source-over';
       ctx.globalAlpha = fade;
     });
-    fires(ctx, S, h.s, P.k, t, seed + h.s, fade * light);
+    fires(ctx, S, h.s, P.k, t, seed + h.s, fade);
     ctx.restore();
   });
   const mid = P.halves[1].dy;
   ctx.globalCompositeOperation = 'lighter';
-  ctx.globalAlpha = fade * light * Math.min(1, P.split * 1.6);
+  ctx.globalAlpha = fade * Math.min(1, P.split * 1.6);
   const sw = 50 + 160 * P.split;
   ctx.drawImage(glow('#ffb04a'), b.x + P.jx - sw / 2, b.y + P.jy + mid - S.def.size.h * 0.7, sw, S.def.size.h * 1.4);
-  ctx.globalAlpha = fade * light * P.split * 0.8;
+  ctx.globalAlpha = fade * P.split * 0.8;
   ctx.drawImage(soft('#fff2d0'), b.x + P.jx - sw / 6, b.y + P.jy + mid - S.def.size.h * 0.5, sw / 3, S.def.size.h);
   ctx.globalCompositeOperation = 'source-over';
-  if (bodies) {
-    b.parts.forEach((p, i) => {
-      if (!P.parts[i] && p.dx !== 0) return; // it rides its half
-      const f = P.parts[i] ?? { dx: P.jx, dy: P.jy + mid, rot: 0, a: 1 }; // centre parts tear off first
-      if (f.a <= 0) return;
-      const set = parts[p.id];
-      ctx.save();
-      ctx.translate(b.x + p.dx + f.dx, b.y + p.dy + f.dy);
-      ctx.rotate(f.rot);
-      ctx.globalAlpha = f.a * fade;
-      partImg(ctx, set, 0, 0, wreck(set, p.open));
-      ctx.restore();
-    });
-  }
+  b.parts.forEach((p, i) => {
+    if (!P.parts[i] && p.dx !== 0) return; // it rides its half
+    const f = P.parts[i] ?? { dx: P.jx, dy: P.jy + mid, rot: 0, a: 1 }; // centre parts tear off first
+    if (f.a <= 0) return;
+    const set = parts[p.id];
+    ctx.save();
+    ctx.translate(b.x + p.dx + f.dx, b.y + p.dy + f.dy);
+    ctx.rotate(f.rot);
+    ctx.globalAlpha = f.a * fade;
+    partImg(ctx, set, 0, 0, wreck(set, p.open));
+    ctx.restore();
+  });
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';
 }

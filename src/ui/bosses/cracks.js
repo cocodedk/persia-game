@@ -89,9 +89,9 @@ export function exposed(set, weak) {
   return set.exposed;
 }
 
-// Destroyed: the body charred nearly black, scorched, its cracks glowing ember-orange (on the body,
-// so the darkness pass leaves wrecks dark). `open`: the part was destroyed open (the fortress's
-// reactor port), so it is the open art that chars, not the closed doors.
+// Destroyed: the body charred nearly black, scorched, its cracks glowing ember-orange (on the body).
+// `open`: the part was destroyed open (a port a phase opened), so it is the open art that chars,
+// not the closed doors.
 export function wreck(set, open = false) {
   const key = open && set.open ? 'openWreck' : 'wreck';
   if (set[key]) return set[key];

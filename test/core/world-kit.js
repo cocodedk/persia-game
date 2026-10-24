@@ -9,12 +9,11 @@ export { TICK, IDLE };
 // test exercises one rule without waiting for the real thing to line up.
 export const input = (o) => ({ ...IDLE, ...o });
 export const FIRE = input({ fire: true });
-export const solid = (b) => b.mask.reduce((n, v) => n + v, 0); // a bunker's solid pixels
 
 export const wave = (o = {}) =>
   ({ formation: 'grid', rows: 1, cols: 3, roles: ['grunt'], pattern: 'aimed', speed: 1, ...o });
 export const level = (waves, d = 0, extra = {}) =>
-  ({ id: 't-1', world: 1, index: 1, seed: 1, d, twist: 'bunkers', bunkers: false, waves, ...extra });
+  ({ id: 't-1', world: 1, index: 1, seed: 1, d, waves, ...extra });
 
 export function step(world, ticks = 1, inp = IDLE) {
   for (let i = 0; i < ticks; i++) stepWorld(world, TICK, inp);

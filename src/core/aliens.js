@@ -8,8 +8,8 @@ import { emit } from './util.js';
 
 // A wave of aliens: spawn, fly in, hold the formation, swoop, shoot back.
 //   alien = { id, role, x, y, hp, maxHp, slot, mode, t, dive }
-//   maxHp the hp of the alien whole, set once where it is made (here, boss minions, the reborn
-//         wrecks of reassemble, the saucer) so nothing downstream has to work it out again
+//   maxHp the hp of the alien whole, set once where it is made (here and for boss minions) so
+//         nothing downstream has to work it out again
 //   mode 'enter' (ENTER_TIME s, the same for the whole wave) -> 'hold' -> 'dive' (first half of a
 //         swoop) -> 'return' (second half) -> 'hold' again. t is seconds in the current mode; in
 //         'hold' it is the wave's hold clock. dive is { fx, fy, ax, ay } while swooping (where it

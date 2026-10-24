@@ -51,14 +51,3 @@ export function debris(fx, rng, x, y, k, colors, speed) {
     });
   }
 }
-
-// k grains of dust that puff out and settle.
-export function dust(fx, rng, x, y, k, color) {
-  for (let i = 0, m = count(fx, k); i < m; i++) {
-    addParticle(fx, {
-      x: x + between(rng, -8, 8), y, vx: between(rng, -45, 45), vy: between(rng, -30, 20),
-      life: between(rng, 0.3, 0.6), size: between(rng, 2, 3.5), grow: 6, color, kind: 'dust',
-      gravity: 80, drag: 3,
-    });
-  }
-}

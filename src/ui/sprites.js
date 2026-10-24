@@ -20,7 +20,7 @@ export function makeCanvas(w, h) {
 
 const rgbCache = new Map();
 // '#rgb' or '#rrggbb' -> [r, g, b]
-export function rgb(hex) {
+function rgb(hex) {
   let v = rgbCache.get(hex);
   if (v) return v;
   let s = hex.slice(1);
@@ -55,25 +55,6 @@ export function hash(n) {
   h = Math.imul(h, 0xc2b2ae35);
   h ^= h >>> 16;
   return (h >>> 0) / 4294967296;
-}
-export const hash2 = (x, y) => hash(Math.imul(x | 0, 73856093) ^ Math.imul(y | 0, 19349663));
-
-// Smooth value noise in [0, 1) on a lattice of `cell` px.
-export function noise2(x, y, cell, seed = 0) {
-  const fx = x / cell;
-  const fy = y / cell;
-  const ix = Math.floor(fx);
-  const iy = Math.floor(fy);
-  let tx = fx - ix;
-  let ty = fy - iy;
-  tx = tx * tx * (3 - 2 * tx);
-  ty = ty * ty * (3 - 2 * ty);
-  const s = seed * 7919;
-  const a = hash2(ix + s, iy);
-  const b = hash2(ix + 1 + s, iy);
-  const c = hash2(ix + s, iy + 1);
-  const d = hash2(ix + 1 + s, iy + 1);
-  return (a + (b - a) * tx) * (1 - ty) + (c + (d - c) * tx) * ty;
 }
 
 const cache = new Map();

@@ -1,19 +1,18 @@
 // Sound patches of the boss fights and the big blasts, each landed on a moment the art stages:
 // the charge-up that peaks as the attack fires, weak points that crunch against plates
 // that clank and hull that swallows the hit, plates cracking open, parts torn off, a roar per
-// phase (harsher each time; the fortress's trench slides open into a reactor hum), and the death:
+// phase (harsher each time; a part a phase opens slides open into a reactor hum), and the death:
 // a scream, a groan as the hull snaps, blasts rising through the chain to the white-out.
-// The boss sounds like its world: the roar and the charge take the world's style (sound-data.js).
+// The roar takes the style's voice (sound-data.js).
 import { tone, hiss, fm, wobble, crush, noteHz } from './audio-kit.js';
 
 // The roar's voice per style: [oscillator wave, pitch, glide steps, waveshaper amount].
 const ROAR = {
-  chip: ['square', 1.4, 10, 1.5], noir: ['sawtooth', 1, 0, 2], brass: ['sawtooth', 0.9, 0, 2.5], koto: ['triangle', 1.2, 0, 2],
-  hive: ['sawtooth', 1.6, 0, 3], code: ['square', 1.2, 14, 4], iron: ['sawtooth', 0.8, 0, 5], cosmic: ['sine', 0.7, 0, 1.5],
+  brass: ['sawtooth', 0.9, 0, 2.5],
 };
 
 function roar(a, h, dur, fall) {
-  const [type, p, steps, drive] = ROAR[a.kit.style] ?? ROAR.noir;
+  const [type, p, steps, drive] = ROAR[a.kit.style];
   const dest = crush(a, drive + h * 1.5);
   const f = 72 * p;
   [1, 1.5, 2.01].forEach((m, i) => tone(a, {
@@ -22,8 +21,6 @@ function roar(a, h, dur, fall) {
   }));
   const growl = hiss(a, { type: 'bandpass', f0: 380 + h * 200, f1: 160, q: 1.8, attack: 0.1, dur, peak: 0.2 });
   wobble(a, growl.gain, 23 + h * 9, 0.08, a.t, dur, 'square');
-  if (a.kit.style === 'hive') wobble(a, tone(a, { f0: 1900, f1: 900, attack: 0.15, dur: dur * 0.6, peak: 0.04 }).frequency, 9, 140, a.t, dur);
-  if (a.kit.style === 'koto') tone(a, { f0: 110, f1: 40, dur: 0.6, peak: 0.5 });
 }
 
 // A blast; k in 0..1 swells it (the death chain rises), size 2 is a big one.
@@ -31,7 +28,6 @@ function blastAt(a, k, size) {
   const peak = Math.min(0.6, 0.22 + 0.3 * k + (size > 1 ? 0.15 : 0));
   hiss(a, { type: 'lowpass', f0: 2600 + 5000 * k, f1: 110, dur: 0.45 + 0.35 * size, peak });
   tone(a, { f0: 120 - 30 * k, f1: 28, dur: 0.4 + 0.3 * size, peak: peak * 1.1 });
-  if (a.kit.style === 'koto') tone(a, { f0: 150, f1: 50, dur: 0.5, peak: peak * 0.8 });
   return 0.9 + 0.35 * size;
 }
 
@@ -53,10 +49,9 @@ export const BOSS = {
   },
   warn(a, o) { // the charge: a whine and a flutter that climb to the moment it fires
     const w = o.warn;
-    const chip = a.kit.style === 'chip' || a.kit.style === 'code';
     const whine = tone(a, {
-      type: chip ? 'square' : a.kit.wave === 'sine' ? 'triangle' : 'sawtooth', f0: 170 * a.kit.pitch, f1: 1500 * a.kit.pitch,
-      attack: w * 0.92, dur: 0.06, peak: 0.1, steps: chip ? 12 : 0, cut: 3600, q: 4,
+      type: 'sawtooth', f0: 170 * a.kit.pitch, f1: 1500 * a.kit.pitch,
+      attack: w * 0.92, dur: 0.06, peak: 0.1, cut: 3600, q: 4,
     });
     const flutter = wobble(a, whine.detune, 6, 30, a.t, w);
     flutter.frequency.setValueAtTime(6, a.t);

@@ -1,8 +1,7 @@
 import { stepShip } from './ship.js';
 import { stepAliens, spawnWave } from './aliens.js';
 import { stepBoss } from './boss.js';
-import { applyTwist } from './twists.js';
-import { enemyDt } from './twists-2.js';
+import { stepBulletTime, enemyDt } from './bullet-time.js';
 import { stepPickups, sweepPickups, tickPower } from './powerups.js';
 import { stepBeam, stepBomb } from './weapons.js';
 import { collide } from './collide.js';
@@ -13,7 +12,7 @@ import { WIDTH, HEIGHT } from './kinds.js';
 
 // One tick of play, in the order that decides ties:
 //   combo -> projectiles move -> ship moves and shoots -> aliens and the boss move, dive, shoot ->
-//   power-ups, bomb and beam -> collisions -> the world's twist -> the dead are pruned -> wave flow
+//   power-ups, bomb and beam -> collisions -> bullet time -> the dead are pruned -> wave flow
 //   -> win or lose.
 // New projectiles stay where they were fired until the next tick. Projectiles move before anything
 // is fired and collisions run after every kill and hit is possible, so a shot in flight still kills
@@ -30,8 +29,8 @@ function cull(world) {
   prune(world.aliens, (a) => a.hp > 0);
 }
 
-// A field with no alien and no wreck standing is empty.
-const empty = (world) => world.aliens.length === 0 && world.wrecks.length === 0;
+// A field with no alien standing is empty.
+const empty = (world) => world.aliens.length === 0;
 
 // An empty field ends the wave: waveClear on that very tick, then the gap, then the next wave.
 // Boss levels have no waves (boss.js runs the fight).
@@ -86,7 +85,7 @@ export function stepPlay(world, dt, input) {
   stepBomb(world);
   stepBeam(world, dt, input);
   collide(world, dt, slow);
-  applyTwist(world, dt);
+  stepBulletTime(world, dt);
   cull(world);
   stepWave(world, dt);
   settle(world);

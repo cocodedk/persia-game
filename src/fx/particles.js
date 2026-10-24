@@ -3,7 +3,7 @@
 //   life max    seconds left and total seconds, so life / max is the fade
 //   size grow   radius in px and its change per second
 //   color       css colour string
-//   kind        'spark' | 'smoke' | 'debris' | 'ember' | 'dust' | 'acid'
+//   kind        'spark' | 'smoke' | 'debris' | 'ember'
 //   gravity     px/s^2 added to vy (negative rises)
 //   drag        fraction of velocity lost per second (exponential)
 //   additive    draw with 'lighter'

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ROLES, FORMATIONS, PATTERNS, POWERS, TWISTS, BOSSES } from '../../src/core/kinds.js';
+import { ROLES, FORMATIONS, PATTERNS, POWERS, BOSSES } from '../../src/core/kinds.js';
 
 test('ROLES carry the agreed hp, score and fire rate', () => {
   assert.deepEqual(ROLES, {
@@ -14,8 +14,7 @@ test('ROLES carry the agreed hp, score and fire rate', () => {
 
 test('kind lists are the agreed names in the agreed order', () => {
   assert.deepEqual(FORMATIONS, ['grid', 'sway', 'dive', 'spiral', 'split', 'escort', 'rain', 'orbit']);
-  assert.deepEqual(PATTERNS, ['aimed', 'fan', 'ring', 'spiral', 'laser', 'rain', 'homing', 'shuriken']);
+  assert.deepEqual(PATTERNS, ['aimed', 'fan', 'ring', 'spiral', 'laser', 'rain', 'homing']);
   assert.deepEqual(POWERS, ['spread', 'laser', 'rapid', 'shield']);
-  assert.deepEqual(TWISTS, ['bunkers', 'darkness', 'gusts', 'shuriken', 'acid', 'glitch', 'reassemble', 'gravity']);
-  assert.deepEqual(BOSSES, ['mothership', 'pyramid', 'fortress', 'shogun', 'queen', 'agent', 'titan', 'singularity']);
+  assert.deepEqual(BOSSES, ['mothership']);
 });

@@ -1,6 +1,6 @@
 // The boss sprite cache. A boss's painter module (bosses/<kind>.js) is run once per level into
 // offscreen canvases; per frame the game only blits them (bosses/index.js).
-//   bossArt(look, kind)   -> { mod, S, hull, parts } (baked on first call, kept until another boss)
+//   bossArt(look, kind)   -> { mod, S, hull, parts } (baked on first call, then kept)
 //     hull  = { body, lights, flash, rage: [canvas | null per phase], x0, y0 } boss-local top-left
 //             (flash: null until hullFlash(B) bakes it; only the dying boss needs it)
 //     parts = { [id]: set }, set = { body, lights, flash, open?, w, h, m, seed, crack, cracks, ... }
@@ -14,22 +14,15 @@
 //   parts: { [id | base]: (b, l, p, S) } (margin: px of canvas round a part's rect for art that
 //   overhangs it, 34 by default; margins overrides it per part id),
 //   opened?: { [id]: painter } (art once a phase opens the part), rage?: [(l, S) | null per phase]
-//   (extra hull lights that fade in with that phase), live?(ctx, boss, t, k) (per-frame extras
-//   in boss coordinates, 'lighter', cached sprites only; k is the light strength) }.
+//   (extra hull lights that fade in with that phase), live?(ctx, boss, t) (per-frame extras
+//   in boss coordinates, 'lighter', cached sprites only) }.
 // S = { def, pal: look.palette.boss, look, W, H, pad }; b, l are the body and lights contexts.
 import { makeCanvas, white } from '../sprites.js';
 import { bossDef } from '../../core/bosses-data.js';
 import { cracked, exposed, wreck } from './cracks.js';
 import mothership from './mothership.js';
-import pyramid from './pyramid.js';
-import fortress from './fortress.js';
-import shogun from './shogun.js';
-import queen from './queen.js';
-import agent from './agent.js';
-import titan from './titan.js';
-import singularity from './singularity.js';
 
-export const BOSS_ART = { mothership, pyramid, fortress, shogun, queen, agent, titan, singularity };
+export const BOSS_ART = { mothership };
 const cache = new Map();
 
 export function painterFor(mod, id) {
@@ -88,16 +81,9 @@ function bake(look, kind) {
   return { mod, S, hull: { body, lights, flash: null, rage, x0: -W / 2, y0: -H / 2 }, parts };
 }
 
-// Only the current boss is kept: a boss is several MB of canvases, and a kiosk session that plays
-// all eight boss levels must not hold all eight (Pi 4 memory).
 export function bossArt(look, kind) {
-  const k = `${look.world}:${kind}`;
-  let a = cache.get(k);
-  if (!a) {
-    cache.clear();
-    a = bake(look, kind);
-    cache.set(k, a);
-  }
+  let a = cache.get(kind);
+  if (!a) cache.set(kind, (a = bake(look, kind)));
   return a;
 }
 

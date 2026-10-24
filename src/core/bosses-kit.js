@@ -2,7 +2,7 @@
 //   { kind, name, y, size: { w, h }, parts, phases, maxHp, bottom }
 //   part  = { id, dx, dy, w, h, hp, weak, armor }  (dx, dy: centre offset from the boss's centre)
 //     weak  takes full damage; armor takes 25 %; a part that is neither is a bare hull, which
-//     soaks shots and takes nothing until a phase opens it (the fortress's core).
+//     soaks shots and takes nothing until a phase opens it.
 //   phase = { until, move, attacks, rate?, minions?, open? }
 //     until   the hp fraction at which this phase ends (the last is 0)
 //     move    'sway' | 'hover' | 'charge' | 'orbit'; rate scales the pace (default 1)
@@ -17,7 +17,6 @@ const part = (weak, armor) => (id, dx, dy, w, h, hp) => ({ id, dx, dy, w, h, hp,
 
 export const weak = part(true, false);
 export const armor = part(false, true);
-export const hull = part(false, false);
 
 export const atk = (pattern, every, from, p = {}) => ({ pattern, every, from, p });
 export const minion = (role, count, every, from) => ({ role, count, every, from });

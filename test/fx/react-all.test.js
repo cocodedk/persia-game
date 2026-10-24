@@ -21,7 +21,7 @@ test('every event type the core emits has a reaction, or is listed as silent her
   for (const name of readdirSync(dir)) {
     for (const m of readFileSync(dir + name, 'utf8').matchAll(/emit\(world, '(\w+)'/g)) types.add(m[1]);
   }
-  assert.ok(types.size >= 30, `found ${types.size} event types`);
+  assert.ok(types.size >= 20, `found ${types.size} event types`);
   for (const t of types) {
     assert.ok(REACTS.includes(t) || SILENT.includes(t), `no fx reaction for core event '${t}'`);
   }
@@ -42,7 +42,7 @@ test('the same seed gives the same effects; another seed gives different ones', 
 });
 
 test('fx never draws from the world rng', () => {
-  const world = createWorld(levelById('w5-5'));
+  const world = createWorld(levelById('w1-5'));
   const before = world.rng.s;
   const fx = createFx();
   const rng = makeRng(1);
@@ -70,7 +70,7 @@ test('a storm of events cannot pass 600 particles', () => {
 });
 
 test('a whole autopiloted fight on a boss level: every effect stays finite and bounded', () => {
-  const world = createWorld(levelById('w2-5'));
+  const world = createWorld(levelById('w1-5'));
   const fx = createFx();
   const rng = makeRng(4);
   let peak = 0;

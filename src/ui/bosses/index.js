@@ -1,7 +1,6 @@
-// The eight bosses, drawn from their baked sprites (bake.js; painters in bosses/<kind>.js).
-//   drawBoss(ctx, world, look, t, q?)        world space, after the bunkers, before the aliens (so
-//                                            minions launched from the boss fly over it; ruling R27)
-//   drawBossLights(ctx, world, look, t, k, q?)  only the lights, at strength k: Neon Rain's darkness pass
+// The boss, drawn from its baked sprites (bake.js; painters in bosses/<kind>.js).
+//   drawBoss(ctx, world, look, t, q?)        world space, before the aliens (so minions launched
+//                                            from the boss fly over it; ruling R27)
 // q is the view's quality level: below 1 the phases' rage overlays (hull-sized, purely decorative
 // glow) are skipped, the biggest fill a boss frame has on a Pi.
 //   partStage(p)                             0 | 1 | 2, how cracked a part is drawn (parts.js)
@@ -30,17 +29,17 @@ function phaseMemo(b, t) {
 }
 
 // The hull's lights and its phase's own lights, under the parts (not at half quality: q < 1).
-function hullLights(ctx, b, B, t, k, q) {
+function hullLights(ctx, b, B, t, q) {
   const h = B.hull;
   const ph = phaseMemo(b, t);
   ctx.globalCompositeOperation = 'lighter';
-  ctx.globalAlpha = k * (0.88 + 0.12 * Math.sin(t * 2.1));
+  ctx.globalAlpha = 0.88 + 0.12 * Math.sin(t * 2.1);
   ctx.drawImage(h.lights, b.x + h.x0, b.y + h.y0);
   const e = smooth((t - ph.at) / FADE);
   for (const [i, a] of [[ph.phase, e], [ph.prev, 1 - e]]) {
     const img = h.rage[i];
     if (!img || a <= 0 || q < 1) continue;
-    ctx.globalAlpha = k * a;
+    ctx.globalAlpha = a;
     ctx.drawImage(img, b.x + h.x0, b.y + h.y0);
   }
   ctx.globalAlpha = 1;
@@ -48,17 +47,17 @@ function hullLights(ctx, b, B, t, k, q) {
 }
 
 // Everything lit above the part bodies: their lights, the module's live extras, the charge-ups.
-function lights(ctx, b, B, look, t, k) {
+function lights(ctx, b, B, look, t) {
   ctx.globalCompositeOperation = 'lighter';
-  partLights(ctx, b, B, look, t, k);
+  partLights(ctx, b, B, look, t);
   if (B.mod.live) {
     ctx.save();
     ctx.translate(b.x, b.y);
     ctx.globalAlpha = 1;
-    B.mod.live(ctx, b, t, k);
+    B.mod.live(ctx, b, t);
     ctx.restore();
   }
-  warns(ctx, b, B, look, t, k);
+  warns(ctx, b, B, look, t);
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';
 }
@@ -73,21 +72,8 @@ export function drawBoss(ctx, world, look, t, q = 1) {
   }
   const h = B.hull;
   ctx.drawImage(h.body, b.x + h.x0, b.y + h.y0);
-  hullLights(ctx, b, B, t, 1, q);
-  halos(ctx, b, look.palette.boss, t, 1);
+  hullLights(ctx, b, B, t, q);
+  halos(ctx, b, look.palette.boss, t);
   partBodies(ctx, b, B, look, t);
-  lights(ctx, b, B, look, t, 1);
-}
-
-export function drawBossLights(ctx, world, look, t, k, q = 1) {
-  const b = world.boss;
-  if (!b) return;
-  const B = bossArt(look, b.kind);
-  if (b.dying !== null) {
-    drawDying(ctx, b, B, t, k, false);
-    return;
-  }
-  hullLights(ctx, b, B, t, k, q);
-  halos(ctx, b, look.palette.boss, t, k);
-  lights(ctx, b, B, look, t, k);
+  lights(ctx, b, B, look, t);
 }

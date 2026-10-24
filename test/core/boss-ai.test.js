@@ -36,7 +36,7 @@ test('every attack is announced by a bossWarn at least 0.6 s before its bullets 
 });
 
 test('bossWarn carries what the renderer needs, and boss.warns holds the pending ones', () => {
-  const w = live('fortress');
+  const w = live('mothership');
   let warn;
   for (let i = 0; i < 60 * 20 && !warn; i++) {
     stepWorld(w, TICK, IDLE);
@@ -115,7 +115,7 @@ test('the boss stays on screen and above the player zone in every phase of a rea
 
 test('boss fights are deterministic and the world survives structuredClone mid-fight', () => {
   const run = (clone) => {
-    let w = createWorld(realLevel('queen'));
+    let w = createWorld(realLevel('mothership'));
     w.ship.invuln = Infinity;
     for (let i = 0; i < 60 * 25; i++) {
       stepWorld(w, TICK, IDLE);

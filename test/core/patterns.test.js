@@ -71,14 +71,6 @@ test('rain falls straight down, scattered around the emitter within spread', () 
   assert.ok(new Set(list.map((b) => b.x)).size > 30, 'x is scattered');
 });
 
-test('shuriken is aimed, 0.6x speed, radius 18', () => {
-  const [b] = emit('shuriken');
-  assert.equal(b.r, 18);
-  assert.ok(Math.abs(speedOf(b) - 0.6 * 400) < 1e-9);
-  assert.ok(Math.abs(wrap(heading(b) - AIM)) < 1e-12);
-  assert.ok(b.life > 5, 'slow, so it lives long enough to cross the screen');
-});
-
 test('patterns are deterministic per rng seed, and the seed matters where it is used', () => {
   for (const name of PATTERNS) {
     assert.deepEqual(emit(name, P, 5), emit(name, P, 5), name);

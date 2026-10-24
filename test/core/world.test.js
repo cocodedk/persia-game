@@ -19,9 +19,9 @@ test('createWorld follows the core contract', () => {
   assert.equal(w.state, 'intro');
   assert.deepEqual([w.t, w.tick, w.score, w.hits, w.wave], [0, 0, 0, 0, 1]);
   assert.deepEqual(w.combo, { mult: 1, timer: 0 });
-  for (const k of ['shots', 'bullets', 'pickups', 'bunkers', 'events']) assert.deepEqual(w[k], [], k);
+  for (const k of ['shots', 'bullets', 'pickups', 'events']) assert.deepEqual(w[k], [], k);
   assert.equal(w.boss, null);
-  const lv = levelById('w2-1');
+  const lv = levelById('w1-2');
   assert.deepEqual(createWorld(lv), createWorld(lv, lv.seed), 'the seed defaults to the level\'s own');
   assert.doesNotThrow(() => structuredClone(w));
 });
@@ -120,7 +120,7 @@ test('a boss level has no aliens yet and stays in play (the boss arrives in a la
 });
 
 test('every event carries the tick it happened on', () => {
-  const w = createWorld(levelById('w3-2'), 5);
+  const w = createWorld(levelById('w1-3'), 5);
   w.ship.invuln = 1e9;
   const seen = new Set();
   for (let i = 0; i < 900; i++) {
@@ -134,8 +134,13 @@ test('every event carries the tick it happened on', () => {
 });
 
 // A busy, ship-proof run on a level with lasers and divers, driven by random keys and mouse.
+const LASERS = level([
+  wave({ formation: 'dive', rows: 3, cols: 10, roles: ['diver', 'gunner', 'diver'], pattern: 'fan', speed: 1.1 }),
+  wave({ formation: 'sway', rows: 3, cols: 6, roles: ['grunt', 'armored', 'grunt'], pattern: 'laser', speed: 1.05 }),
+], 12 / 39, { seed: 31057 });
+
 function run(seed, n) {
-  const w = createWorld(levelById('w3-3'), seed);
+  const w = createWorld(LASERS, seed);
   w.ship.invuln = 1e9;
   const rng = createRng(99);
   const r = (k) => Math.floor(rand(rng) * k);

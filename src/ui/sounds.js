@@ -6,7 +6,6 @@
 // only blasts with no kill of their own sound: the boss's death chain (swelling as it runs, k 0..1),
 // the ship's wreck (size 2) and the final white-out blast (size 3).
 import { CHAIN } from '../core/boss-phase.js';
-import { MID_X } from '../core/kinds.js';
 
 export const SILENT = {
   failed: 'the failed screen plays the stinger',
@@ -45,24 +44,13 @@ export function eventSounds(events, world, play) {
       case 'sweep': play('pickup', { kind: e.kind, x: e.x, delay: CHIME_GAP * e.nth }); break;
       case 'power': play(e.on ? 'powerOn' : 'powerOff', { kind: e.kind }); break;
       case 'bomb': play('bomb', at(e)); break;
-      case 'bunker': play('bunker', { laser: e.laser, x: e.x }); break;
       case 'waveClear': play('waveClear'); break; // the slow motion's swoop, the last wave's too
       case 'bossWarn': play('warn', { warn: e.warn, x: e.x }); break;
       case 'bossExpose': play('expose', at(e)); break;
       case 'partDown': play('partDown', at(e)); break;
       case 'bossPhase': play('phase', { phase: e.phase, open: e.open?.length > 0, x: e.x }); break;
       case 'bossDeath': play('bossDeath', at(e)); break;
-      case 'lightning': play('thunder', { strength: e.strength, x: e.x }); break;
-      case 'gust': if (e.wind) play('gust', { wind: e.wind, x: MID_X }); break;
-      case 'cut': play('cut', at(e)); break;
-      case 'acid': play('acid', at(e)); break;
-      case 'teleport': play('teleport', at(e)); break;
       case 'bulletTime': play(e.on ? 'bulletOn' : 'bulletOff'); break;
-      case 'wreck': play('wreck', at(e)); break;
-      case 'wreckDown': play('wreckDown', at(e)); break;
-      case 'reassemble': play('reassemble', at(e)); break;
-      case 'absorb': play('absorb', at(e)); break;
-      case 'saucer': play('saucer', { dir: e.dir, x: e.x }); break;
       default: break; // SILENT
     }
   }

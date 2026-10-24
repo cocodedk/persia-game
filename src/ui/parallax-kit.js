@@ -1,4 +1,4 @@
-// Shared helpers for the parallax painters: outlines, sine sums, midpoint ridges.
+// Shared helpers for the parallax painters: outlines and midpoint ridges.
 
 // A filled outline from a top-edge function y(x), closed along the bottom.
 export function profile(g, w, h, top, step = 4) {
@@ -8,15 +8,6 @@ export function profile(g, w, h, top, step = 4) {
   g.lineTo(w + step, h);
   g.closePath();
   g.fill();
-}
-
-// Sum of random sines in [-1, 1].
-export function waves(rng, n, base) {
-  const parts = Array.from({ length: n }, (_, i) => ({
-    f: base * (i + 1) * (0.7 + rng() * 0.6), p: rng() * 7, a: 1 / (i + 1),
-  }));
-  const norm = parts.reduce((s, p) => s + p.a, 0);
-  return (x) => parts.reduce((s, p) => s + Math.sin(x * p.f + p.p) * p.a, 0) / norm;
 }
 
 // Midpoint displacement ridge, values 0..1.

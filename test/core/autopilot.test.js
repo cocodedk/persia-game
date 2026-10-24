@@ -25,7 +25,7 @@ test('it answers in the shape of a human input: keys in -1..1, booleans, an inte
 });
 
 test('it is a pure function of the world: no mutation, no draw from the world rng, same answer twice', () => {
-  for (const id of ['w1-2', 'w4-3', 'w5-5', 'w8-5']) {
+  for (const id of ['w1-2', 'w1-3', 'w1-4', 'w1-5']) {
     const world = createWorld(levelById(id));
     for (let n = 0; n < 5; n++) {
       step(world, 130);

@@ -37,38 +37,30 @@ test('the boss flies in during the intro and cannot be hurt until it has arrived
 });
 
 test('a weak part takes full damage, an armour plate 25 %, and a bare hull none', () => {
-  const w = bossWorld('fortress');
-  const [turret, plate, core] = ['turretL', 'plateL', 'core'].map((id) => part(w, id));
-  const before = [turret.hp, plate.hp, core.hp];
-  for (const p of [turret, plate, core]) shotOn(w, p);
+  const w = bossWorld('mothership');
+  const [gun, wing, dome] = ['gunL', 'wingL', 'dome'].map((id) => part(w, id));
+  Object.assign(dome, { weak: false, armor: false }); // a bare hull
+  const before = [gun.hp, wing.hp, dome.hp];
+  for (const p of [gun, wing, dome]) shotOn(w, p);
   step(w);
-  assert.deepEqual([turret.hp, plate.hp, core.hp], [before[0] - 1, before[1] - 0.25, before[2]]);
+  assert.deepEqual([gun.hp, wing.hp, dome.hp], [before[0] - 1, before[1] - 0.25, before[2]]);
   const hits = ofType(drain(w), 'hit').filter((e) => e.role === 'boss');
-  assert.deepEqual(hits.map((e) => [e.part, e.dmg]).sort(), [['core', 0], ['plateL', 0.25], ['turretL', 1]]);
+  assert.deepEqual(hits.map((e) => [e.part, e.dmg]).sort(), [['dome', 0], ['gunL', 1], ['wingL', 0.25]]);
   assert.equal(w.shots.filter((s) => s.life > 0).length, 0, 'every shot was spent');
   assert.equal(w.boss.hp, w.boss.maxHp - 1.25);
 });
 
-test('a shot is spent on the first part it meets, so a plate in front shields what is behind', () => {
-  const w = bossWorld('fortress');
-  const [plate, dish] = ['plateL', 'dish'].map((id) => part(w, id));
-  w.shots.push({ pattern: 'shot', x: plate.x - 20, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
+test('a shot is spent on the first part it meets: the eye shields the dome, which is open once the eye is gone', () => {
+  const w = bossWorld('mothership');
+  const [eye, dome] = ['eye', 'dome'].map((id) => part(w, id));
+  w.shots.push({ pattern: 'shot', x: dome.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
   seconds(w, 0.5);
-  assert.equal(dish.hp, dish.max, 'the dish sits right behind that plate');
-  assert.equal(plate.hp, plate.max - 0.25);
-});
-
-test('the pyramid\'s spire is shielded by the eye, and open to the sky of the shaft once the eye is gone', () => {
-  const w = bossWorld('pyramid');
-  const [eye, spire] = ['eye', 'spire'].map((id) => part(w, id));
-  w.shots.push({ pattern: 'shot', x: spire.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
-  seconds(w, 0.5);
-  assert.equal(spire.hp, spire.max);
+  assert.equal(dome.hp, dome.max, 'the dome sits right behind the eye');
   assert.equal(eye.hp, eye.max - 1, 'the eye hangs lowest in that column');
   eye.hp = 0;
-  w.shots.push({ pattern: 'shot', x: spire.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
+  w.shots.push({ pattern: 'shot', x: dome.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
   seconds(w, 0.5);
-  assert.equal(spire.hp, spire.max - 1, 'with the eye gone the shaft is open');
+  assert.equal(dome.hp, dome.max - 0.25, 'with the eye gone the dome takes the shot');
 });
 
 test('when the last weak part falls the plates crack open: bossExpose once, and they take full damage', () => {
@@ -94,21 +86,16 @@ test('when the last weak part falls the plates crack open: bossExpose once, and 
   assert.equal(ofType(drain(w), 'bossExpose').length, 0, 'once per occurrence');
 });
 
-test('cracking leaves a bare hull alone, and the fortress core opens in its last phase as ever', () => {
-  const w = bossWorld('fortress');
-  part(w, 'turretL').hp = 0;
-  part(w, 'turretR').hp = 0;
+test('cracking leaves a bare hull alone', () => {
+  const w = bossWorld('mothership');
+  const dome = Object.assign(part(w, 'dome'), { weak: false, armor: false }); // a bare hull
+  part(w, 'gunL').hp = 0;
+  part(w, 'gunR').hp = 0;
   step(w);
+  hurtPart(w, part(w, 'eye'), 1000);
   const ev = ofType(drain(w), 'bossExpose');
-  assert.deepEqual(ev.map((e) => e.parts), [['dish', 'plateL', 'plateR']]);
-  const core = part(w, 'core');
-  assert.deepEqual([core.weak, core.cracked, core.open], [false, false, false], 'the core is no plate');
-  assert.equal(w.boss.phase, 1);
-  leave(w, ['core'], core.max);
-  step(w);
-  assert.equal(w.boss.phase, 2);
-  assert.deepEqual([core.weak, core.open, core.cracked], [true, true, false]);
-  assert.equal(ofType(drain(w), 'bossExpose').length, 0);
+  assert.deepEqual(ev.map((e) => e.parts), [['wingL', 'wingR']]);
+  assert.deepEqual([dome.weak, dome.cracked], [false, false], 'the dome is no plate');
 });
 
 test('a destroyed part reports itself and stops blocking', () => {
@@ -146,20 +133,4 @@ test('a phase change fires when one hit carries the boss over a threshold, not b
   hurtPart(w, part(w, 'gunL'), 2);
   assert.equal(w.boss.phase, 1);
   assert.deepEqual(ofType(drain(w), 'bossPhase').map((e) => e.phase), [1]);
-});
-
-test('the Twin Suns fortress opens its trench in the last phase, which exposes the core', () => {
-  const w = bossWorld('fortress');
-  const core = part(w, 'core');
-  assert.deepEqual([core.weak, core.armor, core.open], [false, false, false]);
-  leave(w, ['core'], core.max);
-  step(w);
-  assert.equal(w.boss.phase, 2);
-  assert.deepEqual([core.weak, core.open], [true, true]);
-  const ev = ofType(drain(w), 'bossPhase');
-  assert.deepEqual(ev.map((e) => e.open), [[], ['core']]);
-  const hp = core.hp;
-  shotOn(w, core);
-  step(w);
-  assert.equal(core.hp, hp - 1);
 });

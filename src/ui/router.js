@@ -1,15 +1,15 @@
 // Screen routing: title (over the backdrop battle) -> title card -> play -> pause -> results /
 // failed. `app` is the one piece of state the loop reads.
-//   app = { screen, scene, backdrop, shown, token }
+//   app = { screen, scene, backdrop, token }
 //   screen 'title' | 'loading' | 'play' | 'paused' | 'results' | 'failed'
 //   backdrop: the title's battle, kept across menu visits; starting a level drops it, so the title
-//   bakes another world's battle (shown: the world it showed last) on the menu, never mid-level (M5)
+//   bakes another battle on the menu, never mid-level
 //   token: counts the routes taken, so a deferred bake can tell its screen was left
 // The end of a level goes through flow.js. r.pilot (debug-hooks.js, ?debug&auto) flies every level.
 // Every route away from a level goes through leave(): the old scene stops stepping at once (the
 // loop only runs app.scene) and the level's own sounds (the laser hum) stop with it.
 import { LEVELS, reelName, worldName } from '../core/levels.js';
-import { lookFor } from './looks/index.js';
+import { LOOK } from './looks/index.js';
 import { play, duck, setBeam } from './audio.js';
 import { setWorld } from './music.js';
 import { resetInput } from './input.js';
@@ -23,7 +23,7 @@ const MIN_CARD = 0.9; // s the title card stays, so it reads as a moment, not a 
 const labelOf = (level) => `${worldName(level)} · ${reelName(level)}`;
 
 export function createRouter({ canvas, stage, input }) {
-  const app = { screen: 'boot', scene: null, backdrop: null, shown: 0, token: 0 };
+  const app = { screen: 'boot', scene: null, backdrop: null, token: 0 };
   const r = { app, labelOf, pilot: null };
   const live = () => app.screen === 'play';
 
@@ -39,9 +39,8 @@ export function createRouter({ canvas, stage, input }) {
   r.goTitle = () => {
     leave('title');
     const items = [{ label: 'Play', pick: () => r.startLevel(LEVELS[0]) }];
-    const level = app.backdrop?.level ?? pickBackdrop(app.shown);
-    app.shown = level.world;
-    setWorld(lookFor(level));
+    const level = app.backdrop?.level ?? pickBackdrop();
+    setWorld(LOOK);
     stage.show(titleScreen({ items, nowShowing: worldName(level) }));
     if (app.backdrop) {
       app.scene = app.backdrop;
@@ -58,9 +57,9 @@ export function createRouter({ canvas, stage, input }) {
   // Show the level's card, bake its view behind it, then play.
   r.startLevel = (level) => {
     leave('loading');
-    app.backdrop = null; // back on the title, another world's battle (M5)
+    app.backdrop = null; // back on the title, another battle
     const token = app.token;
-    setWorld(lookFor(level));
+    setWorld(LOOK);
     stage.show(cardScreen(level));
     play('start');
     const t0 = performance.now();

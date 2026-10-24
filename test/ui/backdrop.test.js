@@ -2,27 +2,17 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { installCanvas } from './dom-kit.js';
 
-// The title's backdrop battle (M5): a random world's wave level, and on a return to the title from a
-// level, another world than the one just shown (the router passes it), so a kiosk cycles worlds.
+// The title's backdrop battle: a random wave level, flown by the autopilot.
 installCanvas();
 const { pickBackdrop } = await import('../../src/ui/scenes.js');
+const { LEVELS } = await import('../../src/core/levels.js');
 
-test('the backdrop is a wave level of any world, and never the world it is told to skip', () => {
-  const worlds = new Set();
+test('the backdrop is a wave level, and every wave level comes up', () => {
+  const seen = new Set();
   for (let i = 0; i < 400; i++) {
     const level = pickBackdrop();
     assert.ok(level.waves, `${level.id} is a wave level`);
-    worlds.add(level.world);
+    seen.add(level.id);
   }
-  assert.equal(worlds.size, 8, 'every world comes up');
-  for (let skip = 1; skip <= 8; skip++) {
-    const other = new Set();
-    for (let i = 0; i < 200; i++) {
-      const level = pickBackdrop(skip);
-      assert.ok(level.waves, `${level.id} is a wave level`);
-      assert.notEqual(level.world, skip, `skipping world ${skip}`);
-      other.add(level.world);
-    }
-    assert.equal(other.size, 7, `the other seven worlds come up when skipping ${skip}`);
-  }
+  assert.equal(seen.size, LEVELS.filter((l) => l.waves).length, 'every wave level comes up');
 });

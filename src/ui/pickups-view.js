@@ -1,73 +1,16 @@
 // Falling pickups: a dark capsule ringed in the power's tint (look.power), with its icon, a pulsing
-// glow and turning dashes so it reads as "catch me" on any sky. Icons are shared by the HUD. Each
-// world reskins the capsule's rim and some icons (pickup-skins.js, keyed by look.world).
-import { INK, cached, glow, rgba } from './sprites.js';
-import { FRAMES, ICONS, disc, ring } from './pickup-skins.js';
-import { FAN } from './pickup-icons.js';
-import { TAU } from '../core/math.js';
+// glow and turning dashes so it reads as "catch me" on any sky. Icons are shared by the HUD; the
+// rim and the icons are the pickup skin (pickup-skins.js).
+import { cached, glow, rgba } from './sprites.js';
+import { frame, ICONS } from './pickup-skins.js';
 
-// The icon for `kind` in world `world` (0: the default set), drawn centred on (0, 0) about 30 px across.
-export function drawIcon(g, kind, color, world = 0) {
-  const own = ICONS[world]?.[kind];
-  if (own) {
-    own(g, color);
-    g.lineCap = 'butt';
-    g.lineJoin = 'miter';
-    return;
-  }
-  g.strokeStyle = color;
-  g.fillStyle = color;
-  g.lineWidth = 4;
-  g.lineCap = 'round';
-  g.lineJoin = 'round';
-  g.beginPath();
-  if (kind === 'spread') {
-    for (const a of FAN) {
-      g.moveTo(0, 12);
-      g.lineTo(Math.sin(a) * 26, 12 - Math.cos(a) * 26);
-    }
-    g.stroke();
-  } else if (kind === 'laser') {
-    g.fillRect(-4, -15, 8, 30);
-    g.fillStyle = '#ffffff';
-    g.fillRect(-1.5, -15, 3, 30);
-  } else if (kind === 'rapid') {
-    for (const y of [-6, 6]) {
-      g.moveTo(-11, y + 6);
-      g.lineTo(0, y - 5);
-      g.lineTo(11, y + 6);
-    }
-    g.stroke();
-  } else if (kind === 'shield') {
-    for (let i = 0; i <= 6; i++) {
-      const a = (i * Math.PI) / 3 - Math.PI / 2;
-      g.lineTo(Math.cos(a) * 14, Math.sin(a) * 14);
-    }
-    g.stroke();
-  } else { // bomb
-    g.arc(-2, 3, 11, 0, TAU);
-    g.fill();
-    g.beginPath();
-    g.moveTo(5, -6);
-    g.quadraticCurveTo(10, -14, 15, -12);
-    g.lineWidth = 3;
-    g.stroke();
-    g.fillStyle = '#fff6c8';
-    g.fillRect(13, -16, 5, 5);
-  }
-  g.lineCap = 'butt';
-}
+// The icon for `kind`, drawn centred on (0, 0) about 30 px across.
+export const drawIcon = (g, kind, color) => ICONS[kind](g, color);
 
-function plainFrame(g, color) {
-  disc(g, 24);
-  ring(g, 24, color, 4);
-  ring(g, 27, INK, 2);
-}
-
-const capsule = (kind, color, world) => cached(`pick${kind}${color}${world}`, 60, 60, (g) => {
+const capsule = (kind, color) => cached(`pick${kind}${color}`, 60, 60, (g) => {
   g.translate(30, 30);
-  (FRAMES[world] ?? plainFrame)(g, color);
-  drawIcon(g, kind, color, world);
+  frame(g, color);
+  drawIcon(g, kind, color);
 });
 
 export function drawPickups(ctx, world, look, t) {
@@ -88,6 +31,6 @@ export function drawPickups(ctx, world, look, t) {
       ctx.stroke();
     }
     ctx.globalCompositeOperation = 'source-over';
-    ctx.drawImage(capsule(p.kind, color, look.world), p.x - 30, y - 30);
+    ctx.drawImage(capsule(p.kind, color), p.x - 30, y - 30);
   }
 }

@@ -1,4 +1,4 @@
-// Sound patches of the power-ups and the smart bomb: pickups chime in the world's scale, each power
+// Sound patches of the power-ups and the smart bomb: pickups chime in the look's scale, each power
 // switches on with its own gesture and winds down when it ends, the laser hums while it burns, and
 // the bomb inhales before it lands. A patch is (a, o) -> seconds (audio-kit.js).
 import { tone, hiss, fm, wobble, noteHz, panOf } from './audio-kit.js';
@@ -63,7 +63,7 @@ export const POWER = {
     f.Q.value = 4;
     f.frequency.value = Math.min(2600, kit.cut);
     f.connect(g).connect(a.out);
-    const oscs = [[kit.wave === 'sine' ? 'triangle' : 'sawtooth', noteHz(kit, 0, 3)], ['sine', noteHz(kit, 0, 2)], ['sawtooth', noteHz(kit, 4, 3)]]
+    const oscs = [['sawtooth', noteHz(kit, 0, 3)], ['sine', noteHz(kit, 0, 2)], ['sawtooth', noteHz(kit, 4, 3)]]
       .map(([type, hz], i) => {
         const o = ctx.createOscillator();
         o.type = type;

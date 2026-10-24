@@ -1,39 +1,17 @@
 import { posAt, bossShifts } from './predict.js';
 import { liveParts } from './boss-hit.js';
-import { loose } from './damage.js';
 import { isSwooping } from './aliens.js';
 import { SHOT_SPEED, MUZZLE, ZONE, FOLLOW } from './ship.js';
 import { clamp } from './math.js';
 import { TICK } from './kinds.js';
 
 // Where the ship should stand to shoot: the point under the nearest thing it can hit, aimed where
-// that thing will be when the shot gets there. Targets: aliens, the bonus saucer, wrecks, and the
-// boss's weak parts (plates when none is weak), each led by its own movement (predict.js).
+// that thing will be when the shot gets there. Targets: aliens and the boss's weak parts (plates
+// when none is weak), each led by its own movement (predict.js).
 
 export const HOME_Y = 960; // the row the ship fights from
 const LAG = 1 / FOLLOW; // s: the ship follows a pointer target with this time constant, so aim that far further ahead
-const TOLERANCE = 16; // px either side of an alien's centre the shot may be moved to get through a gap
-const OFFSETS = [0, -8, 8, -16, 16];
-const BIAS = { saucer: 150, plate: 200, boss: -50, diver: -200 }; // px added to the distance when ranking
-
-// Is any mask pixel within a shot's width (5 px, and one to spare) of the column x solid?
-function solidColumn(b, x) {
-  const lo = Math.max(0, Math.floor(x - b.x - 6.5));
-  const hi = Math.min(b.w - 1, Math.floor(x - b.x + 5.5));
-  for (let ix = lo; ix <= hi; ix++) {
-    for (let iy = 0; iy < b.h; iy++) if (b.mask[iy * b.w + ix]) return true;
-  }
-  return false;
-}
-
-// Would a shot climbing the column x stop before reaching height y: in a bunker, or in the well?
-function obstructed(world, x, y) {
-  for (const b of world.bunkers) {
-    if (y < b.y + b.h && x > b.x - 7 && x < b.x + b.w + 7 && solidColumn(b, x)) return true;
-  }
-  const well = world.well;
-  return Boolean(well) && y < well.y + 30 && Math.abs(x - well.x) < 55;
-}
+const BIAS = { plate: 200, boss: -50, diver: -200 }; // px added to the distance when ranking
 
 // Where `t` will be when a shot fired now reaches it (the flight time depends on where it is then).
 function lead(world, t, muzzle) {
@@ -42,14 +20,14 @@ function lead(world, t, muzzle) {
   return p;
 }
 
-// Aliens (minions and divers included), the saucer and wrecks, each at the point a shot will find it.
-function looseTargets(world, muzzle) {
+// Aliens (minions and divers included), each at the point a shot will find it.
+function alienTargets(world, muzzle) {
   const out = [];
-  for (const t of loose(world)) {
+  for (const t of world.aliens) {
     if (t.hp <= 0) continue;
     const p = lead(world, t, muzzle);
     if (p.y < 20 || p.y > muzzle - 20) continue;
-    out.push({ x: p.x, y: p.y, bias: t.saucer ? BIAS.saucer : isSwooping(t) ? BIAS.diver : 0, tol: TOLERANCE });
+    out.push({ x: p.x, y: p.y, bias: isSwooping(t) ? BIAS.diver : 0 });
   }
   return out;
 }
@@ -86,23 +64,19 @@ function bossTargets(world, muzzle) {
     }
     const ship = world.ship.x - s.dx;
     const x = open.get(p).reduce((a, b) => (Math.abs(b - ship) < Math.abs(a - ship) ? b : a));
-    out.push({ x: x + s.dx, y: bottom + s.dy, bias: weak.length ? BIAS.boss : BIAS.plate, tol: 0 });
+    out.push({ x: x + s.dx, y: bottom + s.dy, bias: weak.length ? BIAS.boss : BIAS.plate });
   }
   return out;
 }
 
-// The aim point { x, y } for the ship, or null when there is nothing to shoot at. Nearest target
-// first; one a bunker or the well would stop is passed over (or reached through a gap by moving the
-// shot a few pixels) unless everything is covered, in which case the nearest is chipped at.
+// The aim point { x, y } for the ship, or null when there is nothing to shoot at: the nearest
+// target, its distance weighed by its bias.
 export function chooseAim(world) {
   const { ship } = world;
   const muzzle = ship.y - MUZZLE;
-  const all = [...looseTargets(world, muzzle), ...bossTargets(world, muzzle)];
+  const all = [...alienTargets(world, muzzle), ...bossTargets(world, muzzle)];
   const dist = (c) => Math.abs(c.x - ship.x) + c.bias;
-  all.sort((a, b) => dist(a) - dist(b));
-  for (const c of all) {
-    const o = OFFSETS.find((d) => Math.abs(d) <= c.tol && !obstructed(world, c.x + d, c.y));
-    if (o !== undefined) return { x: clamp(c.x + o, ZONE.x0, ZONE.x1), y: HOME_Y };
-  }
-  return all.length ? { x: clamp(all[0].x, ZONE.x0, ZONE.x1), y: HOME_Y } : null;
+  let best = null;
+  for (const c of all) if (!best || dist(c) < dist(best)) best = c;
+  return best && { x: clamp(best.x, ZONE.x0, ZONE.x1), y: HOME_Y };
 }

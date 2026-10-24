@@ -73,9 +73,6 @@ const EMIT = {
     b.turn = HOMING_TURN;
     return [b];
   },
-
-  // One big slow star: 0.6x speed, radius 18, so long a life that it can cross the whole screen.
-  shuriken: (from, target, p) => [shot('shuriken', from, angleTo(from, target), p.speed * 0.6, 18, 10)],
 };
 
 export function emitPattern(pattern, from, target, p, rng) {

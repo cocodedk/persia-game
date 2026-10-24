@@ -240,7 +240,7 @@ come in Task 6.
     bullet style `pixel`, and one pickup skin set.
   - `SCALES` keeps `homayoun = [0, 1, 4, 5, 7, 8, 10]` and whatever else `brass` needs.
 
-- [ ] **Step 1: Write `bullet-time.test.js`.** Move the near-miss cases from the twist tests into
+- [x] **Step 1: Write `bullet-time.test.js`.** Move the near-miss cases from the twist tests into
   it, rewritten for a world without a twist field:
   - a near miss starts bullet time and emits `{ type: 'bulletTime', on: true }`
   - enemies move at the slowed `enemyDt`
@@ -248,7 +248,7 @@ come in Task 6.
   - no second start inside `SLOW_COOL`
 
   Run `npm test`. It should FAIL on the missing module.
-- [ ] **Step 2: Cut and move.**
+- [x] **Step 2: Cut and move.**
   - Delete the files listed above and every branch, field, event, sound and reaction of a deleted
     rule.
   - Move bullet time into `bullet-time.js`.
@@ -258,16 +258,16 @@ come in Task 6.
     and `wave()`, or use `w1-x`. Delete a test outright when its subject is a deleted rule or world.
   - `sounds.test.js` still holds: every core event is sounded or listed in `SILENT`, and the core
     emits no event that `SILENT` names.
-- [ ] **Step 3: Run the suite and the name check.** `npm test` should report 0 failures. Then run
+- [x] **Step 3: Run the suite and the name check.** `npm test` should report 0 failures. Then run
   `grep -rnwE "gusts?|wind|darkness|lightning|shuriken|cut|acid|drips?|glitch|teleport|reassemble|wrecks?|gravity|well|saucer|bunkers?|twist|pyramid|fortress|shogun|queen|singularity|titan|arcade|blocks|chip" src`.
   It should print nothing; the only exception allowed is a word in English prose that means
   something else, so read each hit.
-- [ ] **Step 4: Play w1-1 and w1-5 in the browser** (`?debug&level=w1-5`).
+- [x] **Step 4: Play w1-1 and w1-5 in the browser** (`?debug&level=w1-5`).
   - Expect invaders world 1 under the red moon, with mountains, pines and the brass music.
   - Expect bullet time on a near miss and no console errors.
   - Screenshot both levels and report the paths.
   - Report the size with `git ls-files src | xargs wc -l | tail -1`.
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   `git add -A && git commit -m "refactor: strip worlds 2-8 and every rule but bullet time; set the night look"`
 
 ### Task 4: Level 1 in the core: species, five waves, then the giant

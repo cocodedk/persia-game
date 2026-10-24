@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LOOKS } from '../../src/ui/looks/index.js';
+import { LOOK } from '../../src/ui/looks/index.js';
 import { installAudio } from './audio-kit.js';
 
 // A stand-in AudioContext that counts the oscillators made: the music's notes are oscillators, so
@@ -15,7 +15,7 @@ test('muted, the music schedules no notes; unmuted, it picks up again', async (t
   audio.unlockAudio();
   if (!audio.audioNodes()) throw new Error('the fake context did not start');
   const ctx = () => audio.audioNodes()?.ctx;
-  setMusic(LOOKS[0]);
+  setMusic(LOOK);
   updateMusic();
   const clock = ctx();
   const play = (secs) => {
@@ -31,6 +31,6 @@ test('muted, the music schedules no notes; unmuted, it picks up again', async (t
   play(5);
   assert.equal(oscillators, before, 'nothing scheduled while muted');
   audio.toggleMute();
-  play(2);
+  play(4); // the brass loop plays about four notes a second
   assert.ok(oscillators > before + 10, 'unmuted, the notes come back');
 });

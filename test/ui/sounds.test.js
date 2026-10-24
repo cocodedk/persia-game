@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { eventSounds, SILENT } from '../../src/ui/sounds.js';
 import { SFX } from '../../src/ui/sfx.js';
 import { STYLES, SCALES, NOTES, kitFor, degreeMidi, midiHz } from '../../src/ui/sound-data.js';
-import { LOOKS } from '../../src/ui/looks/index.js';
+import { LOOK } from '../../src/ui/looks/index.js';
 import { sampleEvent as sample } from '../event-sample.js';
 
 const coreDir = fileURLToPath(new URL('../../src/core/', import.meta.url));
@@ -14,7 +14,7 @@ const EMITTED = [...new Set(readdirSync(coreDir).flatMap((f) =>
   [...readFileSync(coreDir + f, 'utf8').matchAll(/emit\(world, '(\w+)'/g)].map((m) => m[1])))];
 
 test('every event the core emits makes a sound that exists, or is silent on purpose', () => {
-  assert.ok(EMITTED.length >= 25, `found ${EMITTED.length} event types`);
+  assert.ok(EMITTED.length >= 20, `found ${EMITTED.length} event types`);
   for (const type of EMITTED) {
     const played = [];
     eventSounds([sample(type)], { boss: null }, (name, o) => played.push([name, o]));
@@ -25,6 +25,10 @@ test('every event the core emits makes a sound that exists, or is silent on purp
     assert.ok(played.length > 0, `${type} makes no sound`);
     for (const [name] of played) assert.equal(typeof SFX[name], 'function', `${type} -> ${name}`);
   }
+});
+
+test('SILENT names only events the core emits', () => {
+  for (const type of Object.keys(SILENT)) assert.ok(EMITTED.includes(type), `${type} is never emitted`);
 });
 
 // The sounds a batch of events makes, with their options.
@@ -58,22 +62,20 @@ test('the pickups swept up at the clear chime one after another, a caught one at
   assert.equal(names([sample('pickup')])[0].delay ?? 0, 0, 'a caught pickup sounds at once');
 });
 
-test('each world has its own sound style, root and scale from its look', () => {
-  const styles = LOOKS.map((l) => kitFor(l.music).style);
-  assert.equal(new Set(styles).size, 8, styles.join());
-  for (const look of LOOKS) {
-    const kit = kitFor(look.music);
-    assert.equal(kit.root, NOTES[look.music.root], look.music.root);
-    assert.deepEqual(kit.scale, SCALES[look.music.scale]);
-    assert.equal(kit.bpm, look.music.bpm);
-  }
+test('the look\'s sound style, root, scale and tempo come from its music entry', () => {
+  const kit = kitFor(LOOK.music);
+  assert.equal(kit.style, 'brass');
+  assert.equal(kit.root, NOTES[LOOK.music.root], LOOK.music.root);
+  assert.deepEqual(kit.scale, SCALES[LOOK.music.scale]);
+  assert.deepEqual(SCALES.homayoun, [0, 1, 4, 5, 7, 8, 10]);
+  assert.equal(kit.bpm, LOOK.music.bpm);
 });
 
 test('scale degrees land in the scale, an octave per scale length', () => {
-  const kit = kitFor({ mood: 'koto and taiko', root: 'D', scale: 'in', bpm: 72 });
+  const kit = kitFor({ mood: 'desert brass', root: 'D', scale: 'homayoun', bpm: 112 });
   assert.equal(degreeMidi(kit, 0, 4), 62, 'D4');
-  assert.equal(degreeMidi(kit, 5, 4), 74, 'five steps of the in scale is the octave');
-  assert.equal(degreeMidi(kit, -1, 4), 58, 'below the root: the top step an octave down (B flat 3)');
+  assert.equal(degreeMidi(kit, 7, 4), 74, 'seven steps of homayoun is the octave');
+  assert.equal(degreeMidi(kit, -1, 4), 60, 'below the root: the top step an octave down (C4)');
   assert.ok(Math.abs(midiHz(69) - 440) < 1e-9);
   for (let d = -6; d < 12; d++) {
     const pc = (degreeMidi(kit, d, 4) - kit.root + 120) % 12;
@@ -86,7 +88,7 @@ test('every music style is well formed', () => {
     const m = s.music;
     assert.ok(m.div > 0 && m.seq.length > 0 && m.drum.length > 0, name);
     for (const d of m.seq) assert.ok(d === null || Number.isInteger(d), `${name} seq`);
-    assert.match(m.drum, /^[kths.]+$/, `${name} drum`);
+    assert.match(m.drum, /^[t.]+$/, `${name} drum`);
     assert.ok(m.lead.gain > 0 && m.lead.gain < 0.2, `${name} lead gain`);
   }
 });

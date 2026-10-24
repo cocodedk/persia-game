@@ -1,9 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createBunker } from '../../src/core/bunkers.js';
 import { createWorld } from '../../src/core/world.js';
 import {
-  FIRE, solid, IDLE, level, wave, input, step, seconds, playing, drain, ofType, bulletAt, pickupOnShip,
+  FIRE, IDLE, level, wave, input, step, seconds, playing, drain, ofType, bulletAt, pickupOnShip,
 } from './world-kit.js';
 
 const BOMB = input({ bomb: true });
@@ -62,26 +61,6 @@ test('the beam is off when fire is released, when the power is another one, and 
   w.ship.power = { kind: 'laser', left: 0.05 };
   seconds(w, 0.2, FIRE);
   assert.equal(w.ship.beam, false);
-});
-
-test('the laser carves a 26 px slot through a bunker above it and leaves the rest', () => {
-  const w = playing(lv(['grunt'], { bunkers: true }));
-  w.ship.power = { kind: 'laser', left: 10 };
-  const b = w.bunkers[1];
-  const before = Uint8Array.from(b.mask);
-  w.ship.x = b.x + 40;
-  w.ship.y = 900;
-  step(w, 3, FIRE);
-  for (let ly = 0; ly < b.h; ly++) {
-    for (let lx = 0; lx < b.w; lx++) {
-      const cx = b.x + lx + 0.5; // a pixel belongs to the slot when its centre does
-      const inside = cx >= w.ship.x - 13 && cx <= w.ship.x + 13;
-      assert.equal(b.mask[ly * b.w + lx], inside ? 0 : before[ly * b.w + lx], `(${lx},${ly})`);
-    }
-  }
-  assert.ok(solid(b) < before.reduce((n, v) => n + v, 0));
-  assert.equal(ofType(w.events, 'bunker').filter((e) => e.laser).length, 1, 'reported once, when it carved');
-  assert.equal(solid(w.bunkers[0]), solid(createBunker(0, 0, b.w, b.h)), 'the other bunkers are untouched');
 });
 
 test('a bomb clears every enemy bullet and deals 3 damage to every alien', () => {

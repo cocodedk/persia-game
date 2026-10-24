@@ -2,19 +2,28 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
-import { levelById } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
 import { TICK } from '../../src/core/kinds.js';
+import { level, wave } from './world-kit.js';
 
 // The Pi 4 gets 16 ms a frame for everything, so the simulation gets a small slice of it.
-// w5-4 is the busiest level: flown by the autopilot it holds the most enemy bullets (up to the cap
-// of 400, 98 on average) and has gunners, rings and spirals all at once.
+// BUSY is the busiest wave level invaders had (its world 5, level 4), built here: flown by the
+// autopilot it holds the most enemy bullets and has gunners, rings and spirals all at once.
+const ROLE = { g: 'grunt', d: 'diver', u: 'gunner', a: 'armored', c: 'carrier' };
+const w = (formation, cols, roles, pattern, speed) =>
+  wave({ formation, rows: roles.length, cols, roles: [...roles].map((c) => ROLE[c]), pattern, speed });
+const BUSY = level([
+  w('split', 8, 'dg', 'ring', 1.15),
+  w('spiral', 6, 'gaag', 'spiral', 1.2),
+  w('orbit', 6, 'gag', 'homing', 1.2),
+  w('rain', 10, 'ugd', 'spiral', 1.2),
+  w('escort', 3, 'aca', 'homing', 1.25),
+], 23 / 39, { seed: 51902 });
 
 const p95 = (list) => [...list].sort((a, b) => a - b)[Math.floor(list.length * 0.95)];
 
 test('stepWorld on the busiest level stays under 2 ms per tick at the 95th percentile, and the autopilot under 1.5 ms', () => {
-  const level = levelById('w5-4');
-  const world = createWorld(level, level.seed);
+  const world = createWorld(BUSY, BUSY.seed);
   const steps = [];
   const pilots = [];
   let peak = 0;

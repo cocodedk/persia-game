@@ -115,7 +115,7 @@ function ring(ctx, s, look, cx, cy, t) {
   ctx.stroke();
   ctx.save();
   ctx.translate(cx, cy);
-  drawIcon(ctx, s.power.kind, color, look.world);
+  drawIcon(ctx, s.power.kind, color);
   ctx.restore();
 }
 

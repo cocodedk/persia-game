@@ -128,10 +128,10 @@ export default {
     },
   ],
   // A light sweeping along the window band, quicker as the fight goes on.
-  live(ctx, b, t, k) {
+  live(ctx, b, t) {
     const span = 600;
     const x = ((t * (300 + b.phase * 160)) % span) - span / 2;
-    ctx.globalAlpha = 0.5 * k;
+    ctx.globalAlpha = 0.5;
     ctx.drawImage(glow(b.phase === 2 ? RED : '#ffffff'), x - 36, 5 - 22, 72, 44);
     ctx.globalAlpha = 1;
   },

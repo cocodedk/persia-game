@@ -27,13 +27,13 @@ test('a bomb takes exactly 8 % of the boss\'s max hp, shared equally, plates and
 });
 
 test('a bare hull takes no part of the bomb, and the others share it', () => {
-  const w = bossWorld('fortress');
-  const core = part(w, 'core');
+  const w = bossWorld('mothership');
+  const dome = Object.assign(part(w, 'dome'), { weak: false, armor: false }); // a bare hull
   bomb(w);
-  assert.equal(core.hp, core.max);
+  assert.equal(dome.hp, dome.max);
   close(w.boss.maxHp - w.boss.hp, w.boss.maxHp * 0.08);
   const share = (w.boss.maxHp * 0.08) / 5;
-  lost(w, ['turretL', 'turretR', 'dish', 'plateL', 'plateR']).forEach((l) => close(l, share));
+  lost(w, ['gunL', 'gunR', 'eye', 'wingL', 'wingR']).forEach((l) => close(l, share));
 });
 
 test('a part with less hp than its share gives the rest to the next, weak parts first', () => {

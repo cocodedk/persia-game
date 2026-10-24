@@ -1,13 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { addFlash, addPopup, addRing, addSlice, createFx, startSlowMo, stepFx } from '../../src/fx/fx.js';
+import { addFlash, addPopup, addRing, createFx, startSlowMo, stepFx } from '../../src/fx/fx.js';
 import { addShake } from '../../src/fx/camera.js';
 import { addParticle } from '../../src/fx/particles.js';
 import { TICK, run } from './fx-kit.js';
 
 test('a fresh fx holds every list and number the renderer reads', () => {
   const fx = createFx();
-  for (const k of ['particles', 'rings', 'flashes', 'popups', 'slices']) assert.deepEqual(fx[k], [], k);
+  for (const k of ['particles', 'rings', 'flashes', 'popups']) assert.deepEqual(fx[k], [], k);
   assert.equal(fx.shake, 0);
   assert.equal(fx.shakeX, 0);
   assert.equal(fx.shakeY, 0);
@@ -19,7 +19,7 @@ test('a fresh fx holds every list and number the renderer reads', () => {
 test('shockwave expands then expires; inward rings (r0 > maxR) contract', () => {
   const fx = createFx();
   addRing(fx, { x: 5, y: 6, maxR: 100, life: 0.5 });
-  addRing(fx, { x: 5, y: 6, r0: 80, maxR: 10, life: 0.5, kind: 'lens' });
+  addRing(fx, { x: 5, y: 6, r0: 80, maxR: 10, life: 0.5, kind: 'charge' });
   assert.deepEqual([fx.rings[0].r, fx.rings[1].r], [0, 80]);
   run(fx, 0.2);
   assert.ok(fx.rings[0].r > 0 && fx.rings[0].r < 100);
@@ -28,18 +28,15 @@ test('shockwave expands then expires; inward rings (r0 > maxR) contract', () => 
   assert.equal(fx.rings.length, 0);
 });
 
-test('flashes, pop-ups and slices carry defaults, fade and expire', () => {
+test('flashes and pop-ups carry defaults, fade and expire', () => {
   const fx = createFx();
   addFlash(fx, { x: 1, y: 2, r: 50, life: 0.1 });
   addPopup(fx, { x: 10, y: 100, text: '+100', life: 0.5 });
-  addSlice(fx, { x: 0, y: 0, w: 40, h: 5, dx: 10, life: 0.2 });
   const [f] = fx.flashes;
   assert.deepEqual([f.max, f.alpha, f.full, f.ramp], [0.1, 1, false, 0]);
   assert.equal(fx.popups[0].max, 0.5);
-  assert.equal(fx.slices[0].max, 0.2);
   run(fx, 0.25);
   assert.equal(fx.flashes.length, 0);
-  assert.equal(fx.slices.length, 0);
   assert.ok(fx.popups[0].y < 100, 'a pop-up floats up');
   run(fx, 0.5);
   assert.equal(fx.popups.length, 0);
@@ -51,9 +48,8 @@ test('the effect lists are capped, the oldest dropped', () => {
     addFlash(fx, { x: i, life: 5 });
     addRing(fx, { x: i, life: 5 });
     addPopup(fx, { x: i, life: 5 });
-    addSlice(fx, { x: i, life: 5 });
   }
-  for (const k of ['flashes', 'rings', 'popups', 'slices']) {
+  for (const k of ['flashes', 'rings', 'popups']) {
     assert.ok(fx[k].length > 0 && fx[k].length <= 64, `${k} ${fx[k].length}`);
     assert.equal(fx[k][fx[k].length - 1].x, 499, `${k} keeps the newest`);
   }

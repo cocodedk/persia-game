@@ -1,6 +1,6 @@
 // Drawing the fx state (src/fx) in world space (adapted from Barrage): particles by kind, shockwave
 // rings by kind, local flashes, and floating score text. Pure reads of fx; nothing is changed here.
-// Full-frame flashes, glitch slices and tints are screen-view.js.
+// Full-frame flashes and tints are screen-view.js.
 import { INK, rgba, glow, soft } from './sprites.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { flashK } from '../fx/fx.js';
@@ -9,8 +9,8 @@ import { TAU } from '../core/math.js';
 function plain(ctx, p) {
   const f = p.life / p.max;
   const s = p.size;
-  if (p.kind === 'smoke' || p.kind === 'dust') {
-    ctx.globalAlpha = f * (p.kind === 'smoke' ? 0.55 : 0.6);
+  if (p.kind === 'smoke') {
+    ctx.globalAlpha = f * 0.55;
     ctx.drawImage(soft(p.color), p.x - s * 1.4, p.y - s * 1.4, s * 2.8, s * 2.8);
     return;
   }
@@ -44,7 +44,7 @@ function hot(ctx, p) {
 function rings(ctx, fx) {
   for (const r of fx.rings) {
     const f = r.life / r.max;
-    const inward = r.kind === 'lens' || r.kind === 'charge';
+    const inward = r.kind === 'charge';
     const a = inward ? 1 - f * 0.5 : f;
     ctx.globalCompositeOperation = 'lighter';
     ctx.strokeStyle = rgba(r.color, 0.25 * a);
@@ -52,7 +52,7 @@ function rings(ctx, fx) {
     ctx.beginPath();
     ctx.arc(r.x, r.y, Math.max(1, r.r), 0, TAU);
     ctx.stroke();
-    ctx.strokeStyle = rgba(r.kind === 'lens' ? '#ffffff' : r.color, 0.9 * a);
+    ctx.strokeStyle = rgba(r.color, 0.9 * a);
     ctx.lineWidth = Math.max(1.5, r.width * a);
     ctx.stroke();
     ctx.globalCompositeOperation = 'source-over';

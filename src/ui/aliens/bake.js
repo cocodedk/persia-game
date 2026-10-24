@@ -1,44 +1,24 @@
-// The alien sprite cache. Each world's painters (w1.js .. w8.js) are run once per role and frame into
-// offscreen canvases: a body, its lights (drawn additively), a white hit-flash silhouette and the
-// body's damage (cracks.js). Per frame the game only blits these.
-//   art(look)                         the world's module with defaults filled in: rate (frames/s),
+// The alien sprite cache. The painters (w1.js) are run once per role and frame into offscreen
+// canvases: a body, its lights (drawn additively), a white hit-flash silhouette and the body's
+// damage (cracks.js). Per frame the game only blits these.
+//   ART                               the painter module with defaults filled in: rate (frames/s),
 //                                     sync (whole formation in step), bob (px), halo (alpha), crack
 //   roleSprites(look, role)           { body: [f0, f1], lights: [f0, f1], flash: [f0, f1], size }
 //                                     (draw a canvas at size x size world px)
-//   extraSprites(look, name)          the same shape for 'saucer' or 'wreck', or null if the world
-//                                     has no such painter
-//   warmAliens(look)                  bake a world's whole set, damage included (call when a level's
-//                                     view is built): nothing is baked on a hit, mid-fight
+//   warmAliens(look)                  bake the whole set, damage included (call when a level's view
+//                                     is built): nothing is baked on a hit, mid-fight
 // A painter is (b, l, frame, colour): it draws centred on (0, 0) in world px into the body context
-// b and the lights context l (see kit.js), colour = look.palette.alien[role] (the carrier's for
-// extras). painter.size overrides the canvas edge (SIZE).
+// b and the lights context l (see kit.js), colour = look.palette.alien[role]. painter.size
+// overrides the canvas edge (SIZE).
 import { makeCanvas, white } from '../sprites.js';
-import { CRACKABLE, cracked, crackLights } from './cracks.js';
+import { CRACKABLE, cracked } from './cracks.js';
 import w1 from './w1.js';
-import w2 from './w2.js';
-import w3 from './w3.js';
-import w4 from './w4.js';
-import w5 from './w5.js';
-import w6 from './w6.js';
-import w7 from './w7.js';
-import w8 from './w8.js';
 
 const SIZE = 96; // px, a sprite canvas's edge; the alien's centre is its centre
 export const ROLE_LIST = ['grunt', 'diver', 'gunner', 'armored', 'carrier'];
-const ART = [w1, w2, w3, w4, w5, w6, w7, w8];
-const DEFAULTS = { rate: 2, sync: false, bob: 0, halo: 0.25, crack: null };
+export const ART = { rate: 2, sync: false, bob: 0, halo: 0.25, crack: null, ...w1 };
 
-const sets = new Map(); // world -> { [role or extra name]: set } (shelf, below)
-const arts = new Map();
-
-export function art(look) {
-  let a = arts.get(look.world);
-  if (!a) {
-    a = { ...DEFAULTS, ...(ART[look.world - 1] ?? ART[0]) };
-    arts.set(look.world, a);
-  }
-  return a;
-}
+const sets = {}; // role -> set
 
 function canvasAt(size) {
   const c = makeCanvas(size, size);
@@ -47,9 +27,9 @@ function canvasAt(size) {
   return [c, g];
 }
 
-// seed picks the crack pattern; crackColor is the world's hot line inside a crack (or null).
-// cracks and crackGlow hold the damage canvases cracks.js bakes.
-function bakeSet(paint, color, seed, crackColor, flash) {
+// seed picks the crack pattern; crackColor is the hot line inside a crack (or null). cracks holds
+// the damage canvases cracks.js bakes.
+function bakeSet(paint, color, seed, crackColor) {
   const size = paint.size ?? SIZE;
   const body = [];
   const lights = [];
@@ -60,38 +40,17 @@ function bakeSet(paint, color, seed, crackColor, flash) {
     body.push(bc);
     lights.push(lc);
   }
-  return { body, lights, flash: flash ? body.map(white) : null, size, seed, color, crackColor, cracks: {}, crackGlow: {} };
-}
-
-// A world's baked sets. A map by world, not one string key: the drawing asks for every alien every
-// frame, so a hit must build no key and work out no recipe.
-function shelf(look) {
-  let s = sets.get(look.world);
-  if (!s) sets.set(look.world, (s = {}));
-  return s;
+  return { body, lights, flash: body.map(white), size, seed, color, crackColor, cracks: {} };
 }
 
 export function roleSprites(look, role) {
-  const s = shelf(look);
-  return (s[role] ??= bakeSet(art(look)[role], look.palette.alien[role], ROLE_LIST.indexOf(role) + 1, art(look).crack, true));
-}
-
-export function extraSprites(look, name) {
-  const paint = art(look)[name];
-  return paint ? (shelf(look)[name] ??= bakeSet(paint, look.palette.alien.carrier, 9, art(look).crack, false)) : null;
+  return (sets[role] ??= bakeSet(ART[role], look.palette.alien[role], ROLE_LIST.indexOf(role) + 1, ART.crack));
 }
 
 export function warmAliens(look) {
   for (const role of ROLE_LIST) roleSprites(look, role);
-  extraSprites(look, 'saucer');
-  extraSprites(look, 'wreck');
   for (const role of CRACKABLE) {
     const set = roleSprites(look, role);
-    for (const f of [0, 1]) {
-      for (const stage of [1, 2]) {
-        cracked(set, f, stage);
-        crackLights(set, f, stage);
-      }
-    }
+    for (const f of [0, 1]) for (const stage of [1, 2]) cracked(set, f, stage);
   }
 }

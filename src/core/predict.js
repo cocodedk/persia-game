@@ -36,10 +36,8 @@ function minion(world, a, tau) {
   return { x, y: a.y + minionSpeed(world.level.d) * tau };
 }
 
-// The position of an alien, the saucer or a wreck `tau` seconds from now ({ x, y }).
+// The position of an alien `tau` seconds from now ({ x, y }).
 export function posAt(world, t, tau) {
-  if (t.saucer) return { x: t.x + t.vx * tau, y: t.y };
-  if (t.wreck) return (t.hold && slotAt(world, t.slot, tau)) || t;
   if (t.minion) return minion(world, t, tau);
   return (t.slot && waveAlien(world, t, tau)) || t;
 }

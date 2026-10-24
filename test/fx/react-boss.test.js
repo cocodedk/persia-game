@@ -15,7 +15,7 @@ test('bossWarn: a charge glow on the firing part that builds until the shot, plu
 });
 
 test('bossPhase: a white-out blink, a wide shockwave, sparks, smoke and a shake', () => {
-  const fx = react({ type: 'bossPhase', kind: 'pyramid', phase: 1, x: 960, y: 250, hp: 40, open: [] });
+  const fx = react({ type: 'bossPhase', kind: 'mothership', phase: 1, x: 960, y: 250, hp: 40, open: [] });
   assert.ok(fx.flashes.some((f) => f.full));
   assert.ok(fx.rings[0].maxR > 500);
   assert.ok(fx.shake >= 15);
@@ -23,8 +23,8 @@ test('bossPhase: a white-out blink, a wide shockwave, sparks, smoke and a shake'
 });
 
 test('bossExpose: a crack burst on each plate that opened, at the plate when the world knows it', () => {
-  const world = { boss: { parts: [{ id: 'capL', x: 600, y: 220 }, { id: 'capR', x: 1300, y: 220 }, { id: 'eye', x: 960, y: 300 }] } };
-  const ev = { type: 'bossExpose', kind: 'pyramid', parts: ['capL', 'capR'], x: 960, y: 260 };
+  const world = { boss: { parts: [{ id: 'wingL', x: 600, y: 220 }, { id: 'wingR', x: 1300, y: 220 }, { id: 'eye', x: 960, y: 300 }] } };
+  const ev = { type: 'bossExpose', kind: 'mothership', parts: ['wingL', 'wingR'], x: 960, y: 260 };
   const fx = react(ev, world);
   assert.equal(fx.rings.length, 2);
   assert.deepEqual(fx.rings.map((r) => r.x).toSorted((a, b) => a - b), [600, 1300]);
@@ -32,7 +32,7 @@ test('bossExpose: a crack burst on each plate that opened, at the plate when the
   assert.ok(fx.shake > 0);
   const blind = react(ev);
   assert.ok(blind.rings.length >= 1 && blind.rings.every((r) => r.x === 960), 'without a world it bursts at the boss centre');
-  const bare = react({ type: 'bossExpose', kind: 'pyramid', x: 960, y: 260 }, world);
+  const bare = react({ type: 'bossExpose', kind: 'mothership', x: 960, y: 260 }, world);
   assert.equal(bare.rings[0].x, 960, 'an event without a parts list bursts at the boss centre');
 });
 

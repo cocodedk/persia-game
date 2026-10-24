@@ -4,10 +4,8 @@ import { laserHits } from './patterns.js';
 import { SHIP_R, hitShip } from './ship.js';
 import { hurtAlien, isSwooping } from './aliens.js';
 import { shotsVsBoss } from './boss-hit.js';
-import { sweepBunkers } from './bunkers.js';
 import { awardKill } from './scoring.js';
 import { emit } from './util.js';
-import { cutShuriken } from './twists.js';
 
 // Who hits whom. Projectiles are tested along the path they flew this tick (from where their
 // velocity says they were to where they are), so a fast shot cannot tunnel through anything.
@@ -35,19 +33,6 @@ function shotsVsAliens(world, dt) {
   }
 }
 
-// Whatever is still flying (ship shots, enemy bullets) is spent on the first bunker it reaches along
-// its path, which loses a chunk there. Enemy lasers are skipped: a beam burns through cover.
-function vsBunkers(world, list, dt) {
-  if (!world.bunkers.length) return;
-  for (const p of list) {
-    if (p.life <= 0 || p.pattern === 'laser') continue;
-    const at = sweepBunkers(world.bunkers, p, dt);
-    if (!at) continue;
-    p.life = 0;
-    emit(world, 'bunker', at);
-  }
-}
-
 // A diver that reaches the ship costs a life and is lost with no score. A blinking ship is passed.
 function rams(world) {
   const reach = (ALIEN_R + SHIP_R) ** 2;
@@ -61,9 +46,9 @@ function rams(world) {
 }
 
 // b.near is a bullet's closest approach while it is in the ship's near band, and true once settled.
-// A bullet that leaves the band without touching the ship, or runs out of life or hits cover inside
-// it, was a near miss: report it now. A wipe (a bomb, a boss's death, a Ronin Moon cut) is not a
-// dodge: it settles the bullet silently (ruling R37).
+// A bullet that leaves the band without touching the ship, or runs out of life inside it, was a
+// near miss: report it now. A wipe (a bomb, a boss's death) is not a dodge: it settles the bullet
+// silently (ruling R37).
 function nearMissed(world, b) {
   if (typeof b.near !== 'number') return;
   emit(world, 'nearMiss', { x: b.x, y: b.y, dist: b.near });
@@ -80,7 +65,7 @@ function bulletsVsShip(world, dt) {
   if (!ship.alive) return;
   for (const b of world.bullets) {
     if (b.life <= 0) {
-      nearMissed(world, b); // ran out, or stopped by cover, inside the band
+      nearMissed(world, b); // ran out inside the band
       continue;
     }
     if (b.pattern === 'laser') {
@@ -101,15 +86,10 @@ function bulletsVsShip(world, dt) {
 }
 
 // The dead (shots with life 0, aliens with hp 0, bullets with life 0) are pruned by the caller.
-// Cover comes before the ship, so a bullet that crosses a bunker on its way down never lands, and
-// so does a cut (Ronin Moon), so a star cut on the ship's own tick never lands either.
 // `slow` is how long the enemy bullets moved this tick (less than dt in bullet time).
 export function collide(world, dt, slow = dt) {
   shotsVsAliens(world, dt);
   shotsVsBoss(world, dt);
-  vsBunkers(world, world.shots, dt);
   rams(world);
-  vsBunkers(world, world.bullets, slow);
-  if (world.level.twist === 'shuriken') cutShuriken(world, dt);
   bulletsVsShip(world, slow);
 }

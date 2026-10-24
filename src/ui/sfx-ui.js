@@ -1,26 +1,18 @@
-// Sound patches of the stingers and the menus. The stingers play in the world's scale and its lead
-// voice (chip square, noir saw, koto pluck and taiko, cosmic organ...), so a clear in Ronin Moon
-// sounds like Ronin Moon. Menu sounds are short, soft and in key. A patch is (a, o) -> seconds.
+// Sound patches of the stingers and the menus. The stingers play in the look's scale and its lead
+// voice (brass: two horns, one detuned). Menu sounds are short, soft and in key. A patch is
+// (a, o) -> seconds.
 import { tone, hiss, fm, noteHz } from './audio-kit.js';
 
-// The world's lead voice for melodic stingers: tone options for a note of `dur` seconds.
+// The style's lead voice for melodic stingers: tone options for a note of `dur` seconds.
 const LEAD = {
-  chip: { type: 'square', cut: 5000, peak: 0.06 },
-  noir: { type: 'sawtooth', cut: 2400, peak: 0.07 },
   brass: { type: 'sawtooth', cut: 3000, peak: 0.07, attack: 0.03 },
-  koto: { type: 'triangle', cut: 6000, peak: 0.13 },
-  hive: { type: 'sine', peak: 0.12, attack: 0.05 },
-  code: { type: 'square', cut: 3200, peak: 0.075 },
-  iron: { type: 'sawtooth', cut: 2400, peak: 0.1 },
-  cosmic: { type: 'sine', peak: 0.12, attack: 0.08 },
 };
 
 function note(a, degree, octave, t, dur, peak = 1) {
-  const v = LEAD[a.kit.style] ?? LEAD.noir;
+  const v = LEAD[a.kit.style];
   const f = noteHz(a.kit, degree, octave);
   tone(a, { ...v, t, f0: f, dur, peak: v.peak * peak });
-  if (a.kit.style === 'cosmic') tone(a, { ...v, t, f0: f * 2, dur, peak: v.peak * peak * 0.35 }); // the organ's octave
-  if (a.kit.style === 'noir' || a.kit.style === 'brass') tone(a, { ...v, t, f0: f, dur, peak: v.peak * peak * 0.7, detune: 12 });
+  tone(a, { ...v, t, f0: f, dur, peak: v.peak * peak * 0.7, detune: 12 });
 }
 
 export const UI = {
@@ -35,7 +27,6 @@ export const UI = {
     [0, 2, 4, 7].forEach((d, i) => note(a, d, 4, t + i * 0.11, 0.22));
     [7, 9, 11].forEach((d) => note(a, d, 4, t + 0.46, 1.5, 0.8));
     tone(a, { t: t + 0.46, f0: noteHz(a.kit, 0, 2), attack: 0.02, dur: 1.6, peak: 0.25 });
-    if (a.kit.style === 'koto') [0, 0.46].forEach((d) => tone(a, { t: t + d, f0: 140, f1: 48, dur: 0.45, peak: 0.22 }));
     hiss(a, { t: t + 0.46, type: 'highpass', f0: 7000, attack: 0.05, dur: 0.8, peak: 0.03 });
     return 2.4;
   },

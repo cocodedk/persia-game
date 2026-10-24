@@ -6,7 +6,7 @@ import { installCanvas, sink } from './dom-kit.js';
 // (invulnerable, every other 1/14 s) nothing of it, the engine flames included, burns at full alpha.
 installCanvas();
 const { drawShip } = await import('../../src/ui/ship-view.js');
-const { LOOKS } = await import('../../src/ui/looks/index.js');
+const { LOOK } = await import('../../src/ui/looks/index.js');
 
 function alphas(t) {
   const seen = [];
@@ -15,7 +15,7 @@ function alphas(t) {
     set: (o, k, v) => ((o[k] = v), true),
   });
   const ship = { alive: true, lives: 2, invuln: 1, x: 960, y: 900, vx: 300, vy: -600, power: null };
-  drawShip(ctx, { ship }, LOOKS[0], t);
+  drawShip(ctx, { ship }, LOOK, t);
   return seen;
 }
 

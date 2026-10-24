@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { kindsOf, ofKind, react, run } from './fx-kit.js';
+import { ofKind, react, run } from './fx-kit.js';
 import { flashK } from '../../src/fx/fx.js';
 
 const world = { ship: { x: 800, y: 900 } };
@@ -85,64 +85,6 @@ test('power on: a ring leaves the ship; off: it fizzles into smoke; no world, no
   assert.doesNotThrow(() => react({ type: 'power', kind: 'rapid', on: true }));
 });
 
-test('lightning: a bright full-screen flash scaled by its strength', () => {
-  const weak = react({ type: 'lightning', x: 700, strength: 0.6 });
-  const strong = react({ type: 'lightning', x: 700, strength: 1 });
-  assert.ok(weak.flashes[0].full && weak.flashes[0].tag === 'lightning');
-  assert.ok(strong.flashes[0].alpha > weak.flashes[0].alpha);
-});
-
-test('teleport: glitch slices and a flash at both the old and the new slot', () => {
-  const fx = react({ type: 'teleport', id: 4, fromX: 300, fromY: 200, x: 900, y: 240 });
-  assert.ok(fx.slices.length >= 4);
-  assert.ok(fx.slices.some((s) => s.x < 400) && fx.slices.some((s) => s.x > 800));
-  assert.ok(fx.slices.every((s) => s.w > 0 && s.h > 0 && s.dx !== 0));
-  assert.equal(fx.flashes.length, 2);
-  run(fx, 0.6);
-  assert.equal(fx.slices.length, 0);
-});
-
-test('absorb: an inward lensing ring', () => {
-  const fx = react({ type: 'absorb', x: 960, y: 300 });
-  assert.equal(fx.rings[0].kind, 'lens');
-  assert.ok(fx.rings[0].r0 > fx.rings[0].maxR);
-});
-
-test('saucer: a glint at the edge it enters from', () => {
-  const left = react({ type: 'saucer', x: -60, y: 70, dir: 1 });
-  const right = react({ type: 'saucer', x: 1980, y: 70, dir: -1 });
-  assert.ok(left.flashes[0].x < 200 && right.flashes[0].x > 1700);
-});
-
-test('gust: sand streaks that fly the way the wind blows; a dead calm does nothing', () => {
-  const east = react({ type: 'gust', wind: 300 });
-  const west = react({ type: 'gust', wind: -300 });
-  assert.ok(east.particles.length > 0 && east.particles.every((p) => p.vx > 0 && p.x < 100));
-  assert.ok(west.particles.every((p) => p.vx < 0 && p.x > 1800));
-  assert.equal(react({ type: 'gust', wind: 0 }).particles.length, 0);
-});
-
-test('acid: green drops fall from the spot', () => {
-  const fx = react({ type: 'acid', x: 400, y: 300 });
-  const drops = ofKind(fx, 'acid');
-  assert.ok(drops.length >= 3 && drops.every((p) => p.gravity > 0));
-});
-
-test('wreck, wreckDown and reassemble each have a look of their own', () => {
-  const wreck = react({ type: 'wreck', x: 500, y: 300 });
-  const down = react({ type: 'wreckDown', x: 500, y: 300 });
-  const back = react({ type: 'reassemble', id: 2, x: 500, y: 300 });
-  assert.ok(kindsOf(wreck).has('smoke') && kindsOf(wreck).has('ember'));
-  assert.ok(ofKind(down, 'debris').length > 0 && down.flashes.length > 0);
-  assert.ok(back.rings[0].r0 > back.rings[0].maxR, 'the pieces draw together');
-  const converge = back.particles.filter((p) => Math.hypot(p.x - 500, p.y - 300) > 20);
-  assert.ok(converge.length > 0);
-  for (const p of converge) {
-    const inward = (500 - p.x) * p.vx + (300 - p.y) * p.vy;
-    assert.ok(inward > 0, 'each piece flies toward the spot');
-  }
-});
-
 test('bulletTime sets the tint flag and flashes; it does not touch the global slow factor', () => {
   const on = react({ type: 'bulletTime', on: true, left: 2 });
   assert.equal(on.bulletTime, true);
@@ -150,13 +92,4 @@ test('bulletTime sets the tint flag and flashes; it does not touch the global sl
   assert.ok(on.flashes.some((f) => f.full));
   const off = react({ type: 'bulletTime', on: false });
   assert.equal(off.bulletTime, false);
-});
-
-test('cut and bunker: a slash flash, and dust or sparks off the cover', () => {
-  const cut = react({ type: 'cut', x: 600, y: 400 });
-  assert.ok(cut.flashes.length === 1 && ofKind(cut, 'spark').length > 0);
-  const dust = react({ type: 'bunker', x: 600, y: 700 });
-  const beam = react({ type: 'bunker', x: 600, y: 700, laser: true });
-  assert.ok(ofKind(dust, 'dust').length > 0);
-  assert.ok(ofKind(beam, 'spark').length > 0);
 });

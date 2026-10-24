@@ -2,7 +2,7 @@
 // the first user gesture (browsers refuse audio before one); until then every sound is skipped.
 //   master -> compressor -> speakers;  sfx bus and music bus -> master;  a shared reverb (a
 //   generated impulse response) fed by a per-sound send, so big sounds bloom and small ones stay dry.
-// Each play() builds the sound's own input node: panned by its world x, with its world's flavour
+// Each play() builds the sound's own input node: panned by its world x, with the look's flavour
 // (setWorldSound(look) -> sound-data.js kitFor). Bursts are thinned per sound (GAP) and a voice
 // budget drops the small stuff when too much is ringing (cheap on a Pi 4).
 //   unlockAudio()  call from a keydown / pointerdown; toggleMute() (M; saved)
@@ -27,7 +27,7 @@ const last = {};
 const MAX_VOICES = 36;
 const GAP = {
   shot: 0.045, enemyShot: 0.07, laserWarn: 0.25, hit: 0.05, bossHit: 0.055, kill: 0.035, boom: 0.06, nearMiss: 0.2,
-  shield: 0.12, bunker: 0.09, cut: 0.06, acid: 0.15, teleport: 0.12, absorb: 0.1, move: 0.03, count: 0.05, warn: 0.12,
+  shield: 0.12, move: 0.03, count: 0.05, warn: 0.12,
 };
 const MUST = new Set(['blast', 'bossDeath', 'phase', 'cleared', 'failed', 'bomb', 'shipHit', 'select', 'star',
   'braam', 'impact', 'riser']);

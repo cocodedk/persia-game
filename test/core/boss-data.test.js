@@ -10,7 +10,7 @@ const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 const weakAt = (def, i) => def.parts.filter((p) =>
   p.weak || def.phases.some((ph, j) => j <= i && ph.open?.includes(p.id)));
 
-test('there are eight definitions, in world order, looked up by kind', () => {
+test('there is a definition for every boss kind, in order, looked up by kind', () => {
   assert.deepEqual(BOSS_DEFS.map((d) => d.kind), BOSSES);
   for (const kind of BOSSES) assert.equal(bossDef(kind).kind, kind);
   assert.equal(bossDef('nope'), undefined);
@@ -84,11 +84,4 @@ test('attacks come from real parts with real patterns, and are slower than their
     }
   }
   assert.ok(WARN >= 0.6, 'the telegraph is at least 0.6 s');
-});
-
-test('the bosses differ: layouts, part counts and attack mixes are not copies of one another', () => {
-  const sig = BOSS_DEFS.map((d) => JSON.stringify([d.parts.map((p) => [p.dx, p.dy]), d.phases.map((p) => p.attacks.map((a) => a.pattern))]));
-  assert.equal(new Set(sig).size, 8);
-  for (const def of BOSS_DEFS) assert.ok(def.parts.length >= 5, `${def.kind} has parts`);
-  assert.ok(BOSS_DEFS.some((d) => d.phases.some((p) => p.open)), 'a trench that opens');
 });

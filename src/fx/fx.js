@@ -2,20 +2,19 @@
 // y down; the frame is 1920x1080):
 //   particles [see particles.js]
 //   rings     shockwaves   { x, y, r, r0, maxR, width, color, kind, life, max }
-//             r eases from r0 to maxR; r0 > maxR is an inward ring. kind 'ring'|'lens'|'charge'|'shield'
+//             r eases from r0 to maxR; r0 > maxR is an inward ring. kind 'ring'|'charge'|'shield'
 //   flashes   glow flashes { x, y, r, color, alpha, full, ramp, tag, life, max }
 //             full: lights the whole frame (x, y, r unused); ramp: the share of its life spent
 //             brightening before it fades (0 fades from the start, 1 a charge that peaks at its end);
 //             alpha is the peak; tag names the cause
 //   popups    floating text { x, y, vy, text, color, scale, life, max }
-//   slices    glitch bands { x, y, w, h, dx, color, life, max }: shift the band of the frame by dx
 //   shake     screen-shake amplitude in px; shakeX/shakeY the offset to apply this frame
 //   slow      1, or SLOW_FACTOR during slow motion: main multiplies the logic dt by it
-//   bulletTime true while the glitch world's bullet time runs (tint the frame)
+//   bulletTime true while bullet time runs (tint the frame)
 //   density   1, or less when the quality scaler halves particle spawns
 //   shieldT   fx.time of the last shield flare (react-fight throttles on it); time = real seconds run
-// stepFx takes real frame time. Particles, rings, flashes, pop-ups and slices follow `slow` so slow
-// motion shows; the shake does not.
+// stepFx takes real frame time. Particles, rings, flashes and pop-ups follow `slow` so slow motion
+// shows; the shake does not.
 import { stepParticles } from './particles.js';
 import { stepShake } from './camera.js';
 import { prune } from '../core/util.js';
@@ -27,7 +26,7 @@ const CAP = 64; // per list, oldest dropped
 
 export function createFx() {
   return {
-    particles: [], rings: [], flashes: [], popups: [], slices: [],
+    particles: [], rings: [], flashes: [], popups: [],
     shake: 0, shakeX: 0, shakeY: 0, slow: 1, slowLeft: 0, time: 0,
     bulletTime: false, density: 1, shieldT: -1,
   };
@@ -59,10 +58,6 @@ export const addPopup = (fx, p) => push(fx.popups, {
 // The row the clear's "+N BONUS" pops up on (react-fight.js; react-world.js keeps swept points off it).
 export const BONUS_Y = 500;
 
-export const addSlice = (fx, s) => push(fx.slices, {
-  x: 0, y: 0, w: 60, h: 6, dx: 16, color: '#5dff9a', life: 0.2, ...s,
-});
-
 // How strong a flash is now, 0..1: brightening through the first `ramp` of its life, fading after.
 export function flashK(f) {
   const t = 1 - f.life / f.max;
@@ -91,6 +86,5 @@ export function stepFx(fx, dt) {
   });
   stepTimed(fx.flashes, sdt);
   stepTimed(fx.popups, sdt, (p, d) => { p.y += p.vy * d; });
-  stepTimed(fx.slices, sdt);
   stepShake(fx, dt);
 }
