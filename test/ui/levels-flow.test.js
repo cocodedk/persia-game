@@ -29,11 +29,11 @@ function setup() {
   return { r, flow, started, said, screen: () => shown };
 }
 
-test('the title offers Play for level 1 and Level 2 for level 2, from the first visit', () => {
+test('the title offers Level 1 and Level 2 by name, from the first visit', () => {
   const { r, started, screen } = setup();
   r.goTitle();
-  assert.deepEqual(labels(screen()), ['Play', 'Level 2']);
-  press(screen(), 'Play');
+  assert.deepEqual(labels(screen()), ['Level 1', 'Level 2']);
+  press(screen(), 'Level 1');
   press(screen(), 'Level 2');
   assert.deepEqual(started, [LEVEL, LEVELS[1]]);
 });

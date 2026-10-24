@@ -171,7 +171,7 @@ Nothing else is new.
 drawn with the slash as level 1 draws it). Its label and the rest of the HUD stay English, ASCII
 digits included.
 
-**Reaching it.** Level 2 is always open: the title offers Level 2 after Play, and level 1's results
+**Reaching it.** Level 2 is always open: the title lists every level by name (Level 1, Level 2), and level 1's results
 offer Next, which plays it. Nothing is locked. Failing level 2 retries level 2 from wave 6.
 
 **The ending.** The parade walks the animals the level brought, all eight here, in the pack's order.

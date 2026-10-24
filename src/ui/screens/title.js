@@ -1,6 +1,6 @@
 // Title: the logo over a live autopilot battle, and the main menu.
 //   titleScreen({ items: [{ label, pick }], nowShowing }) -> screen
-// items is the menu in order (Play, then the later levels); nowShowing names the backdrop's level.
+// items is the menu in order (every level, by its name); nowShowing names the backdrop's level.
 import { h, button, navigate, shell } from './dom.js';
 import { play } from '../audio.js';
 

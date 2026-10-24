@@ -1,5 +1,5 @@
 // Screen routing: title (over the backdrop battle) -> title card, or the open on the session's first
-// Play -> play -> pause -> parade -> results, or failed. `app` is the one piece of state the loop reads.
+// level -> play -> pause -> parade -> results, or failed. `app` is the one piece of state the loop reads.
 //   app = { screen, scene, backdrop, token, opened }
 //   screen 'title' | 'loading' | 'play' | 'paused' | 'parade' | 'results' | 'failed'
 //   backdrop: the title's battle, kept across menu visits; starting a level drops it, so the title
@@ -40,8 +40,8 @@ export function createRouter({ canvas, stage, input, voice }) {
 
   r.goTitle = () => {
     leave('title');
-    // Play is level 1; every later level is offered by its name. Nothing is locked.
-    const items = LEVELS.map((level, i) => ({ label: i ? level.name : 'Play', pick: () => r.startLevel(level, !app.opened) }));
+    // Every level, by its name. Nothing is locked.
+    const items = LEVELS.map((level) => ({ label: level.name, pick: () => r.startLevel(level, !app.opened) }));
     setWorld(LOOK);
     stage.show(titleScreen({ items, nowShowing: LEVEL.name }));
     if (app.backdrop) {
@@ -50,7 +50,7 @@ export function createRouter({ canvas, stage, input, voice }) {
     }
     const token = app.token; // the first time, the battle is baked once the menu has painted
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (token !== app.token) return; // already gone (Play pressed at once): bake it next time
+      if (token !== app.token) return; // already gone (a level picked at once): bake it next time
       app.backdrop = backdropScene(canvas, LEVEL);
       app.scene = app.backdrop;
     }));

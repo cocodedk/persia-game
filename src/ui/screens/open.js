@@ -1,4 +1,4 @@
-// The cinematic open, on a session's first Play: the lights go down, a braam, a thin warm line opens
+// The cinematic open, on a session's first level: the lights go down, a braam, a thin warm line opens
 // across the middle like a projector, PERSIA tightens in over it, eyes blink open in the dark, and an
 // impact cuts to the first wave. The beats run on the frame clock (update(dt)); each adds `at-<name>`
 // to the screen's classes, and open.css plays it.

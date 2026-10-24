@@ -6,11 +6,11 @@ Persia is an arcade shooter for a laptop, played with keyboard and mouse in your
 
 ## What it is
 
-You fly a ship along the bottom of the screen and shoot angry pixel animals. There are two levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Both levels are open from the start: Play on the title screen is level 1, and Level 2 sits under it.
+You fly a ship along the bottom of the screen and shoot angry pixel animals. There are two levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Both levels are open from the start, and the title screen lists them as Level 1 and Level 2.
 
 You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after level 1), Again and Title.
 
-The first time you press Play after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
+The first time you start a level after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
 
 A voice speaks Persian as things happen. It says each wave's number as the wave starts, and each animal's name the first time that animal appears in a wave. Whatever it says also shows on screen for about a second:
 
@@ -24,7 +24,7 @@ Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Ba
 
 ## How to play
 
-Open [persia.cocode.dk](https://persia.cocode.dk) and press Play, or press Enter. Play with the sound on, because the names are spoken. Sound starts after your first key press or click, because browsers keep pages silent until then.
+Open [persia.cocode.dk](https://persia.cocode.dk) and pick Level 1, or press Enter. Play with the sound on, because the names are spoken. Sound starts after your first key press or click, because browsers keep pages silent until then.
 
 | Action | Keyboard | Mouse |
 |---|---|---|
@@ -45,7 +45,7 @@ You need Python 3, or any other static file server.
 
 1. Open a terminal in the project folder (`git clone https://github.com/cocodedk/persia-game.git` if you don't have it yet).
 2. Run `python3 -m http.server 8000`. It prints that it is serving on port 8000.
-3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with a Play button.
+3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with Level 1 and Level 2 buttons.
 
 Browsers do not run module scripts from a `file://` address, so double-clicking `index.html` will not work. There are no dependencies, no build step and no network requests while you play.
 
