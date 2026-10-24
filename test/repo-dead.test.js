@@ -6,8 +6,8 @@ import { root, walk, stripComments } from './repo-kit.js';
 import { MOTION } from '../src/core/formations.js';
 import { ENTRY } from '../src/core/formations-2.js';
 import { EMIT } from '../src/core/patterns.js';
-import { LEVEL } from '../src/core/levels.js';
-import { bossDef } from '../src/core/bosses-data.js';
+import { LEVELS } from '../src/core/levels.js';
+import { BOSS_DEFS } from '../src/core/bosses-data.js';
 import { MOVES } from '../src/core/boss-move.js';
 import { SFX } from '../src/ui/sfx.js';
 
@@ -83,19 +83,20 @@ test('the export gate reads named, default, renamed, namespace and dynamic impor
   assert.equal(usedHere('export const W = 1; const k = W * 2;', 'W'), true);
 });
 
-const giant = bossDef(LEVEL.boss);
+const waves = LEVELS.flatMap((l) => l.waves);
+const phases = BOSS_DEFS.flatMap((def) => def.phases);
 
 // The formations and patterns are the names in their own tables: the hold motions and the entries
 // (formations.js, formations-2.js) and the bullet emitters (patterns.js).
-test('every formation and pattern is flown by level 1 or fired by the giant', () => {
-  const flown = new Set(LEVEL.waves.map((x) => x.formation));
-  const fired = new Set([...LEVEL.waves.map((x) => x.pattern), ...giant.phases.flatMap((ph) => ph.attacks.map((a) => a.pattern))]);
+test('every formation and pattern is flown by a level or fired by a boss', () => {
+  const flown = new Set(waves.map((x) => x.formation));
+  const fired = new Set([...waves.map((x) => x.pattern), ...phases.flatMap((ph) => ph.attacks.map((a) => a.pattern))]);
   assert.deepEqual([...Object.keys(MOTION), ...Object.keys(ENTRY)].filter((x) => !flown.has(x)), []);
   assert.deepEqual(Object.keys(EMIT).filter((x) => !fired.has(x)), []);
 });
 
-test("every boss move is one the giant's phases use", () => {
-  const used = new Set(giant.phases.map((ph) => ph.move));
+test("every boss move is one a boss's phases use", () => {
+  const used = new Set(phases.map((ph) => ph.move));
   assert.deepEqual(Object.keys(MOVES).filter((m) => !used.has(m)), []);
 });
 

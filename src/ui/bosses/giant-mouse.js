@@ -3,19 +3,9 @@
 // lit red brows; a great round ear at each side, pink inside; the snout plate with its pink nose;
 // the weak points burn underneath: two beady eyes and the buck-toothed mouth the mice pour out of.
 // The brows throb quicker as the fight heats up, and the whiskers light amber, then red.
-import { pixelArt, pixels, phosphor, bloom, path, line } from './kit.js';
-import { glow, shade, rgba } from '../sprites.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, grid, inside, whiskers, throb } from './kit.js';
+import { shade } from '../sprites.js';
 
-const PX = 10;
-const RED = '#ff2a3a';
-const AMBER = '#ffb03a';
-const PINK = '#ff5a8a';
-const TOOTH = '#fff8e8';
-const LID = '#1a0a20';
-
-const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid's centre
-const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
-const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
 const fur = (S) => S.look.palette.alien.mouse;
 
 // The hull, in boss coordinates: the round head, the cheeks, the V of each brow, the whisker pads
@@ -37,20 +27,13 @@ function hullCell(x, y, c) {
   return y < -30 ? shade(c, -0.05) : y < 50 ? shade(c, -0.18) : shade(c, -0.3);
 }
 
-// Whiskers fanning out from the pads past the cheeks; lights only.
-function whiskers(l, colour, a, w) {
-  for (const s of [-1, 1]) {
-    for (const [y0, x1, y1] of [[58, 330, 30], [68, 340, 74], [78, 320, 118]]) {
-      path(l, [[s * 96, y0], [s * x1, y1]], true);
-      line(l, rgba(colour, a), w);
-    }
-  }
-}
+// Whiskers fanning out from the pads past the cheeks (from x 96).
+const WHISKERS = [[58, 330, 30], [68, 340, 74], [78, 320, 118]];
 
 function hull(b, l, S) {
   grid(b, l, 42, 26, (x, y) => hullCell(x, y, fur(S)));
   for (const s of [-1, 1]) bloom(l, s * 96, -26, 64, RED, 0.25);
-  whiskers(l, '#ffffff', 0.45, 2);
+  whiskers(l, 96, WHISKERS, '#ffffff', 0.45, 2);
   phosphor(b, l, 0.16, 5);
 }
 
@@ -90,7 +73,7 @@ const MOUTH = ['LLLLLLLLL', 'LRwwLwwRL', 'LRwwLwwRL', 'LGwwLwwGL', 'LGGGGGGGL', 
 // An eye (drawn as the left one): round and beady under a heavy scowling lid, burning.
 function eye(b, l, _part, S) {
   const w = S.pal.weak;
-  pixels(b, l, EYE, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: '#0a0612', g: ['#ffffff', true] });
+  pixels(b, l, EYE, PX, { L: LID, Y: [w, true], y: [shade(w, -0.3), true], k: PUPIL, g: ['#ffffff', true] });
   bloom(l, 0, 0, 44, w, 0.35);
   phosphor(b, l, 0.25, 4);
 }
@@ -98,7 +81,7 @@ function eye(b, l, _part, S) {
 // The mouth: two great buck teeth over a burning throat.
 function mouth(b, l, _part, S) {
   const w = S.pal.weak;
-  pixels(b, l, MOUTH, PX, { L: LID, w: TOOTH, R: ['#b0301a', true], G: [w, true], p: [PINK, true] });
+  pixels(b, l, MOUTH, PX, { L: LID, w: FANG, R: ['#b0301a', true], G: [w, true], p: [PINK, true] });
   bloom(l, 0, 10, 50, w, 0.4);
   phosphor(b, l, 0.25, 4);
 }
@@ -109,11 +92,6 @@ export default {
   crack: AMBER,
   hull,
   parts: { ear, snout, eye, mouth },
-  rage: [null, (l) => whiskers(l, AMBER, 0.9, 3), (l) => whiskers(l, RED, 1, 4)],
-  // The brows throb, quicker with every phase.
-  live(ctx, b, t) {
-    ctx.globalAlpha = 0.15 + 0.3 * (0.5 + 0.5 * Math.sin(t * (4 + b.phase * 3)));
-    for (const s of [-1, 1]) ctx.drawImage(glow(RED), s * 96 - 80, -26 - 32, 160, 64);
-    ctx.globalAlpha = 1;
-  },
+  rage: [null, (l) => whiskers(l, 96, WHISKERS, AMBER, 0.9, 3), (l) => whiskers(l, 96, WHISKERS, RED, 1, 4)],
+  live: throb(96, -26), // the brows throb, quicker with every phase
 };

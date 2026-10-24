@@ -4,20 +4,9 @@
 // reaches out at each side, claws bared; the weak points burn underneath: two slit eyes and the
 // snarling mouth. Lit red brows throb over the eyes, quicker as the fight heats up, and the whiskers
 // and stripes light amber, then red.
-import { pixelArt, pixels, phosphor, bloom, path, line } from './kit.js';
-import { glow, shade, rgba } from '../sprites.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, cell, grid, inside, whiskers, throb } from './kit.js';
+import { shade, rgba } from '../sprites.js';
 
-const PX = 10;
-const RED = '#ff2a3a';
-const AMBER = '#ffb03a';
-const PUPIL = '#0a0612';
-const FANG = '#fff8e8';
-const PINK = '#ff5a8a';
-
-const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid's centre
-// Pixel art over cols x rows cells, at(x, y) taking each cell's centre in px (kit.js pixelArt).
-const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
-const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
 const side = (px, py, ax, ay, bx, by) => (px - bx) * (ay - by) - (ax - bx) * (py - by);
 function inTri(x, y, [a, b, c]) {
   const d = [side(x, y, ...a, ...b), side(x, y, ...b, ...c), side(x, y, ...c, ...a)];
@@ -53,15 +42,8 @@ function eachCell(fn) {
   for (let j = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) fn(cell(i, COLS), cell(j, ROWS));
 }
 
-// Whiskers fanning out over the paws' shadow; lights only.
-function whiskers(l, colour, a, w) {
-  for (const s of [-1, 1]) {
-    for (const [y0, x1, y1] of [[88, 320, 70], [98, 326, 102], [108, 308, 132]]) {
-      path(l, [[s * 128, y0], [s * x1, y1]], true);
-      line(l, rgba(colour, a), w);
-    }
-  }
-}
+// Whiskers fanning out over the paws' shadow (from x 128).
+const WHISKERS = [[88, 320, 70], [98, 326, 102], [108, 308, 132]];
 
 // Every stripe cell lit in one colour (the rage overlays).
 function stripes(l, colour) {
@@ -77,7 +59,7 @@ function stripes(l, colour) {
 function hull(b, l, S) {
   grid(b, l, COLS, ROWS, (x, y) => hullCell(x, y, S.pal));
   for (const s of [-1, 1]) bloom(l, s * 122, 4, 70, RED, 0.25);
-  whiskers(l, '#ffffff', 0.45, 2);
+  whiskers(l, 128, WHISKERS, '#ffffff', 0.45, 2);
   phosphor(b, l, 0.16, 5);
 }
 
@@ -126,7 +108,6 @@ function paw(b, l, _part, S) {
 // red of an open mouth, G its burning throat, p tongue.
 const EYE = ['LL.......', 'YYLLL....', 'YYYYkLLL.', 'YgYYkYYYL', '.yYYkYYy.', '..yykyy..'];
 const MOUTH = ['.LLL.LLL.', 'LwRRLRRwL', 'LwRRRRRwL', 'LRRGGGRRL', 'LRwGGGwRL', '.LRpppRL.', '..LLLLL..'];
-const LID = '#1a0a20';
 
 // An eye (drawn as the left one): slanted angry under a heavy lid, burning round a slit pupil.
 function eye(b, l, _part, S) {
@@ -154,18 +135,13 @@ export default {
   rage: [
     null,
     (l) => {
-      whiskers(l, AMBER, 0.9, 3);
+      whiskers(l, 128, WHISKERS, AMBER, 0.9, 3);
       stripes(l, AMBER);
     },
     (l) => {
-      whiskers(l, RED, 1, 4);
+      whiskers(l, 128, WHISKERS, RED, 1, 4);
       stripes(l, RED);
     },
   ],
-  // The brows throb, quicker with every phase.
-  live(ctx, b, t) {
-    ctx.globalAlpha = 0.15 + 0.3 * (0.5 + 0.5 * Math.sin(t * (4 + b.phase * 3)));
-    for (const s of [-1, 1]) ctx.drawImage(glow(RED), s * 122 - 80, 4 - 32, 160, 64);
-    ctx.globalAlpha = 1;
-  },
+  live: throb(122, 4), // the brows throb, quicker with every phase
 };

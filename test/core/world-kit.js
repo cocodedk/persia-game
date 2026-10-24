@@ -16,7 +16,7 @@ const animalOf = (role) => Object.keys(SPECIES).find((s) => SPECIES[s] === role)
 export function wave({ roles = ['grunt'], ...o } = {}) {
   return { formation: 'grid', cols: 3, species: roles.map(animalOf), pattern: 'aimed', speed: 1, ...o };
 }
-export const level = (waves, d = 0, extra = {}) => ({ id: 't-1', seed: 1, d, waves, ...extra });
+export const level = (waves, d = 0, extra = {}) => ({ id: 't-1', seed: 1, d, first: 1, waves, ...extra });
 
 export function step(world, ticks = 1, inp = IDLE) {
   for (let i = 0; i < ticks; i++) stepWorld(world, TICK, inp);

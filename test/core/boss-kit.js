@@ -1,6 +1,6 @@
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
-import { LEVEL } from '../../src/core/levels.js';
+import { LEVELS } from '../../src/core/levels.js';
 import { level, playing, input, step, shotFrom, TICK } from './world-kit.js';
 
 // Shared by the boss tests: a boss level (no waves, so the boss is there from the start), a quiet
@@ -15,8 +15,11 @@ export function bossWorld(kind, opts) {
   return world;
 }
 export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
-// The boss as level 1 fights it, at the level's difficulty, without the waves before it.
-export const realLevel = (kind) => bossLevel(kind, LEVEL.d, { seed: LEVEL.seed });
+// The boss as its level fights it, at the level's difficulty, without the waves before it.
+export function realLevel(kind) {
+  const lv = LEVELS.find((l) => l.boss === kind);
+  return bossLevel(kind, lv.d, { seed: lv.seed });
+}
 
 // A ship shot 8 px under the part's lower edge, flying straight up.
 export const shotOn = (world, p) => shotFrom(world, p.x, p.y + p.h / 2 + 8);

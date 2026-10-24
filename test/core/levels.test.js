@@ -41,12 +41,10 @@ test('level 1 brings every species but the mouse; level 2 brings all eight, the 
   assert.ok(LEVEL_2.waves[0].species.includes('mouse'));
 });
 
-test('the world counts its waves across the levels: each level starts where the last one stopped', () => {
-  assert.equal(LEVEL.first, 1);
-  for (let i = 1; i < LEVELS.length; i++) assert.equal(LEVELS[i].first, LEVELS[i - 1].first + LEVELS[i - 1].waves.length);
+test('the world counts its waves across the levels: level 2 counts on from six', () => {
+  assert.equal(waveNumber(LEVEL, 1), 1);
   assert.equal(waveNumber(LEVEL_2, 1), 6);
   assert.equal(waveNumber(LEVEL_2, 5), 10);
-  assert.equal(waveNumber({}, 3), 3, 'a level without first counts from 1');
 });
 
 test('a level shows in Persian only parts of the HUD the game knows', () => {

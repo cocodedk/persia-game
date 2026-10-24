@@ -6,7 +6,7 @@ import { species, number } from './pack-kit.js';
 import { createWorld } from '../../src/core/world.js';
 import { LEVELS } from '../../src/core/levels.js';
 
-const wave = (n, ...ids) => ({ type: 'wave', wave: n, n, species: ids });
+const wave = (n, ...ids) => ({ type: 'wave', n, species: ids });
 const lines = (events) => voiceLines(events, PACK);
 
 // Every line that starts while the queue is stepped `secs` seconds in steps of `dt`.

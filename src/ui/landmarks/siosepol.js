@@ -36,9 +36,8 @@ export function siosepol(g, w, h, rng, L, lights) {
 }
 
 // The deck in one face of stone, then the piers, and the arches lit or cut into it.
-function bridge({ box, post, lights, L, F }, x0, x1) {
-  box(x0, F - RISE, x1 - x0, RISE);
-  box(x0, F - RISE, x1 - x0, 1, '+');
+function bridge({ box, post, slab, lights, L, F }, x0, x1) {
+  slab(x0, F - RISE, x1 - x0, RISE);
   box(x0, F - 22, x1 - x0, 1, '+'); // the string course under the arcade
   for (let i = 0; i <= SPANS; i++) {
     const x = x0 + i * PITCH;

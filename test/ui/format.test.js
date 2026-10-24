@@ -17,10 +17,10 @@ test('localDigits writes each digit in the given ten', () => {
 });
 
 test("level 1 counts its waves in ASCII; level 2 counts on from six in the pack's digits", () => {
-  assert.equal(waveText(LEVEL, 0, D), 'WAVE 1 / 5', 'before the first wave it already shows wave 1');
-  assert.equal(waveText(LEVEL, 3, D), 'WAVE 3 / 5');
-  assert.equal(waveText(LEVELS[1], 1, D), `WAVE ${D[6]} / ${D[1]}${D[0]}`);
-  assert.equal(waveText(LEVELS[1], 5, D), `WAVE ${D[1]}${D[0]} / ${D[1]}${D[0]}`);
+  assert.equal(waveText(LEVEL, 0), 'WAVE 1 / 5', 'before the first wave it already shows wave 1');
+  assert.equal(waveText(LEVEL, 3), 'WAVE 3 / 5');
+  assert.equal(waveText(LEVELS[1], 1), `WAVE ${D[6]} / ${D[1]}${D[0]}`);
+  assert.equal(waveText(LEVELS[1], 5), `WAVE ${D[1]}${D[0]} / ${D[1]}${D[0]}`);
 });
 
 test("the HUD font falls back to the pack's face, which has the Persian digits", () => {

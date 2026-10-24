@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { installElements } from './dom-kit.js';
+import { installElements, all, texts } from './dom-kit.js';
 
 // From one level to the next: the title offers every level, and the results of a level that has a
 // next one offer Next. Nothing is locked, so none of it reads storage.
@@ -13,9 +13,8 @@ const { createRouter } = await import('../../src/ui/router.js');
 const { createFlow } = await import('../../src/ui/flow.js');
 const { LEVEL, LEVELS } = await import('../../src/core/levels.js');
 
-const all = (el) => [el, ...el.children.filter((k) => typeof k === 'object').flatMap(all)];
 const buttons = (screen) => all(screen.el).filter((e) => e.tag === 'button');
-const labels = (screen) => buttons(screen).map((b) => b.children.join(''));
+const labels = (screen) => texts(screen.el, (e) => e.tag === 'button');
 const press = (screen, label) => buttons(screen).find((b) => b.children.join('') === label).onClick();
 
 function setup() {

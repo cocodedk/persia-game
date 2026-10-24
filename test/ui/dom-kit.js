@@ -5,6 +5,8 @@
 //   element(tag)       a stand-in element that keeps what is appended to it, and its click handler
 //                      as onClick
 //   installElements()  document.createElement gives such elements
+//   all(el)            el and every stand-in element under it, in document order
+//   texts(el, pick)    the text of each element under el (el too) that pick(e) keeps
 //   FRAMES             uneven frame lengths (s), as a real frame clock gives
 //   walkFrames(end, onFrame, frames = FRAMES)   steps a clock from 0 to `end` in frames cycling through
 //                      `frames`, calling onFrame(t0, t1) for each
@@ -16,6 +18,9 @@ export function installCanvas(size = 1) {
     addEventListener() {},
   };
 }
+
+export const all = (el) => [el, ...el.children.filter((k) => typeof k === 'object').flatMap(all)];
+export const texts = (el, pick) => all(el).filter(pick).map((e) => e.children.join(''));
 
 export const element = (tag) => ({
   tag, className: '', children: [], textContent: '', style: { setProperty(k, v) { this[k] = v; } },

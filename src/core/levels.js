@@ -3,7 +3,8 @@
 //     waves: [{ formation, cols, species: [id per row, top row first], pattern, speed }] }
 // The waves fly in order, then the boss. `seed` is the fixed seed of the level's world rng, `d` its
 // difficulty (difficulty.js), `name` what the screens call it, `landmark` its backdrop (looks/).
-// A world counts its waves across its levels: `first` is the number of the level's first wave.
+// A world counts its waves across its levels: `first` is the number of the level's first wave, set
+// below from the levels played before it.
 // `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count).
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
@@ -21,7 +22,7 @@ const w = (formation, cols, rows, pattern, speed) =>
   ({ formation, cols, species: [...rows].map((c) => LETTER[c]), pattern, speed });
 
 export const LEVEL = {
-  id: 'level-1', name: 'Level 1', seed: 10417, d: 0.1, boss: 'giant', landmark: 'persepolis', first: 1, persian: [],
+  id: 'level-1', name: 'Level 1', seed: 10417, d: 0.1, boss: 'giant', landmark: 'persepolis', persian: [],
   waves: [
     w('grid', 10, 'ddd', 'aimed', 0.9), // 1: a pack of dogs marches in
     w('escort', 3, 'oro', 'aimed', 0.95), // 2: cows guard the rabbits: the first power-ups
@@ -32,7 +33,7 @@ export const LEVEL = {
 };
 
 const LEVEL_2 = {
-  id: 'level-2', name: 'Level 2', seed: 20833, d: 0.2, boss: 'giant-mouse', landmark: 'siosepol', first: 6,
+  id: 'level-2', name: 'Level 2', seed: 20833, d: 0.2, boss: 'giant-mouse', landmark: 'siosepol',
   persian: ['wave'],
   waves: [
     w('grid', 10, 'dmm', 'aimed', 1.0), // 6: mice behind a row of dogs
@@ -44,6 +45,11 @@ const LEVEL_2 = {
 };
 
 export const LEVELS = [LEVEL, LEVEL_2];
+let count = 0;
+for (const level of LEVELS) {
+  level.first = count + 1;
+  count += level.waves.length;
+}
 
 // The level played after `level`, or null after the last one (or for a level not in LEVELS).
 export function nextLevel(level) {
@@ -52,11 +58,10 @@ export function nextLevel(level) {
 }
 
 // The world's number of a level's wave (1 is its first).
-export const waveNumber = (level, wave) => (level.first ?? 1) + wave - 1;
+export const waveNumber = (level, wave) => level.first + wave - 1;
 
 // The animals a level brings, in the order they first appear: its waves' species, then its boss's.
 export function levelSpecies(level) {
   const ids = (level.waves ?? []).flatMap((x) => x.species);
-  if (level.boss) ids.push(bossDef(level.boss).species);
-  return [...new Set(ids)];
+  return [...new Set([...ids, bossDef(level.boss).species])];
 }

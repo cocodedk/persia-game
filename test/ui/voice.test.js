@@ -35,7 +35,7 @@ function rig({ audio = true, fetch = bytes, decode = async (b) => ({ clip: b.url
 test('with no audio nodes the word still shows on schedule', async () => {
   const r = rig({ audio: false }); // no gesture yet, or muted
   await settle();
-  r.voice.hear([{ type: 'wave', wave: 1, n: 1, species: ['dog'] }]);
+  r.voice.hear([{ type: 'wave', n: 1, species: ['dog'] }]);
   r.voice.update(0); // one, unheard
   assert.deepEqual(r.shown, [number(1).word]);
   assert.equal(r.said, number(1), 'the whole pack entry: its word, Latin name and length');
@@ -62,7 +62,7 @@ test('a line whose clip is not decoded yet is skipped, not played late', async (
   const pending = [];
   const r = rig({ decode: (b) => new Promise((done) => pending.push(() => done({ clip: b.url }))) });
   await settle(); // fetched, still decoding
-  r.voice.hear([{ type: 'wave', wave: 1, n: 1, species: ['dog'] }]);
+  r.voice.hear([{ type: 'wave', n: 1, species: ['dog'] }]);
   r.voice.update(0); // one starts before its clip is decoded
   assert.equal(r.started.length, 0);
   for (const done of pending) done();
@@ -91,7 +91,7 @@ test('a decoded clip plays on the voice bus and ducks to 0.45, then lifts after 
 test('the duck lifts as each line ends and ducks again as the next starts', async () => {
   const r = rig();
   await settle();
-  r.voice.hear([{ type: 'wave', wave: 1, n: 1, species: ['dog'] }]);
+  r.voice.hear([{ type: 'wave', n: 1, species: ['dog'] }]);
   r.voice.update(0); // one
   r.voice.update(number(1).ms / 1000 + 0.001); // its length: lifted, in the gap
   assert.deepEqual(r.ducks, [0.45, 1]);
@@ -120,7 +120,7 @@ test("queue(entry) is the parade's way in: said in turn, shown, played, and the 
 test('saying() is the species whose name is being said, for its length; a number names none', async () => {
   const r = rig({ audio: false }); // muted: the enemies still light up on time
   await settle();
-  r.voice.hear([{ type: 'wave', wave: 1, n: 1, species: ['dog'] }]);
+  r.voice.hear([{ type: 'wave', n: 1, species: ['dog'] }]);
   r.voice.update(0); // one
   assert.equal(r.voice.saying(), null);
   r.voice.update(0.92); // one's length and the gap: the dog starts
@@ -139,7 +139,7 @@ test('saying() is the species whose name is being said, for its length; a number
 test('clear() drops the queue, hides the word and lifts the duck', async () => {
   const r = rig();
   await settle();
-  r.voice.hear([{ type: 'wave', wave: 2, n: 2, species: ['cow', 'rabbit'] }]);
+  r.voice.hear([{ type: 'wave', n: 2, species: ['cow', 'rabbit'] }]);
   r.voice.update(0); // two plays
   r.voice.clear(); // Restart, mid-line
   assert.equal(r.started[0].stopped, true);

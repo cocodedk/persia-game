@@ -1,17 +1,27 @@
 // Painting kit for the boss painters (bosses/<kind>.js), on top of the alien kit (aliens/kit.js):
-// the same body/lights split, plus procedural pixel art. Bake-time only; nothing here runs per
-// frame. A painter draws centred on (0, 0) in world px: the hull in boss coordinates, a part in its
-// own (its rect is w x h around the origin and its art must cover it, since the rect is the hit box).
-import { pixels } from '../aliens/kit.js';
+// the same body/lights split, plus procedural pixel art at boss scale and what the giants share.
+// Bake-time only, but for throb (a painter's live()). A painter draws centred on (0, 0) in world px:
+// the hull in boss coordinates, a part in its own (its rect is w x h around the origin and its art
+// must cover it, since the rect is the hit box).
+import { pixels, path, line } from '../aliens/kit.js';
+import { glow, rgba } from '../sprites.js';
 
 export { TAU, path, bloom, phosphor, line, pixels } from '../aliens/kit.js';
 
+export const PX = 10; // a giant's pixel: twice an animal's
+export const RED = '#ff2a3a';
+export const AMBER = '#ffb03a';
+export const PINK = '#ff5a8a';
+export const FANG = '#fff8e8';
+export const PUPIL = '#0a0612';
+export const LID = '#1a0a20';
+
 // Pixel art from a function: at(i, j) -> null | colour | [colour, lit], over cols x rows cells of
 // px, centred (the alien kit's bevelled phosphor cells).
-export function pixelArt(b, l, cols, rows, px, at) {
+function pixelArt(b, l, cols, rows, px, at) {
   const keys = new Map();
   const map = {};
-  const grid = [];
+  const lines = [];
   for (let j = 0; j < rows; j++) {
     let row = '';
     for (let i = 0; i < cols; i++) {
@@ -28,7 +38,29 @@ export function pixelArt(b, l, cols, rows, px, at) {
       }
       row += keys.get(id);
     }
-    grid.push(row);
+    lines.push(row);
   }
-  pixels(b, l, grid, px, map);
+  pixels(b, l, lines, px, map);
 }
+
+export const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid's centre
+// Pixel art over cols x rows cells of PX, at(x, y) taking each cell's centre in px.
+export const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
+export const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
+
+// Whiskers from (±x0, y0) out to (±x1, y1), one per [y0, x1, y1] spoke, mirrored; lights only.
+export function whiskers(l, x0, spokes, colour, a, w) {
+  for (const s of [-1, 1]) {
+    for (const [y0, x1, y1] of spokes) {
+      path(l, [[s * x0, y0], [s * x1, y1]], true);
+      line(l, rgba(colour, a), w);
+    }
+  }
+}
+
+// A giant's live(): its lit brows at (±x, y) throb, quicker with every phase.
+export const throb = (x, y) => (ctx, b, t) => {
+  ctx.globalAlpha = 0.15 + 0.3 * (0.5 + 0.5 * Math.sin(t * (4 + b.phase * 3)));
+  for (const s of [-1, 1]) ctx.drawImage(glow(RED), s * x - 80, y - 32, 160, 64);
+  ctx.globalAlpha = 1;
+};
