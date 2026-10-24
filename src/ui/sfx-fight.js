@@ -1,18 +1,18 @@
-// Sound patches of the fight: the ship's gun (the style's signature, varied by power-up), enemy
+// Sound patches of the fight: the ship's gun (an acid pluck, varied by power-up), enemy
 // fire, hits and the ship's scrapes (kills by role: sfx-kill.js; pickups: sfx-power.js).
 // A patch is (a, o) -> seconds it rings; a = { ctx, t, out, tail, noise, kit } (audio-kit.js).
-import { tone, hiss, fm, crush } from './audio-kit.js';
+import { tone, hiss, fm, crush, noteHz } from './audio-kit.js';
 import { LASER_WARN, LASER_BEAM } from '../core/patterns.js';
 import { kill } from './sfx-kill.js';
 
-// The ship's shot per style; k scales the pitch (power-up and style).
-const SHOT = {
-  brass: (a, k) => {
-    fm(a, { f0: 2500 * k, f1: 230 * k, ratio: 1.5, index: 0.7, dur: 0.16, peak: 0.14 });
-    hiss(a, { type: 'highpass', f0: 5200, dur: 0.03, peak: 0.06 });
-    return 0.2;
-  },
-};
+// The ship's shot, an acid pluck: a sawtooth on the music's root through a resonant lowpass that
+// snaps shut, on a kick's click and a closed hat. k scales the pitch (power-up).
+function gun(a, k) {
+  tone(a, { type: 'sawtooth', f0: noteHz(a.kit, 0, 3) * k, dur: 0.1, peak: 0.11, cut: 5000 * k, cut1: 220, q: 12 });
+  tone(a, { f0: 180 * k, f1: 50, dur: 0.045, peak: 0.14 });
+  hiss(a, { type: 'highpass', f0: 9000, dur: 0.02, peak: 0.05 });
+  return 0.16;
+}
 
 // Enemy fire by bullet pattern: quieter and lower than the ship's, in the style's own wave.
 function enemy(a, o) {
@@ -33,7 +33,7 @@ export const FIGHT = {
     const p = o.power;
     if (p === 'rapid') a.out.gain.value *= 0.62;
     if (p === 'spread') hiss(a, { type: 'bandpass', f0: 900, f1: 3800, q: 1.4, dur: 0.12, peak: 0.08 });
-    return SHOT[a.kit.style](a, a.kit.pitch * (p === 'spread' ? 0.84 : p === 'rapid' ? 1.19 : 1));
+    return gun(a, p === 'spread' ? 0.84 : p === 'rapid' ? 1.19 : 1);
   },
   enemyShot: enemy,
   laserWarn(a) { // an enemy laser: a warning that climbs for LASER_WARN, then the beam burns
