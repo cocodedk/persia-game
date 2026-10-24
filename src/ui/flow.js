@@ -3,7 +3,7 @@
 // goes to flow.showParade and then flow.showResults, a loss to flow.showFailed.
 //   outcome = { level, score, stars, best, newBest, world }   best and newBest only on a clear
 import { stars } from '../core/world.js';
-import { levelSpecies } from '../core/levels.js';
+import { levelSpecies, nextLevel } from '../core/levels.js';
 import { PACK } from '../data/pack.js';
 import { LOOK } from './looks/index.js';
 import { store } from './storage.js';
@@ -44,14 +44,17 @@ export function createFlow(r, stage, voice) {
       stage.show(paradeScreen({ species, look: LOOK, voice, onDone: () => flow.showResults(o) }));
     },
 
-    // Again plays the level from wave 1 behind its card: the open is once a session.
+    // Next plays the level after this one, if there is one; Again plays this one from its first wave
+    // behind its card: the open is once a session.
     showResults(o) {
       app.screen = 'results';
       play('cleared');
       const { level } = o; // the buttons close over this, not over o (its world)
+      const next = nextLevel(level);
       stage.show(resultsScreen({
         label: level.name, score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
       }, {
+        next: next && (() => r.startLevel(next)),
         again: () => r.startLevel(level),
         title: r.goTitle,
       }));

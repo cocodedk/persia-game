@@ -10,7 +10,7 @@
 // Every route away from a level goes through leave(): the old scene stops stepping at once (the
 // loop only runs app.scene) and the level's own sounds (the laser hum) stop with it, as do its voice
 // lines and its word on screen.
-import { LEVEL } from '../core/levels.js';
+import { LEVEL, LEVELS } from '../core/levels.js';
 import { LOOK } from './looks/index.js';
 import { play, duck, setBeam } from './audio.js';
 import { setWorld } from './music.js';
@@ -40,7 +40,8 @@ export function createRouter({ canvas, stage, input, voice }) {
 
   r.goTitle = () => {
     leave('title');
-    const items = [{ label: 'Play', pick: () => r.startLevel(LEVEL, !app.opened) }];
+    // Play is level 1; every later level is offered by its name. Nothing is locked.
+    const items = LEVELS.map((level, i) => ({ label: i ? level.name : 'Play', pick: () => r.startLevel(level, !app.opened) }));
     setWorld(LOOK);
     stage.show(titleScreen({ items, nowShowing: LEVEL.name }));
     if (app.backdrop) {

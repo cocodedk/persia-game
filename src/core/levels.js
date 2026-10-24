@@ -45,6 +45,12 @@ const LEVEL_2 = {
 
 export const LEVELS = [LEVEL, LEVEL_2];
 
+// The level played after `level`, or null after the last one (or for a level not in LEVELS).
+export function nextLevel(level) {
+  const i = LEVELS.indexOf(level);
+  return i < 0 ? null : LEVELS[i + 1] ?? null;
+}
+
 // The world's number of a level's wave (1 is its first).
 export const waveNumber = (level, wave) => (level.first ?? 1) + wave - 1;
 

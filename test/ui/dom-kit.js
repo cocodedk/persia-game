@@ -2,7 +2,8 @@
 // `await import(...)` after it), since the module may reach for `document` as it loads.
 //   sink               a canvas context that takes any call or read and returns itself (0 as a number)
 //   installCanvas(n)   document.createElement gives an n x n canvas whose context is sink
-//   element(tag)       a stand-in element that keeps what is appended to it
+//   element(tag)       a stand-in element that keeps what is appended to it, and its click handler
+//                      as onClick
 //   installElements()  document.createElement gives such elements
 //   FRAMES             uneven frame lengths (s), as a real frame clock gives
 //   walkFrames(end, onFrame, frames = FRAMES)   steps a clock from 0 to `end` in frames cycling through
@@ -20,7 +21,8 @@ export const element = (tag) => ({
   tag, className: '', children: [], textContent: '', style: { setProperty(k, v) { this[k] = v; } },
   classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
   append(...kids) { this.children.push(...kids); },
-  addEventListener() {}, setAttribute() {}, focus() {},
+  addEventListener(type, fn) { if (type === 'click') this.onClick = fn; },
+  setAttribute() {}, focus() {},
 });
 
 export function installElements() {
