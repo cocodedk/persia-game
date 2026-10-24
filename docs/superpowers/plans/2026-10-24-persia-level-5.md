@@ -95,4 +95,4 @@ Waits for Babak's approval of `counting-2199-tal-22` to `-25` in the lessons rep
 - [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from four levels to five (through `humanizer`); re-render `og.png` headed from the same frame; CLAUDE.md's scope line, and its rule becomes "Persian text renders as a DOM overlay, or as one whole word in one canvas `fillText` in the pack face with no letter spacing; never per-letter canvas text."
 - [x] Advisor review of the branch; apply what holds.
 - [x] Memory: the state note, `landmark-backdrops`, a `level-5-decisions` note; `zg index` in `memory/`.
-- [ ] `npm test`, push `main`, check CI and Pages with `gh run list`.
+- [x] `npm test`, push `main`, check CI and Pages with `gh run list`.
