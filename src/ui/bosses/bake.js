@@ -20,8 +20,9 @@ import { makeCanvas, white } from '../sprites.js';
 import { bossDef } from '../../core/bosses-data.js';
 import { cracked, exposed, wreck } from './cracks.js';
 import giant from './giant.js';
+import giantMouse from './giant-mouse.js';
 
-export const BOSS_ART = { giant };
+export const BOSS_ART = { giant, 'giant-mouse': giantMouse };
 const cache = new Map();
 
 export function painterFor(mod, id) {

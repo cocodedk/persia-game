@@ -33,7 +33,35 @@ const giant = boss('giant', 'Giant', 'cat', 240, { w: 640, h: 220 }, [
   ], { rate: 1.4, minions: [minion('cat', 3, 9, 'mouth'), minion('rabbit', 1, 16, 'brow')] }),
 ]);
 
-export const BOSS_DEFS = [giant];
+// Level 2's boss: a giant mouse head. Its great round ears and the snout between its eyes are
+// armour; the eyes and the buck-toothed mouth are weak, and the mouth keeps pouring out mice.
+const giantMouse = boss('giant-mouse', 'Giant Mouse', 'mouse', 240, { w: 600, h: 290 }, [
+  armor('earL', -200, -75, 150, 130, 6),
+  armor('earR', 200, -75, 150, 130, 6),
+  armor('snout', 0, 45, 110, 60, 8),
+  weak('eyeL', -95, 0, 80, 60, 44),
+  weak('eyeR', 95, 0, 80, 60, 44),
+  weak('mouth', 0, 100, 90, 70, 70),
+], [
+  phase(0.65, 'sway', [
+    atk('aimed', 2, 'mouth', { speed: 0.9 }),
+    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
+    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
+  ], { minions: [minion('mouse', 2, 9, 'mouth')] }),
+  phase(0.3, 'sway', [
+    atk('fan', 3, 'mouth', { count: 5, spread: 0.8 }),
+    atk('aimed', 2.4, 'eyeL'),
+    atk('aimed', 2.4, 'eyeR'),
+  ], { rate: 1.3, minions: [minion('mouse', 4, 8, 'mouth')] }),
+  phase(0, 'charge', [
+    atk('ring', 4.2, 'mouth', { count: 14, speed: 0.85 }),
+    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
+    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
+    atk('laser', 8, 'mouth'),
+  ], { rate: 1.5, minions: [minion('mouse', 5, 7, 'mouth'), minion('rabbit', 1, 15, 'snout')] }),
+]);
+
+export const BOSS_DEFS = [giant, giantMouse];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 
