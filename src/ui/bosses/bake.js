@@ -21,8 +21,9 @@ import { bossDef } from '../../core/bosses-data.js';
 import { cracked, exposed, wreck } from './cracks.js';
 import giant from './giant.js';
 import giantMouse from './giant-mouse.js';
+import giantFish from './giant-fish.js';
 
-export const BOSS_ART = { giant, 'giant-mouse': giantMouse };
+export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish };
 const cache = new Map();
 
 export function painterFor(mod, id) {

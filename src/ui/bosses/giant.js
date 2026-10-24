@@ -4,8 +4,8 @@
 // reaches out at each side, claws bared; the weak points burn underneath: two slit eyes and the
 // snarling mouth. Lit red brows throb over the eyes, quicker as the fight heats up, and the whiskers
 // and stripes light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, cell, grid, inside, whiskers, throb } from './kit.js';
-import { shade, rgba } from '../sprites.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, PUPIL, LID, grid, inside, litCells, whiskers, throb } from './kit.js';
+import { shade } from '../sprites.js';
 
 const side = (px, py, ax, ay, bx, by) => (px - bx) * (ay - by) - (ax - bx) * (py - by);
 function inTri(x, y, [a, b, c]) {
@@ -38,23 +38,12 @@ function hullCell(x, y, pal) {
 
 const COLS = 48;
 const ROWS = 26;
-function eachCell(fn) {
-  for (let j = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) fn(cell(i, COLS), cell(j, ROWS));
-}
 
 // Whiskers fanning out over the paws' shadow (from x 128).
 const WHISKERS = [[88, 320, 70], [98, 326, 102], [108, 308, 132]];
 
 // Every stripe cell lit in one colour (the rage overlays).
-function stripes(l, colour) {
-  l.globalCompositeOperation = 'lighter';
-  eachCell((x, y) => {
-    if (!headAt(x, y) || !stripeAt(x, y) || !headAt(x, y + PX)) return;
-    l.fillStyle = rgba(colour, 0.7);
-    l.fillRect(x - PX / 2, y - PX / 2, PX, PX);
-    bloom(l, x, y, PX * 2, colour, 0.35);
-  });
-}
+const stripes = (l, colour) => litCells(l, COLS, ROWS, (x, y) => headAt(x, y) && stripeAt(x, y) && headAt(x, y + PX), colour);
 
 function hull(b, l, S) {
   grid(b, l, COLS, ROWS, (x, y) => hullCell(x, y, S.pal));

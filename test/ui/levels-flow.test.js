@@ -29,16 +29,15 @@ function setup() {
   return { r, flow, started, said, screen: () => shown };
 }
 
-test('the title offers Level 1 and Level 2 by name, from the first visit', () => {
+test('the title offers every level by name, from the first visit', () => {
   const { r, started, screen } = setup();
   r.goTitle();
-  assert.deepEqual(labels(screen()), ['Level 1', 'Level 2']);
-  press(screen(), 'Level 1');
-  press(screen(), 'Level 2');
-  assert.deepEqual(started, [LEVEL, LEVELS[1]]);
+  assert.deepEqual(labels(screen()), ['Level 1', 'Level 2', 'Level 3']);
+  for (const label of labels(screen())) press(screen(), label);
+  assert.deepEqual(started, LEVELS);
 });
 
-test("each level's parade names its own animals: level 1 seven, level 2 the eight with the mouse", () => {
+test("each level's parade names its own animals: level 1 seven, levels 2 and 3 all eight", () => {
   const { flow, said, screen } = setup();
   const walk = (level) => {
     said.length = 0;
@@ -47,10 +46,12 @@ test("each level's parade names its own animals: level 1 seven, level 2 the eigh
     return [...said];
   };
   assert.deepEqual(walk(LEVEL), ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish']);
-  assert.deepEqual(walk(LEVELS[1]), ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish', 'mouse']);
+  const eight = ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish', 'mouse'];
+  assert.deepEqual(walk(LEVELS[1]), eight);
+  assert.deepEqual(walk(LEVELS[2]), eight);
 });
 
-test("level 1's results offer Next, which plays level 2, and Again replays the level just played", () => {
+test("results offer Next to the level after, none after the last, and Again replays the level just played", () => {
   const { flow, started, screen } = setup();
   const result = { score: 100, stars: 1, best: { score: 100, stars: 1 }, newBest: true };
   flow.showResults({ level: LEVEL, ...result });
@@ -60,12 +61,16 @@ test("level 1's results offer Next, which plays level 2, and Again replays the l
   press(screen(), 'Next');
   press(screen(), 'Again');
   flow.showResults({ level: LEVELS[1], ...result });
+  assert.deepEqual(labels(screen()), ['Next', 'Again', 'Title']);
+  later();
+  press(screen(), 'Next');
+  flow.showResults({ level: LEVELS[2], ...result });
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
   later();
   press(screen(), 'Again');
   flow.showResults({ level: { ...LEVEL, waves: null }, ...result }); // ?debug&boss: not a level of the list
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
-  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[1]]);
+  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[2]]);
 });
 
 test('failing level 2 retries level 2', () => {

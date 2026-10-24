@@ -5,7 +5,7 @@
 //                 also the parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
-//   numbers       { n, word, say, clip, ms } for 1..10; `word` is n in Persian digits, shown as it is said
+//   numbers       { n, word, say, clip, ms } for 1..15; `word` is n in Persian digits, shown as it is said
 //   digits        the ten digits, 0 to 9, a number is written in where the screen shows it in Persian
 //   letterColours the colours the word moment cycles through, one per letter
 export const PACK = {
@@ -32,6 +32,11 @@ export const PACK = {
     { n: 8, word: '۸', say: 'hasht', clip: 'public/audio/hasht.mp3', ms: 760 },
     { n: 9, word: '۹', say: 'noh', clip: 'public/audio/noh.mp3', ms: 760 },
     { n: 10, word: '۱۰', say: 'dah', clip: 'public/audio/dah.mp3', ms: 760 },
+    { n: 11, word: '۱۱', say: 'yazdah', clip: 'public/audio/yazdah.mp3', ms: 840 },
+    { n: 12, word: '۱۲', say: 'davazdah', clip: 'public/audio/davazdah.mp3', ms: 890 },
+    { n: 13, word: '۱۳', say: 'sizdah', clip: 'public/audio/sizdah.mp3', ms: 890 },
+    { n: 14, word: '۱۴', say: 'chahardah', clip: 'public/audio/chahardah.mp3', ms: 860 },
+    { n: 15, word: '۱۵', say: 'panzdah', clip: 'public/audio/panzdah.mp3', ms: 1070 },
   ],
   digits: '۰۱۲۳۴۵۶۷۸۹',
   letterColours: ['#ffd23a', '#3affc8', '#ff5ad8', '#7aa8ff', '#ff8a3a'],

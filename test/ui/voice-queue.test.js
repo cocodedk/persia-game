@@ -34,6 +34,12 @@ test("level 2's first wave says six, not one: the voice counts on from level 1",
   assert.deepEqual(said.slice(1), [species('dog'), species('mouse')]);
 });
 
+test("level 3's first wave says eleven: the count goes on", () => {
+  const said = lines(createWorld(LEVELS[2]).events);
+  assert.equal(said[0], number(11));
+  assert.deepEqual(said.slice(1), [species('bird'), species('fish')]);
+});
+
 test('a tick with no events, or none that speak, says nothing', () => {
   assert.equal(lines([]).length, 0);
   assert.equal(lines([]), lines([]), 'and allocates nothing');

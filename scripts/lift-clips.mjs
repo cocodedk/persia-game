@@ -13,11 +13,22 @@ const NAMES = {
   'vocabulary-5-mahi': 'mahi',
   'vocabulary-5-parande': 'parande',
   'vocabulary-5-khargush': 'khargush',
+  'vocabulary-5-mush': 'mush',
   'number-1-word': 'yek',
   'number-2-word': 'do',
   'number-3-word': 'se',
   'number-4-word': 'chahar',
   'number-5-word': 'panj',
+  'number-6-word': 'shesh',
+  'number-7-word': 'haft',
+  'number-8-word': 'hasht',
+  'number-9-word': 'noh',
+  'number-10-word': 'dah',
+  'number-11-word': 'yazdah',
+  'number-12-word': 'davazdah',
+  'number-13-word': 'sizdah',
+  'number-14-word': 'chahardah',
+  'number-15-word': 'panzdah',
 };
 
 const lessons = process.argv[2];

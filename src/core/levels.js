@@ -44,7 +44,19 @@ const LEVEL_2 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2];
+const LEVEL_3 = {
+  id: 'level-3', name: 'Level 3', seed: 31249, d: 0.3, boss: 'giant-fish', landmark: 'hafez',
+  persian: ['wave'],
+  waves: [
+    w('dive', 10, 'bff', 'fan', 1.05), // 11: birds and fish swoop
+    w('escort', 3, 'oro', 'aimed', 1.05), // 12: cows guard the rabbits: the power-ups
+    w('grid', 10, 'ddmm', 'aimed', 1.1), // 13: dogs over mice
+    w('sway', 8, 'hhff', 'fan', 1.15), // 14: the gunners
+    w('spiral', 10, 'ffcc', 'ring', 1.25), // 15: forty fish and cats
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

@@ -3,7 +3,7 @@
 // Bake-time only, but for throb (a painter's live()). A painter draws centred on (0, 0) in world px:
 // the hull in boss coordinates, a part in its own (its rect is w x h around the origin and its art
 // must cover it, since the rect is the hit box).
-import { pixels, path, line } from '../aliens/kit.js';
+import { pixels, path, line, bloom } from '../aliens/kit.js';
 import { glow, rgba } from '../sprites.js';
 
 export { TAU, path, bloom, phosphor, line, pixels } from '../aliens/kit.js';
@@ -43,10 +43,26 @@ function pixelArt(b, l, cols, rows, px, at) {
   pixels(b, l, lines, px, map);
 }
 
-export const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid's centre
+const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid's centre
 // Pixel art over cols x rows cells of PX, at(x, y) taking each cell's centre in px.
 export const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
 export const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
+
+// Every cell of a cols x rows grid that pick(x, y) keeps, lit in one colour: a rage overlay's
+// stripes or gills.
+export function litCells(l, cols, rows, pick, colour) {
+  l.globalCompositeOperation = 'lighter';
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < cols; i++) {
+      const x = cell(i, cols);
+      const y = cell(j, rows);
+      if (!pick(x, y)) continue;
+      l.fillStyle = rgba(colour, 0.7);
+      l.fillRect(x - PX / 2, y - PX / 2, PX, PX);
+      bloom(l, x, y, PX * 2, colour, 0.35);
+    }
+  }
+}
 
 // Whiskers from (±x0, y0) out to (±x1, y1), one per [y0, x1, y1] spoke, mirrored; lights only.
 export function whiskers(l, x0, spokes, colour, a, w) {
