@@ -8,8 +8,8 @@ import { EMIT } from '../../src/core/patterns.js';
 
 const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 
-test("the giant cat, mouse, fish and bird are the bosses, looked up by kind", () => {
-  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird']);
+test("the giant cat, mouse, fish, bird and cow are the bosses, looked up by kind", () => {
+  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow']);
   for (const def of BOSS_DEFS) assert.equal(bossDef(def.kind), def);
   assert.equal(bossDef('nope'), undefined);
 });
@@ -73,4 +73,14 @@ test('attacks come from real parts with real patterns, and are slower than their
     }
   }
   assert.ok(WARN >= 0.6, 'the telegraph is at least 0.6 s');
+});
+
+test('the giant cow: two horns and a curl for plates, two eyes and a mouth to burn, cows from the mouth and a rabbit from the curl in every phase', () => {
+  const def = bossDef('giant-cow');
+  assert.equal(def.species, 'cow');
+  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['hornL', 'hornR', 'curl']);
+  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
+  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
+  assert.deepEqual(def.phases.map((ph) => from(ph, 'cow').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
+  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'curl']]);
 });
