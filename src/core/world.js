@@ -14,8 +14,9 @@ export { stars } from './scoring.js';
 // simulation needs: rng (a { s } state, draw with rand), scale (scaled(level.d), constant),
 // intro (seconds of intro left), gap (seconds to the next wave, or null), march (the current wave's
 // own state, aliens.js), nextId (the next alien id).
-// `wave` counts the waves spawned so far (1 while the first is in play; 0 on a boss level, where
-// `boss` holds the fight instead: boss.js). slow and cool carry bullet time (bullet-time.js).
+// `wave` counts the waves spawned so far (1 while the first is in play). `boss` holds the fight
+// (boss.js) once the last wave is cleared (world-step.js), or from the start on a level without
+// waves; march is null from then on. slow and cool carry bullet time (bullet-time.js).
 // `events` is only pushed to here; main drains it after every step.
 
 export const INTRO = 1.5; // s before play begins; the first wave flies in meanwhile
@@ -28,7 +29,7 @@ export function createWorld(level, seed = level.seed) {
     score: 0, combo: { mult: 1, timer: 0 }, hits: 0, state: 'intro', events: [],
   };
   if (level.waves) spawnWave(world);
-  if (level.boss) spawnBoss(world, level.boss);
+  else spawnBoss(world, level.boss);
   return world;
 }
 

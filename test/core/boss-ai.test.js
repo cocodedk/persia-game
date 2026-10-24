@@ -36,7 +36,7 @@ test('every attack is announced by a bossWarn at least 0.6 s before its bullets 
 });
 
 test('bossWarn carries what the renderer needs, and boss.warns holds the pending ones', () => {
-  const w = live('mothership');
+  const w = live('giant');
   let warn;
   for (let i = 0; i < 60 * 20 && !warn; i++) {
     stepWorld(w, TICK, IDLE);
@@ -50,19 +50,19 @@ test('bossWarn carries what the renderer needs, and boss.warns holds the pending
 });
 
 test('a destroyed part stops attacking, and an attack in its telegraph is cancelled', () => {
-  const w = live('mothership');
-  const gunL = part(w, 'gunL');
-  for (let i = 0; i < 60 * 30 && !w.boss.warns.some((x) => x.part === 'gunL'); i++) stepWorld(w, TICK, IDLE);
-  assert.ok(w.boss.warns.some((x) => x.part === 'gunL'), 'gunL started an attack');
-  gunL.hp = 0;
+  const w = live('giant');
+  const eyeL = part(w, 'eyeL');
+  for (let i = 0; i < 60 * 30 && !w.boss.warns.some((x) => x.part === 'eyeL'); i++) stepWorld(w, TICK, IDLE);
+  assert.ok(w.boss.warns.some((x) => x.part === 'eyeL'), 'eyeL started an attack');
+  eyeL.hp = 0;
   w.events.length = 0;
   for (let i = 0; i < 60 * 12; i++) stepWorld(w, TICK, IDLE);
-  assert.equal(w.events.filter((e) => e.type === 'fire' && e.id === 'gunL').length, 0);
+  assert.equal(w.events.filter((e) => e.type === 'fire' && e.id === 'eyeL').length, 0);
 });
 
 test('a quiet world (fireMult 0) never attacks and never spawns minions', () => {
-  const w = bossWorld('mothership');
-  leave(w, ['eye'], 3);
+  const w = bossWorld('giant');
+  leave(w, ['mouth'], 3);
   seconds(w, 30);
   const ev = drain(w);
   assert.equal(ofType(ev, 'bossWarn').length, 0);
@@ -70,9 +70,9 @@ test('a quiet world (fireMult 0) never attacks and never spawns minions', () => 
 });
 
 test('later phases bring minions that fly at the ship, and a carrier among them drops a power-up', () => {
-  const w = live('mothership', 0);
-  leave(w, ['gunL', 'gunR', 'eye', 'dome'], 5); // the carrier comes from the dome: it must stand
-  assert.deepEqual(bossDef('mothership').phases[2].minions.map((m) => m.role), ['grunt', 'carrier']);
+  const w = live('giant', 0);
+  leave(w, ['eyeL', 'eyeR', 'mouth', 'brow'], 5); // the carrier (a rabbit) comes from the brow: it must stand
+  assert.deepEqual(bossDef('giant').phases[2].minions.map((m) => m.role), ['diver', 'carrier']);
   const seen = new Set();
   for (let i = 0; i < 60 * 45; i++) {
     stepWorld(w, TICK, IDLE);
@@ -82,7 +82,7 @@ test('later phases bring minions that fly at the ship, and a carrier among them 
       seen.add(a.role);
     }
   }
-  assert.ok(seen.has('grunt') && seen.has('carrier'), [...seen].join());
+  assert.ok(seen.has('diver') && seen.has('carrier'), [...seen].join());
   assert.ok(w.aliens.length <= 8, 'bounded');
   for (let i = 0; i < 60 * 30 && !w.aliens.some((a) => a.role === 'carrier'); i++) stepWorld(w, TICK, IDLE);
   shotAt(w, w.aliens.find((a) => a.role === 'carrier'));
@@ -115,7 +115,7 @@ test('the boss stays on screen and above the player zone in every phase of a rea
 
 test('boss fights are deterministic and the world survives structuredClone mid-fight', () => {
   const run = (clone) => {
-    let w = createWorld(realLevel('mothership'));
+    let w = createWorld(realLevel('giant'));
     w.ship.invuln = Infinity;
     for (let i = 0; i < 60 * 25; i++) {
       stepWorld(w, TICK, IDLE);

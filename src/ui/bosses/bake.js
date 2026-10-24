@@ -6,10 +6,10 @@
 //     parts = { [id]: set }, set = { body, lights, flash, open?, w, h, m, seed, crack, cracks, ... }
 //             drawn at the part's centre; the damage states (cracks.js) are baked on first use
 //   warmBoss(look, kind)  bossArt plus everything the fight will need, the damage states and the hull
-//                         flash included, so nothing is baked mid-fight (createView, on a boss level)
+//                         flash included, so nothing is baked mid-fight (createView, on a level with a boss)
 //   hullFlash(B)          the hull's white silhouette (the collapse), baked on first use
 //   painterFor(mod, id)   [painter, mirror] for a part: its own painter, or its left twin's
-//                         mirrored for an id ending in R (gunR from gun), or null
+//                         mirrored for an id ending in R (eyeR from eye), or null
 // A module is { pad?, margin?, margins?: { [id]: px }, crack?, hull(b, l, S),
 //   parts: { [id | base]: (b, l, p, S) } (margin: px of canvas round a part's rect for art that
 //   overhangs it, 34 by default; margins overrides it per part id),
@@ -22,7 +22,7 @@ import { bossDef } from '../../core/bosses-data.js';
 import { cracked, exposed, wreck } from './cracks.js';
 import mothership from './mothership.js';
 
-export const BOSS_ART = { mothership };
+export const BOSS_ART = { giant: mothership }; // the mothership's art draws the giant until it has its own
 const cache = new Map();
 
 export function painterFor(mod, id) {

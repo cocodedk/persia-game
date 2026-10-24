@@ -1,12 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
-import { levelById } from '../../src/core/levels.js';
+import { LEVEL } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
 import { TICK } from '../../src/core/kinds.js';
 import { level, wave, playing, step, seconds, bulletAt, pickupAt, IDLE } from './world-kit.js';
-import { bossWorld } from './boss-kit.js';
-import { fly, oneShot, landed } from './autopilot-kit.js';
+import { bossWorld, realLevel } from './boss-kit.js';
+import { oneShot, landed } from './autopilot-kit.js';
 
 const oneAlien = (o) => playing(level([wave({ rows: 1, cols: 1, ...o })]));
 
@@ -25,8 +25,8 @@ test('it answers in the shape of a human input: keys in -1..1, booleans, an inte
 });
 
 test('it is a pure function of the world: no mutation, no draw from the world rng, same answer twice', () => {
-  for (const id of ['w1-2', 'w1-3', 'w1-4', 'w1-5']) {
-    const world = createWorld(levelById(id));
+  for (const [id, lv] of [['level 1', LEVEL], ['the giant', realLevel('giant')]]) {
+    const world = createWorld(lv);
     for (let n = 0; n < 5; n++) {
       step(world, 130);
       const before = structuredClone(world);
@@ -90,7 +90,7 @@ test('it bombs with six bullets within 160 px, not five, not further out, not wi
 });
 
 test('with one life left against a boss it bombs, once the fight is on', () => {
-  const world = bossWorld('mothership');
+  const world = bossWorld('giant');
   assert.equal(autopilot(world).bomb, false, 'three lives');
   world.ship.lives = 2;
   assert.equal(autopilot(world).bomb, false, 'two lives');
@@ -98,7 +98,7 @@ test('with one life left against a boss it bombs, once the fight is on', () => {
   assert.equal(autopilot(world).bomb, true);
   world.ship.bombs = 0;
   assert.equal(autopilot(world).bomb, false, 'no bombs');
-  const entering = createWorld(levelById('w1-5'));
+  const entering = createWorld(realLevel('giant'));
   step(entering, 100);
   entering.ship.lives = 1;
   assert.ok(entering.boss.enter > 0 && entering.state === 'play');
@@ -114,13 +114,4 @@ test('it collects a power-up that is about to pass, without leaving its post for
   const far = oneAlien();
   pickupAt(far, 'rapid', 400, 200);
   assert.ok(Math.abs(autopilot(far).target.x - 960) < 100, 'the far one can wait');
-});
-
-test('it survives 60 s of w1-1 with its three lives, on the level seed and two others', () => {
-  const lv = levelById('w1-1');
-  for (const seed of [lv.seed, 7, 12345]) {
-    const world = fly(createWorld(lv, seed), 60);
-    assert.notEqual(world.state, 'failed', `seed ${seed}: failed at ${world.t.toFixed(1)} s`);
-    assert.ok(world.score > 0);
-  }
 });

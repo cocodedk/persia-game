@@ -30,8 +30,6 @@
   content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
   background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 0.22rem, rgba(0, 0, 20, 0.35) 0.22rem 0.36rem);
 }
-.tagline { margin: 0 0 1.6rem; font-size: 1.6rem; font-weight: 800; letter-spacing: 0.32em; text-transform: uppercase;
-  color: rgba(214, 246, 255, 0.86); text-shadow: 0 0.2rem 0.8rem #000; }
 .title .hint { position: absolute; bottom: 2.4rem; }
 .now-showing { position: absolute; left: 3rem; bottom: 2.2rem; margin: 0; font-size: 1.15rem; font-weight: 800;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); text-shadow: 0 0.15rem 0.6rem #000; }
@@ -49,7 +47,6 @@
 .card::after { content: ""; position: absolute; inset: 0; pointer-events: none; /* letterbox bars */
   background: linear-gradient(180deg, #000 0 6rem, transparent 6rem calc(100% - 6rem), #000 calc(100% - 6rem)); }
 .card-body { position: relative; text-align: center; animation: rise 0.6s cubic-bezier(0.2, 1.2, 0.3, 1) both; }
-.card-kicker { margin: 0; font-size: 1.7rem; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent, #fff); }
 .card-name { margin: 0.5rem 0 2rem; font: 900 8.4rem/1 var(--display); font-stretch: condensed; letter-spacing: 0.06em;
   text-transform: uppercase; text-shadow: 0 0 2.4rem var(--accent, #fff), 0 0.4rem 2rem rgba(0, 0, 0, 0.7); }
 .card-bar { width: 24rem; height: 0.4rem; margin: 0 auto; border-radius: 1rem; overflow: hidden; background: rgba(255, 255, 255, 0.18); }

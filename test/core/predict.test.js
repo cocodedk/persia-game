@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
-import { LEVELS, levelById } from '../../src/core/levels.js';
+import { LEVEL } from '../../src/core/levels.js';
 import { BOSSES } from '../../src/core/kinds.js';
 import { posAt, bossShifts } from '../../src/core/predict.js';
 import { step } from './world-kit.js';
-import { leave } from './boss-kit.js';
+import { leave, realLevel } from './boss-kit.js';
 
 // The autopilot's aim is only as good as its forecast, so the forecast is checked against the
 // simulation itself: stand still (no shots, so nothing dies and the grid keeps its pace), look
@@ -44,9 +44,9 @@ function checkAliens(world, what) {
   return checked;
 }
 
-// Every wave of every wave level, each flown as a level's first: nothing dies here, so a level's
-// later waves would never fly.
-const FIRSTS = LEVELS.filter((l) => l.waves).flatMap((l) => l.waves.map((w, i) => ({ ...l, id: `${l.id}.${i}`, waves: [w] })));
+// Every wave of the level, each flown as a level's first: nothing dies here, so the later waves
+// would never fly.
+const FIRSTS = LEVEL.waves.map((w, i) => ({ ...LEVEL, id: `${LEVEL.id}.${i}`, waves: [w] }));
 
 test('posAt forecasts every alien of every wave to a hundredth of a pixel, entering, holding and diving', () => {
   const seen = { enter: 0, hold: 0, dive: 0 };
@@ -61,7 +61,7 @@ test('posAt forecasts every alien of every wave to a hundredth of a pixel, enter
 });
 
 test('posAt forecasts a wave that flies in after the first one', () => {
-  const second = still(levelById('w1-2'));
+  const second = still(LEVEL);
   step(second, 150);
   for (const a of second.aliens) a.hp = 0;
   step(second, 1 + 72 + 15);
@@ -72,8 +72,7 @@ test('posAt forecasts a wave that flies in after the first one', () => {
 
 test('bossShifts forecasts the whole boss, in every phase style, to a hundredth of a pixel', () => {
   for (const kind of BOSSES) {
-    const level = levelById(`w${BOSSES.indexOf(kind) + 1}-5`);
-    const world = still(level);
+    const world = still(realLevel(kind));
     step(world, 125);
     for (let n = 0; n < 12; n++) {
       const shifts = bossShifts(world, 45);
@@ -89,21 +88,18 @@ test('bossShifts forecasts the whole boss, in every phase style, to a hundredth 
 
 test('posAt forecasts the minions a boss launches', () => {
   let checked = 0;
-  for (const id of ['w1-5']) {
-    const level = levelById(id);
-    const world = createWorld(level, level.seed);
-    world.ship.invuln = Infinity;
-    leave(world, ['gunL', 'gunR', 'eye', 'dome'], 5); // into the last phase: grunts and a carrier
-    for (let i = 0; i < 30; i++) {
-      step(world, 90);
-      const later = structuredClone(world);
-      step(later, 20);
-      for (const a of world.aliens.filter((m) => m.minion && m.hp > 0)) {
-        const b = later.aliens.find((m) => m.id === a.id);
-        if (!b || b.hp <= 0 || b.x <= 20 || b.x >= 1900) continue;
-        near(posAt(world, a, 20 / 60), b, `${id} minion ${a.role}`, 1); // integrated in 1/30 s steps, not 1/60
-        checked++;
-      }
+  const world = createWorld(realLevel('giant'));
+  world.ship.invuln = Infinity;
+  leave(world, ['eyeL', 'eyeR', 'mouth', 'brow'], 5); // into the last phase: cats and a rabbit
+  for (let i = 0; i < 30; i++) {
+    step(world, 90);
+    const later = structuredClone(world);
+    step(later, 20);
+    for (const a of world.aliens.filter((m) => m.minion && m.hp > 0)) {
+      const b = later.aliens.find((m) => m.id === a.id);
+      if (!b || b.hp <= 0 || b.x <= 20 || b.x >= 1900) continue;
+      near(posAt(world, a, 20 / 60), b, `minion ${a.species}`, 1); // integrated in 1/30 s steps, not 1/60
+      checked++;
     }
   }
   assert.ok(checked > 10, `${checked} minions checked`);

@@ -1,9 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
-import { levelById } from '../../src/core/levels.js';
 import { IDLE, TICK, level, wave, input, step, seconds, playing, drain, ofType, bulletAt } from './world-kit.js';
-import { bossLevel, bossWorld, leave, part, shotOn } from './boss-kit.js';
+import { bossLevel, bossWorld, leave, part, shotOn, realLevel } from './boss-kit.js';
 
 // Small fairness rules (task 13a): near misses that end early still count (wipes do not, R37),
 // minions come only from parts still standing, and gunner minions shoot, but not point blank.
@@ -43,12 +42,12 @@ test('a bomb that wipes a bullet inside the near band is no near miss', () => {
 });
 
 test('a boss\'s death wipes bullets inside the near band without a near miss', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   bulletAt(w, w.ship.x - 25, w.ship.y);
   step(w);
   assert.equal(w.bullets[0].near, 25, 'it is in the band');
-  leave(w, ['eye'], 1);
-  shotOn(w, part(w, 'eye'));
+  leave(w, ['mouth'], 1);
+  shotOn(w, part(w, 'mouth'));
   step(w);
   const ev = drain(w);
   assert.equal(ofType(ev, 'bossDeath').length, 1);
@@ -63,20 +62,20 @@ const fight = (kind) => {
 };
 
 test('a destroyed part launches no minions; a live one still does', () => {
-  const w = fight('mothership'); // its last phase: grunts from the eye, a carrier from the dome
-  leave(w, ['gunL', 'gunR', 'eye'], 5); // the dome is gone
+  const w = fight('giant'); // its last phase: cats from the mouth, a rabbit from the brow
+  leave(w, ['eyeL', 'eyeR', 'mouth'], 5); // the brow is gone
   const seen = new Set();
   for (let i = 0; i < 60 * 45; i++) {
     stepWorld(w, TICK, IDLE);
     w.events.length = 0;
-    for (const a of w.aliens) seen.add(a.role);
+    for (const a of w.aliens) seen.add(a.species);
   }
-  assert.deepEqual([...seen], ['grunt']);
+  assert.deepEqual([...seen], ['cat']);
 });
 
 // A gunner minion held `dy` px above the ship (negative: below it) for 20 s: how often it fires.
 function minionShots(dy) {
-  const w = createWorld(levelById('w1-5'));
+  const w = createWorld(realLevel('giant'));
   w.ship.invuln = Infinity;
   while (w.state !== 'play' || w.boss.enter > 0) stepWorld(w, TICK, IDLE);
   const m = { id: 999, role: 'gunner', x: 0, y: 0, hp: 2, maxHp: 2, slot: null, mode: 'dive', t: 0, dive: null, minion: true, vx: 0 };

@@ -12,25 +12,25 @@ const { createFlow } = await import('../../src/ui/flow.js');
 const { createSession, stepSession } = await import('../../src/ui/session.js');
 const { finished } = await import('../../src/core/util.js');
 const { store } = await import('../../src/ui/storage.js');
-const { levelById } = await import('../../src/core/levels.js');
+const { level, wave } = await import('../core/world-kit.js');
 const { autopilot } = await import('../../src/core/autopilot.js');
 
 // Fly a level with the autopilot as the router's play scene does, stopping on the tick it ends.
-function fly(id) {
+function fly(lv) {
   const flow = createFlow({ app: {} }, { show() {} });
-  const scene = { mode: 'play', level: levelById(id), session: createSession(levelById(id)) };
+  const scene = { mode: 'play', level: lv, session: createSession(lv) };
   for (let i = 0; i < 40000 && !finished(scene.session.world); i++) {
     stepSession(scene.session, 1 / 60, autopilot, (events) => events.forEach((e) => flow.onEvent(scene, e)));
   }
-  assert.equal(scene.session.world.state, 'cleared', `the autopilot clears ${id}`);
+  assert.equal(scene.session.world.state, 'cleared', `the autopilot clears ${lv.id}`);
   return { flow, scene };
 }
 
 test('the best is saved on the tick the level is cleared, before the slow motion plays out', () => {
-  const { flow, scene } = fly('w1-1');
+  const { flow, scene } = fly(level([wave({ cols: 5 })]));
   const s = scene.session;
   assert.ok(s.over < 0.1, 'still inside the clear wait');
-  assert.equal(store.best('w1-1').score, s.world.score);
+  assert.equal(store.best('t-1').score, s.world.score);
   let shown = null;
   flow.showResults = (o) => (shown = o);
   flow.check(scene);
@@ -38,6 +38,6 @@ test('the best is saved on the tick the level is cleared, before the slow motion
   stepSession(s, 2.5, autopilot);
   flow.check(scene);
   assert.equal(shown.score, s.world.score);
-  assert.deepEqual(shown.best, store.best('w1-1'));
+  assert.deepEqual(shown.best, store.best('t-1'));
   assert.equal(shown.newBest, true);
 });

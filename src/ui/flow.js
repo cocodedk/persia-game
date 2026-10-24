@@ -2,7 +2,7 @@
 // pause menu during the slow motion does not lose it (M10); once that moment has played out, the
 // outcome goes to flow.showResults or flow.showFailed.
 //   outcome = { level, score, stars, best, newBest, world }   best and newBest only on a clear
-import { LEVELS, worldName } from '../core/levels.js';
+import { LEVELS } from '../core/levels.js';
 import { stars } from '../core/world.js';
 import { store } from './storage.js';
 import { play, setBeam } from './audio.js';
@@ -15,7 +15,7 @@ const FAIL_WAIT = 1.6; // s after the last life
 
 function progress(world) {
   const b = world.boss;
-  if (b) return `${worldName(world.level)}'s boss held at ${Math.ceil((100 * b.hp) / b.maxHp)} %`;
+  if (b) return `${world.level.name}'s boss held at ${Math.ceil((100 * b.hp) / b.maxHp)} %`;
   return `Wave ${world.wave} of ${world.level.waves.length}`;
 }
 
@@ -45,7 +45,7 @@ export function createFlow(r, stage) {
       const { level } = o; // the buttons close over this, not over o (its world)
       const next = LEVELS[LEVELS.indexOf(level) + 1];
       stage.show(resultsScreen({
-        label: r.labelOf(level), title: level.boss ? 'Victory' : 'Cleared',
+        label: level.name, title: level.boss ? 'Victory' : 'Cleared',
         score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
       }, {
         next: next && (() => r.startLevel(next)),
@@ -58,7 +58,7 @@ export function createFlow(r, stage) {
       app.screen = 'failed';
       play('failed');
       const { level } = o;
-      stage.show(failedScreen({ label: r.labelOf(level), score: o.score, progress: progress(o.world) }, {
+      stage.show(failedScreen({ label: level.name, score: o.score, progress: progress(o.world) }, {
         retry: () => r.startLevel(level),
         title: r.goTitle,
       }));

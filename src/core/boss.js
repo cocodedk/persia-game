@@ -23,6 +23,7 @@ const place = (b) => {
   }
 };
 
+// Bring the boss in and say so: `species` is the animal it is a giant of.
 export function spawnBoss(world, kind) {
   const def = bossDef(kind);
   const b = {
@@ -33,6 +34,7 @@ export function spawnBoss(world, kind) {
   beginPhase(b, 0);
   place(b);
   world.boss = b;
+  emit(world, 'boss', { kind, species: def.species });
   return b;
 }
 

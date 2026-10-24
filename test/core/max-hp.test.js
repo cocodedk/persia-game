@@ -21,16 +21,16 @@ test('a wave alien is made at its maxHp, the armour bonus of a hard level includ
 });
 
 test('a boss minion is made at its maxHp', () => {
-  const w = createWorld(bossLevel('mothership', 1, { seed: 5 }), 5);
+  const w = createWorld(bossLevel('giant', 1, { seed: 5 }), 5);
   w.ship.invuln = Infinity;
   assert.ok(w.scale.armorBonus > 0);
-  leave(w, ['gunL', 'gunR', 'eye'], 5); // into the last phase: grunts from the eye
+  leave(w, ['eyeL', 'eyeR', 'mouth'], 5); // into the last phase: cats from the mouth
   let minion = null;
   for (let i = 0; i < 60 * 40 && !minion; i++) {
     stepWorld(w, TICK, IDLE);
     w.events.length = 0;
-    minion = w.aliens.find((a) => a.minion && a.role === 'grunt') ?? null;
+    minion = w.aliens.find((a) => a.minion && a.species === 'cat') ?? null;
   }
-  assert.ok(minion, 'a grunt minion launched');
-  assert.deepEqual([minion.hp, minion.maxHp], [ROLES.grunt.hp, ROLES.grunt.hp]);
+  assert.ok(minion, 'a cat minion launched');
+  assert.deepEqual([minion.hp, minion.maxHp], [ROLES.diver.hp, ROLES.diver.hp], 'a cat fights as a diver, no armour bonus');
 });

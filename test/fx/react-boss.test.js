@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { kindsOf, ofKind, react, run } from './fx-kit.js';
 
 test('bossWarn: a charge glow on the firing part that builds until the shot, plus a closing ring', () => {
-  const fx = react({ type: 'bossWarn', kind: 'mothership', part: 'gunL', pattern: 'aimed', x: 700, y: 250, warn: 0.7 });
+  const fx = react({ type: 'bossWarn', kind: 'giant', part: 'eyeL', pattern: 'aimed', x: 700, y: 250, warn: 0.7 });
   const glow = fx.flashes[0];
   assert.deepEqual([glow.x, glow.y, glow.ramp], [700, 250, 1]);
   assert.equal(glow.max, 0.7);
@@ -15,7 +15,7 @@ test('bossWarn: a charge glow on the firing part that builds until the shot, plu
 });
 
 test('bossPhase: a white-out blink, a wide shockwave, sparks, smoke and a shake', () => {
-  const fx = react({ type: 'bossPhase', kind: 'mothership', phase: 1, x: 960, y: 250, hp: 40, open: [] });
+  const fx = react({ type: 'bossPhase', kind: 'giant', phase: 1, x: 960, y: 250, hp: 40, open: [] });
   assert.ok(fx.flashes.some((f) => f.full));
   assert.ok(fx.rings[0].maxR > 500);
   assert.ok(fx.shake >= 15);
@@ -23,8 +23,8 @@ test('bossPhase: a white-out blink, a wide shockwave, sparks, smoke and a shake'
 });
 
 test('bossExpose: a crack burst on each plate that opened, at the plate when the world knows it', () => {
-  const world = { boss: { parts: [{ id: 'wingL', x: 600, y: 220 }, { id: 'wingR', x: 1300, y: 220 }, { id: 'eye', x: 960, y: 300 }] } };
-  const ev = { type: 'bossExpose', kind: 'mothership', parts: ['wingL', 'wingR'], x: 960, y: 260 };
+  const world = { boss: { parts: [{ id: 'pawL', x: 600, y: 220 }, { id: 'pawR', x: 1300, y: 220 }, { id: 'mouth', x: 960, y: 300 }] } };
+  const ev = { type: 'bossExpose', kind: 'giant', parts: ['pawL', 'pawR'], x: 960, y: 260 };
   const fx = react(ev, world);
   assert.equal(fx.rings.length, 2);
   assert.deepEqual(fx.rings.map((r) => r.x).toSorted((a, b) => a - b), [600, 1300]);
@@ -32,17 +32,17 @@ test('bossExpose: a crack burst on each plate that opened, at the plate when the
   assert.ok(fx.shake > 0);
   const blind = react(ev);
   assert.ok(blind.rings.length >= 1 && blind.rings.every((r) => r.x === 960), 'without a world it bursts at the boss centre');
-  const bare = react({ type: 'bossExpose', kind: 'mothership', x: 960, y: 260 }, world);
+  const bare = react({ type: 'bossExpose', kind: 'giant', x: 960, y: 260 }, world);
   assert.equal(bare.rings[0].x, 960, 'an event without a parts list bursts at the boss centre');
 });
 
 test('partDown: wreckage flies off the part', () => {
-  const fx = react({ type: 'partDown', kind: 'mothership', part: 'gunL', x: 800, y: 260, weak: true });
+  const fx = react({ type: 'partDown', kind: 'giant', part: 'eyeL', x: 800, y: 260, weak: true });
   assert.ok(ofKind(fx, 'debris').length >= 6);
 });
 
 test('bossDeath: slow motion, a long white-out, a huge pop-up with the boss score, big shake', () => {
-  const fx = react({ type: 'bossDeath', kind: 'mothership', x: 960, y: 280, score: 10000 });
+  const fx = react({ type: 'bossDeath', kind: 'giant', x: 960, y: 280, score: 10000 });
   assert.equal(fx.slow, 0.3);
   const white = fx.flashes.find((f) => f.full && f.tag === 'whiteout');
   assert.ok(white && white.alpha >= 0.9 && white.max >= 0.8);

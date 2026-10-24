@@ -5,10 +5,10 @@ import { FIRE, input, step, seconds, drain, ofType, bulletAt } from './world-kit
 import { bossWorld, part, shotOn, leave } from './boss-kit.js';
 
 test('the laser beam burns a weak part for 8 a second and an armour plate for 2', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   w.ship.power = { kind: 'laser', left: 10 };
-  const [gun, wing] = ['gunL', 'wingL'].map((id) => part(w, id));
-  for (const [p, per] of [[gun, 8], [wing, 2]]) {
+  const [eye, paw] = ['eyeL', 'pawL'].map((id) => part(w, id));
+  for (const [p, per] of [[eye, 8], [paw, 2]]) {
     const before = p.hp;
     for (let i = 0; i < 30; i++) {
       w.ship.x = p.x;
@@ -27,11 +27,11 @@ test('the beam and the bomb only reach what is on screen: inColumn needs y >= 0'
 });
 
 test('bossDeath comes exactly once even when the laser and a bomb land on the same tick', () => {
-  const w = bossWorld('mothership');
-  leave(w, ['eye', 'gunL'], 1);
+  const w = bossWorld('giant');
+  leave(w, ['mouth', 'eyeL'], 1);
   w.ship.power = { kind: 'laser', left: 10 };
   w.ship.bombs = 1;
-  w.ship.x = part(w, 'gunL').x;
+  w.ship.x = part(w, 'eyeL').x;
   step(w, 1, input({ fire: true, bomb: true }));
   step(w, 5, FIRE);
   const ev = drain(w);
@@ -41,7 +41,7 @@ test('bossDeath comes exactly once even when the laser and a bomb land on the sa
 });
 
 test('death: bullets and minions vanish, a destruction chain plays, then the level is cleared', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   bulletAt(w, 500, 500, 0, 100);
   w.aliens.push({ id: 99, role: 'grunt', x: 100, y: 100, hp: 1, slot: null, mode: 'dive', t: 0, dive: null, minion: true });
   leave(w, []);
@@ -50,7 +50,7 @@ test('death: bullets and minions vanish, a destruction chain plays, then the lev
   assert.equal(w.aliens.length, 0);
   assert.equal(w.state, 'play');
   const early = drain(w);
-  assert.deepEqual(ofType(early, 'bossDeath').map((e) => e.kind), ['mothership']);
+  assert.deepEqual(ofType(early, 'bossDeath').map((e) => e.kind), ['giant']);
   seconds(w, 1.5);
   assert.equal(w.state, 'play', 'the chain is long');
   assert.ok(ofType(drain(w), 'explode').length >= 6, 'staggered blasts');
@@ -64,11 +64,11 @@ test('death: bullets and minions vanish, a destruction chain plays, then the lev
 });
 
 test('a boss killed on the tick a bullet reaches the ship wipes that bullet: no life is lost', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   w.ship.lives = 1;
   bulletAt(w, w.ship.x, w.ship.y);
-  leave(w, ['eye'], 1);
-  shotOn(w, part(w, 'eye'));
+  leave(w, ['mouth'], 1);
+  shotOn(w, part(w, 'mouth'));
   step(w);
   assert.equal(w.ship.lives, 1);
   seconds(w, 4);
@@ -76,7 +76,7 @@ test('a boss killed on the tick a bullet reaches the ship wipes that bullet: no 
 });
 
 test('with the ship out of lives and the boss alive, the level is failed', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   w.ship.lives = 1;
   bulletAt(w, w.ship.x, w.ship.y);
   step(w);

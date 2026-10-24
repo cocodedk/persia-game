@@ -7,7 +7,8 @@ import { dropPickup } from './powerups.js';
 import { emit } from './util.js';
 
 // A wave of aliens: spawn, fly in, hold the formation, swoop, shoot back.
-//   alien = { id, role, x, y, hp, maxHp, slot, mode, t, dive }
+//   alien = { id, role, species, x, y, hp, maxHp, slot, mode, t, dive }
+//   species the animal it is drawn as and named by (SPECIES), or null in a wave without species
 //   maxHp the hp of the alien whole, set once where it is made (here and for boss minions) so
 //         nothing downstream has to work it out again
 //   mode 'enter' (ENTER_TIME s, the same for the whole wave) -> 'hold' -> 'dive' (first half of a
@@ -30,8 +31,9 @@ export function addBullets(world, list) {
   for (const b of list) if (world.bullets.length < MAX_BULLETS) world.bullets.push(b);
 }
 
-// The wave in play (null on a boss level), and where a slot of it will be `tau` s from now (now by
-// default): the grid's clock runs at its march rate, every other formation's at wall time.
+// The latest wave (none on a level without waves), and where a slot of it will be `tau` s from now
+// (now by default; null once its march is over, in the boss fight): the grid's clock runs at its
+// march rate, every other formation's at wall time.
 export const waveSpec = (world) => world.level.waves?.[world.wave - 1];
 export function slotAt(world, slot, tau = 0) {
   const spec = waveSpec(world);
@@ -46,8 +48,9 @@ const place = (a, p) => {
   a.y = p.y;
 };
 
-// Spawn the next wave (world.wave counts the waves spawned so far). R2: armorBonus is extra hp for
-// armored and gunner aliens only.
+// Spawn the next wave (world.wave counts the waves spawned so far) and say so: `wave` is its number
+// and `species` its distinct animals in row order. R2: armorBonus is extra hp for armored and
+// gunner aliens only.
 export function spawnWave(world) {
   const spec = world.level.waves[world.wave];
   world.wave += 1;
@@ -56,7 +59,7 @@ export function spawnWave(world) {
     const bonus = slot.role === 'armored' || slot.role === 'gunner' ? world.scale.armorBonus : 0;
     const hp = ROLES[slot.role].hp + bonus;
     const a = {
-      id: world.nextId++, role: slot.role, x: 0, y: 0, hp, maxHp: hp,
+      id: world.nextId++, role: slot.role, species: slot.species, x: 0, y: 0, hp, maxHp: hp,
       slot, mode: 'enter', t: 0, dive: null,
     };
     place(a, entryPosition(spec.formation, slot, 0));
@@ -66,6 +69,7 @@ export function spawnWave(world) {
     age: 0, clock: 0, dir: world.wave % 2 ? 1 : -1, speed: spec.speed * world.scale.formationSpeed,
     total: slots.length, dive: randBetween(world.rng, 2, 4),
   };
+  emit(world, 'wave', { wave: world.wave, species: [...new Set(spec.species)] });
 }
 
 // Damage an alien; at 0 hp it dies (scored), and a carrier leaves a pickup where it fell. The
@@ -117,7 +121,7 @@ function startDives(world, dt) {
 }
 
 // Each alien (each that `shoots`, for boss minions) fires ROLES[role].fire * fireMult times a
-// second, `pattern` at the ship: the wave's pattern, or a boss level's plain aimed shot.
+// second, `pattern` at the ship: the wave's pattern, or the boss fight's plain aimed shot.
 export function fire(world, dt, pattern, shoots = null) {
   const { bullets, ship, scale } = world;
   for (const a of world.aliens) {

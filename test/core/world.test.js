@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld, stars } from '../../src/core/world.js';
 import { createRng, rand } from '../../src/core/rng.js';
-import { levelById } from '../../src/core/levels.js';
+import { LEVEL } from '../../src/core/levels.js';
 import {
   TICK, IDLE, level, wave, step, seconds, playing, drain, ofType, shotAt, bulletOnShip,
 } from './world-kit.js';
@@ -19,10 +19,10 @@ test('createWorld follows the core contract', () => {
   assert.equal(w.state, 'intro');
   assert.deepEqual([w.t, w.tick, w.score, w.hits, w.wave], [0, 0, 0, 0, 1]);
   assert.deepEqual(w.combo, { mult: 1, timer: 0 });
-  for (const k of ['shots', 'bullets', 'pickups', 'events']) assert.deepEqual(w[k], [], k);
+  for (const k of ['shots', 'bullets', 'pickups']) assert.deepEqual(w[k], [], k);
+  assert.deepEqual(w.events.map((e) => e.type), ['wave'], 'only the first wave has happened');
   assert.equal(w.boss, null);
-  const lv = levelById('w1-2');
-  assert.deepEqual(createWorld(lv), createWorld(lv, lv.seed), 'the seed defaults to the level\'s own');
+  assert.deepEqual(createWorld(LEVEL), createWorld(LEVEL, LEVEL.seed), 'the seed defaults to the level\'s own');
   assert.doesNotThrow(() => structuredClone(w));
 });
 
@@ -111,8 +111,9 @@ test('the last alien dying on the tick the ship loses its last life is a clear, 
   assert.equal(control.state, 'failed', 'without the kill it is a failure');
 });
 
-test('a boss level has no aliens yet and stays in play (the boss arrives in a later task)', () => {
-  const w = createWorld(levelById('w1-5'), 1);
+test('a level without waves starts with its boss, no aliens and no wave, and stays in play', () => {
+  const w = createWorld(level(undefined, 0, { boss: 'giant' }), 1);
+  assert.equal(w.boss.kind, 'giant');
   seconds(w, 6);
   assert.equal(w.state, 'play');
   assert.equal(w.aliens.length, 0);
@@ -120,8 +121,9 @@ test('a boss level has no aliens yet and stays in play (the boss arrives in a la
 });
 
 test('every event carries the tick it happened on', () => {
-  const w = createWorld(levelById('w1-3'), 5);
+  const w = createWorld(LEVEL, 5);
   w.ship.invuln = 1e9;
+  assert.deepEqual(drain(w).map((e) => [e.type, e.tick]), [['wave', 0]], 'wave 1 spawns before the first tick');
   const seen = new Set();
   for (let i = 0; i < 900; i++) {
     step(w, 1, { ...IDLE, dx: i % 120 < 60 ? 1 : -1, fire: true });

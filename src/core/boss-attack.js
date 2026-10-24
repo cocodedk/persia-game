@@ -51,9 +51,10 @@ export function stepAttacks(world, b, def, dt) {
   });
 }
 
-// Launch `m.count` aliens of the role from a part, unless the part is destroyed. They are ordinary
-// aliens without a formation slot (slot null, minion true): divers and the rest fly at the ship, a
-// carrier crosses the screen below the boss with a power-up to shoot loose.
+// Launch `m.count` aliens of the species from a part, unless the part is destroyed. They are
+// ordinary aliens without a formation slot (slot null, minion true), each fighting as its species'
+// role: divers and the rest fly at the ship, a carrier crosses the screen below the boss with a
+// power-up to shoot loose.
 function launch(world, b, m) {
   const src = b.parts.find((p) => p.id === m.from);
   if (src.hp <= 0) return;
@@ -63,14 +64,14 @@ function launch(world, b, m) {
     const carrier = m.role === 'carrier';
     const hp = ROLES[m.role].hp; // minions carry no armour bonus
     world.aliens.push({
-      id, role: m.role, x: carrier ? (id % 2 ? -40 : 1960) : src.x + (i - (m.count - 1) / 2) * 56,
+      id, role: m.role, species: m.species, x: carrier ? (id % 2 ? -40 : 1960) : src.x + (i - (m.count - 1) / 2) * 56,
       y: carrier ? CARRIER_Y : src.y + src.h / 2, hp, maxHp: hp, slot: null,
       mode: carrier ? 'hold' : 'dive', t: 0, dive: null, minion: true, vx: carrier ? (id % 2 ? 150 : -150) : 0,
     });
   }
 }
 
-// Gunner minions shoot as gunners do in a wave, plain aimed shots (a boss level has no wave pattern);
+// Gunner minions shoot as gunners do in a wave, plain aimed shots (the boss fight has no wave pattern);
 // the other roles only fly at the ship. A gunner diving at the ship holds its fire once it is within
 // POINT_BLANK of it, and once it is level with it or below: a shot from there could not be dodged.
 const POINT_BLANK = 180; // px

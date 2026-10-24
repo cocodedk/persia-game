@@ -8,12 +8,13 @@ import { MAX_PARTICLES } from '../../src/fx/particles.js';
 import { applyEvent, applyEvents, REACTS } from '../../src/fx/react.js';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { levelById } from '../../src/core/levels.js';
+import { LEVEL } from '../../src/core/levels.js';
+import { realLevel } from '../core/boss-kit.js';
 import { TICK, react } from './fx-kit.js';
 import { sampleEvent } from '../event-sample.js';
 
-// Events the core emits that fx deliberately leaves to the screens.
-const SILENT = ['failed'];
+// Events the core emits that fx deliberately leaves to the screens and the voice.
+const SILENT = ['failed', 'wave', 'boss'];
 
 test('every event type the core emits has a reaction, or is listed as silent here', () => {
   const dir = fileURLToPath(new URL('../../src/core/', import.meta.url));
@@ -42,7 +43,7 @@ test('the same seed gives the same effects; another seed gives different ones', 
 });
 
 test('fx never draws from the world rng', () => {
-  const world = createWorld(levelById('w1-5'));
+  const world = createWorld(LEVEL);
   const before = world.rng.s;
   const fx = createFx();
   const rng = makeRng(1);
@@ -69,8 +70,8 @@ test('a storm of events cannot pass 600 particles', () => {
   assert.equal(fx.particles.length, MAX_PARTICLES);
 });
 
-test('a whole autopiloted fight on a boss level: every effect stays finite and bounded', () => {
-  const world = createWorld(levelById('w1-5'));
+test('a whole autopiloted fight with the giant: every effect stays finite and bounded', () => {
+  const world = createWorld(realLevel('giant'));
   const fx = createFx();
   const rng = makeRng(4);
   let peak = 0;

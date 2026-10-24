@@ -38,10 +38,10 @@ test('armour shows the hp it has lost out of its max: whole, cracked, badly crac
 });
 
 test('the collapse starts whole and ends with every part torn off and the hull broken apart', () => {
-  const start = collapse(dying('mothership', CHAIN), 0);
+  const start = collapse(dying('giant', CHAIN), 0);
   assert.equal(start.split, 0);
   assert.ok(start.parts.every((p) => p === null), 'nothing torn off at the start');
-  const end = collapse(dying('mothership', 0.001), 0.95);
+  const end = collapse(dying('giant', 0.001), 0.95);
   assert.ok(end.split > 0.99, 'the hull has broken');
   assert.ok(end.parts.every((p) => p !== null), 'every part torn off by the end');
   const [left, right] = end.halves;

@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createSession, stepSession } from '../../src/ui/session.js';
 import { finished } from '../../src/core/util.js';
-import { levelById } from '../../src/core/levels.js';
+import { LEVEL } from '../../src/core/levels.js';
+import { level, wave } from '../core/world-kit.js';
 import { autopilot } from '../../src/core/autopilot.js';
 import { TICK } from '../../src/core/kinds.js';
 import { startSlowMo } from '../../src/fx/fx.js';
@@ -18,7 +19,7 @@ function play(level, limit = 20000) {
 }
 
 test('slow motion steps fewer ticks a frame, each one a whole TICK', () => {
-  const s = createSession(levelById('w1-2'));
+  const s = createSession(LEVEL);
   startSlowMo(s.fx, 10);
   for (let i = 0; i < 30; i++) stepSession(s, TICK, autopilot);
   assert.equal(s.world.tick, 9, '0.3 x 30 frames');
@@ -28,8 +29,8 @@ test('slow motion steps fewer ticks a frame, each one a whole TICK', () => {
 // Two sessions stepped four ticks, one on `raw` and one on the input it should quantize to: the
 // worlds match, and onEvents is handed the quantized input.
 function sameWorld(raw, quantized) {
-  const a = createSession(levelById('w1-1'), 3);
-  const b = createSession(levelById('w1-1'), 3);
+  const a = createSession(LEVEL, 3);
+  const b = createSession(LEVEL, 3);
   const seen = [];
   for (let i = 0; i < 4; i++) {
     stepSession(a, TICK, () => raw, (events, input) => seen.push(input));
@@ -45,8 +46,8 @@ test('inputs are quantized before the core sees them', () => {
 });
 
 test('once the level ends the core steps no more, and the time since is counted', () => {
-  const s = play(levelById('w1-1'));
-  assert.equal(s.world.state, 'cleared', 'the autopilot clears w1-1');
+  const s = play(level([wave({ cols: 5 })]));
+  assert.equal(s.world.state, 'cleared', 'the autopilot clears the wave');
   const n = s.world.tick;
   for (let i = 0; i < 30; i++) stepSession(s, TICK, autopilot);
   assert.equal(s.world.tick, n);

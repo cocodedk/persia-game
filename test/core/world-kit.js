@@ -1,5 +1,5 @@
 import { createWorld, stepWorld } from '../../src/core/world.js';
-import { TICK } from '../../src/core/kinds.js';
+import { TICK, SPECIES } from '../../src/core/kinds.js';
 import { IDLE } from '../../src/core/input-codec.js';
 import { makePickup } from '../../src/core/powerups.js';
 
@@ -10,10 +10,12 @@ export { TICK, IDLE };
 export const input = (o) => ({ ...IDLE, ...o });
 export const FIRE = input({ fire: true });
 
-export const wave = (o = {}) =>
-  ({ formation: 'grid', rows: 1, cols: 3, roles: ['grunt'], pattern: 'aimed', speed: 1, ...o });
-export const level = (waves, d = 0, extra = {}) =>
-  ({ id: 't-1', world: 1, index: 1, seed: 1, d, waves, ...extra });
+// A wave given `species` (one per row) takes its rows and roles from them, as levels.js's w() does.
+export function wave(o = {}) {
+  const animals = o.species ? { rows: o.species.length, roles: o.species.map((s) => SPECIES[s]) } : {};
+  return { formation: 'grid', rows: 1, cols: 3, roles: ['grunt'], pattern: 'aimed', speed: 1, ...animals, ...o };
+}
+export const level = (waves, d = 0, extra = {}) => ({ id: 't-1', seed: 1, d, waves, ...extra });
 
 export function step(world, ticks = 1, inp = IDLE) {
   for (let i = 0; i < ticks; i++) stepWorld(world, TICK, inp);

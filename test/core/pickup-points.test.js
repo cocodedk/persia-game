@@ -121,7 +121,7 @@ test('a failed level sweeps nothing: the pickups in the air score nothing', () =
 });
 
 test('a boss level: the destruction chain ends in the same sweep, before `cleared`', () => {
-  const w = bossWorld('mothership');
+  const w = bossWorld('giant');
   leave(w, []);
   step(w);
   while (w.boss.dying > 0.5) step(w);

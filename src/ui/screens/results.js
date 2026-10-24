@@ -1,4 +1,4 @@
-// The end of a cleared level: the kicker (world and reel), CLEARED, the stars stamping in one by
+// The end of a cleared level: the kicker (the level's name), CLEARED, the stars stamping in one by
 // one, the score counting up, the best (or NEW BEST), and Next / Retry / Title.
 //   resultsScreen({ label, title, score, stars, best, newBest }, { next?, retry, title }) -> screen
 // The buttons wait a moment (armed) so fire-button mashing at the clear cannot skip the card, and

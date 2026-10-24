@@ -1,11 +1,11 @@
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
-import { levelById } from '../../src/core/levels.js';
-import { BOSSES } from '../../src/core/kinds.js';
+import { LEVEL } from '../../src/core/levels.js';
 import { level, playing, input, step, TICK } from './world-kit.js';
 
-// Shared by the boss tests: a boss level, a quiet world past the boss's entrance, a shot dropped
-// just under a part, and the simple bot that every boss has to lose to.
+// Shared by the boss tests: a boss level (no waves, so the boss is there from the start), a quiet
+// world past the boss's entrance, a shot dropped just under a part, and the simple bot that every
+// boss has to lose to.
 export const bossLevel = (kind, d = 0, extra = {}) => level(undefined, d, { boss: kind, ...extra });
 // A quiet world with the boss in place and its entrance over.
 export function bossWorld(kind, opts) {
@@ -15,7 +15,8 @@ export function bossWorld(kind, opts) {
   return world;
 }
 export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
-export const realLevel = (kind) => levelById(`w${BOSSES.indexOf(kind) + 1}-5`);
+// The boss as level 1 fights it, at the level's difficulty, without the waves before it.
+export const realLevel = (kind) => bossLevel(kind, LEVEL.d, { seed: LEVEL.seed });
 
 // A ship shot 8 px under the part's lower edge, flying straight up.
 export const shotOn = (world, p) =>

@@ -10,6 +10,8 @@ import { CHAIN } from '../core/boss-phase.js';
 export const SILENT = {
   failed: 'the failed screen plays the stinger',
   cleared: 'the results screen plays the stinger after the slow motion',
+  wave: 'the voice speaks it (voice.js)',
+  boss: 'the voice speaks it (voice.js)',
 };
 
 const at = (e) => ({ x: e.x });

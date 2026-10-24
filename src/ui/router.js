@@ -8,7 +8,7 @@
 // The end of a level goes through flow.js. r.pilot (debug-hooks.js, ?debug&auto) flies every level.
 // Every route away from a level goes through leave(): the old scene stops stepping at once (the
 // loop only runs app.scene) and the level's own sounds (the laser hum) stop with it.
-import { LEVELS, reelName, worldName } from '../core/levels.js';
+import { LEVELS } from '../core/levels.js';
 import { LOOK } from './looks/index.js';
 import { play, duck, setBeam } from './audio.js';
 import { setWorld } from './music.js';
@@ -20,11 +20,9 @@ import { pauseScreen } from './screens/pause.js';
 
 const MIN_CARD = 0.9; // s the title card stays, so it reads as a moment, not a flicker
 
-const labelOf = (level) => `${worldName(level)} · ${reelName(level)}`;
-
 export function createRouter({ canvas, stage, input }) {
   const app = { screen: 'boot', scene: null, backdrop: null, token: 0 };
-  const r = { app, labelOf, pilot: null };
+  const r = { app, pilot: null };
   const live = () => app.screen === 'play';
 
   // Leave whatever runs for `screen`: nothing steps until the caller sets a new scene.
@@ -41,7 +39,7 @@ export function createRouter({ canvas, stage, input }) {
     const items = [{ label: 'Play', pick: () => r.startLevel(LEVELS[0]) }];
     const level = app.backdrop?.level ?? pickBackdrop();
     setWorld(LOOK);
-    stage.show(titleScreen({ items, nowShowing: worldName(level) }));
+    stage.show(titleScreen({ items, nowShowing: level.name }));
     if (app.backdrop) {
       app.scene = app.backdrop;
       return;
@@ -86,7 +84,7 @@ export function createRouter({ canvas, stage, input }) {
     duck(0.35);
     play('pause');
     stage.show(pauseScreen({
-      label: labelOf(app.scene.level),
+      label: app.scene.level.name,
       resume: () => {
         app.screen = 'play';
         duck(1);

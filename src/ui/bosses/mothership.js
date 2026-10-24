@@ -118,7 +118,7 @@ export default {
   pad: 50,
   margin: 40,
   hull,
-  parts: { dome, wing, gun, eye },
+  parts: { brow: dome, paw: wing, eye: gun, mouth: eye }, // keyed by the giant's part ids
   rage: [
     null,
     (l) => lamps(l, -15, 2, YELLOW, -160, 160),

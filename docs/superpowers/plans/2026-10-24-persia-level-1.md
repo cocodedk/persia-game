@@ -342,7 +342,7 @@ come in Task 6.
 - `debug-hooks.js`: `level=` becomes `?debug&boss`, which starts level 1 with the giant already
   spawned.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```js
 // test/core/levels.test.js
@@ -381,17 +381,17 @@ test('the autopilot clears level-1 within 300 s with an invulnerable ship', ...)
 test('it survives the first 60 s of level-1 with its three lives, on the level seed and two others', ...);
 ```
 
-- [ ] **Step 2: Run the new tests.** `npm test` should FAIL on the missing `LEVEL` and `SPECIES` and
+- [x] **Step 2: Run the new tests.** `npm test` should FAIL on the missing `LEVEL` and `SPECIES` and
   the `wave` and `boss` events.
-- [ ] **Step 3: Implement the interfaces above.**
+- [x] **Step 3: Implement the interfaces above.**
   - Move the world-1 survival test out of `autopilot.test.js` into `autopilot-level.test.js`, on
     `LEVEL`.
   - Run the boss tests on `giant`.
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures, including `sounds.test.js`.
-- [ ] **Step 5: Play level 1 in the browser,** once in full (`?debug&auto` will do) and once with
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures, including `sounds.test.js`.
+- [x] **Step 5: Play level 1 in the browser,** once in full (`?debug&auto` will do) and once with
   `?debug&boss`. Expect five waves, a 2.5 s gap, and the boss drawn in the mothership art, then the
   results.
-- [ ] **Step 6: Commit.** `git commit -am "feat(core): level 1 runs five animal waves into the giant"`
+- [x] **Step 6: Commit.** `git commit -am "feat(core): level 1 runs five animal waves into the giant"`
 
 ### Task 5: The word pack and its assets
 
