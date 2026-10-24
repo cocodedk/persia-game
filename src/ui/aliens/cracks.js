@@ -1,7 +1,8 @@
 // An alien's damage, baked from its sprite set (bake.js) once, at load (warmAliens), never mid-fight:
 //   cracked(set, frame, stage)      the body with cracks, stage 1 | 2: a dark split with a lit lower
-//                                   lip, and a hot line inside it (set.crackColor) if any
-//   CRACKABLE                       the roles that can be hurt and live (more than 1 hp)
+//                                   lip
+//   CRACKABLE                       the roles that can be hurt and live (more than 1 hp); a species
+//                                   cracks when its role (kinds.js SPECIES) is one of them
 import { makeCanvas, hash } from '../sprites.js';
 import { ROLES } from '../../core/kinds.js';
 import { INK, rgba, path, TAU } from './kit.js';
@@ -48,12 +49,6 @@ export function cracked(set, frame, stage) {
       g.lineJoin = 'miter';
       g.stroke();
       g.restore();
-    }
-    if (set.crackColor) {
-      path(g, pts, true);
-      g.lineWidth = 1;
-      g.strokeStyle = set.crackColor;
-      g.stroke();
     }
   }
   set.cracks[key] = c;

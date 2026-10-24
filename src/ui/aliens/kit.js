@@ -1,6 +1,6 @@
-// Drawing kit for the alien painters (aliens/w1.js). Every painter draws centred on (0, 0) in world
-// px into two contexts: `b`, the body (opaque, source-over, dark INK outline so it reads on any sky),
-// and `l`, the lights (eyes, cores), which are drawn additively over the body. Paint-time only
+// Drawing kit for the alien painters (aliens/animals.js). Every painter draws centred on (0, 0) in
+// world px into two contexts: `b`, the body (opaque, source-over, dark INK outline so it reads on
+// any sky), and `l`, the lights (eyes, cores), which are drawn additively over the body. Paint-time only
 // (sprites are baked once), so gradients and many strokes are fine here; nothing in this file runs
 // per frame.
 import { INK, rgba, shade, rad, line } from '../sprites.js';

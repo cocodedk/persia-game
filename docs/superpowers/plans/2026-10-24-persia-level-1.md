@@ -518,24 +518,24 @@ Every species except the rabbit has lit red brows.
   - `palette.alien`: `{ dog: '#e8d0a8', cat: '#ff9a3a', bird: '#3affc8', fish: '#5ab8ff', horse: '#c88a5a', cow: '#f4f4f4', rabbit: '#ff7ac8' }`
   - `palette.boss`: `{ hull: '#2a1430', plate: '#ff9a3a', weak: '#ffe14a' }`
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
   - In `art.test.js`:
     - "every species has a painter and a palette colour, and no painter is left over"
     - "speciesSprites bakes two frames of body, lights and flash for each species"
     - "warmAliens bakes all seven without throwing"
   - In `bosses.test.js`: "the giant painter is the only one registered and draws every part id of
     the giant def"
-- [ ] **Step 2: Run them.** `npm test` should FAIL.
-- [ ] **Step 3: Draw the seven animals and the giant cat head.**
+- [x] **Step 2: Run them.** `npm test` should FAIL.
+- [x] **Step 3: Draw the seven animals and the giant cat head.**
   - The brow plate carries the ears.
   - The paws reach out at the sides.
   - The eyes and mouth glow as the weak points, and their cracks follow the parts.
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures.
-- [ ] **Step 5: Screenshot and look.** Use the Playwright browser tools at 1920x1080 to capture the
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures.
+- [x] **Step 5: Screenshot and look.** Use the Playwright browser tools at 1920x1080 to capture the
   title backdrop, waves 1, 3 and 5, and the boss mid-fight (`?debug&boss`). Save the shots to the
   scratchpad and report the paths. Each species should read at a glance and differ from the others
   in shape, not just colour.
-- [ ] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): angry animal sprites and the giant cat"`
+- [x] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): angry animal sprites and the giant cat"`
 
 ### Task 7: The voice and the word moment
 

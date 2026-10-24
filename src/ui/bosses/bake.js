@@ -20,9 +20,9 @@
 import { makeCanvas, white } from '../sprites.js';
 import { bossDef } from '../../core/bosses-data.js';
 import { cracked, exposed, wreck } from './cracks.js';
-import mothership from './mothership.js';
+import giant from './giant.js';
 
-export const BOSS_ART = { giant: mothership }; // the mothership's art draws the giant until it has its own
+export const BOSS_ART = { giant };
 const cache = new Map();
 
 export function painterFor(mod, id) {

@@ -4,7 +4,7 @@
 // own (its rect is w x h around the origin and its art must cover it, since the rect is the hit box).
 import { pixels } from '../aliens/kit.js';
 
-export { TAU, path, bloom, phosphor, line } from '../aliens/kit.js';
+export { TAU, path, bloom, phosphor, line, pixels } from '../aliens/kit.js';
 
 // Pixel art from a function: at(i, j) -> null | colour | [colour, lit], over cols x rows cells of
 // px, centred (the alien kit's bevelled phosphor cells).

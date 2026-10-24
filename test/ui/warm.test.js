@@ -4,18 +4,19 @@ import { installCanvas } from './dom-kit.js';
 
 // What is baked when (Pi 4: at load, never mid-fight). Canvases are stand-ins that swallow every call.
 installCanvas(64);
-const { warmAliens, roleSprites } = await import('../../src/ui/aliens/bake.js');
+const { warmAliens, speciesSprites, SPECIES_LIST } = await import('../../src/ui/aliens/bake.js');
 const { CRACKABLE } = await import('../../src/ui/aliens/cracks.js');
 const { bossArt, warmBoss } = await import('../../src/ui/bosses/bake.js');
 const { BOSS_DEFS } = await import('../../src/core/bosses-data.js');
 const { LOOK } = await import('../../src/ui/looks/index.js');
+const { SPECIES } = await import('../../src/core/kinds.js');
 
-test('warmAliens bakes the cracked bodies of every role that can be hurt and live', () => {
+test('warmAliens bakes the cracked bodies of every species whose role can be hurt and live', () => {
   assert.deepEqual(CRACKABLE.toSorted(), ['armored', 'gunner']);
   warmAliens(LOOK);
-  for (const role of CRACKABLE) {
-    const set = roleSprites(LOOK, role);
-    assert.equal(Object.keys(set.cracks).length, 4, `${role}: 2 frames x 2 stages`);
+  for (const s of SPECIES_LIST) {
+    const n = CRACKABLE.includes(SPECIES[s]) ? 4 : 0;
+    assert.equal(Object.keys(speciesSprites(LOOK, s).cracks).length, n, `${s}: 2 frames x 2 stages, or none`);
   }
 });
 

@@ -1,5 +1,5 @@
-// Everything alien-shaped on the playfield, in the sprites aliens/w1.js paints and bake.js bakes
-// once: world.aliens (formation and boss minions).
+// Everything alien-shaped on the playfield, in the sprites aliens/animals.js paints and bake.js
+// bakes once: world.aliens (formation and boss minions), each drawn as its species.
 //   drawAliens(ctx, world, look, t)   world space, after the boss (minions fly over the boss they
 //                                     launch from)
 //   crackStage(alien)                 0 | 1 | 2, how cracked an alien is drawn (a.maxHp)
@@ -10,7 +10,7 @@
 import { glow } from '../sprites.js';
 import { clamp } from '../../core/math.js';
 import { isSwooping } from '../../core/aliens.js';
-import { ART, roleSprites } from './bake.js';
+import { ART, speciesSprites } from './bake.js';
 import { cracked } from './cracks.js';
 
 const FLASH = 0.09; // s
@@ -35,8 +35,7 @@ export function crackStage(a) {
   return Math.min(2, Math.ceil((2 * (max - a.hp)) / max - 1e-9));
 }
 
-const frameOf = (A, a, t) => Math.floor(t * A.rate + (A.sync ? 0 : a.id * 0.37)) & 1;
-const bobOf = (A, a, t) => (A.bob ? Math.sin(t * 2.3 + a.id * 1.7) * A.bob : 0);
+const frameOf = (t) => Math.floor(t * ART.rate) & 1; // the whole formation steps in time
 
 // A swooping alien leans into its swoop (sprites face down): toward its aim on the way out, a little
 // back the other way on the return; a boss minion leans toward the ship it is falling on.
@@ -59,33 +58,32 @@ function blit(ctx, img, set, x, y, rot = 0) {
   ctx.restore();
 }
 
-function halos(ctx, list, look, A, t) {
+function halos(ctx, list, look, t) {
   const colors = look.palette.alien;
   ctx.globalCompositeOperation = 'lighter';
   for (const a of list) {
     const carrier = a.role === 'carrier';
     const r = carrier ? 62 : 44;
-    ctx.globalAlpha = carrier ? 0.42 + 0.18 * Math.sin(t * 5 + a.id) : A.halo;
-    ctx.drawImage(glow(colors[a.role]), a.x - r, a.y + bobOf(A, a, t) - r, r * 2, r * 2);
+    ctx.globalAlpha = carrier ? 0.42 + 0.18 * Math.sin(t * 5 + a.id) : ART.halo;
+    ctx.drawImage(glow(colors[a.species]), a.x - r, a.y - r, r * 2, r * 2);
   }
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';
 }
 
 export function drawAliens(ctx, world, look, t) {
-  const A = ART;
-  halos(ctx, world.aliens, look, A, t);
+  const f = frameOf(t);
+  halos(ctx, world.aliens, look, t);
   for (const a of world.aliens) {
-    const set = roleSprites(look, a.role);
-    const f = frameOf(A, a, t);
+    const set = speciesSprites(look, a.species);
     const k = crackStage(a);
     const img = flashing(a, t) ? set.flash[f] : k ? cracked(set, f, k) : set.body[f];
-    blit(ctx, img, set, a.x, a.y + bobOf(A, a, t), lean(world, a));
+    blit(ctx, img, set, a.x, a.y, lean(world, a));
   }
   ctx.globalCompositeOperation = 'lighter';
   for (const a of world.aliens) {
-    const set = roleSprites(look, a.role);
-    blit(ctx, set.lights[frameOf(A, a, t)], set, a.x, a.y + bobOf(A, a, t), lean(world, a));
+    const set = speciesSprites(look, a.species);
+    blit(ctx, set.lights[f], set, a.x, a.y, lean(world, a));
   }
   ctx.globalCompositeOperation = 'source-over';
 }

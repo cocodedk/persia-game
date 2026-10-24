@@ -5,22 +5,22 @@ import { CHAIN } from '../../src/core/boss-phase.js';
 import { BOSS_ART, painterFor } from '../../src/ui/bosses/bake.js';
 import { partStage } from '../../src/ui/bosses/index.js';
 import { collapse } from '../../src/ui/bosses/death.js';
+import giant from '../../src/ui/bosses/giant.js';
 
 const parts = (kind) => BOSS_DEFS.find((d) => d.kind === kind).parts.map((p) => ({ ...p }));
 const dying = (kind, left) => ({ kind, dying: left, parts: parts(kind) });
 
-test('every boss has a hull painter and a painter for every one of its parts (the parts are the hit boxes)', () => {
-  assert.equal(Object.keys(BOSS_ART).length, BOSS_DEFS.length);
-  for (const def of BOSS_DEFS) {
-    const art = BOSS_ART[def.kind];
-    assert.ok(art, `${def.kind} has art`);
-    assert.equal(typeof art.hull, 'function', `${def.kind} hull`);
-    for (const p of def.parts) {
-      const found = painterFor(art, p.id);
-      assert.ok(found, `${def.kind}.${p.id} has a painter`);
-      assert.equal(typeof found[0], 'function');
-    }
+test('the giant painter is the only one registered and draws every part id of the giant def', () => {
+  assert.deepEqual(BOSS_ART, { giant });
+  assert.equal(typeof giant.hull, 'function');
+  const used = new Set();
+  for (const p of BOSS_DEFS.find((d) => d.kind === 'giant').parts) {
+    const found = painterFor(giant, p.id);
+    assert.ok(found, `giant.${p.id} has a painter`);
+    assert.equal(typeof found[0], 'function');
+    used.add(found[0]);
   }
+  assert.equal(used.size, Object.keys(giant.parts).length, 'no part painter is left over');
 });
 
 test('a right-hand part without its own painter is its left twin mirrored', () => {
