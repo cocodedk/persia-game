@@ -3,7 +3,6 @@
 // goes to flow.showParade and then flow.showResults, a loss to flow.showFailed.
 //   outcome = { level, score, stars, best, newBest, world }   best and newBest only on a clear
 import { stars } from '../core/world.js';
-import { LEVEL } from '../core/levels.js';
 import { PACK } from '../data/pack.js';
 import { LOOK } from './looks/index.js';
 import { store } from './storage.js';
@@ -45,10 +44,11 @@ export function createFlow(r, stage, voice) {
     showResults(o) {
       app.screen = 'results';
       play('cleared');
+      const { level } = o; // the buttons close over this, not over o (its world)
       stage.show(resultsScreen({
-        label: o.level.name, score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
+        label: level.name, score: o.score, stars: o.stars, best: o.best, newBest: o.newBest,
       }, {
-        again: () => r.startLevel(LEVEL),
+        again: () => r.startLevel(level),
         title: r.goTitle,
       }));
     },
