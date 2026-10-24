@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import { PACK } from '../../src/data/pack.js';
 import { LINE_GAP, voiceLines, createQueue, enqueue, stepQueue, sayingOf } from '../../src/ui/voice-queue.js';
 import { species, number } from './pack-kit.js';
+import { createWorld } from '../../src/core/world.js';
+import { LEVELS } from '../../src/core/levels.js';
 
-const wave = (n, ...ids) => ({ type: 'wave', wave: n, species: ids });
+const wave = (n, ...ids) => ({ type: 'wave', wave: n, n, species: ids });
 const lines = (events) => voiceLines(events, PACK);
 
 // Every line that starts while the queue is stepped `secs` seconds in steps of `dt`.
@@ -24,6 +26,12 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.equal(said[1], species('bird'));
   assert.equal(said[2], species('cat'));
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [species('cat')]);
+});
+
+test("level 2's first wave says six, not one: the voice counts on from level 1", () => {
+  const said = lines(createWorld(LEVELS[1]).events);
+  assert.equal(said[0], number(6));
+  assert.deepEqual(said.slice(1), [species('dog'), species('mouse')]);
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

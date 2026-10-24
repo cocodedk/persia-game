@@ -20,8 +20,12 @@ test('every species word is Persian script only: no Arabic kaf or yeh, no diacri
   for (const { word } of PACK.species) assert.ok(obeys(word), word);
 });
 
-test('every number is written as its Persian digit, never an Arabic-Indic or ASCII one', () => {
-  for (const { n, word } of PACK.numbers) assert.equal(word, String.fromCharCode(0x06f0 + n), `${n}`);
+test('the digits are the ten Persian ones, 0 to 9, never Arabic-Indic or ASCII', () => {
+  assert.equal(PACK.digits, Array.from({ length: 10 }, (_, d) => String.fromCharCode(0x06f0 + d)).join(''));
+});
+
+test('every number is written in those digits', () => {
+  for (const { n, word } of PACK.numbers) assert.equal(word, [...String(n)].map((d) => PACK.digits[d]).join(''), `${n}`);
 });
 
 test('the rule rejects Arabic kaf, Arabic yeh, a diacritic and an ASCII digit', () => {
@@ -34,9 +38,9 @@ test('every line carries the name it is said by, in plain lowercase Latin letter
   for (const { clip, say } of LINES) assert.match(say ?? '', /^[a-z]+$/, clip);
 });
 
-test('pack species are exactly the core SPECIES ids, and numbers are 1..5', () => {
+test('pack species are exactly the core SPECIES ids, and numbers are 1..10', () => {
   assert.deepEqual(PACK.species.map((s) => s.id).sort(), Object.keys(SPECIES).sort());
-  assert.deepEqual(PACK.numbers.map((x) => x.n), [1, 2, 3, 4, 5]);
+  assert.deepEqual(PACK.numbers.map((x) => x.n), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 });
 
 test('every pack clip is on disk, listed once in the manifest with its sha256, ms equal to durationMs, reviewed', () => {

@@ -19,7 +19,7 @@ const clear = (w) => {
 const oneWaveThenGiant = () => playing(level([wave()], 0, { boss: 'giant' }));
 
 test('spawning a wave emits its number and its distinct species in row order', () => {
-  assert.deepEqual(createWorld(LEVEL).events, [{ type: 'wave', tick: 0, wave: 1, species: ['dog'] }]);
+  assert.deepEqual(createWorld(LEVEL).events, [{ type: 'wave', tick: 0, wave: 1, n: 1, species: ['dog'] }]);
   const mixed = createWorld(level([wave({ species: ['cat', 'dog', 'cat'] })]));
   assert.deepEqual(ofType(mixed.events, 'wave').map((e) => e.species), [['cat', 'dog']]);
   const w = playing(LEVEL);

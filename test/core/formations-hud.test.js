@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LEVEL } from '../../src/core/levels.js';
+import { LEVELS } from '../../src/core/levels.js';
 import { scaled } from '../../src/core/difficulty.js';
 import { makeSlots, slotPosition, entryPosition, diveCurve, HUD_CLEAR } from '../../src/core/formations.js';
 
@@ -9,7 +9,9 @@ import { makeSlots, slotPosition, entryPosition, diveCurve, HUD_CLEAR } from '..
 // comes in from off the screen: one falling in from above crosses the band once, on its way down,
 // and never climbs back into it.
 const CLEAR = HUD_CLEAR - 1e-9; // y 122, give or take the last bit of a float
-const WAVES = LEVEL.waves.map((w, i) => ({ at: `wave ${i + 1} (${w.formation})`, w, speed: w.speed * scaled(LEVEL.d).formationSpeed }));
+const WAVES = LEVELS.flatMap((level) => level.waves.map((w, i) => ({
+  at: `${level.id} wave ${i + 1} (${w.formation})`, w, speed: w.speed * scaled(level.d).formationSpeed,
+})));
 
 test('every wave of every level holds its aliens below y 122, both ways, over 40 s of motion', () => {
   for (const { at, w, speed } of WAVES) {

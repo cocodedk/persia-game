@@ -25,7 +25,7 @@
 1. The voice must count on from level 1. Wave 1 of level 2 says شش and shows ۶, never یک. Task 4 tests this through `voiceLines`.
 2. Failing level 2 retries level 2, and Again replays the level just played. Task 6 adds a flow test for each.
 3. Persian digits must draw on a machine whose `system-ui` lacks them. The HUD font stack names the pack's face, and Task 5 tests that stack.
-4. Level 2 must not unlock until level 1 is cleared, and it stays unlocked after a reload. Blocked storage unlocks it for that session only. Task 6 tests the title items against `createStorage`.
+4. Level 2 is open from the first visit, with no storage involved: the title lists it even in a private window. Task 6 tests the title items.
 5. The giant mouse must leave a weak point open from below at every moment, as the cat does. The boss tests run over every def in `BOSS_DEFS`, so the new def is covered without new code.
 
 ---
@@ -138,17 +138,17 @@
 **Interfaces:**
 - `resultsScreen(o, { next?, again, title })`: Next comes first and takes the focus when `next` is given.
 - `paradeScreen({ species, look, voice, onDone })`, where `species` holds pack lines. Flow passes the pack's species filtered by `levelSpecies(level)`, keeping the pack's order.
-- `titleItems(levels, store, start) -> [{ label, pick }]`: `Play` for level 1, then each later level, labelled with its `name`, whose previous level has a saved best.
+- The title's menu: `Play` for level 1, then every later level, labelled with its `name`. Nothing is locked.
 - `?debug&level=2` boots level 2, and `?debug&level=2&boss` boots it straight into its boss.
 
 - [ ] Write the failing tests:
   - Results with `next` lists Next, Again and Title, with Next focused. Without it, it lists Again and Title.
   - The level 2 parade walks eight animals and level 1's seven.
-  - `titleItems` gives only Play with no best saved, then Play and Level 2 once level 1 is recorded.
+  - The title lists Play and Level 2, and each starts its own level.
   - Failed on level 2 retries `LEVELS[1]`.
-- [ ] Implement them. `flow.showResults` finds the next level by its index in LEVELS; a debug boss level, which is not in LEVELS, gets no Next.
+- [ ] Implement them. `flow.showResults` finds the next level by its index in LEVELS; a debug boss level, which is not in LEVELS, gets no Next. `?debug&level=2` already landed in Task 4.
 - [ ] Play level 1 to its results with `?debug&auto`, press Next, and see level 2's card, its waves and the giant mouse (screenshots).
-- [ ] `npm test`: all pass. Commit `feat(ui): Next plays level 2, and the title offers it once level 1 is cleared`.
+- [ ] `npm test`: all pass. Commit `feat(ui): Next plays level 2, and the title offers it`.
 
 ### Task 7: Finish
 

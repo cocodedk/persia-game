@@ -206,5 +206,85 @@
     ],
     "license": "MIT model; CC0 dataset",
     "sourceFile": "public/audio/number-5-word.7e6a3652191f.mp3"
+  },
+  {
+    "file": "public/audio/shesh.mp3",
+    "clipId": "number-6-word",
+    "sha256": "d8b64423e980e5f3ed9f32a41e33a2e03afacf0a756f0ba8b8bb239feccae26b",
+    "durationMs": 810,
+    "transcript": "شِش",
+    "synthesisText": "شِش",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-6-word.d8b64423e980.mp3"
+  },
+  {
+    "file": "public/audio/haft.mp3",
+    "clipId": "number-7-word",
+    "sha256": "f43bde0ba3bf3cbbd2e6faf519360356a4cb3ab6a472c1b3745917b527be4698",
+    "durationMs": 760,
+    "transcript": "هَفت",
+    "synthesisText": "هَفت",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-7-word.f43bde0ba3bf.mp3"
+  },
+  {
+    "file": "public/audio/hasht.mp3",
+    "clipId": "number-8-word",
+    "sha256": "d2a2ed89ec0c17314ebbcdeba7a68dc588122e9b27bd910b0a9200aba3beabad",
+    "durationMs": 760,
+    "transcript": "هَشت",
+    "synthesisText": "هَشت",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-8-word.d2a2ed89ec0c.mp3"
+  },
+  {
+    "file": "public/audio/noh.mp3",
+    "clipId": "number-9-word",
+    "sha256": "b4a4f0ef76bc257a21cf62f02074917aa944b793c72d79bef1a280e06a44b7cb",
+    "durationMs": 760,
+    "transcript": "نُه",
+    "synthesisText": "نُه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-9-word.b4a4f0ef76bc.mp3"
+  },
+  {
+    "file": "public/audio/dah.mp3",
+    "clipId": "number-10-word",
+    "sha256": "68701360f81948d461de4fadc77722263a00cc87d2ddd479a7394c9ec15fb200",
+    "durationMs": 760,
+    "transcript": "دَه",
+    "synthesisText": "دَه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/number-10-word.68701360f819.mp3"
   }
 ]

@@ -4,13 +4,15 @@
 import { h, button, shell, armed, endKeys } from './dom.js';
 import { fmt } from '../format.js';
 import { bossDef } from '../../core/bosses-data.js';
+import { waveNumber } from '../../core/levels.js';
 
 const SETTLE = 1100; // ms the fire key and held-key repeats are ignored once the card is up
 
 function progress(world) {
   const b = world.boss;
   if (b) return `The ${bossDef(b.kind).name.toLowerCase()} held at ${Math.ceil((100 * b.hp) / b.maxHp)} %`;
-  return `Wave ${world.wave} of ${world.level.waves.length}`;
+  const { level } = world;
+  return `Wave ${waveNumber(level, world.wave)} of ${waveNumber(level, level.waves.length)}`;
 }
 
 export function failedScreen(o, act) {

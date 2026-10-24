@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
-import { LEVEL } from '../../src/core/levels.js';
+import { LEVEL, LEVELS } from '../../src/core/levels.js';
 import { BOSS_DEFS } from '../../src/core/bosses-data.js';
 import { posAt, bossShifts } from '../../src/core/predict.js';
 import { step } from './world-kit.js';
@@ -44,9 +44,9 @@ function checkAliens(world, what) {
   return checked;
 }
 
-// Every wave of the level, each flown as a level's first: nothing dies here, so the later waves
+// Every wave of every level, each flown as a level's first: nothing dies here, so the later waves
 // would never fly.
-const FIRSTS = LEVEL.waves.map((w, i) => ({ ...LEVEL, id: `${LEVEL.id}.${i}`, waves: [w] }));
+const FIRSTS = LEVELS.flatMap((level) => level.waves.map((w, i) => ({ ...level, id: `${level.id}.${i}`, waves: [w] })));
 
 test('posAt forecasts every alien of every wave to a hundredth of a pixel, entering, holding and diving', () => {
   const seen = { enter: 0, hold: 0, dive: 0 };

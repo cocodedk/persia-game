@@ -5,6 +5,7 @@ import { rand, randBetween, randPick } from './rng.js';
 import { awardKill } from './scoring.js';
 import { dropPickup } from './powerups.js';
 import { emit } from './util.js';
+import { waveNumber } from './levels.js';
 
 // A wave of aliens: spawn, fly in, hold the formation, swoop, shoot back.
 //   alien = { id, role, species, x, y, hp, maxHp, slot, mode, t, dive }
@@ -49,8 +50,8 @@ const place = (a, p) => {
 };
 
 // Spawn the next wave (world.wave counts the waves spawned so far) and say so: `wave` is its number
-// and `species` its distinct animals in row order. R2: armorBonus is extra hp for armored and
-// gunner aliens only.
+// in the level, `n` its number in the world (levels.js waveNumber), and `species` its distinct
+// animals in row order. R2: armorBonus is extra hp for armored and gunner aliens only.
 export function spawnWave(world) {
   const spec = world.level.waves[world.wave];
   world.wave += 1;
@@ -69,7 +70,7 @@ export function spawnWave(world) {
     age: 0, clock: 0, dir: world.wave % 2 ? 1 : -1, speed: spec.speed * world.scale.formationSpeed,
     total: slots.length, dive: randBetween(world.rng, 2, 4),
   };
-  emit(world, 'wave', { wave: world.wave, species: [...new Set(spec.species)] });
+  emit(world, 'wave', { wave: world.wave, n: waveNumber(world.level, world.wave), species: [...new Set(spec.species)] });
 }
 
 // Damage an alien; at 0 hp it dies (scored), and a carrier leaves a pickup where it fell. The
