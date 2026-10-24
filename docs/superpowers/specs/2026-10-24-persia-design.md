@@ -189,10 +189,13 @@ garden of cypresses and orange trees. The sky, the blood moon, the far mountains
 music stay the world's.
 
 **Enemies.** The eight animals. Every approved animal clip is already in the game, so there is no new
-species; the fish, the boss's species, fills more rows than before.
+species; the fish, the boss's species, fills more rows than before. After Babak found it very hard
+to win, level 3 drops more power-ups: its escort wave (12) holds two rows of rabbits, six carriers
+instead of three.
 
 **Boss.** A giant fish, face on: a wide gaping mouth, round eyes, fins spread at the sides and a crest
-of fin on top. Its name is said as it arrives, and it lights up while the name is said.
+of fin on top. Its name is said as it arrives, and it lights up while the name is said. A rabbit
+leaves its crest in every phase, not only the last, so the fight brings power-ups all the way.
 
 **Spoken set.** Level 2's set, plus five approved clips: `number-11-word` to `number-15-word`
 (یازده، دوازده، سیزده، چهارده، پانزده, shown as ۱۱ to ۱۵), each with `reviewedBy: ["cocodedk"]`.

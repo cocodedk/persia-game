@@ -46,6 +46,13 @@ test('level 3 brings all eight, the fish, its boss, in four or more rows', () =>
   assert.ok(LEVEL_3.waves.flatMap((x) => x.species).filter((id) => id === 'fish').length >= 4);
 });
 
+test('level 3 drops more power-ups than level 2: six rabbits in its escort, and its giant sends one in every phase', () => {
+  const rabbits = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => id === 'rabbit').length, 0);
+  assert.equal(rabbits(LEVEL_3), 6);
+  assert.ok(rabbits(LEVEL_3) > rabbits(LEVEL_2));
+  for (const p of bossDef(LEVEL_3.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `phase until ${p.until}`);
+});
+
 test('the world counts its waves across the levels: level 2 from six, level 3 from eleven', () => {
   assert.equal(waveNumber(LEVEL, 1), 1);
   assert.equal(waveNumber(LEVEL_2, 1), 6);

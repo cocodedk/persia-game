@@ -49,7 +49,7 @@ const LEVEL_3 = {
   persian: ['wave', 'score'],
   waves: [
     w('dive', 10, 'bff', 'fan', 1.05), // 11: birds and fish swoop
-    w('escort', 3, 'oro', 'aimed', 1.05), // 12: cows guard the rabbits: the power-ups
+    w('escort', 3, 'orro', 'aimed', 1.05), // 12: cows guard two rows of rabbits: twice the power-ups
     w('grid', 10, 'ddmm', 'aimed', 1.1), // 13: dogs over mice
     w('sway', 8, 'hhff', 'fan', 1.15), // 14: the gunners
     w('spiral', 10, 'ffcc', 'ring', 1.25), // 15: forty fish and cats
