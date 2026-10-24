@@ -1,7 +1,7 @@
 // The number formats shared by the screens and the HUD (DOM-free).
 //   fmt(n)                          12,345 (rounded)
-//   localDigits(n, digits)          n written in `digits`, ten of them, 0 to 9 (the pack's); any
-//                                   other character as it is
+//   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
+//                                   ten, or those and the thousands mark); any other character as it is
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part ('wave', 'score') in Persian
 //   waveText(level, wave)           the HUD's wave count in the world's numbers, 'WAVE 6 / 10', in

@@ -17,7 +17,7 @@ const SPAN = (COLS - 1) * BAY + 2; // blocks from the first column's left to the
 
 export function hafez(g, w, h, rng, L, lights) {
   const tone = {
-    '#': L.color, '+': L.lit, '-': L.ink, g: L.glow, G: L.lamp, h: mix(L.glow, L.ink, 0.55),
+    '#': L.color, '+': L.lit, '-': L.ink, g: L.glow, G: mix(L.lamp, L.glow, 0.4), h: mix(L.glow, L.ink, 0.55),
     t: L.tree, o: L.fruit, d: L.dome, D: L.rib, b: L.tile, T: L.tomb,
   };
   const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };
