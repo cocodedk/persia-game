@@ -35,9 +35,9 @@ test('each later level\'s first wave counts on from the one before: six, eleven,
 });
 
 test("level 4's third wave says eighteen, its species, then the rain", () => {
-  const said = lines([{ type: 'wave', n: 18, species: ['bird', 'cat'], rain: true }]);
-  assert.deepEqual(said, [number(18), species('bird'), species('cat'), PACK.rain]);
-  assert.equal(lines([wave(19, 'dog')]).includes(PACK.rain), false, 'only the wave the rain begins with says it');
+  const said = lines([{ type: 'wave', n: 18, species: ['bird', 'cat'], weather: 'rain' }]);
+  assert.deepEqual(said, [number(18), species('bird'), species('cat'), PACK.weather.rain]);
+  assert.equal(lines([wave(19, 'dog')]).includes(PACK.weather.rain), false, 'only the wave the rain begins with says it');
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

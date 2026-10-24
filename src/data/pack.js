@@ -7,8 +7,9 @@
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms } for 1..20; `word` is n in Persian digits, shown as it is said
-//   rain          { word, say, clip, ms }, said after the number and species of the wave the rain
-//                 begins with (levels.js), shown as a species' word is, without a face
+//   weather       { rain: { word, say, clip, ms } }, by a level's weather kind (levels.js): said after the
+//                 number and species of the wave the weather begins with, shown as a species' word is,
+//                 without a face
 //   digits        the ten digits, 0 to 9, a number is written in where the screen shows it in Persian
 //   group         the mark that groups such a number's thousands
 //   letterColours the colours the word moment cycles through, one per letter
@@ -47,7 +48,9 @@ export const PACK = {
     { n: 19, word: '۱۹', say: 'nuzdah', clip: 'public/audio/nuzdah.mp3', ms: 860 },
     { n: 20, word: '۲۰', say: 'bist', clip: 'public/audio/bist.mp3', ms: 760 },
   ],
-  rain: { word: 'باران', say: 'baran', clip: 'public/audio/baran.mp3', ms: 760 },
+  weather: {
+    rain: { word: 'باران', say: 'baran', clip: 'public/audio/baran.mp3', ms: 760 },
+  },
   digits: '۰۱۲۳۴۵۶۷۸۹',
   group: '٬',
   letterColours: ['#ffd23a', '#3affc8', '#ff5ad8', '#7aa8ff', '#ff8a3a'],

@@ -17,8 +17,8 @@ const BANNED = /[\u0643\u064A\u064B-\u065F\u0660-\u0669\u06F0-\u06F90-9]/;
 const EDGE = /^\u200C|\u200C$/;
 const obeys = (word) => RULE.test(word) && !BANNED.test(word) && !EDGE.test(word);
 
-test('every species word, and the rain, is Persian script only: no Arabic kaf or yeh, no diacritics, no digits, no edge ZWNJ', () => {
-  for (const { word } of [...PACK.species, PACK.rain]) assert.ok(obeys(word), word);
+test('every species word, and every weather\'s, is Persian script only: no Arabic kaf or yeh, no diacritics, no digits, no edge ZWNJ', () => {
+  for (const { word } of [...PACK.species, ...Object.values(PACK.weather)]) assert.ok(obeys(word), word);
 });
 
 test('the digits are the ten Persian ones, 0 to 9, never Arabic-Indic or ASCII', () => {

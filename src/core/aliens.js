@@ -71,7 +71,8 @@ export function spawnWave(world) {
     total: slots.length, dive: randBetween(world.rng, 2, 4),
   };
   const e = { n: waveNumber(world.level, world.wave), species: [...new Set(spec.species)] };
-  if (world.wave === world.level.rain) e.rain = true; // the rain begins with this wave (levels.js)
+  const { weather } = world.level;
+  if (weather?.from === world.wave) e.weather = weather.kind; // the weather begins with this wave (levels.js)
   emit(world, 'wave', e);
 }
 

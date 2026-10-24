@@ -2,7 +2,7 @@
 // A line is its pack entry: { clip, ms } is played, { word, say } shown meanwhile, a species' also has
 // an id.
 //   voiceLines(events, pack) -> entries   a wave says its number in the world, then each of its species,
-//   then the rain's word if the rain begins with it; a boss its species. A tick with no events says nothing and allocates nothing.
+//   then the weather's word if the weather begins with it; a boss its species. A tick with no events says nothing and allocates nothing.
 //   createQueue() -> { lines, wait, now }   entries not started yet; wait = s until the next may start;
 //   now = the last entry started
 //   enqueue(q, lines)   replaces the unstarted backlog (a wave cleared before its lines were said);
@@ -10,12 +10,12 @@
 //   stepQueue(q, dt) -> the entry that starts now, or null. Stepped only while the scene steps, so
 //   the pause menu holds it.
 //   sayingOf(q) -> the species id whose line is under way (for its ms), else null; a number names none
-//   spoken(pack) -> every line the pack can say: each entry with a clip
+//   spoken(pack) -> every line the pack can say: the species', the numbers' and the weathers' entries
 export const LINE_GAP = 0.15; // s of silence between lines
 
 const NONE = Object.freeze([]);
 
-export const spoken = (pack) => Object.values(pack).flat().filter((x) => x?.clip);
+export const spoken = (pack) => [...pack.species, ...pack.numbers, ...Object.values(pack.weather)];
 const speciesOf = (pack, id) => pack.species.find((s) => s.id === id);
 
 export function voiceLines(events, pack) {
@@ -25,7 +25,7 @@ export function voiceLines(events, pack) {
     if (e.type === 'wave') {
       lines.push(pack.numbers.find((x) => x.n === e.n));
       for (const id of e.species) lines.push(speciesOf(pack, id));
-      if (e.rain) lines.push(pack.rain);
+      if (e.weather) lines.push(pack.weather[e.weather]);
     } else if (e.type === 'boss') {
       lines.push(speciesOf(pack, e.species));
     }
