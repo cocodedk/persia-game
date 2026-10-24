@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LEVEL } from '../../src/core/levels.js';
+import { LEVEL, levelSpecies } from '../../src/core/levels.js';
 import { SPECIES } from '../../src/core/kinds.js';
 import { MOTION } from '../../src/core/formations.js';
 import { EMIT } from '../../src/core/patterns.js';
@@ -22,9 +22,9 @@ test('every wave brings one or two species, at most 40 aliens, in a real formati
   }
 });
 
-test('all seven species appear, a carrier wave comes before wave 3, four or more formations', () => {
+test('every species but the mouse appears, a carrier wave comes before wave 3, four or more formations', () => {
   const seen = new Set(LEVEL.waves.flatMap((x) => x.species));
-  assert.deepEqual([...seen].sort(), Object.keys(SPECIES).sort());
+  assert.deepEqual([...seen].sort(), Object.keys(SPECIES).filter((id) => id !== 'mouse').sort());
   assert.ok(LEVEL.waves.slice(0, 2).some((x) => x.species.includes('rabbit')));
   assert.ok(new Set(LEVEL.waves.map((x) => x.formation)).size >= 4);
 });
@@ -36,4 +36,9 @@ test('the level has an integer seed and a difficulty in 0..1', () => {
 
 test('the level is plain data: a JSON round trip changes nothing', () => {
   assert.deepEqual(JSON.parse(JSON.stringify(LEVEL)), LEVEL);
+});
+
+test("levelSpecies: the level's animals in order of first appearance, its boss's last if new", () => {
+  assert.deepEqual(levelSpecies(LEVEL), ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish']);
+  assert.deepEqual(levelSpecies({ waves: null, boss: 'giant' }), ['cat']);
 });

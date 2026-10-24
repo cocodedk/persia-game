@@ -1,4 +1,4 @@
-// The seven animals, angry and a little absurd, as crisp pixel sprites on a CRT: every cell a lit
+// The eight animals, angry and a little absurd, as crisp pixel sprites on a CRT: every cell a lit
 // phosphor dot with an afterglow, the eyes and lights burning. Every one but the rabbit glares from
 // under lit red brows. The whole formation steps in time; frame 2 is the snarl, the beat, the claws.
 // Exports RATE, HALO and PAINTERS, a painter per species id (bake.js bakes them).
@@ -58,6 +58,13 @@ const ROWS = {
   ], [ // an ear flops, the core pulses
     '..XX.....XX', '..XhX...XhX', '..XhX..XhX.', '..XhX.XhX..', '...XXXXX...', '..XXXXXXX..',
     '..XkXXXkX..', '...XXkXX...', '..XcccccX..', '.hXcooocXh.', '..XcccccX..', '...XX.XX...',
+  ]],
+  mouse: [[ // round ears up, brows down, buck teeth
+    '.XXX...XXX.', 'XmmmX.XmmmX', 'XmmmX.XmmmX', '.XXXXXXXXX.', 'XbbXXXXXbbX', 'XXXbbXbbXXX',
+    'XXkoXXXokXX', 'wXXXXhXXXXw', '.wwXXpXXww.', '..XXkkkXX..', '...XwkwX...', '....XXX....',
+  ], [ // ears flared, whiskers up, squeaking
+    'XXX.....XXX', 'XmmX...XmmX', 'XmmmX.XmmmX', '.XXXXXXXXX.', 'XbbXXXXXbbX', 'XXXbbXbbXXX',
+    'XXkoXXXokXX', '.wXXXhXXXw.', 'w.XXXpXXX.w', '..XkwkwkX..', '...XpppX...', '....XXX....',
   ]],
 };
 

@@ -1,8 +1,8 @@
 // The word pack: the only place language lives. Another language pair is another fork with another pack.
 //   lang, dir     the pack language and its text direction
 //   font          the face the word moment is set in, loaded from the page's own origin
-//   species       { id, word, say, clip, ms } in the order they first appear in level 1, which is also the
-//                 parade order. `id` is a core SPECIES id, `word` the plain written word (no
+//   species       { id, word, say, clip, ms } in the order they first appear across the levels, which is
+//                 also the parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms } for 1..5; `word` is the Persian digit, shown as it is said
@@ -18,6 +18,7 @@ export const PACK = {
     { id: 'cat', word: 'گربه', say: 'gorbe', clip: 'public/audio/gorbe.mp3', ms: 760 },
     { id: 'horse', word: 'اسب', say: 'asb', clip: 'public/audio/asb.mp3', ms: 760 },
     { id: 'fish', word: 'ماهی', say: 'mahi', clip: 'public/audio/mahi.mp3', ms: 860 },
+    { id: 'mouse', word: 'موش', say: 'mush', clip: 'public/audio/mush.mp3', ms: 970 },
   ],
   numbers: [
     { n: 1, word: '۱', say: 'yek', clip: 'public/audio/yek.mp3', ms: 760 },

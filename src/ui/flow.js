@@ -3,6 +3,7 @@
 // goes to flow.showParade and then flow.showResults, a loss to flow.showFailed.
 //   outcome = { level, score, stars, best, newBest, world }   best and newBest only on a clear
 import { stars } from '../core/world.js';
+import { levelSpecies } from '../core/levels.js';
 import { PACK } from '../data/pack.js';
 import { LOOK } from './looks/index.js';
 import { store } from './storage.js';
@@ -35,9 +36,12 @@ export function createFlow(r, stage, voice) {
       else flow.showFailed(o);
     },
 
+    // The level's own animals walk, in the pack's order.
     showParade(o) {
       app.screen = 'parade';
-      stage.show(paradeScreen({ pack: PACK, look: LOOK, voice, onDone: () => flow.showResults(o) }));
+      const ids = levelSpecies(o.level);
+      const species = PACK.species.filter((s) => ids.includes(s.id));
+      stage.show(paradeScreen({ species, look: LOOK, voice, onDone: () => flow.showResults(o) }));
     },
 
     // Again plays the level from wave 1 behind its card: the open is once a session.

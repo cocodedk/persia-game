@@ -10,6 +10,8 @@
 //        `cols` carriers; rabbit rows therefore live in narrow waves (3 cols), which keeps the
 //        power-ups worth having.
 //        `speed` multiplies the formation's pace and stacks with scaled(d).formationSpeed.
+import { bossDef } from './bosses-data.js';
+
 const LETTER = { d: 'dog', c: 'cat', b: 'bird', f: 'fish', h: 'horse', o: 'cow', r: 'rabbit' };
 
 const w = (formation, cols, rows, pattern, speed) =>
@@ -25,3 +27,10 @@ export const LEVEL = {
     w('spiral', 10, 'ccdd', 'ring', 1.15), // 5: forty cats and dogs
   ],
 };
+
+// The animals a level brings, in the order they first appear: its waves' species, then its boss's.
+export function levelSpecies(level) {
+  const ids = (level.waves ?? []).flatMap((x) => x.species);
+  if (level.boss) ids.push(bossDef(level.boss).species);
+  return [...new Set(ids)];
+}

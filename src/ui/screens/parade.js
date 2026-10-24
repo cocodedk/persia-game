@@ -1,11 +1,11 @@
-// The parade, once the giant has fallen: the seven animals walk right to left along a line below
+// The parade, once the giant has fallen: the level's animals walk right to left along a line below
 // the middle, in the pack's order, one every PARADE_STEP, and each is named as it crosses the middle
 // (the voice, queued at the cue, says it and shows its word above the line). Then the results.
 //   PARADE_LEAD  s before the first animal crosses the middle    PARADE_STEP  s between animals
 //   PARADE_SPEED world px/s, right to left                       PARADE_TAIL  s after the last cue
 //   paradeX(t, i) -> the x of animal i at t s, on a 1920-wide line
 //   paradeCues(t0, t1, n) -> the indices of the animals that cross the middle in (t0, t1]
-//   paradeScreen({ pack, look, voice, onDone }) -> a stage screen. onDone fires PARADE_TAIL after
+//   paradeScreen({ species, look, voice, onDone }) -> a stage screen; species: their pack lines. onDone fires PARADE_TAIL after
 //   the last cue; a fresh key after SKIP_AFTER (dom.js) clears the voice and fires it at once.
 import { h, shell, crossed, skippable } from './dom.js';
 import { WIDTH, MID_X } from '../../core/kinds.js';
@@ -48,7 +48,7 @@ function drawLine(ctx, look, ids, t) {
   });
 }
 
-export function paradeScreen({ pack, look, voice, onDone }) {
+export function paradeScreen({ species, look, voice, onDone }) {
   const el = shell('parade');
   el.style.setProperty('--accent', look.palette.accent); // the floor's glow (screens.css)
   const canvas = h('canvas', 'parade-line');
@@ -56,7 +56,7 @@ export function paradeScreen({ pack, look, voice, onDone }) {
   canvas.height = LINE_H;
   el.append(canvas);
   const ctx = canvas.getContext('2d');
-  const ids = pack.species.map((s) => s.id);
+  const ids = species.map((s) => s.id);
   const end = crossAt(ids.length - 1) + PARADE_TAIL;
   let t = 0;
   let done = false;
@@ -77,7 +77,7 @@ export function paradeScreen({ pack, look, voice, onDone }) {
       if (done) return;
       const t0 = t;
       t += dt;
-      for (const i of paradeCues(t0, t, ids.length)) voice.queue(pack.species[i]);
+      for (const i of paradeCues(t0, t, ids.length)) voice.queue(species[i]);
       drawLine(ctx, look, ids, t);
       if (t >= end) finish();
     },

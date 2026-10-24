@@ -112,6 +112,22 @@
     "sourceFile": "public/audio/vocabulary-5-khargush.574187d3f95f.mp3"
   },
   {
+    "file": "public/audio/mush.mp3",
+    "clipId": "vocabulary-5-mush",
+    "sha256": "7f19d8459f94319e541d02c676e3b780b8dc14bebc170844295d6b6a970d1051",
+    "durationMs": 970,
+    "transcript": "موش",
+    "synthesisText": "موش",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-mush.7f19d8459f94.mp3"
+  },
+  {
     "file": "public/audio/yek.mp3",
     "clipId": "number-1-word",
     "sha256": "c65da9198b270359e7cf41d54f5de11dc7aa62b879e9d586eba02aa56244cc9a",

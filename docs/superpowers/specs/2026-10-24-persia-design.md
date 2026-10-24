@@ -84,6 +84,7 @@ Things that would make the level a failure even if it runs:
 | Backdrops | Every level's backdrop is a known place in Iran, in pixel art. Level 1 is Persepolis at night under the blood moon. Brought forward after playing the build. | Babak |
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
+| Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
 
 ## Level 1 specification
 
@@ -143,6 +144,37 @@ is not bound by the lessons app's "never disappoint" contract.
 **Chrome outside play.** Title, pause, mute, results and the "again" control are in English, as in
 invaders, and live in `ui/`. The word pack holds the learned language only. A fork for another
 language pair swaps the pack and may translate the chrome in `ui/` if its audience needs it.
+
+## Level 2 specification
+
+Decided with Babak on 2026-10-24, after he played level 1.
+
+**Shape.** Five waves and a boss, as level 1, about as long and a step harder. World 1 counts its
+waves across its levels, so level 2's waves are 6 to 10, and a world of four levels counts 1 to 20.
+Approved clips exist for every number from 1 to 20.
+
+**Where.** Si-o-se-pol in Isfahan at night: the bridge's 33 arches lit gold from inside and
+reflected in the Zayandeh river. The sky, the blood moon, the far mountains, the palette and the
+music stay level 1's. The world keeps its look and the landmark changes.
+
+**Enemies.** All eight animals: the seven from level 1 and موش mush (mouse), the one approved animal
+clip level 1 left unused. The mouse comes in wave 6 and again in two later waves.
+
+**Boss.** A giant mouse. Its name is said as it arrives, and it lights up while the name is said, as
+the giant cat does.
+
+**Spoken set.** Level 1's set, plus six approved clips: `vocabulary-5-mush` and `number-6-word` to
+`number-10-word` (شش، هفت، هشت، نه، ده, shown as ۶ to ۱۰), each with `reviewedBy: ["cocodedk"]`.
+Nothing else is new.
+
+**The first step of the Persian ramp.** The HUD's wave count shows Persian digits (WAVE ۶ of ۱۰,
+drawn with the slash as level 1 draws it). Its label and the rest of the HUD stay English, ASCII
+digits included.
+
+**Reaching it.** Level 1's results offer Next, which plays level 2. Once level 1 has been cleared in
+this browser, the title offers Level 2 after Play. Failing level 2 retries level 2 from wave 6.
+
+**The ending.** The parade walks the animals the level brought, all eight here, in the pack's order.
 
 ## Word pack
 
