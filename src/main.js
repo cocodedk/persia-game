@@ -23,13 +23,13 @@ input.onGesture = unlockAudio;
 const words = createWordMoment(document.getElementById('words'), canvas, PACK);
 const voice = createVoice(PACK, { show: words.show, hide: words.hide });
 const router = createRouter({ canvas, stage, input, voice });
-const flow = createFlow(router, stage);
+const flow = createFlow(router, stage, voice);
 const { app } = router;
 const jump = installDebug(router);
 
 // Screens under which the scene steps (the world moves) and under which it is drawn at all: the
 // title card covers the canvas, so it keeps its last frame there.
-const STEPS = new Set(['title', 'play', 'results', 'failed']);
+const STEPS = new Set(['title', 'play', 'parade', 'results', 'failed']);
 const DRAWS = new Set([...STEPS, 'paused']);
 
 input.onKey = (code, e) => {

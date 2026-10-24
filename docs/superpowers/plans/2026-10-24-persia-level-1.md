@@ -769,19 +769,19 @@ Invoke `frontend-design:frontend-design` first.
     with Retry and Title.
   - The kicker on both screens is `level.name`.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
   - "every animal crosses the middle once, PARADE_STEP apart, starting at PARADE_LEAD"
   - "paradeCues splits cleanly across frames"
   - "results offer Again and Title, and no Next"
   - "failed shows the wave or the giant's hp"
-- [ ] **Step 2: Run them.** `npm test` should FAIL.
-- [ ] **Step 3: Implement.**
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures, the dead-code gate included.
-- [ ] **Step 5: Play the whole level in the browser** (`?debug&auto` is fine).
+- [x] **Step 2: Run them.** `npm test` should FAIL.
+- [x] **Step 3: Implement.**
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures, the dead-code gate included.
+- [x] **Step 5: Play the whole level in the browser** (`?debug&auto` is fine).
   - At the end, seven animals cross right to left, each named and shown once.
   - The results come next, with Again, and Again starts wave 1 without the open.
   - Screenshot the parade with a word up.
-- [ ] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): end on a parade of the seven names, then Again"`
+- [x] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): end on a parade of the seven names, then Again"`
 
 ### Task 11: Site, README and handover
 

@@ -32,9 +32,9 @@ test('the best is saved on the tick the level is cleared, before the slow motion
   assert.ok(s.over < 0.1, 'still inside the clear wait');
   assert.equal(store.best('t-1').score, s.world.score);
   let shown = null;
-  flow.showResults = (o) => (shown = o);
+  flow.showParade = (o) => (shown = o);
   flow.check(scene);
-  assert.equal(shown, null, 'the results wait for the slow motion');
+  assert.equal(shown, null, 'the parade and the results wait for the slow motion');
   stepSession(s, 2.5, autopilot);
   flow.check(scene);
   assert.equal(shown.score, s.world.score);

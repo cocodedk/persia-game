@@ -1,4 +1,4 @@
-/* Invaders screens: the title logo, the level title card, pause, results and failed. */
+/* Invaders screens: the title logo, the level title card, pause, the parade, results and failed. */
 
 /* ---- title -------------------------------------------------------------- */
 /* a soft scrim pooled behind the logo and menu: the battle stays visible round the edges */
@@ -57,6 +57,14 @@
 
 /* ---- pause ---------------------------------------------------------------- */
 .pause .menu { animation: rise 0.4s ease both; }
+
+/* ---- parade --------------------------------------------------------------- */
+/* the line the animals walk, as wide as the world and centred at 62 % of its height; the scrim
+   darkens only below the word (#words sits under the stage), and a glow in the ground line's amber
+   is the floor they walk on */
+.parade { background: linear-gradient(180deg, rgba(4, 5, 12, 0) 42%, rgba(4, 5, 12, 0.55) 60%, rgba(4, 5, 12, 0.8)); }
+.parade-line { position: absolute; left: 50%; top: calc(50% + 6.48rem); width: 96rem; translate: -50% -50%;
+  background: radial-gradient(ellipse 48% 14% at 50% 74%, rgba(255, 176, 58, 0.24), rgba(255, 176, 58, 0)); }
 
 /* ---- results and failed --------------------------------------------------- */
 .results { gap: 2.6rem; }

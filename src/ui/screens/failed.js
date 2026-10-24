@@ -1,9 +1,16 @@
-// A failed level: SHOT DOWN, how far the run got, and Retry / Title.
-//   failedScreen({ label, score, progress }, { retry, title }) -> screen
+// A failed level: SHOT DOWN, how far the run got (the wave, or what the giant had left), and
+// Retry / Title.
+//   failedScreen({ label, score, world }, { retry, title }) -> screen
 import { h, button, shell, armed, endKeys } from './dom.js';
 import { fmt } from '../format.js';
 
 const SETTLE = 1100; // ms the fire key and held-key repeats are ignored once the card is up
+
+function progress(world) {
+  const b = world.boss;
+  if (b) return `The giant held at ${Math.ceil((100 * b.hp) / b.maxHp)} %`;
+  return `Wave ${world.wave} of ${world.level.waves.length}`;
+}
 
 export function failedScreen(o, act) {
   const ready = armed();
@@ -15,7 +22,7 @@ export function failedScreen(o, act) {
       h('p', 'banner-kicker', o.label),
       h('h2', 'banner-title', 'Shot down'),
       h('p', 'result-line', h('span', 'result-cap', 'Score'), h('span', 'result-score', fmt(o.score))),
-      h('p', 'result-best', o.progress)),
+      h('p', 'result-best', progress(o.world))),
     h('nav', 'menu menu-row', ...items));
   return { el, focus: items[0], onKey: endKeys(items, ready, armed(SETTLE)) };
 }

@@ -1,7 +1,7 @@
 // Screen routing: title (over the backdrop battle) -> title card, or the open on the session's first
-// Play -> play -> pause -> results / failed. `app` is the one piece of state the loop reads.
+// Play -> play -> pause -> parade -> results, or failed. `app` is the one piece of state the loop reads.
 //   app = { screen, scene, backdrop, token, opened }
-//   screen 'title' | 'loading' | 'play' | 'paused' | 'results' | 'failed'
+//   screen 'title' | 'loading' | 'play' | 'paused' | 'parade' | 'results' | 'failed'
 //   backdrop: the title's battle, kept across menu visits; starting a level drops it, so the title
 //   bakes another battle on the menu, never mid-level
 //   token: counts the routes taken, so a deferred bake can tell its screen was left
