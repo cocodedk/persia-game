@@ -82,7 +82,7 @@ Things that would make the level a failure even if it runs:
 | On-screen text | Clean screen. Picture plus voice plus the Persian word, each letter its own colour. No Danish. | Babak |
 | Teaching ramp | Level 1 teaches nothing visibly. Later levels and richer endings add the layer gradually. | Babak |
 | Backdrops | Known places in Iran, later. | Babak |
-| Romanization | While a name is said, it shows in Latin letters beside the Persian word. Added after playing the build. | Babak |
+| Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it. Added after playing the build. | Babak |
 
 ## Level 1 specification
 
@@ -101,7 +101,7 @@ is the builder's pick, the giant-of-the-same-set rule is fixed so no new clip is
 **Spoken set.** Exactly these, nothing more:
 
 - The seven animal names, each spoken when its species first appears in a wave.
-- Wave numbers one to five, spoken as each wave starts: یک، دو، سه، چهار، پنج.
+- Wave numbers one to five, spoken as each wave starts: یک، دو، سه، چهار، پنج, shown as ۱ to ۵.
 - No exclamations. The approval file holds no cheer clip (no آفرین or similar), and level 1 adds no
   new clips, so big moments are celebrated with sound effects only.
 - Weapons and power-ups stay silent in level 1.
@@ -121,10 +121,11 @@ waves that gives each word a handful of hearings. Tune by feel; never approach f
 word appears large for about a second, then fades. Each letter is a different colour from a fixed
 palette, so the eye registers that the shape is made of parts. The word is rendered as a DOM overlay
 on the canvas so joined letters stay joined (per-letter canvas text would break the joining). It is
-the only language on screen during play. While the clip plays, the name also shows in Latin letters
-beside the word (`sag`, `gorbe`, as the clip IDs spell them), in one quiet colour so the lit letters
-keep the eye, gone when the voice stops. No Danish. Invaders' HUD stays as it is,
-ASCII digits included; Persian digits in chrome would be teaching creep for level 1.
+the only language on screen during play. Every spoken line gets one: a wave's number shows as its
+Persian digit (۱ while یک is said). While the clip plays, the line also shows in Latin letters
+beside it (`yek`, `sag`, `gorbe`, as the clip IDs spell them), in one quiet colour so the lit letters
+keep the eye, gone when the voice stops. No Danish. Invaders' HUD stays as it is, ASCII digits
+included; the Persian digit appears only in the word moment.
 
 **Music under speech.** The voice gets its own bus; music and effects duck under it using invaders'
 existing `duck()` and `hush()`.

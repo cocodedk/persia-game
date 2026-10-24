@@ -1,7 +1,7 @@
-// The word moment: a species' word, large over the play for about a second as it is said, each
-// letter its own colour from the pack's palette. A DOM overlay, never canvas text, so the letters
-// stay joined: one plain inline span per letter, which the browser shapes as one word. Beside it, the
-// name in Latin letters for as long as it is said (ms).
+// The word moment: what the voice says (a species' word, a wave's digit), large over the play for
+// about a second as it is said, each letter its own colour from the pack's palette. A DOM overlay,
+// never canvas text, so the letters stay joined: one plain inline span per letter, which the browser
+// shapes as one word. Beside it, the name in Latin letters for as long as it is said (ms).
 //   letterRuns(word, colours) -> [{ text, colour }]   one run per letter; a ZWNJ stays with the letter before it
 //   createWordMoment(root, canvas, pack) -> { show(word, say, ms), hide() }   word.css times it
 // It is placed on the world as drawn: the canvas box holds the 1920 x 1080 world letterboxed (view.js).

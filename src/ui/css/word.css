@@ -1,4 +1,4 @@
-/* The word moment (word-moment.js): a species' word over the play for 1.35 s, each letter lit in its
+/* The word moment (word-moment.js): the said word over the play for 1.35 s, each letter lit in its
    own colour. The glow is text-shadow in currentColor, so every letter glows its own colour; the dark
    shadow under it keeps the word clear of the fire. #ui comes after #words, so the stage screens
    sit above it, and it never takes the pointer. */

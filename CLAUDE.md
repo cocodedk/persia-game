@@ -17,9 +17,9 @@ copy files and provenance, never link to it at runtime.
 - Every spoken Persian clip is one a native reviewer approved. No synthesis at runtime, no new clips
   without a review round.
 - Clean screen in play: no captions, translations or help text. Invaders' HUD stays. The only
-  language on screen is the word moment: a species' Persian name, each letter its own colour, for
-  about a second when it first appears in a wave, with the name in Latin letters beside it while
-  it is said.
+  language on screen is the word moment, and every spoken line gets one: a species' Persian name
+  (each letter its own colour) when it first appears in a wave, a wave's Persian digit as its
+  number is said, each with its Latin spelling beside it while it is said.
 - No Danish anywhere in level 1. Chrome is English, as in invaders. Teaching arrives in later levels.
 - The code never contains a Persian word. Everything language-specific lives in the word pack
   (`src/data/pack.js`). Another language pair is a separate fork with another pack, never a runtime switch.

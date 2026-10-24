@@ -5,7 +5,7 @@
 //                 parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
-//   numbers       { n, word, clip, ms } for 1..5
+//   numbers       { n, word, say, clip, ms } for 1..5; `word` is the Persian digit, shown as it is said
 //   letterColours the colours the word moment cycles through, one per letter
 export const PACK = {
   lang: 'fa', dir: 'rtl',
@@ -20,11 +20,11 @@ export const PACK = {
     { id: 'fish', word: 'ماهی', say: 'mahi', clip: 'public/audio/mahi.mp3', ms: 860 },
   ],
   numbers: [
-    { n: 1, word: 'یک', clip: 'public/audio/yek.mp3', ms: 760 },
-    { n: 2, word: 'دو', clip: 'public/audio/do.mp3', ms: 760 },
-    { n: 3, word: 'سه', clip: 'public/audio/se.mp3', ms: 760 },
-    { n: 4, word: 'چهار', clip: 'public/audio/chahar.mp3', ms: 760 },
-    { n: 5, word: 'پنج', clip: 'public/audio/panj.mp3', ms: 840 },
+    { n: 1, word: '۱', say: 'yek', clip: 'public/audio/yek.mp3', ms: 760 },
+    { n: 2, word: '۲', say: 'do', clip: 'public/audio/do.mp3', ms: 760 },
+    { n: 3, word: '۳', say: 'se', clip: 'public/audio/se.mp3', ms: 760 },
+    { n: 4, word: '۴', say: 'chahar', clip: 'public/audio/chahar.mp3', ms: 760 },
+    { n: 5, word: '۵', say: 'panj', clip: 'public/audio/panj.mp3', ms: 840 },
   ],
   letterColours: ['#ffd23a', '#3affc8', '#ff5ad8', '#7aa8ff', '#ff8a3a'],
 };

@@ -21,11 +21,9 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.deepEqual(voiceLines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [{ kind: 'species', id: 'cat' }]);
 });
 
-test('clipOf gives a line its clip and length, and its word and Latin name only for a species', () => {
-  const [one] = PACK.numbers;
-  const dog = PACK.species.find((s) => s.id === 'dog');
-  assert.deepEqual(clipOf(PACK, { kind: 'number', n: 1 }), { clip: one.clip, ms: one.ms, word: null });
-  assert.deepEqual(clipOf(PACK, { kind: 'species', id: 'dog' }), { clip: dog.clip, ms: dog.ms, word: dog.word, say: dog.say });
+test('clipOf gives every line its pack entry: clip, length, what is shown and its Latin name', () => {
+  assert.equal(clipOf(PACK, { kind: 'number', n: 1 }), PACK.numbers[0]);
+  assert.equal(clipOf(PACK, { kind: 'species', id: 'dog' }), PACK.species.find((s) => s.id === 'dog'));
 });
 
 test('lines start one after another, each clip length plus LINE_GAP apart', () => {
