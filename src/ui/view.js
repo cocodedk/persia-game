@@ -4,7 +4,7 @@
 //     auto-quality state (main feeds sampleFrame(view.quality, workMs, intervalMs) every frame, work
 //     = performance.now() around its core steps + fx + drawFrame, and sets fx.density from it),
 //     view.showHud: false hides the HUD (title backdrop); view.named: the species whose name is
-//     being said (voice.saying(), set by scenes.js), whose aliens light up
+//     being said (voice.saying(), set by scenes.js), whose aliens and giant light up
 //   drawFrame(view, world, fx, t)   t: seconds, any monotonic clock (animation only)
 // The canvas is sized to its CSS box; the 1920 x 1080 world is letterboxed into it, and the backing
 // store never exceeds 1:1 with the world (Pi 4 fill rate). No camera: only fx shake moves the field.
@@ -72,7 +72,7 @@ function field(ctx, v, world, fx, t) {
   ctx.save();
   ctx.translate(fx.shakeX, fx.shakeY);
   drawLayers(ctx, v.layers, world.ship.x, t, q);
-  drawBoss(ctx, world, look, t, q); // under the aliens: minions launch from it and fly over it (R27)
+  drawBoss(ctx, world, look, t, q, v.named); // under the aliens: minions launch from it and fly over it (R27)
   drawAliens(ctx, world, look, t, v.named);
   drawPickups(ctx, world, look, t);
   drawLasers(ctx, world, look, t);

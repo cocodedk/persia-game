@@ -1,6 +1,7 @@
 // The boss, drawn from its baked sprites (bake.js; painters in bosses/<kind>.js).
-//   drawBoss(ctx, world, look, t, q?)        world space, before the aliens (so minions launched
-//                                            from the boss fly over it; ruling R27)
+//   drawBoss(ctx, world, look, t, q?, named?)   world space, before the aliens (so minions launched
+//                                            from the boss fly over it; ruling R27); named: the
+//                                            species being said, which lights the boss up if it is its own
 // q is the view's quality level: below 1 the phases' rage overlays (hull-sized, purely decorative
 // glow) are skipped, the biggest fill a boss frame has on a Pi.
 // Per frame, bottom to top: the hull and its lights (the phase's own lights cross-fading in on a
@@ -9,8 +10,10 @@
 // the collapse instead. Per frame only drawImage of baked canvases and cached glows.
 import { bossArt } from './bake.js';
 import { drawDying } from './death.js';
-import { halos, partBodies, partLights, warns } from './parts.js';
+import { halos, partBodies, lifts, partLights, warns } from './parts.js';
 import { smooth } from '../../core/math.js';
+import { soft, addGlow } from '../sprites.js';
+import { namedLight } from '../aliens/index.js';
 
 const FADE = 0.9; // s a phase's own lights take to come up
 const bossMemo = new WeakMap(); // boss -> { phase, prev, at }: when the phase last changed
@@ -59,7 +62,18 @@ function lights(ctx, b, B, look, t) {
   ctx.globalCompositeOperation = 'source-over';
 }
 
-export function drawBoss(ctx, world, look, t, q = 1) {
+// While the boss's species is being said it lights up as its aliens do (aliens/index.js): a soft
+// disc of its colour under the hull (a glow blob is spent before it clears the hull; not at half
+// quality, it is a third of the frame's fill), then a white lift on the hull and parts (parts.js).
+const DISC_X = 0.7; // the disc's radii, in hull-canvas widths and heights
+const DISC_Y = 1.05;
+
+function disc(ctx, b, B, look, alpha) {
+  const { width: w, height: h } = B.hull.body;
+  addGlow(ctx, soft(look.palette.alien[B.S.def.species]), b.x, b.y, w * DISC_X, alpha, (h * DISC_Y) / (w * DISC_X));
+}
+
+export function drawBoss(ctx, world, look, t, q = 1, named = null) {
   const b = world.boss;
   if (!b) return;
   const B = bossArt(look, b.kind);
@@ -68,9 +82,12 @@ export function drawBoss(ctx, world, look, t, q = 1) {
     return;
   }
   const h = B.hull;
+  const light = named === B.S.def.species ? namedLight(t) : null;
+  if (light && q >= 1) disc(ctx, b, B, look, light.halo);
   ctx.drawImage(h.body, b.x + h.x0, b.y + h.y0);
   hullLights(ctx, b, B, t, q);
   halos(ctx, b, look.palette.boss, t);
   partBodies(ctx, b, B, look, t);
+  if (light) lifts(ctx, b, B, light.lift);
   lights(ctx, b, B, look, t);
 }

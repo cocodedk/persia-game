@@ -3,6 +3,7 @@
 //   halos(ctx, b, pal, t)              the pulsing glow round each live weak point
 //   partBodies(ctx, b, B, look, t)     whole, cracked as it loses hp, white for FLASH s after a hit,
 //                                      split open once `cracked`, charred wreckage once destroyed
+//   lifts(ctx, b, B, a)                a white lift on the hull and every live part (the boss named)
 //   partLights(ctx, b, B, look, t)     their lights (weak points pulse; fissures fade in with a burst)
 //   warns(ctx, b, B, look, t)          a charge-up on every part about to fire
 // What changed when (hit, crack) is this module's own memory, a WeakMap per part; a part first seen
@@ -11,6 +12,7 @@
 import { glow, star } from '../sprites.js';
 import { clamp, smooth } from '../../core/math.js';
 import { cracked, exposed, wreck } from './cracks.js';
+import { hullFlash } from './bake.js';
 
 const FLASH = 0.06; // s a part shows white after losing hp
 const CRACK = 0.6; // s a plate takes to split open
@@ -45,6 +47,21 @@ export function halos(ctx, b, pal, t) {
     const r = Math.max(p.w, p.h) * 0.95;
     ctx.globalAlpha = 0.26 + 0.3 * pulseOf(p, t);
     ctx.drawImage(glow(pal.weak), p.x - r, p.y - r, r * 2, r * 2);
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+// The white lift on the hull and every live part while the boss's species is being said, at alpha a.
+export function lifts(ctx, b, B, a) {
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalAlpha = a;
+  ctx.drawImage(hullFlash(B), b.x + B.hull.x0, b.y + B.hull.y0);
+  for (const p of b.parts) {
+    if (p.hp <= 0) continue;
+    const set = B.parts[p.id];
+    const [x, y] = corner(p, set);
+    ctx.drawImage(set.flash, x, y);
   }
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';

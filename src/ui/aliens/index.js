@@ -7,6 +7,7 @@
 //   crackStage(alien)                 0 | 1 | 2, how cracked an alien is drawn (a.maxHp)
 //   HALO_R, blit(ctx, img, set, x, y, rot)   the halo's radius in play and how a sprite is put on
 //                                     the canvas, for the parade, which draws the animals the same way
+//   namedLight(t) -> { halo, lift }   how bright a named species is at t (alphas), for its giant too
 // Per alien: a halo (cached glow, 'lighter'), the body (cracked once it has lost hp; a white
 // silhouette for FLASH s after a hit) and its lights ('lighter'); frames alternate at the art's
 // rate, swoopers lean into the swoop. The flash is the renderer's own memory: a WeakMap of the hp
@@ -65,9 +66,14 @@ export function blit(ctx, img, set, x, y, rot = 0) {
 
 export const HALO_R = 44; // px, an alien's halo at scale 1
 const NAMED_R = 78; // px, the halo of an alien whose name is being said
-const pulse = (t) => 0.5 + 0.5 * Math.sin(t * 14); // 0..1, about twice a second
+// How bright a named species is at t, its aliens here and its giant in bosses/index.js: the big
+// halo's alpha and the white lift's, on a beat about twice a second.
+export function namedLight(t) {
+  const p = 0.5 + 0.5 * Math.sin(t * 14);
+  return { halo: 0.65 + 0.35 * p, lift: 0.2 + 0.3 * p };
+}
 
-function halos(ctx, list, look, t, named, p) {
+function halos(ctx, list, look, t, named, light) {
   const colors = look.palette.alien;
   ctx.globalCompositeOperation = 'lighter';
   for (const a of list) {
@@ -75,7 +81,7 @@ function halos(ctx, list, look, t, named, p) {
     ctx.globalAlpha = HALO;
     if (a.species === named) {
       r = NAMED_R;
-      ctx.globalAlpha = 0.65 + 0.35 * p;
+      ctx.globalAlpha = light.halo;
     } else if (a.role === 'carrier') {
       r = 62;
       ctx.globalAlpha = 0.42 + 0.18 * Math.sin(t * 5 + a.id);
@@ -88,8 +94,8 @@ function halos(ctx, list, look, t, named, p) {
 
 export function drawAliens(ctx, world, look, t, named) {
   const f = frameOf(t);
-  const p = pulse(t);
-  halos(ctx, world.aliens, look, t, named, p);
+  const light = namedLight(t);
+  halos(ctx, world.aliens, look, t, named, light);
   for (const a of world.aliens) {
     const set = speciesSprites(look, a.species);
     const k = crackStage(a);
@@ -103,7 +109,7 @@ export function drawAliens(ctx, world, look, t, named) {
   }
   if (named) {
     const set = speciesSprites(look, named);
-    ctx.globalAlpha = 0.2 + 0.3 * p;
+    ctx.globalAlpha = light.lift;
     for (const a of world.aliens) {
       if (a.species === named) blit(ctx, set.flash[f], set, a.x, a.y, lean(world, a));
     }
