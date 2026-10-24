@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
 import { spoken } from '../../src/ui/voice-queue.js';
 import { SPECIES } from '../../src/core/kinds.js';
+import { LEVELS, waveNumber } from '../../src/core/levels.js';
 import { root } from '../repo-kit.js';
 
 const MANIFEST = JSON.parse(readFileSync(`${root}public/audio/manifest.json`, 'utf8'));
@@ -44,9 +45,11 @@ test('every line carries the name it is said by, in plain lowercase Latin letter
   for (const { clip, say } of LINES) assert.match(say ?? '', /^[a-z]+(-[a-z]+)*$/, clip);
 });
 
-test('pack species are exactly the core SPECIES ids, and numbers are 1..30', () => {
+test('pack species are exactly the core SPECIES ids, and there is one number per wave of the game, in order from 1', () => {
   assert.deepEqual(PACK.species.map((s) => s.id).sort(), Object.keys(SPECIES).sort());
-  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: 30 }, (_, i) => i + 1));
+  const last = LEVELS.at(-1);
+  const waves = waveNumber(last, last.waves.length);
+  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: waves }, (_, i) => i + 1));
 });
 
 test('every pack clip is on disk, listed once in the manifest with its sha256, ms equal to durationMs, reviewed', () => {

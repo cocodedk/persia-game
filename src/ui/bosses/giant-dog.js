@@ -5,7 +5,7 @@
 // nose is the third plate; the weak points burn: two round eyes and the open barking mouth, fangs
 // bared, the dogs are spat from. The brows throb quicker as the fight heats up, and the locks of fur
 // and the patch light amber, then red.
-import { pixels, phosphor, bloom, PX, AMBER, RED, FANG, LID, grid, inside, litCells, eyeArt, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, AMBER, RED, FANG, LID, grid, inside, litCells, eyeArt, throb, spine, spineAt } from './kit.js';
 import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.dog;
@@ -71,19 +71,10 @@ const fur = (l, colour) => litCells(l, COLS, ROWS, (x, y) => headAt(x, y) && !mu
 
 // An ear (drawn as the left one): from the crown's corner it swings out and hangs down, wide in the
 // middle and rounded at the tip. Its spine (in |x|, y) is a curve whose thickness swells and fades.
-const SPINE = Array.from({ length: 41 }, (_, i) => {
-  const t = i / 40;
-  const u = 1 - t;
-  return [u * u * 182 + 2 * u * t * 240 + t * t * 200, u * u * -88 + 2 * u * t * -8 + t * t * 100, t, 48 * Math.sqrt(Math.sin(Math.PI * (0.1 + 0.9 * t ** 1.4)))];
-});
+const SPINE = spine([182, -88], [240, -8], [200, 100], (t) => 48 * Math.sqrt(Math.sin(Math.PI * (0.1 + 0.9 * t ** 1.4))));
 function earAt(ax, y) {
-  let at = null;
-  let best = 0;
-  for (const s of SPINE) {
-    const room = s[3] - Math.hypot(ax - s[0], y - s[1]);
-    if (room > best) [best, at] = [room, s];
-  }
-  return at;
+  const i = spineAt(SPINE, ax, y);
+  return i < 0 ? null : SPINE[i];
 }
 
 function ear(b, l, p, S) {
@@ -94,7 +85,7 @@ function ear(b, l, p, S) {
     if (!s) return null;
     if (!at(x, y - PX)) return shade(c, -0.2); // the lit rim
     if (!at(x, y + PX)) return shade(c, -0.72);
-    const side = (Math.abs(p.dx) - x - s[0]) / s[3]; // -1 at the edge toward the head, 1 at the far edge
+    const side = (Math.abs(p.dx) - x - s[0]) / s[2]; // -1 at the edge toward the head, 1 at the far edge
     if (side < -0.55) return shade(c, -0.8); // the inside in shade
     if (side < -0.2) return shade(c, -0.66);
     return shade(c, Math.round(side * 4) % 2 ? -0.5 : -0.44); // strands of hair

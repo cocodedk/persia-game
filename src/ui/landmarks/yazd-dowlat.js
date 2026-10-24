@@ -5,6 +5,7 @@
 // gate and a lantern on every pilaster, cypresses behind the wall, and the pool's pale line at the
 // wall's foot. `up` counts blocks up from the floor, and row(up) is that block's row.
 import { PIXEL } from '../sprites.js';
+import { int } from '../../core/rng.js';
 import { BASE, key, brick, lamp } from './yazd-brick.js';
 
 const D = 2; // painted as the near row
@@ -28,7 +29,7 @@ export function dowlat(art) {
     for (const p of PILASTERS) lamp(art, D, mid + s * p, wallTop - 7, 14, 0.85);
   }
   lamp(art, D, mid, F - 79, 14, 0.5);
-  for (const t of TREES) cypress(art, mid + t, 22 + Math.floor(rng() * 12));
+  for (const t of TREES) cypress(art, mid + t, int(rng, 22, 33));
   shaft(art);
   roof(art);
   garden(art, wallTop);
@@ -38,12 +39,11 @@ const dark = (up) => BASE[D] - 0.36 + 0.28 * (up / SHAFT); // the front face, li
 
 // The three faces of the shaft from the floor to the cap ring: brick, the rings, the vent slots.
 function shaft(art) {
-  const { mid, box, F } = art;
-  const row = (up) => F - 1 - up;
+  const { mid, box, row } = art;
+  const n = SLOTS[1] - SLOTS[0] + 1;
   FACES.forEach(([fx, fw, off, edge], f) => {
     const x = mid + fx;
     brick(art, D, x, row(SHAFT - 1), fw, SHAFT, (i, j) => dark(SHAFT - 1 - j) + off + (i === 0 ? edge[0] : i === fw - 1 ? edge[1] : 0), 2);
-    const n = SLOTS[1] - SLOTS[0] + 1;
     const sw = fw > 7 ? 2 : 1;
     for (let sx = x + 1; sx + sw <= x + fw; sx += sw + 1) {
       box(sx, row(SLOTS[1]), sw, n, 'k');
@@ -62,16 +62,16 @@ function shaft(art) {
 
 // The stepped roof above the cap ring, in three facets like the shaft's three faces, with the
 // lantern and spike.
-function roof({ mid, box, F, lights, L }) {
+function roof({ mid, box, row, lights, L }) {
   const tone = dark(SHAFT) + 0.1;
   STEPS.forEach((half, k) => {
-    const r = F - 1 - (SHAFT + 2 + k);
+    const r = row(SHAFT + 2 + k);
     const side = Math.round((half * 2 + 1) * 0.29);
     box(mid - half, r, side, 1, key(D, tone + 0.18));
     box(mid - half + side, r, half * 2 + 1 - side * 2, 1, key(D, tone - (k ? 0.1 : 0.28)));
     box(mid + half + 1 - side, r, side, 1, key(D, tone + 0.4));
   });
-  const top = F - 1 - (SHAFT + 2 + STEPS.length);
+  const top = row(SHAFT + 2 + STEPS.length);
   box(mid - 1, top - 2, 2, 3, key(D, tone + 0.05));
   box(mid, top - 6, 1, 4, key(D, tone - 0.25));
   box(mid, top - 2, 1, 1, 'G');
@@ -79,11 +79,11 @@ function roof({ mid, box, F, lights, L }) {
 }
 
 // A cypress `tall` blocks high from the floor: a dark flame, lit a little on its left.
-function cypress({ box, F }, x, tall) {
+function cypress({ box, row }, x, tall) {
   for (let up = 0; up < tall; up++) {
     const half = Math.round(1.6 + 2.6 * Math.sin(Math.PI * (up / tall) ** 0.75));
-    box(x - half, F - 1 - up, half * 2, 1, 't');
-    box(x - half, F - 1 - up, 1, 1, 'e');
+    box(x - half, row(up), half * 2, 1, 't');
+    box(x - half, row(up), 1, 1, 'e');
   }
 }
 
@@ -113,5 +113,5 @@ function garden(art, top) {
   box(mid - pool, F - 1, pool * 2, 1, 'w');
   box(mid - pool, F, pool * 2, 1, 'n');
   box(mid - 3, F - 1, 6, 1, 'G'); // the gate's reflection
-  for (let x = mid - pool; x < mid + pool; x += 3 + Math.floor(rng() * 6)) box(x, F - 1, 1 + Math.floor(rng() * 3), 1, 'W');
+  for (let x = mid - pool; x < mid + pool; x += int(rng, 3, 8)) box(x, F - 1, int(rng, 1, 3), 1, 'W');
 }

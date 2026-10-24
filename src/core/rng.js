@@ -26,9 +26,10 @@ export function rand(r) {
   return mix(r.s);
 }
 
-// Uniform draws, a number in [lo, hi) and an item of `list`: between and pick take a closure rng (fx,
-// ui); randBetween and randPick take a `{ s }` state (core) and draw once.
+// Uniform draws, a number in [lo, hi), a whole number in [lo, hi] and an item of `list`: between, int
+// and pick take a closure rng (fx, ui); randBetween and randPick take a `{ s }` state (core) and draw once.
 export const between = (rng, lo, hi) => lo + rng() * (hi - lo);
+export const int = (rng, lo, hi) => lo + Math.floor(rng() * (hi - lo + 1));
 export const pick = (rng, list) => list[Math.floor(rng() * list.length)];
 export const randBetween = (r, lo, hi) => lo + rand(r) * (hi - lo);
 export const randPick = (r, list) => list[Math.floor(rand(r) * list.length)];

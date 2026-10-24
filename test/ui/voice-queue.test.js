@@ -35,23 +35,6 @@ test('each later level\'s first wave counts on from the one before: six, eleven,
   }
 });
 
-test("level 4's third wave says eighteen, its species, then the rain", () => {
-  const said = lines([{ type: 'wave', n: 18, species: ['bird', 'cat'], weather: 'rain' }]);
-  assert.deepEqual(said, [number(18), species('bird'), species('cat'), PACK.weather.rain]);
-  assert.equal(lines([wave(19, 'dog')]).includes(PACK.weather.rain), false, 'only the wave the rain begins with says it');
-});
-
-test('a wave that begins the stars says the stars line in the same place', () => {
-  const said = lines([{ type: 'wave', n: 23, species: ['bird', 'cow'], weather: 'stars' }]);
-  assert.deepEqual(said, [number(23), species('bird'), species('cow'), PACK.weather.stars]);
-});
-
-test('a wave that begins the petals says the petals line in the same place, and only that wave', () => {
-  const said = lines([{ type: 'wave', n: 28, species: ['dog', 'bird'], weather: 'petals' }]);
-  assert.deepEqual(said, [number(28), species('dog'), species('bird'), PACK.weather.petals]);
-  assert.equal(lines([wave(29, 'dog')]).includes(PACK.weather.petals), false);
-});
-
 // Everything a level says, wave by wave, from a fresh world (a retry is one).
 function sayLevel(level) {
   const w = playing(level);
@@ -64,19 +47,18 @@ function sayLevel(level) {
   return waves;
 }
 
-test('level 5 says the stars once, with wave 23, and a retry is clear until then', () => {
-  const waves = sayLevel(LEVELS[4]);
-  assert.deepEqual(waves.map((said) => said.includes(PACK.weather.stars)), [false, false, true, false, false]);
-  assert.deepEqual(waves.map((said) => said[0]), [21, 22, 23, 24, 25].map(number));
-});
-
-test('level 6 says the petals once, with wave 28, after the number and the species, and again on a retry', () => {
-  const waves = sayLevel(LEVELS[5]);
-  assert.deepEqual(waves.map((said) => said.includes(PACK.weather.petals)), [false, false, true, false, false]);
-  assert.deepEqual(waves.map((said) => said[0]), [26, 27, 28, 29, 30].map(number));
-  assert.deepEqual(waves[2], [number(28), species('dog'), species('bird'), PACK.weather.petals]);
-  assert.ok(sayLevel(LEVELS[4]).every((said) => !said.includes(PACK.weather.petals)), 'level 5 keeps its stars');
-  assert.deepEqual(sayLevel(LEVELS[5]), waves, 'again on a retry');
+test("a level's weather line is said once, with the wave it begins at, after that wave's number and species, and again on a retry", () => {
+  for (const level of LEVELS.filter((l) => l.weather)) {
+    const { kind, from } = level.weather;
+    const line = PACK.weather[kind];
+    const waves = sayLevel(level);
+    waves.forEach((said, i) => assert.equal(said[0], number(level.first + i), `${level.id} wave ${i + 1} starts with its number`));
+    assert.equal(waves.flat().filter((l) => l === line).length, 1, `${level.id} says the ${kind} once`);
+    const said = waves[from - 1];
+    assert.equal(said.at(-1), line, `${level.id} says the ${kind} last, with wave ${from}`);
+    assert.ok(said.length > 2 && said.slice(1, -1).every((l) => PACK.species.includes(l)), `${level.id}: between the number and the ${kind} come species`);
+    assert.deepEqual(sayLevel(level), waves, `${level.id} again on a retry`);
+  }
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

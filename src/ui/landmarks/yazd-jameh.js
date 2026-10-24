@@ -21,8 +21,7 @@ function archHalf([half, spring, apex], up) {
 }
 
 export function jameh(art, cx) {
-  const { box, F } = art;
-  const row = (up) => F - 1 - up;
+  const { box, row } = art;
   lamp(art, D, cx, row(36), 16, 0.9, false);
   art.lights.push({ x: (cx + 0.5) * PIXEL, y: row(36) * PIXEL, r: 56, color: art.L.lamp, ph: 0.9, a: 0.25 });
   dome(art, cx + DOME.at);
@@ -32,11 +31,11 @@ export function jameh(art, cx) {
   }, 2);
   for (let up = 0; up <= ARCHES[0][2]; up++) {
     const [outline, band, recess] = ARCHES.map((a) => archHalf(a, up));
-    if (up <= ARCHES[0][2] - 1) box(cx - outline - 1, row(up), outline * 2 + 3, 1, key(D, BASE[D] - 0.3));
+    if (up < ARCHES[0][2]) box(cx - outline - 1, row(up), outline * 2 + 3, 1, key(D, BASE[D] - 0.3));
     for (let x = cx - band; x <= cx + band; x++) {
       const lit = light(art.lamps[D], x, row(up));
       const inner = Math.abs(x - cx) <= recess && up <= ARCHES[2][2];
-      const tile = inner ? (x + (up >> 1)) % 3 === 0 : (x + up) % 2 === 0;
+      const tile = (x + up) % 2 === 0;
       box(x, row(up), 1, 1, inner ? (lit > 0.4 ? 'T' : 'u') : lit > 0.3 ? (tile ? 'U' : 'T') : tile ? 'T' : 'u');
     }
   }
@@ -46,25 +45,24 @@ export function jameh(art, cx) {
 // The great dome with its centre on column x: a tiled drum, the bulb above it ribbed and lit down its
 // left, a finial.
 function dome(art, x) {
-  const { box, F } = art;
+  const { box, row } = art;
   const { r, from } = DOME;
-  box(x - r + 2, F - 1 - (from + 5), r * 2 - 3, 6, 'u');
-  for (let c = x - r + 3; c < x + r - 2; c += 3) box(c, F - 1 - (from + 4), 1, 4, 'T');
+  box(x - r + 2, row(from + 5), r * 2 - 3, 6, 'u');
+  for (let c = x - r + 3; c < x + r - 2; c += 3) box(c, row(from + 4), 1, 4, 'T');
   for (let up = 0; up < r; up++) {
     const hw = Math.round(r * Math.sqrt(1 - (up / r) ** 2)) - 1;
     for (let c = x - hw; c <= x + hw; c++) {
       const lit = (c - x + hw) / (hw * 2 + 1);
-      box(c, F - 1 - (from + 6 + up), 1, 1, lit < 0.25 ? 'U' : lit < 0.7 ? 'T' : 'u');
+      box(c, row(from + 6 + up), 1, 1, lit < 0.25 ? 'U' : lit < 0.7 ? 'T' : 'u');
     }
   }
-  box(x, F - 1 - (from + 6 + r + 2), 1, 3, key(D, BASE[D] - 0.3));
+  box(x, row(from + 6 + r + 2), 1, 3, key(D, BASE[D] - 0.3));
 }
 
 // A minaret on the portal's top, centred on column mx.
 function minaret(art, mx) {
-  const { box, F } = art;
+  const { box, row } = art;
   const { wide, tall, balcony } = TOWER;
-  const row = (up) => F - 1 - up;
   const x = mx - (wide >> 1);
   brick(art, D, x, row(balcony - 1), wide, balcony - PORTAL.tall + 6, (i) => BASE[D] - 0.05 + (i === 0 ? -0.2 : i === wide - 1 ? 0.3 : 0), 1);
   for (let up = PORTAL.tall + 2; up < balcony - 4; up += 8) {

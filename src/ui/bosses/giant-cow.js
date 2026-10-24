@@ -5,7 +5,7 @@
 // points burn: two staring eyes and the wide mouth under the muzzle the cows are spat from. The brows
 // throb quicker as the fight heats up, a glint runs round the nose ring, and the patches light amber,
 // then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, LID, grid, inside, litCells, eyeArt, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, PINK, FANG, LID, grid, inside, litCells, eyeArt, throb, spine, spineAt } from './kit.js';
 import { shade, glow } from '../sprites.js';
 
 const hide = (S) => S.look.palette.alien.cow;
@@ -64,20 +64,11 @@ const patches = (l, colour) => litCells(l, COLS, ROWS, (x, y) => headAt(x, y) &&
 // A horn (drawn as the left one): its spine runs from the cheek out, up and in to a tip, a curve
 // (SPINE) that is 28 thick at the cheek and 6 at the tip, thick for long. hornAt(x, y) is how far
 // along it (0 to 1) a cell sits, or -1 off the horn.
-const SPINE = Array.from({ length: 41 }, (_, i) => {
-  const t = i / 40;
-  const u = 1 - t;
-  return [u * u * 72 + 2 * u * t * -108 + t * t * -44, u * u * 28 + 2 * u * t * 58 + t * t * -62, t, 6 + 22 * u ** 0.6];
-});
+const SPINE = spine([72, 28], [-108, 58], [-44, -62], (t) => 6 + 22 * (1 - t) ** 0.6);
 const RIDGES = [0.07, 0.15, 0.23];
 function hornAt(x, y) {
-  let at = -1;
-  let best = 0;
-  for (const [sx, sy, t, r] of SPINE) {
-    const room = r - Math.hypot(x - sx, y - sy);
-    if (room > best) [best, at] = [room, t];
-  }
-  return at;
+  const i = spineAt(SPINE, x, y);
+  return i < 0 ? -1 : i / (SPINE.length - 1);
 }
 
 // Out from the cheek, up and round to a dark tip: a smooth light-to-dark curve, a ring ridge or

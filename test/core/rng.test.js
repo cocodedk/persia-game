@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { makeRng, createRng, rand, between, pick } from '../../src/core/rng.js';
+import { makeRng, createRng, rand, between, int, pick } from '../../src/core/rng.js';
 
 const draw = (next, n) => Array.from({ length: n }, next);
 
@@ -41,6 +41,16 @@ test('between and pick draw from a makeRng stream', () => {
   }
   const seen = new Set(draw(() => pick(rng, ['a', 'b', 'c']), 100));
   assert.deepEqual([...seen].sort(), ['a', 'b', 'c']);
+});
+
+test('int is a whole number in [lo, hi], both ends included, from one draw', () => {
+  const rng = makeRng(3);
+  assert.deepEqual([...new Set(draw(() => int(rng, 3, 6), 200))].sort(), [3, 4, 5, 6]);
+  assert.equal(int(() => 0, 3, 6), 3);
+  assert.equal(int(() => 0.999999, 3, 6), 6);
+  let calls = 0;
+  int(() => calls++, 1, 2);
+  assert.equal(calls, 1);
 });
 
 // Every level and the tests that prove each can be finished run on seeded streams, so these must

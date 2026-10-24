@@ -82,6 +82,27 @@ export function fan(b, l, cols, rows, root, spread, r, c) {
   phosphor(b, l, 0.22, 4);
 }
 
+// The spine of a horn or an ear: SAMPLES points along the quadratic Bézier from p0 by way of p1 to p2,
+// each [x, y, r], r(t) the thickness at t (0 to 1 along it).
+const SAMPLES = 41;
+export const spine = ([x0, y0], [x1, y1], [x2, y2], r) => Array.from({ length: SAMPLES }, (_, i) => {
+  const t = i / (SAMPLES - 1);
+  const u = 1 - t;
+  return [u * u * x0 + 2 * u * t * x1 + t * t * x2, u * u * y0 + 2 * u * t * y1 + t * t * y2, r(t)];
+});
+
+// The index of the sample of `s` that (x, y) lies deepest in (r less its distance from the sample), or
+// -1 off the spine.
+export function spineAt(s, x, y) {
+  let at = -1;
+  let best = 0;
+  for (let i = 0; i < s.length; i++) {
+    const room = s[i][2] - Math.hypot(x - s[i][0], y - s[i][1]);
+    if (room > best) [best, at] = [room, i];
+  }
+  return at;
+}
+
 // A giant's eye painter from its bitmap (L lid, Y lit iris, y its lower half, k pupil, g glint),
 // the iris burning in the palette's weak colour.
 export const eyeArt = (rows) => (b, l, _part, S) => {

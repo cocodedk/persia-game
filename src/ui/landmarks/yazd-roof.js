@@ -1,4 +1,4 @@
-// What stands on Yazd's roofs (yazd-house.js): the square windcatcher, and the low dome.
+// What stands on Yazd's roofs (yazd-house.js): the square windcatcher, the stair-house, and the low dome.
 import { BASE, key, brick } from './yazd-brick.js';
 
 export const KINDS = [[2, 1], [3, 1], [2, 2], [3, 2]]; // a windcatcher's slots: how many, how wide
@@ -40,8 +40,9 @@ export function badgir(art, d, x, base, kind, tall) {
 
 // A stair-house, the small box that holds the stairs up to a roof: 6 wide, its feet on row `base`.
 export function stair(art, d, x, base) {
+  const { box } = art;
   brick(art, d, x, base - 4, 6, 4, (i, j) => BASE[d] + (j === 0 ? -0.3 : 0) + (i === 5 ? 0.25 : 0), d);
-  art.box(x + 1, base - 3, 2, 3, '-');
+  box(x + 1, base - 3, 2, 3, '-');
 }
 
 // A dome of half-width r on a drum, its base on row `base`, centred on column cx: lit down its left,

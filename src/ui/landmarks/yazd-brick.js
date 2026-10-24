@@ -6,19 +6,20 @@
 // k vent slot, K its back wall, w pool line, W its glint, n the pool's depth, t cypress, e its lit
 // edge, T tile, U lit tile, u dark tile.
 import { PIXEL, mix } from '../sprites.js';
+import { clamp } from '../../core/math.js';
 
 const SHADES = 16;
 const MIST = [0.5, 0.25, 0]; // how far each depth fades toward the haze
 export const BASE = [0.6, 0.54, 0.48]; // how dark a plain wall is, by depth
 
-export const key = (d, dark) => d * SHADES + Math.round(Math.min(1, Math.max(0, dark)) * (SHADES - 1));
+export const key = (d, dark) => d * SHADES + Math.round(clamp(dark, 0, 1) * (SHADES - 1));
 
 export const hazeOf = (L) => mix(L.lit, L.color, 0.5); // the colour the far rows fade toward
 
 export function tones(L) {
   const haze = hazeOf(L);
   const tone = {
-    '-': L.ink, '+': L.lit, G: L.lamp, g: L.glow, h: mix(L.glow, L.ink, 0.55),
+    '-': L.ink, G: L.lamp, g: L.glow, h: mix(L.glow, L.ink, 0.55),
     k: mix(L.ink, L.brick, 0.05), K: mix(L.ink, L.brick, 0.2),
     w: L.pool, W: mix(L.pool, '#ffffff', 0.55), n: mix(L.pool, L.ink, 0.72),
     t: L.tree, e: mix(L.tree, L.lamp, 0.25),
@@ -39,7 +40,10 @@ export function tones(L) {
 export function light(lamps, x, y) {
   let s = 0;
   for (const m of lamps) {
-    const t = 1 - Math.hypot((x - m.x) * 0.7, y - m.y) / m.r;
+    const dx = (x - m.x) * 0.7;
+    const dy = y - m.y;
+    if (Math.abs(dx) >= m.r || Math.abs(dy) >= m.r) continue; // outside its square, so out of reach
+    const t = 1 - Math.hypot(dx, dy) / m.r;
     if (t > 0) s += m.k * t * t;
   }
   return Math.min(1, s);

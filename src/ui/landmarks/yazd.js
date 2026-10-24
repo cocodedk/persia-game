@@ -6,7 +6,7 @@
 // thing there, and behind and to one side the Jameh Mosque's portal and twin minarets. The layer
 // brings L.lit, L.ink, L.glow, L.lamp, L.brick, L.pool, L.tree and L.tile. Rows are counted from F,
 // the street.
-import { PIXEL, rgba } from '../sprites.js';
+import { PIXEL, rgba, lin } from '../sprites.js';
 import { blocks } from './kit.js';
 import { tones, hazeOf } from './yazd-brick.js';
 import { layout, paintRow } from './yazd-house.js';
@@ -27,6 +27,7 @@ const ROWS = [
 export function yazd(g, w, h, rng, L, lights) {
   const art = { ...blocks(g, tones(L)), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
   art.mid = Math.round(art.BW / 2);
+  art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the street
   art.mosque = art.mid + MOSQUE;
   g.save();
   g.scale(PIXEL, PIXEL);
@@ -45,11 +46,8 @@ export function yazd(g, w, h, rng, L, lights) {
 // What is painted so far fades toward the haze, most at the street, so each row stands out of the
 // mist in front of the one behind it.
 function mist(g, { F, BW, L }, a) {
-  const grad = g.createLinearGradient(0, F - 46, 0, F + 2);
-  grad.addColorStop(0, rgba(hazeOf(L), 0));
-  grad.addColorStop(1, rgba(hazeOf(L), a));
   g.globalCompositeOperation = 'source-atop';
-  g.fillStyle = grad;
+  g.fillStyle = lin(g, 0, F - 46, 0, F + 2, [[0, rgba(hazeOf(L), 0)], [1, rgba(hazeOf(L), a)]]);
   g.fillRect(0, 0, BW, F + 2);
   g.globalCompositeOperation = 'source-over';
 }
