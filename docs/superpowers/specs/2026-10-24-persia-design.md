@@ -83,6 +83,7 @@ Things that would make the level a failure even if it runs:
 | Teaching ramp | Level 1 teaches nothing visibly. Later levels and richer endings add the layer gradually. | Babak |
 | Backdrops | Known places in Iran, later. | Babak |
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it. Added after playing the build. | Babak |
+| Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 
 ## Level 1 specification
 
@@ -209,6 +210,10 @@ Babak plays it. If he presses "again", we plan level 2 and the teaching ramp. If
 which of the two things failed, the game or the Persian layer, before building more. Either way, the
 next design conversation decides what world 1's remaining levels add: Danish meanings, dansk
 lydskrift and IPA from the lessons catalog, richer endings, Iranian backdrops.
+
+Whatever else they add, each level after the first moves more of the screen to Persian (the Persian
+ramp in the decisions table). Each level's plan names which points and texts move in it, and nothing
+moves back. Every new Persian string lives in the pack and passes its text-rule tests.
 
 ## Process notes
 
