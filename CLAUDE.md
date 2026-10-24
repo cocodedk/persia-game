@@ -3,7 +3,7 @@
 A 2D arcade shooter for a laptop, forked from invaders (`../invaders`), that plays Persian as the
 soundtrack of what happens on screen. It is a game first and never calls itself a lesson. The design
 is `docs/superpowers/specs/2026-10-24-persia-design.md` and the build plan goes in
-`docs/superpowers/plans/`; the spec is the authority. Scope now: world 1 (animals), four levels so far;
+`docs/superpowers/plans/`; the spec is the authority. Scope now: world 1 (animals), five levels so far;
 Babak plays each one before the next is planned. Deploys to `persia.cocode.dk`.
 
 Invaders is the reference architecture: copy and adapt from it, never import across repos. The lessons
@@ -30,7 +30,7 @@ copy files and provenance, never link to it at runtime.
 - Persian code points only: ک (U+06A9) never ك, ی (U+06CC) never ي; digits ۰–۹ when Persian digits
   are shown at all. ZWNJ (U+200C) for نیم‌فاصله.
 - No diacritics in UI chrome. The pack carries the plain word; clips carry the sound.
-- Persian text renders as a DOM overlay, never per-letter canvas text, so letters stay joined.
+- Persian text renders as a DOM overlay, or as one whole word in one canvas `fillText` in the pack face with no letter spacing; never per-letter canvas text, so letters stay joined.
 - A test asserts every pack word obeys these rules.
 
 ## Commands

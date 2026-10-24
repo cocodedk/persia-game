@@ -6,21 +6,21 @@ Persia is an arcade shooter for a laptop, played with keyboard and mouse in your
 
 ## What it is
 
-You fly a ship along the bottom of the screen and shoot angry pixel animals. There are four levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Level 3 plays at the Tomb of Hafez in Shiraz, among cypresses and orange trees. Its waves count on from 11 to 15, all eight animals fly, and the boss is a giant fish. Level 4 plays at the Azadi Tower in Tehran. Its waves count on from 16 to 20, birds fill the sky, rain starts falling at wave 18, and the boss is a giant bird. All four levels are open from the start. The title screen shows them as cards side by side, each with a small picture of its place and the place's name.
+You fly a ship along the bottom of the screen and shoot angry pixel animals. There are five levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Level 3 plays at the Tomb of Hafez in Shiraz, among cypresses and orange trees. Its waves count on from 11 to 15, all eight animals fly, and the boss is a giant fish. Level 4 plays at the Azadi Tower in Tehran. Its waves count on from 16 to 20, birds fill the sky, rain starts falling at wave 18, and the boss is a giant bird. Level 5 plays at the Tomb of Cyrus at Pasargadae, at night. Its waves count on from 21 to 25, cows fill more rows, stars start falling at wave 23, and the boss is a giant cow. All five levels are open from the start. The title screen shows them as cards side by side, each with a small picture of its place and the place's name.
 
-You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after levels 1, 2 and 3), Again and Title.
+You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after levels 1, 2, 3 and 4), Again and Title.
 
 The first time you start a level after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
 
-A voice speaks Persian as things happen. It says each wave's number as the wave starts, and each animal's name the first time that animal appears in a wave. In level 4 it also says باران (baran, rain) when the rain starts. Whatever it says also shows on screen for about a second:
+A voice speaks Persian as things happen. It says each wave's number as the wave starts, and each animal's name the first time that animal appears in a wave. In level 4 it also says باران (baran, rain) when the rain starts, and in level 5 ستاره (setare, star) when the stars start. Whatever it says also shows on screen for about a second:
 
 - the Persian word, each letter in its own colour (for a wave number, its Persian digits);
 - the same word in Latin letters beside it while it is said, so the cat shows گربه next to "gorbe";
 - for an animal, its face drawn big.
 
-There are no captions or translations. The menus are in English, and so is the score in levels 1 and 2. In levels 2 to 4 the wave count at the top of the screen is in Persian digits, in levels 3 and 4 so is the score, and in level 4 the combo and the level's own number are too.
+There are no captions or translations. The menus are in English, and so is the score in levels 1 and 2. In levels 2 to 5 the wave count at the top of the screen is in Persian digits, in levels 3 to 5 so is the score, and in levels 4 and 5 the combo and the level's own number are too. In level 5 the giant's name bar at the top reads گاو (gav) instead of GIANT COW.
 
-Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what these four levels run.
+Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what these five levels run.
 
 ## How to play
 
@@ -45,7 +45,7 @@ You need Python 3, or any other static file server.
 
 1. Open a terminal in the project folder (`git clone https://github.com/cocodedk/persia-game.git` if you don't have it yet).
 2. Run `python3 -m http.server 8000`. It prints that it is serving on port 8000.
-3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with four level cards, Level 1 to Level 4.
+3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with five level cards, Level 1 to Level 5.
 
 Browsers do not run module scripts from a `file://` address, so double-clicking `index.html` will not work. There are no dependencies, no build step and no network requests while you play.
 
@@ -65,7 +65,7 @@ The design spec and the build plan are in `docs/superpowers/`.
 
 ## Voice clips
 
-There are twenty-nine clips, in `public/audio/`: the eight animal names, the numbers one to twenty, and the word for rain. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
+There are thirty-five clips, in `public/audio/`: the eight animal names, the numbers one to twenty-five, and the words for rain and star. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
 
 `public/audio/manifest.json` records, for every clip, the text it speaks, the voice model and its checksum, the engine version, the reviewer and the clip's own SHA-256 checksum. The script that copied the clips in, `scripts/lift-clips.mjs`, refuses any clip with no reviewer on record.
 
