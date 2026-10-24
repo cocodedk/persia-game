@@ -1,13 +1,17 @@
 // Sound, synthesized with WebAudio: no files (Barrage's approach, grown up). The context is made on
 // the first user gesture (browsers refuse audio before one); until then every sound is skipped.
-//   master -> compressor -> speakers;  sfx bus and music bus -> master;  a shared reverb (a
+//   master -> compressor -> speakers;  sfx, music and voice buses -> master;  a shared reverb (a
 //   generated impulse response) fed by a per-sound send, so big sounds bloom and small ones stay dry.
+// The voice bus carries the pack's spoken clips (voice.js), dry.
 // Each play() builds the sound's own input node: panned by its world x, with the look's flavour
 // (setWorldSound(look) -> sound-data.js kitFor). Bursts are thinned per sound (GAP) and a voice
 // budget drops the small stuff when too much is ringing (cheap on a Pi 4).
 //   unlockAudio()  call from a keydown / pointerdown; toggleMute() (M; saved)
-//   play(name, { x, gain, wet, delay, ... })   names: sfx-*.js   audioNodes() -> { ctx, music } | null (muted)
-//   setBeam(on, x)  the laser power's sustained hum             duck(level)  music under menus
+//   play(name, { x, gain, wet, delay, ... })   names: sfx-*.js
+//   audioNodes() -> { ctx, music, noise, voice } | null (muted)
+//   setBeam(on, x)  the laser power's sustained hum
+//   duck(level)  music under menus;  duckSpeech(level)  music and effects under a spoken line. The
+//   two multiply, so a line ending under the pause menu leaves the music at the menu's level.
 import { store } from './storage.js';
 import { kitFor } from './sound-data.js';
 import { SFX } from './sfx.js';
@@ -18,6 +22,7 @@ let ctx = null;
 let master = null;
 let sfxBus = null;
 let musicBus = null;
+let voiceBus = null;
 let reverb = null;
 let noise = null;
 let muted = store.muted();
@@ -33,6 +38,7 @@ const MUST = new Set(['blast', 'bossDeath', 'phase', 'cleared', 'failed', 'bomb'
   'braam', 'impact', 'riser']);
 const MASTER = 0.85;
 const MUSIC = 0.32; // the loops sit about 10 dB under the effects (offline RMS check)
+const VOICE = 1.2; // the spoken clips, over the fire
 
 function impulse(c, secs, decay) {
   const n = Math.floor(c.sampleRate * secs);
@@ -63,6 +69,9 @@ function build(c) {
   musicBus = c.createGain();
   musicBus.gain.value = MUSIC;
   musicBus.connect(master);
+  voiceBus = c.createGain();
+  voiceBus.gain.value = VOICE;
+  voiceBus.connect(master);
   reverb = c.createConvolver();
   reverb.buffer = impulse(c, 2.2, 3.2);
   const ret = c.createGain();
@@ -99,7 +108,7 @@ globalThis.document?.addEventListener('visibilitychange', () => {
 });
 
 const running = () => ctx && ctx.state === 'running';
-export const audioNodes = () => (running() && !muted ? { ctx, music: musicBus, noise } : null); // muted: no music
+export const audioNodes = () => (running() && !muted ? { ctx, music: musicBus, noise, voice: voiceBus } : null); // muted: none
 export const setWorldSound = (look) => { kit = kitFor(look?.music); };
 
 export function toggleMute() {
@@ -110,9 +119,17 @@ export function toggleMute() {
   return muted;
 }
 
-export function duck(level) {
-  if (musicBus) musicBus.gain.setTargetAtTime(MUSIC * level, ctx.currentTime, 0.15);
+// Down fast so a line lands clear, back up slowly.
+const ducks = { menu: 1, speech: 1 };
+function setDuck(which, level) {
+  const k = level < ducks[which] ? 0.06 : 0.25;
+  ducks[which] = level;
+  if (!ctx) return;
+  musicBus.gain.setTargetAtTime(MUSIC * ducks.menu * ducks.speech, ctx.currentTime, k);
+  sfxBus.gain.setTargetAtTime(ducks.speech, ctx.currentTime, k);
 }
+export const duck = (level) => setDuck('menu', level);
+export const duckSpeech = (level) => setDuck('speech', level);
 
 // The voice a patch plays into: { ctx, t, out, noise, kit }; t is o.delay s from now (a run of chimes).
 function voice(o) {

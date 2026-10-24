@@ -1,8 +1,9 @@
 // What the game loop runs and draws: a scene is a session (session.js) with its view, the source of
 // its inputs and what its events do besides effects.
-//   { mode, level, view, session, source(world), onEvents?(events, input), sound }
-//   mode 'backdrop' (the title's autopilot battle, silent, no HUD) | 'play'
-//   runScene(sc, dt, t, step)   one frame: step it (unless frozen), then draw it
+//   { mode, level, view, session, source(world), onEvents?(events, input), sound, voice? }
+//   mode 'backdrop' (the title's autopilot battle, silent, no HUD, no voice) | 'play'
+//   runScene(sc, dt, t, step)   one frame: step it (unless frozen), then draw it. The voice is
+//   stepped with the scene, so a paused screen holds its lines.
 import { LEVELS } from '../core/levels.js';
 import { autopilot } from '../core/autopilot.js';
 import { createSession, stepSession } from './session.js';
@@ -27,14 +28,15 @@ export function backdropScene(canvas, level) {
 }
 
 // A level played with the keys and the mouse, or flown by `pilot` (?debug&auto).
-export function playScene(canvas, level, input, { pilot = null, onEvent = null } = {}) {
+export function playScene(canvas, level, input, { pilot = null, onEvent = null, voice }) {
   const v = createView(canvas, level);
   const session = createSession(level);
   return {
-    mode: 'play', level, view: v, session, sound: true,
+    mode: 'play', level, view: v, session, sound: true, voice,
     source: pilot ?? (() => readInput(input, v)),
     onEvents(events) {
       eventSounds(events, session.world, play);
+      voice.hear(events);
       if (onEvent) for (const e of events) onEvent(e);
     },
   };
@@ -42,7 +44,10 @@ export function playScene(canvas, level, input, { pilot = null, onEvent = null }
 
 export function runScene(sc, dt, t, step) {
   const { session, view } = sc;
-  if (step) stepSession(session, dt, sc.source, sc.onEvents);
+  if (step) {
+    stepSession(session, dt, sc.source, sc.onEvents);
+    sc.voice?.update(dt);
+  }
   if (sc.mode === 'backdrop' && session.over > BACKDROP_AGAIN) {
     sc.session = createSession(sc.level, seed()); // the same level: no bake
   }

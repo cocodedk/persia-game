@@ -1,7 +1,8 @@
 // Persia: boot, the frame loop and the keys every screen shares. The fixed-step core runs inside
 // the scene's session (ui/session.js: advance with fx.slow, whole TICKs); routing is ui/router.js,
-// the end of a level ui/flow.js. Each frame: step and draw the scene, tick the overlay screen,
-// judge the work for auto quality (R21/R23), feed the music.
+// the end of a level ui/flow.js, the spoken lines and their words ui/voice.js and ui/word-moment.js.
+// Each frame: step and draw the scene, tick the overlay screen, judge the work for auto quality
+// (R21/R23), feed the music.
 import { createInput } from './ui/input.js';
 import { unlockAudio, toggleMute } from './ui/audio.js';
 import { updateMusic } from './ui/music.js';
@@ -11,12 +12,17 @@ import { createRouter } from './ui/router.js';
 import { createFlow } from './ui/flow.js';
 import { runScene } from './ui/scenes.js';
 import { installDebug } from './ui/debug-hooks.js';
+import { createVoice } from './ui/voice.js';
+import { createWordMoment } from './ui/word-moment.js';
+import { PACK } from './data/pack.js';
 
 const canvas = document.getElementById('game');
 const stage = createStage(document.getElementById('ui'));
 const input = createInput(canvas);
 input.onGesture = unlockAudio;
-const router = createRouter({ canvas, stage, input });
+const words = createWordMoment(document.getElementById('words'), canvas, PACK);
+const voice = createVoice(PACK, { show: words.show, hide: words.hide });
+const router = createRouter({ canvas, stage, input, voice });
 const flow = createFlow(router, stage);
 const { app } = router;
 const jump = installDebug(router);

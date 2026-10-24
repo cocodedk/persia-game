@@ -1,0 +1,26 @@
+/* The word moment (word-moment.js): a species' word over the play for 1.35 s, each letter lit in its
+   own colour. The glow is text-shadow in currentColor, so every letter glows its own colour; the dark
+   shadow under it keeps the word clear of the fire. #ui comes after #words, so the stage screens
+   sit above it, and it never takes the pointer. */
+#words { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.word-moment {
+  position: absolute; translate: -50% -50%; margin: 0; white-space: nowrap; line-height: 1.3; opacity: 0;
+  text-shadow: 0 0 0.04em, 0 0 0.2em, 0 0.03em 0.05em rgba(0, 0, 0, 0.9), 0 0 0.5em rgba(0, 0, 0, 0.55);
+}
+.word-moment.show { animation: word-moment 1.35s both; }
+
+/* in by 0.12 s, held to 1.0 s, out by 1.35 s */
+@keyframes word-moment {
+  0% { opacity: 0; scale: 0.86; animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.25); }
+  8.9% { opacity: 1; scale: 1; }
+  74.1% { opacity: 1; animation-timing-function: ease-in; }
+  100% { opacity: 0; }
+}
+@keyframes word-fade {
+  0% { opacity: 0; }
+  8.9%, 74.1% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .word-moment.show { animation-name: word-fade; }
+}

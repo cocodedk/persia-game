@@ -7,7 +7,8 @@
 //   token: counts the routes taken, so a deferred bake can tell its screen was left
 // The end of a level goes through flow.js. r.pilot (debug-hooks.js, ?debug&auto) flies every level.
 // Every route away from a level goes through leave(): the old scene stops stepping at once (the
-// loop only runs app.scene) and the level's own sounds (the laser hum) stop with it.
+// loop only runs app.scene) and the level's own sounds (the laser hum) stop with it, as do its voice
+// lines and its word on screen.
 import { LEVELS } from '../core/levels.js';
 import { LOOK } from './looks/index.js';
 import { play, duck, setBeam } from './audio.js';
@@ -20,7 +21,7 @@ import { pauseScreen } from './screens/pause.js';
 
 const MIN_CARD = 0.9; // s the title card stays, so it reads as a moment, not a flicker
 
-export function createRouter({ canvas, stage, input }) {
+export function createRouter({ canvas, stage, input, voice }) {
   const app = { screen: 'boot', scene: null, backdrop: null, token: 0 };
   const r = { app, pilot: null };
   const live = () => app.screen === 'play';
@@ -31,6 +32,7 @@ export function createRouter({ canvas, stage, input }) {
     app.screen = screen;
     app.scene = null;
     setBeam(false);
+    voice.clear();
     duck(1);
   }
 
@@ -63,7 +65,7 @@ export function createRouter({ canvas, stage, input }) {
     const t0 = performance.now();
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (token !== app.token) return;
-      const scene = playScene(canvas, level, input, { pilot: r.pilot, onEvent: (e) => r.flow.onEvent(app.scene, e) });
+      const scene = playScene(canvas, level, input, { pilot: r.pilot, onEvent: (e) => r.flow.onEvent(app.scene, e), voice });
       setTimeout(() => {
         if (token !== app.token) return;
         app.scene = scene;

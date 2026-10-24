@@ -604,7 +604,7 @@ Invoke `frontend-design:frontend-design` for the overlay.
   - `router.leave()` calls `voice.clear()`.
   - The title backdrop has no voice.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```js
 // test/ui/voice-queue.test.js
@@ -631,18 +631,18 @@ test('a ZWNJ stays inside the letter before it', ...);
 //   cow word + '‌' + dog word -> 5 runs; run 2 is the cow word's last letter followed by '‌'
 ```
 
-- [ ] **Step 2: Run them.** `npm test` should FAIL.
-- [ ] **Step 3: Implement the interfaces above.**
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures, and `wc -l src/ui/audio.js`
+- [x] **Step 2: Run them.** `npm test` should FAIL.
+- [x] **Step 3: Implement the interfaces above.**
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures, and `wc -l src/ui/audio.js`
   should show fewer than 200 lines.
-- [ ] **Step 5: Hear and see it.**
+- [x] **Step 5: Hear and see it.**
   - Play waves 1–3 in the browser.
   - Screenshot a word moment in Chromium and in Firefox (Playwright), and check that the letters are
     joined in both. If either browser breaks the joining across spans, stop and write it under
     Questions.
   - Check by ear that each line is clear over the fire, and tune `VOICE` if it isn't.
   - Press M mid-wave and confirm the words still appear.
-- [ ] **Step 6: Commit.**
+- [x] **Step 6: Commit.**
   `git add -A && git commit -m "feat(ui): speak the waves and species on a voice bus and show the word moment"`
 
 ### Task 8: Cut what level 1 never runs, and keep it cut
