@@ -86,6 +86,7 @@ Things that would make the level a failure even if it runs:
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 | Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
 | Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the score turns to Persian digits everywhere it shows. Decided after playing level 2. | Babak |
+| Level 4 | The Azadi Tower in Tehran at night; waves numbered ۱۶ to ۲۰; a giant bird is the boss; rain falls from wave 18 and the voice says باران as it begins; the combo and the level's number turn to Persian digits. The title's levels become cards side by side, each with a picture of its landmark and its place's name. Decided after playing level 3. | Babak |
 
 ## Level 1 specification
 
@@ -208,6 +209,50 @@ counts such as +1 BOMB.
 
 **Reaching it.** Open like level 2: the title lists Level 3, level 2's results offer Next. Failing
 level 3 retries level 3 from wave 11.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
+## Level 4 specification
+
+Decided with Babak on 2026-10-24, after he played level 3. A level that takes several tries is fine:
+each retry says the numbers and names again.
+
+**Shape.** Five waves and a boss, a step harder than level 3. The waves are 16 to 20.
+
+**Where.** The Azadi Tower in Tehran at night: the white tower on its four legs, the tall split vault
+between them under the pointed arch, the ribbed upper body and its lit top, on a wide plaza with lamps,
+a low lit city behind. The sky, the blood moon, the far mountains, the palette and the music stay the
+world's.
+
+**Enemies.** The eight animals; the bird, the boss's species, fills more rows than before. Wave 17 is
+the escort with the rabbits, as wave 12 in level 3.
+
+**Boss.** A giant bird, face on, wings spread: each wing and the crest of head feathers are its plates,
+the round eyes and the open beak burn, and birds pour from the beak. A rabbit leaves the crest in every
+phase. Its name is said as it arrives, and it lights up while the name is said.
+
+**Rain.** Rain begins with wave 18 and falls to the end of the level, the giant's fight included. As
+it begins the voice says باران (baran) after the wave's number and its species, and the word moment
+shows it, each letter in its own colour, with baran beside it. The rain is thin, slanting streaks
+behind the aliens, the bullets and the ship, so nothing that matters is hidden; it fades in over two
+seconds, follows reduced motion (fewer, slower streaks), and drops out under low quality.
+
+**Spoken set.** Level 3's set, plus six approved clips: `number-16-word` to `number-20-word`
+(شانزده، هفده، هجده، نوزده، بیست, shown as ۱۶ to ۲۰) and `vocabulary-3-baran` (باران), each with
+`reviewedBy: ["cocodedk"]`.
+
+**The third step of the Persian ramp.** The combo (×۸) and the level's own number (LEVEL ۴) turn to
+Persian digits wherever level 4 shows them in play: the HUD, the card as the level begins, the pause
+card, and the victory and shot-down cards. The title menu keeps "Level 4". The wave count and the score
+stay Persian as in level 3.
+
+**The title's levels.** The title's menu becomes a row of cards side by side, one per level, each
+with a small picture of its landmark, its number and the name of its place (Persepolis, Si-o-se-pol,
+Tomb of Hafez, Azadi Tower), in English like the rest of the chrome. The picture is drawn from the
+level's own backdrop, so it always matches what the level shows. Enter plays the first; the arrows move between cards.
+
+**Reaching it.** Open like levels 2 and 3: the title lists Level 4, level 3's results offer Next.
+Failing level 4 retries level 4 from wave 16.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
