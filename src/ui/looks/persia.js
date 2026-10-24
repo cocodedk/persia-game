@@ -1,8 +1,8 @@
 // Persia's night, in pixels: a blood-red moon low over a mountain and, under it, each level's
 // landmark: Persepolis's ruins on their terrace with fire bowls burning, Si-o-se-pol's lit arches
-// over the river, Hafez's pavilion among cypresses, or the Azadi Tower over Tehran. A black ground
-// with an amber line, stars and a CRT's scanlines; brass in a Persian mode. Data only (the shape is
-// described in looks/index.js).
+// over the river, Hafez's pavilion among cypresses, the Azadi Tower over Tehran, or the Tomb of Cyrus
+// floodlit on its plain. A black ground with an amber line, stars and a CRT's scanlines; brass in a
+// Persian mode. Data only (the shape is described in looks/index.js).
 const FAR = { kind: 'mountains', color: '#2c1c48', height: 420, speed: 0.06, roughness: 0.5 };
 const GROUND = { kind: 'ground', color: '#05030a', height: 80, speed: 0.6, roughness: 0, line: '#ffb03a', rim: '#ffb03a', haze: 0 };
 const STONE = { color: '#22123a', lit: '#74365e', rim: '#9a4a6a', ink: '#150a20', speed: 0.22 }; // the landmarks' stone
@@ -19,6 +19,8 @@ export default {
       fruit: '#ff8a2a', dome: '#24404a', rib: '#4a7a7a', tile: '#1e6a7a', tomb: '#d8c8b8' }, GROUND],
     azadi: [{ ...FAR, height: 500 }, { kind: 'azadi', ...STONE, height: 560, glow: '#c8782a', lamp: '#ffd36a',
       tower: '#6e6488', towerLit: '#b4aac8' }, GROUND],
+    pasargadae: [{ ...FAR, height: 440 }, { kind: 'pasargadae', ...STONE, height: 600, glow: '#c8782a', lamp: '#ffd36a',
+      stone: '#e8d2a8', haze: 0.08 }, GROUND],
   },
   ambient: [
     { kind: 'twinkle', phase: 'sky', n: 60, colors: ['#ffffff', '#ffe0b8', '#c8b8ff'], alpha: 1 },

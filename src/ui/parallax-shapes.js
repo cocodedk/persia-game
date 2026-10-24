@@ -7,6 +7,7 @@ import { persepolis } from './landmarks/persepolis.js';
 import { siosepol } from './landmarks/siosepol.js';
 import { hafez } from './landmarks/hafez.js';
 import { azadi } from './landmarks/azadi.js';
+import { pasargadae } from './landmarks/pasargadae.js';
 
 // A flat floor whose top is one glowing line.
 function ground(g, w, h, rng, L, lights) {
@@ -23,6 +24,7 @@ const PAINTERS = {
   siosepol,
   hafez,
   azadi,
+  pasargadae,
 };
 
 export function paintLayer(g, w, h, rng, L, lights) {
