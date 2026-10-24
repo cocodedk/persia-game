@@ -18,7 +18,7 @@ const w = (formation, cols, rows, pattern, speed) =>
   ({ formation, cols, species: [...rows].map((c) => LETTER[c]), pattern, speed });
 
 export const LEVEL = {
-  id: 'level-1', name: 'Level 1', seed: 10417, d: 0.1, boss: 'giant',
+  id: 'level-1', name: 'Level 1', seed: 10417, d: 0.1, boss: 'giant', landmark: 'persepolis',
   waves: [
     w('grid', 10, 'ddd', 'aimed', 0.9), // 1: a pack of dogs marches in
     w('escort', 3, 'oro', 'aimed', 0.95), // 2: cows guard the rabbits: the first power-ups

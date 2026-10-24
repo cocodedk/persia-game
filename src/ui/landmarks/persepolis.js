@@ -6,33 +6,13 @@
 // their tones are persepolis-art.js; the layer brings L.lit, L.ink, L.fire and L.flame. Positions
 // are blocks on the 560-block band (the frame plus parallax.js's margins), the frame's middle at 280.
 import { PIXEL, mix } from '../sprites.js';
+import { blocks } from './kit.js';
 import { LAMASSU, CAPITAL, MERLON, FIRE, FIGURE, CYPRESS } from './persepolis-art.js';
 
 export function persepolis(g, w, h, rng, L, lights) {
   const tone = { '#': L.color, '+': L.lit, '-': L.ink, '=': mix(L.color, L.ink, 0.45), f: L.fire, y: L.flame };
-  const box = (x, y, bw, bh, c = '#') => {
-    g.fillStyle = tone[c];
-    g.fillRect(x, y, bw, bh);
-  };
-  // A post is lit down its left edge and shadowed down its right; a slab is lit along its top.
-  const post = (x, y, pw, ph) => {
-    box(x, y, pw, ph);
-    box(x, y, 1, ph, '+');
-    box(x + pw - 1, y, 1, ph, '-');
-  };
-  const slab = (x, y, sw, sh, c = '#') => {
-    box(x, y, sw, sh, c);
-    box(x, y, sw, 1, '+');
-  };
-  const stamp = (rows, x, y, flip = false) => rows.forEach((row, j) => {
-    for (let i = 0; i < row.length; i++) {
-      const c = row[flip ? row.length - 1 - i : i];
-      if (c !== '.') box(x + i, y + j, 1, 1, c);
-    }
-  });
-  const clear = (x, y, cw, ch) => g.clearRect(x, y, cw, ch);
   // T: the terrace top, 35 blocks above the band's foot, so the ground layer's floor hides its lowest 14.
-  const art = { box, post, slab, stamp, clear, rng, T: h / PIXEL - 35, BW: w / PIXEL, H: h / PIXEL };
+  const art = { ...blocks(g, tone), rng, T: h / PIXEL - 35, BW: w / PIXEL, H: h / PIXEL };
   g.save();
   g.scale(PIXEL, PIXEL);
   gate(art);

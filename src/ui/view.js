@@ -33,7 +33,7 @@ export function createView(canvas, level) {
   warmBoss(look, level.boss);
   return {
     canvas, ctx: canvas.getContext('2d'), level, look,
-    sky: buildSky(look), layers: buildLayers(look, level.seed ?? 1),
+    sky: buildSky(look), layers: buildLayers(look, look.landmarks[level.landmark], level.seed ?? 1),
     quality: createQuality(), hud: { lag: null }, showHud: true, named: null,
     fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 },
   };

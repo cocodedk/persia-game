@@ -4,6 +4,7 @@
 // ({ x, y, r, color, ph, a }), in px.
 import { profile, ridgeTop } from './parallax-kit.js';
 import { persepolis } from './landmarks/persepolis.js';
+import { siosepol } from './landmarks/siosepol.js';
 
 // A flat floor whose top is one glowing line.
 function ground(g, w, h, rng, L, lights) {
@@ -17,6 +18,7 @@ const PAINTERS = {
   mountains: (g, w, h, rng, L) => profile(g, w, h, ridgeTop(rng, w, h, L.roughness)),
   ground,
   persepolis,
+  siosepol,
 };
 
 export function paintLayer(g, w, h, rng, L, lights) {
