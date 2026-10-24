@@ -63,7 +63,7 @@ export function partBodies(ctx, b, B, look, t) {
     const img = p.cracked ? exposed(set, look.palette.boss.weak).body : stage ? cracked(set, stage) : set.body;
     ctx.drawImage(img, x, y);
     if (t >= m.hit && t - m.hit < FLASH) {
-      ctx.globalAlpha = p.armor ? 0.3 : 0.55; // a nudge, not a blackout: the autopilot never stops firing
+      ctx.globalAlpha = p.weak ? 0.55 : 0.3; // a nudge, not a blackout: the autopilot never stops firing
       ctx.drawImage(set.flash, x, y);
       ctx.globalAlpha = 1;
     }

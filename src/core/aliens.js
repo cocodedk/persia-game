@@ -8,7 +8,7 @@ import { emit } from './util.js';
 
 // A wave of aliens: spawn, fly in, hold the formation, swoop, shoot back.
 //   alien = { id, role, species, x, y, hp, maxHp, slot, mode, t, dive }
-//   species the animal it is drawn as and named by (SPECIES), or null in a wave without species
+//   species the animal it is drawn as and named by (SPECIES); role is the one SPECIES gives it
 //   maxHp the hp of the alien whole, set once where it is made (here and for boss minions) so
 //         nothing downstream has to work it out again
 //   mode 'enter' (ENTER_TIME s, the same for the whole wave) -> 'hold' -> 'dive' (first half of a

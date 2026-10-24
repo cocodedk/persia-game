@@ -137,8 +137,8 @@ test('every event carries the tick it happened on', () => {
 
 // A busy, ship-proof run on a level with lasers and divers, driven by random keys and mouse.
 const LASERS = level([
-  wave({ formation: 'dive', rows: 3, cols: 10, roles: ['diver', 'gunner', 'diver'], pattern: 'fan', speed: 1.1 }),
-  wave({ formation: 'sway', rows: 3, cols: 6, roles: ['grunt', 'armored', 'grunt'], pattern: 'laser', speed: 1.05 }),
+  wave({ formation: 'dive', cols: 10, roles: ['diver', 'gunner', 'diver'], pattern: 'fan', speed: 1.1 }),
+  wave({ formation: 'sway', cols: 6, roles: ['grunt', 'armored', 'grunt'], pattern: 'laser', speed: 1.05 }),
 ], 12 / 39, { seed: 31057 });
 
 function run(seed, n) {

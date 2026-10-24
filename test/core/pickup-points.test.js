@@ -9,11 +9,11 @@ import { bossWorld, leave } from './boss-kit.js';
 // still in the air (a `sweep` event: worth its points, too late for its power or bomb) before
 // `cleared` is sent.
 
-const one = () => playing(level([wave({ rows: 1, cols: 1 })]));
+const one = () => playing(level([wave({ cols: 1 })]));
 const types = (ev) => ev.map((e) => e.type);
 
 test('a caught pickup scores a flat 500: no combo multiplier, the combo untouched', () => {
-  const w = playing(level([wave({ rows: 1, cols: 3 })]));
+  const w = playing(level([wave({ cols: 3 })]));
   w.combo.mult = 5;
   w.combo.timer = 1.4;
   for (const kind of ['spread', 'bomb']) {
@@ -92,7 +92,7 @@ test('the clear and the ship\'s last life on one tick: cleared wins, and the pic
 });
 
 test('a carrier killed on the clear tick drops its pickup, and the sweep takes it at once', () => {
-  const w = playing(level([wave({ rows: 1, cols: 1, roles: ['carrier'] })]));
+  const w = playing(level([wave({ cols: 1, roles: ['carrier'] })]));
   const [carrier] = w.aliens;
   shotAt(w, carrier);
   const before = w.score;

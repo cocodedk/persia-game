@@ -12,7 +12,7 @@ import { level, wave } from './world-kit.js';
 // rings and fans all at once.
 const ROLE = { g: 'grunt', d: 'diver', u: 'gunner', a: 'armored', c: 'carrier' };
 const w = (formation, cols, roles, pattern, speed) =>
-  wave({ formation, rows: roles.length, cols, roles: [...roles].map((c) => ROLE[c]), pattern, speed });
+  wave({ formation, cols, roles: [...roles].map((c) => ROLE[c]), pattern, speed });
 const BUSY = level([
   w('sway', 8, 'dg', 'ring', 1.15),
   w('spiral', 6, 'gaag', 'ring', 1.2),

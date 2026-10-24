@@ -31,7 +31,7 @@ test('failed shows the wave or the giant\'s hp', () => {
     { retry() {}, title() {} }).el;
   const progress = (world) => texts(failed(world), (e) => e.className === 'result-best');
   assert.deepEqual(progress({ wave: 3 }), ['Wave 3 of 5']);
-  assert.deepEqual(progress({ wave: 5, boss: { hp: 96, maxHp: 240 } }), ['The giant held at 40 %']);
+  assert.deepEqual(progress({ wave: 5, boss: { kind: 'giant', hp: 96, maxHp: 240 } }), ['The giant held at 40 %']);
   const el = failed({ wave: 1 });
   assert.deepEqual(texts(el, (e) => e.className === 'banner-title'), ['Shot down']);
   assert.deepEqual(texts(el, (e) => e.tag === 'button'), ['Retry', 'Title']);

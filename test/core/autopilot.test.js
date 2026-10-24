@@ -8,7 +8,7 @@ import { level, wave, playing, step, seconds, bulletAt, pickupAt, IDLE } from '.
 import { bossWorld, realLevel } from './boss-kit.js';
 import { oneShot, landed } from './autopilot-kit.js';
 
-const oneAlien = (o) => playing(level([wave({ rows: 1, cols: 1, ...o })]));
+const oneAlien = (o) => playing(level([wave({ cols: 1, ...o })]));
 
 test('it answers in the shape of a human input: keys in -1..1, booleans, an integer pointer target', () => {
   const world = playing(level([wave({ cols: 5 })]));
@@ -44,7 +44,7 @@ test('a finished world gets an idle input, and the intro already gets a flight p
   assert.deepEqual(autopilot(world), { dx: 0, dy: 0, fire: false, bomb: false, target: null });
   world.state = 'failed';
   assert.equal(autopilot(world).target, null);
-  const fresh = createWorld(level([wave({ rows: 1, cols: 1 })]));
+  const fresh = createWorld(level([wave({ cols: 1 })]));
   assert.equal(fresh.state, 'intro');
   assert.ok(autopilot(fresh).target);
 });

@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { SPECIES } from '../../src/core/kinds.js';
 import { makeSlots, slotPosition, entryPosition, marchRate, MOTION } from '../../src/core/formations.js';
 import { wave, SHAPES, CTXS, ONE } from './wave-shapes.js';
 
@@ -12,14 +13,15 @@ test('makeSlots lays out rows x cols slots, row by row, each with its row role',
   slots.forEach((s, i) => {
     assert.equal(s.row, Math.floor(i / 6));
     assert.equal(s.col, i % 6);
-    assert.equal(s.role, w.roles[s.row]);
+    assert.equal(s.species, w.species[s.row]);
+    assert.equal(s.role, SPECIES[s.species]);
   });
 });
 
 test('slots sit in the top area and are centred on the screen, for every wave shape', () => {
   for (const [key, w] of SHAPES) {
     const slots = makeSlots(w);
-    assert.equal(slots.length, w.rows * w.cols, key);
+    assert.equal(slots.length, w.species.length * w.cols, key);
     for (const s of slots) {
       assert.ok(s.sx >= 160 && s.sx <= 1760, `${key} sx ${s.sx}`);
       assert.ok(s.sy >= 120 && s.sy <= 520, `${key} sy ${s.sy}`);

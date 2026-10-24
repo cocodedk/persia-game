@@ -6,7 +6,7 @@ import {
   level, wave, step, seconds, playing, drain, ofType, shotAt, bulletAt, bulletOnShip,
 } from './world-kit.js';
 
-const lv = (roles, d = 0, cols = 3) => level([wave({ rows: roles.length, cols, roles })], d);
+const lv = (roles, d = 0, cols = 3) => level([wave({ cols, roles })], d);
 
 test('a shot kills a 1-hp grunt and is spent', () => {
   const w = playing(lv(['grunt'], 0, 4));
@@ -43,7 +43,7 @@ const fastShotAt = (w, a) =>
   w.shots.push({ pattern: 'shot', x: a.x, y: a.y + 40, vx: 0, vy: -6000, r: 5, life: 1, dmg: 1 });
 
 test('a shot meets the nearest alien on its way, not the first in the list', () => {
-  const w = playing(level([wave({ rows: 2, cols: 1, roles: ['grunt', 'grunt'] })]));
+  const w = playing(level([wave({ cols: 1, roles: ['grunt', 'grunt'] })]));
   const [top, low] = w.aliens;
   fastShotAt(w, low);
   step(w);

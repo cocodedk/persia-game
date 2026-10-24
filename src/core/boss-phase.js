@@ -31,16 +31,15 @@ function die(world, b) {
   emit(world, 'bossDeath', { kind: b.kind, x: b.x, y: b.y, score: BOSS_SCORE });
 }
 
-// When no weak point is left alive the plates crack open: every live armor part becomes weak (and
-// is no longer armor), so a fight never turns into a grind at 25 % with nothing to aim at. One
+// When no weak point is left alive the plates crack open: every live armor part (one that is not
+// weak) becomes weak, so a fight never turns into a grind at 25 % with nothing to aim at. One
 // bossExpose per occurrence names the parts.
 function crack(world, b) {
   if (b.parts.some((p) => p.hp > 0 && p.weak)) return;
-  const plates = b.parts.filter((p) => p.hp > 0 && p.armor);
+  const plates = b.parts.filter((p) => p.hp > 0 && !p.weak);
   if (!plates.length) return;
   for (const p of plates) {
     p.weak = true;
-    p.armor = false;
     p.cracked = true;
   }
   emit(world, 'bossExpose', { kind: b.kind, parts: plates.map((p) => p.id), x: b.x, y: b.y });

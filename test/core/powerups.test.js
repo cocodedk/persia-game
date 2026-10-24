@@ -7,7 +7,7 @@ import {
   FIRE, level, wave, input, step, seconds, playing, drain, ofType, shotAt, bulletOnShip, pickupAt, pickupOnShip,
 } from './world-kit.js';
 
-const lv = (roles = ['grunt']) => level([wave({ rows: roles.length, cols: 3, roles })]);
+const lv = (roles = ['grunt']) => level([wave({ cols: 3, roles })]);
 
 test('a carrier that dies drops a pickup: radius 22, falling at 160 px/s, where it died', () => {
   const w = playing(lv(['carrier']));

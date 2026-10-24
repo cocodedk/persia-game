@@ -11,7 +11,7 @@ import { bossLevel, leave } from './boss-kit.js';
 const ROWS = ['grunt', 'diver', 'gunner', 'armored', 'carrier'];
 
 test('a wave alien is made at its maxHp, the armour bonus of a hard level included', () => {
-  const w = playing(level([wave({ roles: ROWS, rows: 5, cols: 2 })], 1));
+  const w = playing(level([wave({ roles: ROWS, cols: 2 })], 1));
   assert.ok(w.scale.armorBonus > 0, 'd = 1 has an armour bonus');
   assert.equal(w.aliens.length, 10);
   for (const a of w.aliens) assert.equal(a.maxHp, a.hp, a.role);

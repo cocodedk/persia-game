@@ -6,7 +6,7 @@ import {
 } from './world-kit.js';
 
 const BOMB = input({ bomb: true });
-const lv = (roles, extra) => level([wave({ rows: roles.length, cols: 3, roles })], 0, extra);
+const lv = (roles, extra) => level([wave({ cols: 3, roles })], 0, extra);
 
 // The laser's column is 26 px wide: an alien (radius 26) is hit within 13 + 26 = 39 px of the ship.
 function beamWorld(offset) {

@@ -1,5 +1,5 @@
 import { clamp, TAU, smooth } from './math.js';
-import { HUD_BOTTOM, ALIEN_R, MID_X } from './kinds.js';
+import { HUD_BOTTOM, ALIEN_R, MID_X, SPECIES } from './kinds.js';
 
 // Where aliens hold, as pure functions of time. Every formation moves a slot around its home
 // (sx, sy) by an offset that is exactly zero at t = 0, so the entry (formations-2.js) joins the hold
@@ -39,19 +39,20 @@ const GRID_SLIDE = 24; // px of sideways travel a drop is spread over, so it sli
 const FLOOR = 560;
 const MAX_DROP = FLOOR - (TOP + SPAN_Y);
 
-// Home positions, row by row, centred; `roles` gives each row its role and `species` its animal (null
-// for a wave without species). The top row sits at TOP, or lower for a formation that lifts its
-// aliens (REACH), so that none rises above HUD_CLEAR.
+// Home positions, row by row, centred; `species` gives each row its animal, and the animal its role
+// (SPECIES). The top row sits at TOP, or lower for a formation that lifts its aliens (REACH), so that
+// none rises above HUD_CLEAR.
 export function makeSlots(wave) {
-  const { rows, cols, roles } = wave;
+  const { cols, species } = wave;
+  const rows = species.length;
   const gx = cols > 1 ? Math.min(COL_GAP, (2 * HALF_MAX) / (cols - 1)) : 0;
   const gy = rows > 1 ? Math.min(ROW_GAP, SPAN_Y / (rows - 1)) : 0;
   const top = Math.max(TOP, HUD_CLEAR + REACH[wave.formation]);
   const slots = [];
   for (let row = 0; row < rows; row++) {
-    const species = wave.species?.[row] ?? null;
     for (let col = 0; col < cols; col++) {
-      slots.push({ row, col, role: roles[row], species, sx: MID_X + (col - (cols - 1) / 2) * gx, sy: top + row * gy });
+      const sx = MID_X + (col - (cols - 1) / 2) * gx;
+      slots.push({ row, col, role: SPECIES[species[row]], species: species[row], sx, sy: top + row * gy });
     }
   }
   return slots;

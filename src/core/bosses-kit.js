@@ -3,8 +3,8 @@ import { SPECIES } from './kinds.js';
 // The shorthands the boss definitions are written in. A definition is plain data:
 //   { kind, name, species, y, size: { w, h }, parts, phases, maxHp, bottom }
 //   species the animal it is a giant of (SPECIES), named when it arrives
-//   part  = { id, dx, dy, w, h, hp, weak, armor }  (dx, dy: centre offset from the boss's centre)
-//     weak  takes full damage; armor takes 25 % (every part is one or the other)
+//   part  = { id, dx, dy, w, h, hp, weak }  (dx, dy: centre offset from the boss's centre)
+//     weak  takes full damage; a part that is not weak is armor and takes 25 %
 //   phase = { until, move, attacks, rate?, minions? }
 //     until   the hp fraction at which this phase ends (the last is 0)
 //     move    a boss move (boss-move.js MOVES); rate scales the pace (default 1)
@@ -15,10 +15,10 @@ import { SPECIES } from './kinds.js';
 //             ship, each fighting as its species' role
 //   y is the boss's resting centre; bottom the lowest edge of any part below that centre.
 
-const part = (weak, armor) => (id, dx, dy, w, h, hp) => ({ id, dx, dy, w, h, hp, weak, armor });
+const part = (weak) => (id, dx, dy, w, h, hp) => ({ id, dx, dy, w, h, hp, weak });
 
-export const weak = part(true, false);
-export const armor = part(false, true);
+export const weak = part(true);
+export const armor = part(false);
 
 export const atk = (pattern, every, from, p = {}) => ({ pattern, every, from, p });
 export const minion = (species, count, every, from) => ({ species, role: SPECIES[species], count, every, from });

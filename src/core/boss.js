@@ -7,7 +7,7 @@ import { emit } from './util.js';
 
 // A boss fight. world.boss holds only data (the static layout is looked up by kind in bossDef):
 //   { kind, x, y, hp, maxHp, phase, parts, clock, enter, dying, blast, cd, mcd, warns }
-//   parts[] = { id, dx, dy, w, h, hp, max, weak, armor, cracked, x, y, part: true, burn }
+//   parts[] = { id, dx, dy, w, h, hp, max, weak, cracked, x, y, part: true, burn }
 //     (x, y is the part's absolute centre, kept current every tick; cracked marks a plate that
 //     became weak because no weak point was left: boss-phase.js)
 //   clock the boss's own movement clock; enter seconds of flying in left (0 = fighting);

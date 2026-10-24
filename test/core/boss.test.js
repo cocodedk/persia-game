@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createWorld } from '../../src/core/world.js';
 import { hurtPart } from '../../src/core/boss-hit.js';
 import { BOSS_DEFS, bossDef } from '../../src/core/bosses-data.js';
-import { step, seconds, drain, ofType } from './world-kit.js';
+import { step, seconds, drain, ofType, shotFrom } from './world-kit.js';
 import { bossLevel, bossWorld, part, shotOn, leave } from './boss-kit.js';
 
 test('every boss level spawns its boss: parts copied from the definition, hp the sum of the parts', () => {
@@ -28,7 +28,7 @@ test('the boss flies in during the intro and cannot be hurt until it has arrived
   assert.equal(w.state, 'play');
   assert.ok(w.boss.y > top, 'it descends');
   assert.ok(w.boss.enter > 0);
-  w.shots.push({ pattern: 'shot', x: mouth.x, y: mouth.y + 5, vx: 0, vy: -1400, r: 5, life: 1, dmg: 1 });
+  shotFrom(w, mouth.x, mouth.y + 5);
   step(w);
   assert.equal(mouth.hp, hp);
   seconds(w, 1);
@@ -51,12 +51,12 @@ test('a weak part takes full damage and an armour plate 25 %', () => {
 test('a shot is spent on the first part it meets: the mouth shields the brow, which is open once the mouth is gone', () => {
   const w = bossWorld('giant');
   const [mouth, brow] = ['mouth', 'brow'].map((id) => part(w, id));
-  w.shots.push({ pattern: 'shot', x: brow.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
+  shotFrom(w, brow.x, 700, 2);
   seconds(w, 0.5);
   assert.equal(brow.hp, brow.max, 'the brow sits right behind the mouth');
   assert.equal(mouth.hp, mouth.max - 1, 'the mouth hangs lowest in that column');
   mouth.hp = 0;
-  w.shots.push({ pattern: 'shot', x: brow.x, y: 700, vx: 0, vy: -1400, r: 5, life: 2, dmg: 1 });
+  shotFrom(w, brow.x, 700, 2);
   seconds(w, 0.5);
   assert.equal(brow.hp, brow.max - 0.25, 'with the mouth gone the brow takes the shot');
 });
@@ -73,7 +73,7 @@ test('when the last weak part falls the plates crack open: bossExpose once, and 
   assert.deepEqual([ev[0].kind, typeof ev[0].x, typeof ev[0].y], ['giant', 'number', 'number']);
   for (const id of ['brow', 'pawL', 'pawR']) {
     const p = part(w, id);
-    assert.deepEqual([p.weak, p.armor, p.cracked], [true, false, true], id);
+    assert.deepEqual([p.weak, p.cracked], [true, true], id);
   }
   const paw = part(w, 'pawL');
   const hp = paw.hp;

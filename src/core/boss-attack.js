@@ -8,7 +8,7 @@ import { emit, prune } from './util.js';
 // What a boss throws. An attack is a countdown per phase entry; when it runs out the part warns
 // (bossWarn, and an entry in b.warns for the renderer to draw as a charge-up), WARN s later it
 // fires, and the countdown restarts. A part destroyed in between never fires. A quiet world
-// (scale.fireMult 0) neither attacks nor launches minions.
+// (scale.fireMult 0) does not attack.
 
 export const WARN = 0.7; // s between the warning and the bullets; the rule is at least 0.6
 const MINION_CAP = 8;
@@ -73,7 +73,6 @@ function launch(world, b, m) {
 
 // Each minion group of the phase launches when its countdown runs out. Minions never shoot.
 export function stepMinions(world, b, def, dt) {
-  if (world.scale.fireMult <= 0) return;
   const list = def.phases[b.phase].minions ?? [];
   list.forEach((m, i) => {
     b.mcd[i] -= dt;

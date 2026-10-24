@@ -1,7 +1,7 @@
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
 import { LEVEL } from '../../src/core/levels.js';
-import { level, playing, input, step, TICK } from './world-kit.js';
+import { level, playing, input, step, shotFrom, TICK } from './world-kit.js';
 
 // Shared by the boss tests: a boss level (no waves, so the boss is there from the start), a quiet
 // world past the boss's entrance, a shot dropped just under a part, and the simple bot that every
@@ -19,8 +19,7 @@ export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
 export const realLevel = (kind) => bossLevel(kind, LEVEL.d, { seed: LEVEL.seed });
 
 // A ship shot 8 px under the part's lower edge, flying straight up.
-export const shotOn = (world, p) =>
-  world.shots.push({ pattern: 'shot', x: p.x, y: p.y + p.h / 2 + 8, vx: 0, vy: -1400, r: 5, life: 1, dmg: 1 });
+export const shotOn = (world, p) => shotFrom(world, p.x, p.y + p.h / 2 + 8);
 
 // Kill every part but the named ones, which are left with `hp`.
 export function leave(world, ids, hp = 1) {

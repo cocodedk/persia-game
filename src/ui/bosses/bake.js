@@ -88,7 +88,7 @@ export function warmBoss(look, kind) {
     const set = B.parts[p.id];
     cracked(set, 1);
     cracked(set, 2);
-    if (p.armor) exposed(set, look.palette.boss.weak); // a plate cracks open once no weak part is left
+    if (!p.weak) exposed(set, look.palette.boss.weak); // a plate cracks open once no weak part is left
     wreck(set);
   }
   hullFlash(B);

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { SLOW_TIME, SLOW_COOL, enemyDt } from '../../src/core/bullet-time.js';
-import { TICK, level, wave, step, seconds, playing, drain, ofType, bulletAt } from './world-kit.js';
+import { TICK, level, wave, step, seconds, playing, drain, ofType, bulletAt, shotFrom } from './world-kit.js';
 
 // A quiet world whose formation sways, so its clock shows how fast the aliens move.
 const swaying = () => playing(level([wave({ formation: 'sway', cols: 3 })]));
@@ -34,8 +34,7 @@ test('enemies move at the slowed enemyDt, and the ship\'s own shots do not', () 
   seconds(w, 1);
   assert.ok(Math.abs(bullet.y - 150) < 1, `a bullet moved ${bullet.y - 100} px in 1 s of bullet time`);
   assert.ok(Math.abs((w.march.clock - c0) - normal / 2) < 0.03, 'the formation at half speed');
-  const shot = { pattern: 'shot', x: 100, y: 900, vx: 0, vy: -1400, r: 5, life: 1, dmg: 1 };
-  w.shots.push(shot);
+  const shot = shotFrom(w, 100, 900);
   step(w);
   assert.ok(Math.abs(900 - shot.y - 1400 / 60) < 1e-9, 'the ship\'s own shots are not slowed');
 });

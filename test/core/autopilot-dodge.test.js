@@ -10,7 +10,7 @@ import { level, wave, playing, step, bulletAt } from './world-kit.js';
 // scene): the autopilot stands under it, at a spot N it keeps while nothing threatens it. The
 // scenes aim at N.
 function hover() {
-  const world = playing(level([wave({ rows: 1, cols: 1, formation: 'spiral', speed: 0.001 })]));
+  const world = playing(level([wave({ cols: 1, formation: 'spiral', speed: 0.001 })]));
   world.aliens[0].hp = 99;
   return world;
 }
@@ -41,7 +41,7 @@ test('it steps out of the way of a falling bullet, a wall of three, and a laser'
 
 test('it gets out of the way of a diver that is coming down on it', () => {
   const swooper = () => {
-    const w = playing(level([wave({ rows: 1, cols: 1, formation: 'dive', roles: ['diver'] })]));
+    const w = playing(level([wave({ cols: 1, formation: 'dive', roles: ['diver'] })]));
     const a = w.aliens[0];
     a.hp = 99; // it must be dodged, not shot down
     Object.assign(a, { mode: 'dive', t: 0, dive: { fx: a.x, fy: a.y, ax: w.ship.x, ay: w.ship.y } });

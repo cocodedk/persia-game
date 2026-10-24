@@ -59,13 +59,13 @@ test('a destroyed part stops attacking, and an attack in its telegraph is cancel
   assert.equal(w.events.filter((e) => e.type === 'fire' && e.id === 'eyeL').length, 0);
 });
 
-test('a quiet world (fireMult 0) never attacks and never spawns minions', () => {
+test('a quiet world (fireMult 0) never attacks', () => {
   const w = bossWorld('giant');
   leave(w, ['mouth'], 3);
   seconds(w, 30);
   const ev = drain(w);
   assert.equal(ofType(ev, 'bossWarn').length, 0);
-  assert.equal(w.aliens.length, 0);
+  assert.equal(ofType(ev, 'fire').length, 0);
 });
 
 test('later phases bring minions that fly at the ship, and a carrier among them drops a power-up', () => {

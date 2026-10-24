@@ -8,7 +8,7 @@ import { level, wave, step, seconds, playing, drain, ofType, shotAt } from './wo
 const mixed = ['grunt', 'diver', 'gunner', 'armored', 'carrier'];
 
 test('a wave spawns on creation: one alien per slot, entering, with its role hp', () => {
-  const w = createWorld(level([wave({ rows: 5, cols: 4, roles: mixed })]), 1);
+  const w = createWorld(level([wave({ cols: 4, roles: mixed })]), 1);
   assert.equal(w.aliens.length, 20);
   assert.equal(w.wave, 1);
   assert.equal(new Set(w.aliens.map((a) => a.id)).size, 20, 'ids are unique');
@@ -23,7 +23,7 @@ test('a wave spawns on creation: one alien per slot, entering, with its role hp'
 
 test('armorBonus adds hp to armored and gunner aliens only, past d = 0.6', () => {
   const hp = (d) => {
-    const w = createWorld(level([wave({ rows: 5, cols: 1, roles: mixed })], d), 1);
+    const w = createWorld(level([wave({ cols: 1, roles: mixed })], d), 1);
     return Object.fromEntries(w.aliens.map((a) => [a.role, a.hp]));
   };
   assert.deepEqual(hp(0.6), { grunt: 1, diver: 1, gunner: 2, armored: 3, carrier: 1 });
@@ -44,7 +44,7 @@ test('entry lasts 1.5 s, then every alien holds on its slot', () => {
 
 test('entry hands over to hold without a jump, for every formation', () => {
   for (const f of Object.keys(MOTION)) {
-    const w = createWorld(level([wave({ formation: f, rows: 2, cols: 5, roles: ['grunt', 'carrier'] })]), 1);
+    const w = createWorld(level([wave({ formation: f, cols: 5, roles: ['grunt', 'carrier'] })]), 1);
     step(w, 80);
     let prev = w.aliens.map((a) => ({ x: a.x, y: a.y }));
     let worst = 0;
@@ -60,7 +60,7 @@ test('entry hands over to hold without a jump, for every formation', () => {
 });
 
 test('killing aliens never makes the grid jump, it only marches faster', () => {
-  const w = playing(level([wave({ rows: 3, cols: 8, roles: ['grunt', 'grunt', 'grunt'] })]));
+  const w = playing(level([wave({ cols: 8, roles: ['grunt', 'grunt', 'grunt'] })]));
   let prev = new Map(w.aliens.map((a) => [a.id, { x: a.x, y: a.y }]));
   let worst = 0;
   for (let i = 0; i < 60 * 40 && w.aliens.length > 1; i++) {
@@ -138,7 +138,7 @@ test('firing rate is ROLES[role].fire * fireMult per alien, with the wave patter
 });
 
 test('carriers never fire, and aliens that are still entering do not fire either', () => {
-  const w = createWorld(level([wave({ rows: 2, cols: 6, roles: ['gunner', 'carrier'] })], 1), 1);
+  const w = createWorld(level([wave({ cols: 6, roles: ['gunner', 'carrier'] })], 1), 1);
   w.scale.fireMult = 1000;
   w.ship.invuln = 1e9;
   seconds(w, 1.4);

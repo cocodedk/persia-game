@@ -10,10 +10,11 @@ export { TICK, IDLE };
 export const input = (o) => ({ ...IDLE, ...o });
 export const FIRE = input({ fire: true });
 
-// A wave given `species` (one per row) takes its rows and roles from them, as levels.js's w() does.
-export function wave(o = {}) {
-  const animals = o.species ? { rows: o.species.length, roles: o.species.map((s) => SPECIES[s]) } : {};
-  return { formation: 'grid', rows: 1, cols: 3, roles: ['grunt'], pattern: 'aimed', speed: 1, ...animals, ...o };
+// A wave of animals, one `species` per row, top row first (one row of dogs by default). `roles` is a
+// shorthand for a test about a role: each row is the first animal that fights as that role.
+const animalOf = (role) => Object.keys(SPECIES).find((s) => SPECIES[s] === role);
+export function wave({ roles = ['grunt'], ...o } = {}) {
+  return { formation: 'grid', cols: 3, species: roles.map(animalOf), pattern: 'aimed', speed: 1, ...o };
 }
 export const level = (waves, d = 0, extra = {}) => ({ id: 't-1', seed: 1, d, waves, ...extra });
 
@@ -35,9 +36,14 @@ export function playing(lv, { seed = 1, quiet = true } = {}) {
 export const drain = (world) => world.events.splice(0);
 export const ofType = (events, type) => events.filter((e) => e.type === type);
 
-// A ship shot placed on an alien, and an enemy bullet placed anywhere.
-export const shotAt = (world, a) =>
-  world.shots.push({ pattern: 'shot', x: a.x, y: a.y + 8, vx: 0, vy: -1400, r: 5, life: 1, dmg: 1 });
+// A ship shot placed at (x, y) flying straight up (and returned), a ship shot placed on an alien, and
+// an enemy bullet placed anywhere.
+export function shotFrom(world, x, y, life = 1) {
+  const shot = { pattern: 'shot', x, y, vx: 0, vy: -1400, r: 5, life, dmg: 1 };
+  world.shots.push(shot);
+  return shot;
+}
+export const shotAt = (world, a) => shotFrom(world, a.x, a.y + 8);
 export const bulletAt = (world, x, y, vx = 0, vy = 0, r = 8) =>
   world.bullets.push({ pattern: 'aimed', x, y, vx, vy, r, life: 6 });
 export const bulletOnShip = (world) => bulletAt(world, world.ship.x, world.ship.y);

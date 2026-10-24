@@ -4,7 +4,7 @@ import { ROLES } from '../../src/core/kinds.js';
 import { stars } from '../../src/core/scoring.js';
 import { level, wave, step, seconds, playing, drain, ofType, shotAt } from './world-kit.js';
 
-const crowd = (roles, cols) => playing(level([wave({ rows: roles.length, cols, roles })]));
+const crowd = (roles, cols) => playing(level([wave({ cols, roles })]));
 
 function kill(w, a, times = 1) {
   for (let i = 0; i < times; i++) {

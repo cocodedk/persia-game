@@ -22,7 +22,7 @@ test('each definition is plain data: maxHp is the sum of its parts, ids are uniq
     assert.doesNotThrow(() => structuredClone(def));
     for (const p of def.parts) {
       assert.ok(p.hp > 0 && p.w > 0 && p.h > 0, `${def.kind}/${p.id}`);
-      assert.ok(p.weak !== p.armor, `${def.kind}/${p.id} is weak or armoured, one of the two`);
+      assert.equal(typeof p.weak, 'boolean', `${def.kind}/${p.id} is weak, or else armour`);
       assert.ok(Math.abs(p.dx) + p.w / 2 <= def.size.w / 2, `${def.kind}/${p.id} fits the width`);
       assert.ok(Math.abs(p.dy) + p.h / 2 <= def.size.h / 2, `${def.kind}/${p.id} fits the height`);
     }
