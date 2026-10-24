@@ -125,7 +125,7 @@ const giantBird = boss('giant-bird', 'Giant Bird', 'bird', 270, { w: 640, h: 300
 const giantCow = boss('giant-cow', 'Giant Cow', 'cow', 270, { w: 640, h: 300 }, [
   armor('hornL', -235, -80, 150, 140, 6),
   armor('hornR', 235, -80, 150, 140, 6),
-  armor('curl', 0, -110, 140, 80, 8),
+  armor('curl', 0, -110, 80, 80, 8),
   weak('eyeL', -90, -20, 80, 60, 44),
   weak('eyeR', 90, -20, 80, 60, 44),
   weak('mouth', 0, 112, 120, 60, 70),

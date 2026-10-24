@@ -81,18 +81,18 @@ Waits for Babak's approval of `counting-2199-tal-22` to `-25` in the lessons rep
 
 **Files:** `src/core/levels.js` (`LEVEL_5`), `src/data/pack.js` (numbers 21 to 25), `scripts/lift-clips.mjs`, `public/audio/`, `src/ui/css/screens.css` if five cards need it; tests `test/core/levels.test.js`, `test/core/weather.test.js`, `test/data/pack.test.js`, `test/ui/voice-queue.test.js`, `test/ui/levels-flow.test.js`.
 
-- [ ] `LEVEL_5`: `id 'level-5'`, `name 'Level 5'`, `place 'Tomb of Cyrus'`, its own seed, `d` a step above level 4's, `boss 'giant-cow'`, `landmark 'pasargadae'`, `persian` level 4's plus `'boss'`, `weather: { kind: 'stars', from: 3 }`. `d: 0.4`. Five waves: 21 cows over a row of dogs, 22 the escort with two rows of rabbits, 23 cows and birds swoop as the stars begin, 24 the gunners, 25 forty cows and cats; fire multipliers a step above level 4's; cows in four rows across the waves (they are armoured), and the test asserts more than two.
-- [ ] Drop the giant-cow fallback in `test/core/boss-kit.js` `realLevel` (`?? LEVELS.at(-1)`) now that level 5 carries the cow.
-- [ ] Pack numbers 21 to 25: `say` `bist-o-yek`, `bist-o-do`, `bist-o-se`, `bist-o-chahar`, `bist-o-panj`; `ms` from the approved records; clips lifted from `counting-2199-tal-21` to `-25`. The manifest gains five entries here (Task 3 added setare's).
-- [ ] Tests: level 5's first wave says ۲۱ (`number(21)`) then its species; its wave 23 says the stars line once; a retry is clear until wave 23; level 4's results offer Next to level 5; level 5 retries from wave 21; the parade walks its animals.
-- [ ] Five cards: `.level-cards { gap: 1.2rem }`, `.level-card { width: 17rem }` (89.8rem across; `html`'s font-size is min(vh/54, vw/96), so both sizes are one rem test); arrows and Enter work; screenshot 1920 x 1080 and 1280 x 720. The autopilot tests clear level 5 and survive its first 60 s.
-- [ ] Play it through at `?debug&level=5&auto`: the word moments, the stars at wave 23, the cow's fight, the victory card with LEVEL ۵.
-- [ ] Commit `feat: level 5, the giant cow and waves twenty-one to twenty-five`.
+- [x] `LEVEL_5`: `id 'level-5'`, `name 'Level 5'`, `place 'Tomb of Cyrus'`, its own seed, `d` a step above level 4's, `boss 'giant-cow'`, `landmark 'pasargadae'`, `persian` level 4's plus `'boss'`, `weather: { kind: 'stars', from: 3 }`. `d: 0.4`. Five waves: 21 cows over a row of dogs, 22 the escort with two rows of rabbits, 23 a row of cows and the birds swoop as the stars begin, 24 the gunners, 25 forty cats and mice; waves 23 and 25 keep to two species (the wave contract in `levels.test.js`), and the cows' four rows are in 21 to 23; fire multipliers a step above level 4's; cows in four rows across the waves (they are armoured), and the test asserts more than two.
+- [x] Drop the giant-cow fallback in `test/core/boss-kit.js` `realLevel` (`?? LEVELS.at(-1)`) now that level 5 carries the cow.
+- [x] Pack numbers 21 to 25: `say` `bist-o-yek`, `bist-o-do`, `bist-o-se`, `bist-o-chahar`, `bist-o-panj`; `ms` from the approved records; clips lifted from `counting-2199-tal-21` to `-25`. The manifest gains five entries here (Task 3 added setare's).
+- [x] Tests: level 5's first wave says ۲۱ (`number(21)`) then its species; its wave 23 says the stars line once; a retry is clear until wave 23; level 4's results offer Next to level 5; level 5 retries from wave 21; the parade walks its animals.
+- [x] Five cards: `.level-cards { gap: 1.2rem }`, `.level-card { width: 17rem }` (89.8rem across; `html`'s font-size is min(vh/54, vw/96), so both sizes are one rem test); arrows and Enter work; screenshot 1920 x 1080 and 1280 x 720. The autopilot tests clear level 5 and survive its first 60 s.
+- [x] Play it through at `?debug&level=5&auto`: the word moments, the stars at wave 23, the cow's fight, the victory card with LEVEL ۵.
+- [x] Commit `feat: level 5, the giant cow and waves twenty-one to twenty-five`.
 
 ### Task 6: Finish (Opus)
 
-- [ ] `simplify` over the level; apply what holds.
-- [ ] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from four levels to five (through `humanizer`); re-render `og.png` headed from the same frame; CLAUDE.md's scope line, and its rule becomes "Persian text renders as a DOM overlay, or as one whole word in one canvas `fillText` in the pack face with no letter spacing; never per-letter canvas text."
-- [ ] Advisor review of the branch; apply what holds.
-- [ ] Memory: the state note, `landmark-backdrops`, a `level-5-decisions` note; `zg index` in `memory/`.
+- [x] `simplify` over the level; apply what holds.
+- [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from four levels to five (through `humanizer`); re-render `og.png` headed from the same frame; CLAUDE.md's scope line, and its rule becomes "Persian text renders as a DOM overlay, or as one whole word in one canvas `fillText` in the pack face with no letter spacing; never per-letter canvas text."
+- [x] Advisor review of the branch; apply what holds.
+- [x] Memory: the state note, `landmark-backdrops`, a `level-5-decisions` note; `zg index` in `memory/`.
 - [ ] `npm test`, push `main`, check CI and Pages with `gh run list`.
