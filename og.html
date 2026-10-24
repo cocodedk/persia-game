@@ -6,10 +6,10 @@
   <!-- Source for og.png (1200 x 630). Render: serve the repo root, open og.html at a 1200 x 630
        viewport, screenshot. docs/og/hero.jpg is a real frame of wave 5, scaled from 1920 x 1080 to
        1440 x 810: open the game at ?debug&auto, press Play, and take it about 0.4 s after the cat's
-       word appears. The card crops the HUD off the top. The logo copies the title screen's .logo
-       (src/ui/css/screens.css). The word is in the frame; its Latin spelling is live text set as the
-       game sets it (src/ui/css/word.css, .word-moment .say). Render headed, not headless: only a
-       headed browser takes system-ui from the desktop, and that is the font of the tagline and bar. -->
+       word appears, so the word, its Latin spelling and the cat's face are all in the frame. The card
+       crops the HUD off the top. The logo copies the title screen's .logo (src/ui/css/screens.css).
+       Render headed, not headless: only a headed browser takes system-ui from the desktop, and that
+       is the font of the tagline and bar. -->
   <style>
     :root { --void: #05060b; --gold: #ffd24a;
       --display: "Bahnschrift", "DejaVu Sans Condensed", "Liberation Sans Narrow", "Arial Narrow", sans-serif; }
@@ -39,14 +39,6 @@
       -webkit-background-clip: text; background-clip: text; }
     .logo::after { content: ""; position: absolute; inset: 0; mix-blend-mode: multiply;
       background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 4px, rgba(0, 0, 20, 0.35) 4px 6px); }
-    /* The word's box as the game lays it out on the 1200 x 675 frame: centred at 0.34 of its height
-       (less the 60 px crop), font size 0.15 of its height, as wide as the word is. */
-    @font-face { font-family: "PackWord"; font-weight: 700; src: url("public/fonts/Vazirmatn-Bold.woff2"); }
-    .word-moment { position: absolute; left: 600px; top: 169.5px; width: 169px; height: 1.3em; translate: -50% -50%;
-      font: 700 101.25px/1.3 "PackWord", sans-serif; }
-    .word-moment .say { position: absolute; right: 100%; top: 50%; translate: 0 -50%; margin-right: 0.7em;
-      font-size: 0.34em; letter-spacing: 0.04em; color: #f4ecda;
-      text-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.9), 0 0 0.6em rgba(0, 0, 0, 0.6); }
     .tagline { margin: 14px 0 0; font-size: 28px; line-height: 1.25; font-weight: 800;
       color: rgba(226, 248, 255, 0.95); text-shadow: 0 2px 12px #000, 0 0 2px #000; }
   </style>
@@ -54,7 +46,6 @@
 <body>
   <img class="shot" src="docs/og/hero.jpg" alt="">
   <div class="scrim"></div>
-  <div class="word-moment"><span class="say">gorbe</span></div>
   <div class="brand">
     <h1 class="logo">
       <span class="logo-glow">PERSIA</span><span class="logo-chroma c1">PERSIA</span><span class="logo-chroma c2">PERSIA</span><span class="logo-text">PERSIA</span><span class="logo-shine">PERSIA</span>

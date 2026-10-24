@@ -2,7 +2,7 @@
 
 Persia is an arcade shooter for a laptop, played with keyboard and mouse in your browser. There is nothing to install and no account to make.
 
-[![Persia: a formation of angry pixel cats and dogs under a blood-red moon, a Persian word in four colours beside its Latin spelling, and the PERSIA logo](og.png)](https://persia.cocode.dk)
+[![Persia: a formation of angry pixel cats and dogs under a blood-red moon, the ruins of Persepolis below them, a Persian word in four colours between its Latin spelling and the cat's face, and the PERSIA logo](og.png)](https://persia.cocode.dk)
 
 ## What it is
 
