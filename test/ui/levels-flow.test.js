@@ -54,7 +54,7 @@ test('the arrows move along the cards and Enter plays the one in focus', () => {
   document.activeElement = null;
 });
 
-test("each level's parade names its own animals: levels 1 and 5 seven, the mouse waiting, levels 2 to 4 all eight", () => {
+test("each level's parade names its own animals: level 1 seven, the mouse waiting, the levels after it all eight", () => {
   const { flow, said, screen } = setup();
   const walk = (level) => {
     said.length = 0;
@@ -65,10 +65,7 @@ test("each level's parade names its own animals: levels 1 and 5 seven, the mouse
   const seven = ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish'];
   assert.deepEqual(walk(LEVEL), seven);
   const eight = ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish', 'mouse'];
-  assert.deepEqual(walk(LEVELS[1]), eight);
-  assert.deepEqual(walk(LEVELS[2]), eight);
-  assert.deepEqual(walk(LEVELS[3]), eight);
-  assert.deepEqual(walk(LEVELS[4]), seven);
+  for (const level of LEVELS.slice(1)) assert.deepEqual(walk(level), eight, level.id);
 });
 
 test("results offer Next to the level after, none after the last, and Again replays the level just played", () => {

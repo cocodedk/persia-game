@@ -56,9 +56,9 @@ test('level 4 brings all eight, the bird, its boss, in more rows than the fish h
   assert.ok(LEVEL_4.waves.flatMap((x) => x.species).filter((id) => id === 'bird').length > 4);
 });
 
-test('level 5 brings the seven animals of level 1, the cow, its boss, in more rows than any earlier level, a step harder than level 4', () => {
+test('level 5 brings all eight animals, the cow, its boss, in more rows than any earlier level, a step harder than level 4', () => {
   const cows = (level) => level.waves.flatMap((x) => x.species).filter((id) => id === 'cow').length;
-  assert.deepEqual(levelSpecies(LEVEL_5).toSorted(), levelSpecies(LEVEL).toSorted());
+  assert.deepEqual(levelSpecies(LEVEL_5).toSorted(), levelSpecies(LEVEL_4).toSorted());
   assert.equal(bossDef(LEVEL_5.boss).species, 'cow');
   assert.ok(cows(LEVEL_5) > 2 && LEVELS.slice(0, 4).every((level) => cows(level) <= 2));
   assert.ok(LEVEL_5.d > LEVEL_4.d);

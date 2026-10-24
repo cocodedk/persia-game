@@ -78,11 +78,11 @@ const LEVEL_5 = {
   id: 'level-5', name: 'Level 5', place: 'Tomb of Cyrus', seed: 52391, d: 0.4, boss: 'giant-cow', landmark: 'pasargadae',
   persian: ['wave', 'score', 'combo', 'level', 'boss'], weather: { kind: 'stars', from: 3 },
   waves: [
-    w('grid', 10, 'ood', 'aimed', 1.15), // 21: cows over a row of dogs
+    w('grid', 10, 'odd', 'aimed', 1.15), // 21: a row of cows over the dogs
     w('escort', 3, 'orro', 'aimed', 1.15), // 22: cows guard two rows of rabbits
-    w('dive', 8, 'oobb', 'fan', 1.2), // 23: cows and birds swoop, and the stars begin
+    w('dive', 10, 'obbb', 'fan', 1.2), // 23: a row of cows and the birds swoop, and the stars begin
     w('sway', 8, 'hhff', 'fan', 1.25), // 24: the gunners
-    w('spiral', 10, 'oocc', 'ring', 1.35), // 25: forty cows and cats
+    w('spiral', 10, 'ccmm', 'ring', 1.35), // 25: forty cats and mice
   ],
 };
 
