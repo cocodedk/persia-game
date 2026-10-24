@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
 import { LEVEL, LEVELS } from '../../src/core/levels.js';
 import { fmt, localDigits, scoreText, waveText } from '../../src/ui/format.js';
@@ -32,7 +33,8 @@ test("levels 1 and 2 keep the score in ASCII; level 3 writes it in the pack's di
   assert.equal(scoreText(LEVELS[2], 1234567.4), `${D[1]}${PACK.group}${D[2]}${D[3]}${D[4]}${PACK.group}${D[5]}${D[6]}${D[7]}`);
 });
 
-test("the HUD font falls back to the pack's face, which has the Persian digits", () => {
-  const families = FONT.split(',').map((f) => f.trim().replaceAll('"', ''));
-  assert.ok(families.indexOf(PACK.font.family) >= 0 && families.indexOf(PACK.font.family) < families.indexOf('sans-serif'));
+test("the HUD and the screens set numbers in the pack's digits face first", () => {
+  assert.ok(FONT.startsWith(`"${PACK.font.digits}", `), FONT);
+  const css = readFileSync(new URL('../../src/ui/css/base.css', import.meta.url), 'utf8');
+  assert.ok(css.includes(`--display: "${PACK.font.digits}", `), 'the screens\' display face');
 });

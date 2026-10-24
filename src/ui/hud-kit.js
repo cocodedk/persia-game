@@ -3,9 +3,9 @@ import { INK, roundRect } from './sprites.js';
 import { TAU } from '../core/math.js';
 import { PACK } from '../data/pack.js';
 
-// The pack's face (word-moment.js loads it) is the fallback for glyphs the system face lacks: the
-// Persian digits of a wave count.
-export const FONT = `system-ui, -apple-system, "Segoe UI", Roboto, "${PACK.font.family}", sans-serif`;
+// The pack's digits face first (word-moment.js loads it): it sets the Persian digits of a wave count
+// or a score and nothing else, so every other character comes from the system face.
+export const FONT = `"${PACK.font.digits}", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`;
 
 export function panel(ctx, x, y, w, h, border = 'rgba(255,255,255,0.16)', r = 16) {
   roundRect(ctx, x, y, w, h, r);

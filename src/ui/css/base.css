@@ -13,7 +13,7 @@
   --magenta: #ff4fd8;
   --focus: #ffd24a;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "DejaVu Sans", sans-serif;
-  --display: "Bahnschrift", "DejaVu Sans Condensed", "Liberation Sans Narrow", "Arial Narrow", system-ui, sans-serif;
+  --display: "PackDigits", "Bahnschrift", "DejaVu Sans Condensed", "Liberation Sans Narrow", "Arial Narrow", system-ui, sans-serif;
   color-scheme: dark;
 }
 html { font-size: min(calc(100vh / 54), calc(100vw / 96)); }

@@ -27,10 +27,15 @@ export function letterRuns(word, colours) {
 }
 
 export function createWordMoment(root, canvas, pack) {
-  const { family, file, weight } = pack.font;
-  const face = new FontFace(family, `url("${file}")`, { weight });
-  document.fonts.add(face);
-  face.load().catch(() => {}); // ready before the first word; a face that fails falls back
+  const { family, digits, file, weight } = pack.font;
+  // The same face kept to the pack's digits and thousands mark: first in the HUD's and the screens'
+  // fonts, it sets their Persian numbers and leaves every other character to the faces after it.
+  const unicodeRange = [...pack.digits, pack.group].map((c) => `U+${c.codePointAt(0).toString(16)}`).join(', ');
+  const src = `url("${file}")`;
+  for (const face of [new FontFace(family, src, { weight }), new FontFace(digits, src, { weight, unicodeRange })]) {
+    document.fonts.add(face);
+    face.load().catch(() => {}); // ready before the first word; a face that fails falls back
+  }
   const el = h('div', 'word-moment');
   el.lang = pack.lang;
   el.dir = pack.dir;

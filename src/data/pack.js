@@ -1,6 +1,7 @@
 // The word pack: the only place language lives. Another language pair is another fork with another pack.
 //   lang, dir     the pack language and its text direction
-//   font          the face the word moment is set in, loaded from the page's own origin
+//   font          the face the word moment is set in, loaded from the page's own origin; `digits` names
+//                 the same face kept to the pack's digits and thousands mark, which numbers are set in
 //   species       { id, word, say, clip, ms } in the order they first appear across the levels, which is
 //                 also the parade order. `id` is a core SPECIES id, `word` the plain written word (no
 //                 diacritics), `say` the name in Latin letters, shown beside the word while it is
@@ -11,7 +12,7 @@
 //   letterColours the colours the word moment cycles through, one per letter
 export const PACK = {
   lang: 'fa', dir: 'rtl',
-  font: { family: 'PackWord', file: 'public/fonts/Vazirmatn-Bold.woff2', weight: '700' },
+  font: { family: 'PackWord', digits: 'PackDigits', file: 'public/fonts/Vazirmatn-Bold.woff2', weight: '700' },
   species: [
     { id: 'dog', word: 'سگ', say: 'sag', clip: 'public/audio/sag.mp3', ms: 760 },
     { id: 'cow', word: 'گاو', say: 'gav', clip: 'public/audio/gav.mp3', ms: 760 },
