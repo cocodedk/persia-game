@@ -716,21 +716,21 @@ Invoke `frontend-design:frontend-design` first.
   - Restart, Retry and Again use the card.
   - The title menu is Play only, with the hint `Enter play · M sound` and no tagline.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
   - "beatsBetween returns each beat once, in order, across uneven frames"
   - "beatsBetween(0, 8.2) names all seven beats"
   - "a key before SKIP_AFTER does nothing; after it, impact fires once and onDone follows 0.6 s
     later" (`openScreen` with the `test/ui/dom-kit.js` stub)
-- [ ] **Step 2: Run them.** `npm test` should FAIL.
-- [ ] **Step 3: Implement.**
+- [x] **Step 2: Run them.** `npm test` should FAIL.
+- [x] **Step 3: Implement.**
   - The eyes take their positions from a fixed list, not `Math.random`.
   - Under reduced motion, the bars, the light and the eyes appear and disappear without moving.
-- [ ] **Step 4: Run the suite.** `npm test` should report 0 failures, the dead-code gate included.
-- [ ] **Step 5: Watch it in the browser.**
+- [x] **Step 4: Run the suite.** `npm test` should report 0 failures, the dead-code gate included.
+- [x] **Step 5: Watch it in the browser.**
   - Play shows the open once, then wave 1 with "یک" and "سگ".
   - Retry, Again, and Title followed by Play all skip the open. A reload shows it again.
   - Screenshot the title beat and the eyes beat.
-- [ ] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): a cinematic open on the first Play of a session"`
+- [x] **Step 6: Commit.** `git add -A && git commit -m "feat(ui): a cinematic open on the first Play of a session"`
 
 ### Task 10: The parade and the end screens
 

@@ -12,7 +12,7 @@ export function titleScreen({ items, nowShowing }) {
     h('span', 'logo-text', word), h('span', 'logo-shine', word));
   const buttons = items.map((it) => button(it.label, () => { play('select'); it.pick(); }, 'btn btn-big'));
   const menu = h('nav', 'menu', ...buttons);
-  const hint = h('p', 'hint', '↑ ↓ choose · Enter select · M sound');
+  const hint = h('p', 'hint', 'Enter play · M sound');
   const now = nowShowing ? h('p', 'now-showing', h('span', null, 'Now showing'), ` ${nowShowing}`) : null;
   el.append(h('div', 'title-stack', logo, menu), now, hint);
   return { el, focus: buttons[0], onKey: (code) => navigate(buttons, code) };
