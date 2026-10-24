@@ -112,7 +112,7 @@ export function line(g, c, w = 2) {
 }
 
 // A painter for cached(): a w x w square filled with a radial gradient from its centre to its edge.
-export const radial = (stops) => (g, w) => {
+const radial = (stops) => (g, w) => {
   const h = w / 2;
   g.fillStyle = rad(g, h, h, 0, h, stops);
   g.fillRect(0, 0, w, w);
@@ -120,7 +120,7 @@ export const radial = (stops) => (g, w) => {
 
 // One sprite per colour, made by make(color) on first use. The lookup is the hot path (hundreds of
 // calls a frame), so it is a bare Map get: no key string, no recipe built before the cache is asked.
-export function byColor(make) {
+function byColor(make) {
   const sprites = new Map();
   return (color) => {
     let c = sprites.get(color);

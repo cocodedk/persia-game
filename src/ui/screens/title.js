@@ -1,6 +1,6 @@
 // Title: the logo over a live autopilot battle in a random world, and the main menu.
 //   titleScreen({ items: [{ label, pick }], nowShowing }) -> screen
-// items is the menu in order (Play, Watch then try, Cinema); nowShowing names the backdrop's world.
+// items is the menu in order (Play); nowShowing names the backdrop's world.
 import { h, button, navigate, shell } from './dom.js';
 import { play } from '../audio.js';
 import { LEVELS, WORLDS } from '../../core/levels.js';

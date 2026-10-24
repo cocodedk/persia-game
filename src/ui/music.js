@@ -2,7 +2,7 @@
 // a slow filter) and a lead stepping through the world's scale over a short drum line, all from the
 // look's music entry (sound-data.js STYLES[style].music). Every 2 passes of the sequence the lead
 // moves to the next chord of a four-step progression, so the loop does not drone on one phrase.
-//   setMusic(look)   the world to play (cross-fades from the last); null for silence; musicLook()
+//   setMusic(look)   the world to play (cross-fades from the last); null for silence
 //   updateMusic(nodes?)  once per frame: schedules the next 0.3 s of notes ahead of the clock
 //   startLoop(nodes, look) / fillLoop(loop, until) / stopLoop(loop)   the same loop on any context
 // A world change fades the old loop out, stops its sources and then disconnects every node it
@@ -27,8 +27,6 @@ export function setWorld(look) {
   setWorldSound(look);
   setMusic(look);
 }
-
-export const musicLook = () => want; // what plays now: a Cinema trailer hands the menu's music back
 
 const DRUM = {
   k: (a, t) => tone(a, { t, f0: 150, f1: 44, dur: 0.18, peak: 0.26 }),

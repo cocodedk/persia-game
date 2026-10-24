@@ -10,8 +10,8 @@ import { finished } from './util.js';
 
 export { stars } from './scoring.js';
 
-// The simulation's one object. Everything in it survives structuredClone (plain data only), which
-// the replay and trailer snapshots rely on. The spec's shape (level, t, tick, ship, aliens, shots,
+// The simulation's one object. Everything in it survives structuredClone (plain data only). The
+// spec's shape (level, t, tick, ship, aliens, shots,
 // bullets, pickups, bunkers, boss, wave, score, combo, hits, state, events) plus what the pure
 // simulation needs: rng (a { s } state, draw with rand), scale (scaled(level.d), constant),
 // intro (seconds of intro left), gap (seconds to the next wave, or null), march (the current wave's

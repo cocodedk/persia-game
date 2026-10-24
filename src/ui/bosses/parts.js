@@ -8,8 +8,8 @@
 //                                      fade in with a burst), at strength k
 //   warns(ctx, b, B, look, t, k)       a charge-up on every part about to fire
 // What changed when (hit, crack, open) is this module's own memory, a WeakMap per part; a part
-// first seen already open or cracked is drawn finished, so a frozen dev frame or a cloned world
-// never replays the transition. Nothing on world or fx is written.
+// first seen already open or cracked is drawn finished, so a cloned world never plays the
+// transition again. Nothing on world or fx is written.
 import { glow, star } from '../sprites.js';
 import { clamp, smooth } from '../../core/math.js';
 import { cracked, exposed, wreck } from './cracks.js';

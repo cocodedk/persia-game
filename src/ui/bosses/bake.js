@@ -6,8 +6,7 @@
 //     parts = { [id]: set }, set = { body, lights, flash, open?, w, h, m, seed, crack, cracks, ... }
 //             drawn at the part's centre; the damage states (cracks.js) are baked on first use
 //   warmBoss(look, kind)  bossArt plus everything the fight will need, the damage states and the hull
-//                         flash included, so nothing is baked mid-fight (createView, on a boss level;
-//                         a poster only draws the boss whole and calls bossArt)
+//                         flash included, so nothing is baked mid-fight (createView, on a boss level)
 //   hullFlash(B)          the hull's white silhouette (the collapse), baked on first use
 //   painterFor(mod, id)   [painter, mirror] for a part: its own painter, or its left twin's
 //                         mirrored for an id ending in R (gunR from gun), or null

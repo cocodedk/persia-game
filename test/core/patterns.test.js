@@ -93,7 +93,7 @@ test('emitPattern draws from the cloneable { s } state and advances it', () => {
   const b = structuredClone(a);
   const first = emitPattern('ring', FROM, TARGET, P, a);
   assert.notEqual(a.s, b.s, 'the rng advanced');
-  assert.deepEqual(emitPattern('ring', FROM, TARGET, P, b), first, 'a clone replays it');
+  assert.deepEqual(emitPattern('ring', FROM, TARGET, P, b), first, 'a clone draws it again');
   const n = createRng(9);
   emitPattern('aimed', FROM, TARGET, P, n);
   assert.equal(n.s, createRng(9).s, 'aimed needs no randomness');

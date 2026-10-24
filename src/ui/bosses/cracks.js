@@ -1,7 +1,7 @@
 // Damage states of a boss part, baked from its body canvas: cracked (stage 1 | 2, armour losing
 // hp), exposed (a plate cracked wide open, fissures burning in the weak colour) and wreck (the part
-// destroyed: charred dark, cracks glowing like embers). Baked once, ahead of the fight (warmBoss),
-// or on first use for a boss that is only drawn (posters); never per frame.
+// destroyed: charred dark, cracks glowing like embers). Baked once, ahead of the fight (warmBoss);
+// never per frame.
 import { makeCanvas, hash, rgba, shade, INK, rad } from '../sprites.js';
 import { path, line, bloom, TAU } from './kit.js';
 import { clamp } from '../../core/math.js';

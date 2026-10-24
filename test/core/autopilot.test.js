@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
 import { levelById } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { TICK } from '../../src/core/replay.js';
+import { TICK } from '../../src/core/kinds.js';
 import { level, wave, playing, step, seconds, bulletAt, pickupAt, IDLE } from './world-kit.js';
 import { bossWorld } from './boss-kit.js';
 import { fly, oneShot, landed } from './autopilot-kit.js';

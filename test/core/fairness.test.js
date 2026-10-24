@@ -30,7 +30,7 @@ test('a bullet that never came near leaves no near miss when it expires', () => 
 });
 
 // R37: a wipe is not a dodge. Bullets inside the band that a bomb, a boss's death or a cut removes
-// settle silently (no fx ring, no trailer tally, no Code Rain bullet time on an empty screen).
+// settle silently (no fx ring, no Code Rain bullet time on an empty screen).
 test('a bomb that wipes a bullet inside the near band is no near miss', () => {
   const w = playing(level([wave()], 0, { twist: 'glitch' }));
   bulletAt(w, w.ship.x - 25, w.ship.y);

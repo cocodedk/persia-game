@@ -39,9 +39,8 @@ function blank(set, frame) {
   const g = c.getContext('2d');
   return [c, g, src];
 }
-const centre = (g, set, src) => {
+const centre = (g, src) => {
   g.translate(src.width / 2, src.height / 2);
-  g.scale(set.scale, set.scale);
 };
 
 export function cracked(set, frame, stage) {
@@ -50,7 +49,7 @@ export function cracked(set, frame, stage) {
   const [c, g, src] = blank(set, frame);
   g.drawImage(src, 0, 0);
   g.globalCompositeOperation = 'source-atop';
-  centre(g, set, src);
+  centre(g, src);
   for (const pts of crackPaths(set.seed, stage)) {
     for (const [dx, dy, c2, w] of [[0.9, 1.1, rgba('#ffffff', 0.4), 1.2], [0, 0, INK, 2.6]]) {
       g.save();
@@ -79,7 +78,7 @@ export function crackLights(set, frame, stage) {
   const [c, g, src] = blank(set, frame);
   const glowColor = set.crackColor ?? set.color;
   g.save();
-  centre(g, set, src);
+  centre(g, src);
   g.lineJoin = 'round';
   g.lineCap = 'round';
   for (const pts of crackPaths(set.seed, stage)) {

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { stepWorld } from '../../src/core/world.js';
 import { emitPattern } from '../../src/core/patterns.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { TICK } from '../../src/core/replay.js';
+import { TICK } from '../../src/core/kinds.js';
 import { level, wave, playing, step, bulletAt } from './world-kit.js';
 
 // An alien that holds still at x 960 and cannot be shot down (a cleared level would freeze the

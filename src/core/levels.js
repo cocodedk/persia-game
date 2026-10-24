@@ -145,14 +145,4 @@ function level(world, index, { seed, bunkers, waves }) {
 export const LEVELS = [...EARLY, ...LATE].flatMap((specs, wi) =>
   specs.map((spec, ii) => level(wi + 1, ii + 1, spec)));
 
-// World 1 at d = 0 for "Watch, then try": a 6x3 grunt grid, then one swaying trio around a carrier.
-// No bunkers, so the autopilot's shots are never blocked while the captions are teaching.
-export const DEMO_LEVEL = {
-  id: 'demo', world: 1, index: 1, seed: 7, d: 0, twist: WORLDS[0].twist, bunkers: false,
-  waves: [
-    w('grid', 6, 'ggg', 'aimed', 0.8),
-    w('sway', 1, 'gcg', 'aimed', 0.8),
-  ],
-};
-
 export const levelById = (id) => LEVELS.find((l) => l.id === id);

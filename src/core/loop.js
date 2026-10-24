@@ -2,7 +2,7 @@ import { TICK } from './kinds.js';
 
 // The fixed-step accumulator of the game loop. Each frame adds the time it covers (already scaled
 // by presentation slow motion: the caller passes frameDt * fx.slow, ruling R19) and steps the core
-// that many whole ticks of TICK, never a scaled dt, so a recorded run replays exactly.
+// that many whole ticks of TICK, never a scaled dt, so the same inputs always play out the same.
 //   advance(acc, dt) -> { ticks, acc }
 // At most MAX_STEPS ticks a frame: after a hitch the game slows for that frame rather than
 // spiralling. Whole ticks past the cap are dropped (no backlog to race through later); the

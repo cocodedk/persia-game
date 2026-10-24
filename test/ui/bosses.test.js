@@ -55,10 +55,9 @@ test('the collapse starts whole and ends with every part torn off and the hull b
 test("on the Singularity's level the sky's own black hole steps back to faint lensing (R29)", () => {
   assert.equal(wellLight(levelById('w8-5')), 0.35, 'the boss level dims the well');
   for (const id of ['w8-1', 'w8-4']) assert.equal(wellLight(levelById(id)), 1, `${id} keeps it whole`);
-  assert.equal(wellLight(null), 1, 'the alien sheet (no level) keeps it whole');
 });
 
-test('the collapse is a pure function of the boss and the chain left (replays and trailer clips match)', () => {
+test('the collapse is a pure function of the boss and the chain left', () => {
   for (const def of BOSS_DEFS) {
     const a = collapse(dying(def.kind, CHAIN * 0.4), 1.7);
     const b = collapse(dying(def.kind, CHAIN * 0.4), 1.7);

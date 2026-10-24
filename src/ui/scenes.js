@@ -1,8 +1,7 @@
 // What the game loop runs and draws: a scene is a session (session.js) with its view, the source of
 // its inputs and what its events do besides effects.
 //   { mode, level, view, session, source(world), onEvents?(events, input), sound }
-//   mode 'backdrop' (the title's autopilot battle, silent, no HUD) | 'play' | 'watch' (the demo's
-//   autopilot with captions) | 'try' (the demo handed over)
+//   mode 'backdrop' (the title's autopilot battle, silent, no HUD) | 'play'
 //   runScene(sc, dt, t, step)   one frame: step it (unless frozen), then draw it
 import { LEVELS } from '../core/levels.js';
 import { autopilot } from '../core/autopilot.js';
@@ -25,17 +24,16 @@ export function pickBackdrop(skip = 0) {
 export function backdropScene(canvas, level) {
   const view = createView(canvas, level);
   view.showHud = false;
-  return { mode: 'backdrop', level, view, session: createSession(level, seed(), { record: false }), source: autopilot, sound: false };
+  return { mode: 'backdrop', level, view, session: createSession(level, seed()), source: autopilot, sound: false };
 }
 
-// A level played with the keys and the mouse (or, mode 'try', the demo level handed over).
-export function playScene(canvas, level, input, { view = null, seed: s = level.seed, mode = 'play', onEvent = null } = {}) {
-  const v = view ?? createView(canvas, level);
-  v.showHud = true;
-  const session = createSession(level, s);
+// A level played with the keys and the mouse, or flown by `pilot` (?debug&auto).
+export function playScene(canvas, level, input, { pilot = null, onEvent = null } = {}) {
+  const v = createView(canvas, level);
+  const session = createSession(level);
   return {
-    mode, level, view: v, session, sound: true,
-    source: () => readInput(input, v),
+    mode: 'play', level, view: v, session, sound: true,
+    source: pilot ?? (() => readInput(input, v)),
     onEvents(events) {
       eventSounds(events, session.world, play);
       if (onEvent) for (const e of events) onEvent(e);
@@ -47,7 +45,7 @@ export function runScene(sc, dt, t, step) {
   const { session, view } = sc;
   if (step) stepSession(session, dt, sc.source, sc.onEvents);
   if (sc.mode === 'backdrop' && session.over > BACKDROP_AGAIN) {
-    sc.session = createSession(sc.level, seed(), { record: false }); // the same level: no bake
+    sc.session = createSession(sc.level, seed()); // the same level: no bake
   }
   drawFrame(view, sc.session.world, sc.session.fx, t);
   const ship = sc.session.world.ship;

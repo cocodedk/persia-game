@@ -3,9 +3,9 @@
 // body's damage (cracks.js). Per frame the game only blits these.
 //   art(look)                         the world's module with defaults filled in: rate (frames/s),
 //                                     sync (whole formation in step), bob (px), halo (alpha), crack
-//   roleSprites(look, role, scale?)   { body: [f0, f1], lights: [f0, f1], flash: [f0, f1], size, scale }
-//                                     (draw a canvas at size x size world px; scale > 1 is for the sheet)
-//   extraSprites(look, name, scale?)  the same shape for 'saucer' or 'wreck', or null if the world
+//   roleSprites(look, role)           { body: [f0, f1], lights: [f0, f1], flash: [f0, f1], size }
+//                                     (draw a canvas at size x size world px)
+//   extraSprites(look, name)          the same shape for 'saucer' or 'wreck', or null if the world
 //                                     has no such painter
 //   warmAliens(look)                  bake a world's whole set, damage included (call when a level's
 //                                     view is built): nothing is baked on a hit, mid-fight
@@ -23,12 +23,12 @@ import w6 from './w6.js';
 import w7 from './w7.js';
 import w8 from './w8.js';
 
-const SIZE = 96; // px, a sprite canvas's edge at scale 1; the alien's centre is its centre
+const SIZE = 96; // px, a sprite canvas's edge; the alien's centre is its centre
 export const ROLE_LIST = ['grunt', 'diver', 'gunner', 'armored', 'carrier'];
 const ART = [w1, w2, w3, w4, w5, w6, w7, w8];
 const DEFAULTS = { rate: 2, sync: false, bob: 0, halo: 0.25, crack: null };
 
-const sets = new Map(); // world -> scale -> { [role or extra name]: set } (shelf, below)
+const sets = new Map(); // world -> { [role or extra name]: set } (shelf, below)
 const arts = new Map();
 
 export function art(look) {
@@ -40,48 +40,45 @@ export function art(look) {
   return a;
 }
 
-function canvasAt(size, scale) {
-  const c = makeCanvas(size * scale, size * scale);
+function canvasAt(size) {
+  const c = makeCanvas(size, size);
   const g = c.getContext('2d');
-  g.translate((size * scale) / 2, (size * scale) / 2);
-  g.scale(scale, scale);
+  g.translate(size / 2, size / 2);
   return [c, g];
 }
 
 // seed picks the crack pattern; crackColor is the world's hot line inside a crack (or null).
 // cracks and crackGlow hold the damage canvases cracks.js bakes.
-function bakeSet(paint, color, scale, seed, crackColor, flash) {
+function bakeSet(paint, color, seed, crackColor, flash) {
   const size = paint.size ?? SIZE;
   const body = [];
   const lights = [];
   for (const f of [0, 1]) {
-    const [bc, bg] = canvasAt(size, scale);
-    const [lc, lg] = canvasAt(size, scale);
+    const [bc, bg] = canvasAt(size);
+    const [lc, lg] = canvasAt(size);
     paint(bg, lg, f, color);
     body.push(bc);
     lights.push(lc);
   }
-  return { body, lights, flash: flash ? body.map(white) : null, size, scale, seed, color, crackColor, cracks: {}, crackGlow: {} };
+  return { body, lights, flash: flash ? body.map(white) : null, size, seed, color, crackColor, cracks: {}, crackGlow: {} };
 }
 
-// A world's baked sets at one scale. Nested maps, not one string key: the drawing asks for every
-// alien every frame, so a hit must build no key and work out no recipe.
-function shelf(look, scale) {
-  let byScale = sets.get(look.world);
-  if (!byScale) sets.set(look.world, (byScale = new Map()));
-  let s = byScale.get(scale);
-  if (!s) byScale.set(scale, (s = {}));
+// A world's baked sets. A map by world, not one string key: the drawing asks for every alien every
+// frame, so a hit must build no key and work out no recipe.
+function shelf(look) {
+  let s = sets.get(look.world);
+  if (!s) sets.set(look.world, (s = {}));
   return s;
 }
 
-export function roleSprites(look, role, scale = 1) {
-  const s = shelf(look, scale);
-  return (s[role] ??= bakeSet(art(look)[role], look.palette.alien[role], scale, ROLE_LIST.indexOf(role) + 1, art(look).crack, true));
+export function roleSprites(look, role) {
+  const s = shelf(look);
+  return (s[role] ??= bakeSet(art(look)[role], look.palette.alien[role], ROLE_LIST.indexOf(role) + 1, art(look).crack, true));
 }
 
-export function extraSprites(look, name, scale = 1) {
+export function extraSprites(look, name) {
   const paint = art(look)[name];
-  return paint ? (shelf(look, scale)[name] ??= bakeSet(paint, look.palette.alien.carrier, scale, 9, art(look).crack, false)) : null;
+  return paint ? (shelf(look)[name] ??= bakeSet(paint, look.palette.alien.carrier, 9, art(look).crack, false)) : null;
 }
 
 export function warmAliens(look) {

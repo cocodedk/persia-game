@@ -32,7 +32,8 @@ test('keys are prefixed persia. and results survive a new instance over the same
 });
 
 test('best score and best stars are kept apart, each the highest so far', () => {
-  const s = createStorage(() => memoryBackend());
+  const back = memoryBackend();
+  const s = createStorage(() => back);
   assert.deepEqual(s.best('w1-1'), { score: 0, stars: 0 }, 'never played');
   s.recordResult('w1-1', { score: 9000, stars: 3 });
   const r = s.recordResult('w1-1', { score: 15000, stars: 1 });
@@ -40,7 +41,7 @@ test('best score and best stars are kept apart, each the highest so far', () => 
   assert.equal(r.newBest, true);
   const again = s.recordResult('w1-1', { score: 15000, stars: 3 });
   assert.equal(again.newBest, false, 'a tie is not a new best');
-  assert.deepEqual(s.allBest(), { 'w1-1': { score: 15000, stars: 3 } });
+  assert.deepEqual(JSON.parse(back.map.get('persia.best')), { 'w1-1': { score: 15000, stars: 3 } });
 });
 
 test('a throwing localStorage never breaks the game: everything holds for the session', () => {
@@ -51,11 +52,6 @@ test('a throwing localStorage never breaks the game: everything holds for the se
   assert.deepEqual(s.best('w3-2'), { score: 5000, stars: 1 }, 'remembered in memory');
   s.setMuted(true);
   assert.equal(s.muted(), true);
-  assert.equal(s.demoSeen(), false);
-  s.setDemoSeen();
-  assert.equal(s.demoSeen(), true);
-  assert.equal(s.setBestRun('w3-2', { v: 1 }), false, 'reports that the run was not stored');
-  assert.deepEqual(s.bestRun('w3-2'), { v: 1 }, 'but keeps it for the session');
 });
 
 test('a localStorage getter that throws, or no localStorage at all, works the same', () => {
@@ -68,16 +64,14 @@ test('a localStorage getter that throws, or no localStorage at all, works the sa
 });
 
 test('corrupted JSON reads as nothing saved, and the next result overwrites it', () => {
-  const back = memoryBackend({ 'persia.best': '{"w1-1": {"score": 50', 'persia.run.w1-1': 'not json' });
+  const back = memoryBackend({ 'persia.best': '{"w1-1": {"score": 50' });
   const s = createStorage(() => back);
   assert.deepEqual(s.best('w1-1'), { score: 0, stars: 0 });
-  assert.deepEqual(s.allBest(), {});
-  assert.equal(s.bestRun('w1-1'), null);
   s.recordResult('w1-1', { score: 700, stars: 1 });
   assert.deepEqual(JSON.parse(back.map.get('persia.best')), { 'w1-1': { score: 700, stars: 1 } });
 });
 
-test('well-formed JSON of the wrong shape is cleaned entry by entry', () => {
+test('well-formed JSON of the wrong shape is cleaned entry by entry, and the next result keeps only the clean ones', () => {
   const saved = {
     'w1-1': { score: 4000, stars: 2 },
     'w1-2': { score: 'lots', stars: 2 },
@@ -86,29 +80,22 @@ test('well-formed JSON of the wrong shape is cleaned entry by entry', () => {
     'w1-5': { score: -5, stars: 1 },
   };
   const overflow = JSON.stringify(saved).replace(/}$/, ',"w2-1":{"score":1e999,"stars":1}}'); // parses to Infinity
+  const fresh = { 'w3-1': { score: 1, stars: 0 } };
   for (const raw of [JSON.stringify(saved), overflow, '[1,2,3]', '"text"', 'null', '42']) {
-    const s = createStorage(() => memoryBackend({ 'persia.best': raw }));
-    const all = s.allBest();
-    assert.deepEqual(Object.keys(all).filter((k) => k !== 'w1-1'), [], raw);
-    if (raw.startsWith('{')) assert.deepEqual(all['w1-1'], { score: 4000, stars: 2 });
+    const back = memoryBackend({ 'persia.best': raw });
+    const s = createStorage(() => back);
+    for (const id of ['w1-2', 'w1-3', 'w1-4', 'w1-5', 'w2-1']) assert.deepEqual(s.best(id), { score: 0, stars: 0 }, `${raw}: ${id}`);
+    s.recordResult('w3-1', fresh['w3-1']);
+    const kept = raw.startsWith('{') ? { 'w1-1': { score: 4000, stars: 2 }, ...fresh } : fresh;
+    assert.deepEqual(JSON.parse(back.map.get('persia.best')), kept, raw);
   }
 });
 
-test('the mute switch and the demo flag read garbage as off', () => {
-  const s = createStorage(() => memoryBackend({ 'persia.muted': 'maybe', 'persia.demoSeen': '{' }));
+test('the mute switch reads garbage as off', () => {
+  const s = createStorage(() => memoryBackend({ 'persia.muted': 'maybe' }));
   assert.equal(s.muted(), false);
-  assert.equal(s.demoSeen(), false);
   s.setMuted(true);
   assert.equal(s.muted(), true);
   s.setMuted(false);
   assert.equal(s.muted(), false);
-});
-
-test('a best run is stored per level as JSON and read back as the same object', () => {
-  const back = memoryBackend();
-  const s = createStorage(() => back);
-  const run = { v: 1, level: 'w4-2', seed: 9, ticks: 3, inputs: 'A*3', score: 10, stars: 1 };
-  assert.equal(s.setBestRun('w4-2', run), true);
-  assert.deepEqual(createStorage(() => back).bestRun('w4-2'), run);
-  assert.equal(s.bestRun('w4-3'), null);
 });

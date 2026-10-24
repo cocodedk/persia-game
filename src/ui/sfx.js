@@ -1,5 +1,5 @@
 // Every sound patch by name (audio.js play(name)): the fight, power-ups and the bomb, the bosses and
-// big blasts, the world twists, the stingers and menus, and the trailer's film sounds.
+// big blasts, the world twists, the stingers and menus, and the film sounds.
 import { FIGHT } from './sfx-fight.js';
 import { POWER } from './sfx-power.js';
 import { BOSS } from './sfx-boss.js';

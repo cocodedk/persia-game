@@ -6,10 +6,8 @@
 // (setWorldSound(look) -> sound-data.js kitFor). Bursts are thinned per sound (GAP) and a voice
 // budget drops the small stuff when too much is ringing (cheap on a Pi 4).
 //   unlockAudio()  call from a keydown / pointerdown; toggleMute() (M; saved)
-//   play(name, { x, gain, wet, group, delay, ... })   names: sfx-*.js   audioNodes() -> { ctx, music } | null (muted)
-//   hush(group)     fade every voice played with that group within 0.1 s (a skipped trailer)
+//   play(name, { x, gain, wet, delay, ... })   names: sfx-*.js   audioNodes() -> { ctx, music } | null (muted)
 //   setBeam(on, x)  the laser power's sustained hum             duck(level)  music under menus
-//   audioStats()    sounds played and failed (the ?debug hooks report it)
 import { store } from './storage.js';
 import { kitFor } from './sound-data.js';
 import { SFX } from './sfx.js';
@@ -25,7 +23,6 @@ let noise = null;
 let muted = store.muted();
 let kit = kitFor();
 let voices = []; // end times of the sounds ringing
-const stats = { played: 0, failed: 0, error: null }; // for ?debug
 const last = {};
 const MAX_VOICES = 36;
 const GAP = {
@@ -33,7 +30,7 @@ const GAP = {
   shield: 0.12, bunker: 0.09, cut: 0.06, acid: 0.15, teleport: 0.12, absorb: 0.1, move: 0.03, count: 0.05, warn: 0.12,
 };
 const MUST = new Set(['blast', 'bossDeath', 'phase', 'cleared', 'failed', 'bomb', 'shipHit', 'select', 'star',
-  'braam', 'impact', 'riser', 'clap']);
+  'braam', 'impact', 'riser']);
 const MASTER = 0.85;
 const MUSIC = 0.32; // the loops sit about 10 dB under the effects (offline RMS check)
 
@@ -104,10 +101,6 @@ globalThis.document?.addEventListener('visibilitychange', () => {
 const running = () => ctx && ctx.state === 'running';
 export const audioNodes = () => (running() && !muted ? { ctx, music: musicBus, noise } : null); // muted: no music
 export const setWorldSound = (look) => { kit = kitFor(look?.music); };
-export const audioStats = () => ({
-  ...stats, state: ctx?.state ?? 'none', voices: voices.length, beam: Boolean(beam),
-  grouped: Object.fromEntries([...groups].map(([k, s]) => [k, s.size])),
-});
 
 export function toggleMute() {
   muted = !muted;
@@ -119,25 +112,6 @@ export function toggleMute() {
 
 export function duck(level) {
   if (musicBus) musicBus.gain.setTargetAtTime(MUSIC * level, ctx.currentTime, 0.15);
-}
-
-// Voices played with { group }: their out gains, so hush(group) can fade them all at once (the
-// trailer's long braams and risers must not ring on over the card a skip lands on).
-const groups = new Map();
-const groupOf = (name) => {
-  if (!groups.has(name)) groups.set(name, new Set());
-  return groups.get(name);
-};
-export function hush(name, secs = 0.1) {
-  const set = groups.get(name);
-  if (!set || !ctx) return;
-  const now = ctx.currentTime;
-  for (const out of set) {
-    out.gain.cancelScheduledValues(now);
-    out.gain.setValueAtTime(out.gain.value, now);
-    out.gain.linearRampToValueAtTime(0, now + secs);
-  }
-  set.clear();
 }
 
 // The voice a patch plays into: { ctx, t, out, noise, kit }; t is o.delay s from now (a run of chimes).
@@ -172,16 +146,9 @@ export function play(name, o = {}) {
     const a = voice(o);
     const secs = a.t - now + (SFX[name](a, o) ?? 1); // from now to its end, a delayed start included
     voices.push(now + secs);
-    stats.played += 1;
-    const group = o.group ? groupOf(o.group) : null;
-    group?.add(a.out);
-    setTimeout(() => { // after the reverb has the tail
-      a.tail.disconnect();
-      group?.delete(a.out);
-    }, (secs + 2.5) * 1000);
-  } catch (e) {
-    stats.failed += 1; // a sound that fails to build is not worth a crash
-    stats.error = `${name}: ${e.message}`;
+    setTimeout(() => a.tail.disconnect(), (secs + 2.5) * 1000); // after the reverb has the tail
+  } catch {
+    // a sound that fails to build is not worth a crash
   }
 }
 

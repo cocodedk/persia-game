@@ -13,7 +13,7 @@ test('muted, the music schedules no notes; unmuted, it picks up again', async (t
   const audio = await import('../../src/ui/audio.js');
   const { setMusic, updateMusic } = await import('../../src/ui/music.js');
   audio.unlockAudio();
-  if (audio.audioStats().state !== 'running') throw new Error('the fake context did not start');
+  if (!audio.audioNodes()) throw new Error('the fake context did not start');
   const ctx = () => audio.audioNodes()?.ctx;
   setMusic(LOOKS[0]);
   updateMusic();

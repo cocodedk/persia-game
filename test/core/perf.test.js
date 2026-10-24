@@ -4,7 +4,7 @@ import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
 import { levelById } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { TICK } from '../../src/core/replay.js';
+import { TICK } from '../../src/core/kinds.js';
 
 // The Pi 4 gets 16 ms a frame for everything, so the simulation gets a small slice of it.
 // w5-4 is the busiest level: flown by the autopilot it holds the most enemy bullets (up to the cap

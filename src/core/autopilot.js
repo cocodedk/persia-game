@@ -6,8 +6,8 @@ import { MID_X } from './kinds.js';
 import { IDLE } from './input-codec.js';
 import { finished } from './util.js';
 
-// The autopilot: drives the title-screen backdrop and the "watch, then try" demo, and is how the
-// tests prove that every level can be finished. It plays the way a person with a mouse would:
+// The autopilot: drives the title-screen backdrop and ?debug&auto, and is how the tests prove
+// that every level can be finished. It plays the way a person with a mouse would:
 // always firing, the pointer on the spot it wants to be.
 //   - stand under the nearest thing it can hit, led by where that will be (aim.js)
 //   - fly out of the way of bullets, beams and divers (dodge.js)
@@ -15,7 +15,7 @@ import { finished } from './util.js';
 //   - drop a bomb when six bullets are within 160 px, or when the last life is on the line in a
 //     boss fight
 // It reads the world and nothing else: no rng, no memory between calls, so the same world always
-// gets the same answer and a replay (which does not run it) cannot drift.
+// gets the same answer.
 
 const BOMB_CROWD = 6; // bullets within BOMB_RADIUS that call for a bomb
 const BOMB_RADIUS = 160;

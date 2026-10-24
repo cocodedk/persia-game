@@ -112,8 +112,8 @@ function warfire(g) {
 
 // How strongly the sky's black hole is drawn: on the boss level (the Singularity) it steps back to
 // faint lensing, about 35 %, so the boss is the one black hole that reads as the target (ruling
-// R29); the bending of the bullets stays visible as its faint arcs. level null: full (the sheet).
-export const wellLight = (level) => (level?.boss ? 0.35 : 1);
+// R29); the bending of the bullets stays visible as its faint arcs.
+export const wellLight = (level) => (level.boss ? 0.35 : 1);
 
 // The black hole above the formation (the well, 960, 300): its far disk lensed into a halo round
 // the shadow, the near disk crossing in front, Doppler-brighter on the left.

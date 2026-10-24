@@ -1,10 +1,9 @@
-// Saved progress, adapted from Barrage: best score and best stars per level, the best run per level
-// (trailer/runs.js stores and reads it), the mute switch and whether the demo was seen. Every localStorage
-// touch is wrapped: private windows, kiosks and blocked storage play on without saving. Whatever is
-// written also lands in memory, so a session without storage still remembers its own results.
+// Saved progress, adapted from Barrage: best score and best stars per level, and the mute switch.
+// Every localStorage touch is wrapped: private windows, kiosks and blocked storage play on without
+// saving. Whatever is written also lands in memory, so a session without storage still remembers its
+// own results.
 //   keys  persia.best        { [levelId]: { score, stars } }
-//         persia.run.<id>    a run as makeRun builds it (JSON)
-//         persia.muted       '1' | '0'      persia.demoSeen  '1'
+//         persia.muted       '1' | '0'
 // createStorage(getBackend) takes a function returning the backend (the getter itself may throw);
 // `store` is the game's instance over globalThis.localStorage.
 import { isRecord, isCount, validScore } from '../core/util.js';
@@ -37,16 +36,12 @@ export function createStorage(getBackend = () => globalThis.localStorage) {
     }
   }
 
-  // true when the backend took it
   function write(key, value) {
     memory.set(key, value);
     try {
-      const back = getBackend();
-      if (!back) return false;
-      back.setItem(PREFIX + key, value);
-      return true;
+      getBackend()?.setItem(PREFIX + key, value);
     } catch {
-      return false; // full or blocked: the in-memory copy holds for this session
+      // full or blocked: the in-memory copy holds for this session
     }
   }
 
@@ -61,7 +56,6 @@ export function createStorage(getBackend = () => globalThis.localStorage) {
   }
 
   const allBest = () => cleanBest(readJSON('best'));
-  const best = (id) => ({ ...(allBest()[id] ?? NONE) });
 
   // A finished level: keep the higher score and the higher stars, each on its own.
   function recordResult(id, { score, stars }) {
@@ -76,18 +70,10 @@ export function createStorage(getBackend = () => globalThis.localStorage) {
   }
 
   return {
-    allBest,
-    best,
+    best: (id) => ({ ...(allBest()[id] ?? NONE) }),
     recordResult,
-    bestRun: (id) => {
-      const run = readJSON(`run.${id}`);
-      return isRecord(run) ? run : null;
-    },
-    setBestRun: (id, run) => write(`run.${id}`, JSON.stringify(run)),
     muted: () => read('muted') === '1',
     setMuted: (on) => write('muted', on ? '1' : '0'),
-    demoSeen: () => read('demoSeen') === '1',
-    setDemoSeen: () => write('demoSeen', '1'),
   };
 }
 

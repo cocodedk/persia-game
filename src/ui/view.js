@@ -1,11 +1,10 @@
-// The renderer. createView bakes everything static for a level (sky, parallax); drawFrame draws one
-// frame of world + fx, then the HUD and, in the trailer, the film look.
-//   createView(canvas, level, warm?) -> view   view.look: the world's look (looks/), view.quality: the
+// The renderer. createView bakes everything static for a level (sky, parallax) and the level's
+// aliens and boss with all their damage art; drawFrame draws one frame of world + fx, then the HUD.
+//   createView(canvas, level) -> view   view.look: the world's look (looks/), view.quality: the
 //     auto-quality state (main feeds sampleFrame(view.quality, workMs, intervalMs) every frame, work
 //     = performance.now() around its core steps + fx + drawFrame, and sets fx.density from it),
-//     view.showHud: false hides the HUD (trailer, title backdrop); view.lift: px the sky and the
-//     field are drawn higher (the trailer frames the ship above its letterbox bar; 0 in play)
-//   drawFrame(view, world, fx, t, film?)   t: seconds, any monotonic clock (animation only)
+//     view.showHud: false hides the HUD (title backdrop)
+//   drawFrame(view, world, fx, t)   t: seconds, any monotonic clock (animation only)
 // The canvas is sized to its CSS box; the 1920 x 1080 world is letterboxed into it, and the backing
 // store never exceeds 1:1 with the world (Pi 4 fill rate). No camera: only fx shake moves the field.
 import { W, H } from './sprites.js';
@@ -26,23 +25,18 @@ import { drawLasers, drawBeam, drawShots } from './lasers-view.js';
 import { drawShip } from './ship-view.js';
 import { drawFx, drawPopups } from './fx-view.js';
 import { drawDarkness, drawScreenFx, drawSlices } from './screen-view.js';
-import { drawFilm } from './film-view.js';
 import { drawHud } from './hud.js';
 import { createQuality } from './quality.js';
 
-// warm (default true) bakes the level's aliens and boss with all their damage art; a poster, which
-// draws one frame and has baked what it draws, passes false.
-export function createView(canvas, level, warm = true) {
+export function createView(canvas, level) {
   const look = lookFor(level);
-  if (warm) {
-    warmAliens(look);
-    warmBoss(look, level.boss);
-  }
+  warmAliens(look);
+  warmBoss(look, level.boss);
   return {
     canvas, ctx: canvas.getContext('2d'), level, look,
     sky: buildSky(look, level), layers: buildLayers(look, level.seed ?? 1),
     quality: createQuality(), cache: {}, hud: { lag: null }, showHud: true,
-    lastT: null, drift: 0, fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 }, lift: 0,
+    lastT: null, drift: 0, fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 },
   };
 }
 
@@ -103,7 +97,7 @@ function field(ctx, v, world, fx, t, env, amb) {
   ctx.restore();
 }
 
-export function drawFrame(v, world, fx, t = 0, film = null) {
+export function drawFrame(v, world, fx, t = 0) {
   const dt = v.lastT == null ? 0 : clamp(t - v.lastT, 0, 0.1);
   v.lastT = t;
   v.drift += (world.wind || 0) * dt * 0.9;
@@ -118,17 +112,14 @@ export function drawFrame(v, world, fx, t = 0, film = null) {
   ctx.clip();
   const env = { v, world, fx, t, quality: v.quality.level };
   const amb = { t, drift: v.drift, wind: world.wind || 0, world };
-  ctx.translate(0, -v.lift);
   ctx.drawImage(v.sky, 0, 0);
   drawAmbient(ctx, v.look, 'sky', amb);
   drawFlourishes(ctx, env, 'sky');
   field(ctx, v, world, fx, t, env, amb);
-  ctx.translate(0, v.lift);
   drawScreenFx(ctx, fx);
   drawAmbient(ctx, v.look, 'screen', amb);
   drawFlourishes(ctx, env, 'screen');
   drawSlices(ctx, v.canvas, f, fx);
   if (v.showHud) drawHud(ctx, world, v.look, v.hud, t);
-  drawFilm(ctx, film, v.quality.level);
   ctx.restore();
 }

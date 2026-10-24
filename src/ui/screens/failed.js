@@ -1,5 +1,5 @@
-// A failed level: SHOT DOWN, how far the run got, and Retry / Select.
-//   failedScreen({ label, score, progress }, { retry, select }) -> screen
+// A failed level: SHOT DOWN, how far the run got, and Retry / Title.
+//   failedScreen({ label, score, progress }, { retry, title }) -> screen
 import { h, button, shell, armed, endKeys } from './dom.js';
 import { fmt } from '../format.js';
 
@@ -9,7 +9,7 @@ export function failedScreen(o, act) {
   const ready = armed();
   const go = (fn) => () => ready() && fn();
   const el = shell('results dim lost');
-  const items = [button('Retry', go(act.retry), 'btn btn-big'), button('Select', go(act.select), 'btn btn-big')];
+  const items = [button('Retry', go(act.retry), 'btn btn-big'), button('Title', go(act.title), 'btn btn-big')];
   el.append(
     h('div', 'banner',
       h('p', 'banner-kicker', o.label),

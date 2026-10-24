@@ -164,25 +164,25 @@ Expected: 288 files land. This repo's `CLAUDE.md`, `docs/` and `memory/` are unt
 - `debug-hooks.js` keeps two hooks: `?debug&level=<id>` and `?debug&auto`, where the autopilot flies
   a play scene. Every other hook goes.
 
-- [ ] **Step 1: Delete the files listed above.**
-- [ ] **Step 2: Fix every import of a deleted file and drop what only served it.**
+- [x] **Step 1: Delete the files listed above.**
+- [x] **Step 2: Fix every import of a deleted file and drop what only served it.**
   - Pause offers Resume, Restart and Title.
   - Results offer Next (while there is a next level), Retry and Title.
   - Failed offers Retry and Title.
   - `card.js` drops the tagline.
   - When a test covers both kept and deleted behaviour, delete only the deleted cases. Never weaken
     an assertion about kept behaviour.
-- [ ] **Step 3: Run the suite.** `npm test` should report 0 failures. Then run
+- [x] **Step 3: Run the suite.** `npm test` should report 0 failures. Then run
   `grep -rnE "trailer|blooper|cinema|poster|lobby|DEMO_LEVEL|startDemo|startTry|saveBestRun|replay|stateHash|hush|musicLook" src test index.html`.
   It should print nothing.
-- [ ] **Step 4: Play it.** Serve with `python3 -m http.server 8000` and open
+- [x] **Step 4: Play it.** Serve with `python3 -m http.server 8000` and open
   http://localhost:8000/.
   - Play starts w1-1.
   - P pauses, and Title goes back to the title.
   - M toggles sound.
   - `?debug&auto` flies the level by itself.
   - The console shows no errors.
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   `git add -A && git commit -m "refactor: strip the trailer, cinema, demo, lobby and run recording"`
 
 ### Task 3: Strip worlds 2–8 and every rule but bullet time, and set the night look

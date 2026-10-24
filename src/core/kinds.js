@@ -33,5 +33,5 @@ export const WELL = { x: MID_X, y: 300 };
 export const ALIEN_R = 26; // hit radius of an alien
 export const NEAR_MISS = 28; // centre distance, for a standard 8 px bullet: 6 px outside the hit circle
 
-// The fixed step of the simulation, in seconds: every stepWorld call in a game, a replay or a test.
+// The fixed step of the simulation, in seconds: every stepWorld call in a game or a test.
 export const TICK = 1 / 60;

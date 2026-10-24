@@ -23,14 +23,12 @@ test('every film sound builds in every world, is reachable by name, and stops ev
   for (const name of Object.keys(FILM)) assert.equal(SFX[name], FILM[name], name);
   for (const look of LOOKS) {
     for (const [name, patch] of Object.entries(FILM)) {
-      for (const n of [0, 1, 2]) {
-        const { a, nodes } = fakeVoice(kitFor(look.music));
-        const secs = patch(a, { n });
-        assert.ok(secs > 0 && secs < 4, `${name}: ${secs}`);
-        const sources = nodes.filter((x) => x.kind === 'Oscillator' || x.kind === 'BufferSource');
-        assert.ok(sources.length > 0, name);
-        for (const s of sources) assert.ok(s.started && s.stopAt > a.t && s.stopAt <= a.t + secs + 0.1, `${name}: a source left running`);
-      }
+      const { a, nodes } = fakeVoice(kitFor(look.music));
+      const secs = patch(a);
+      assert.ok(secs > 0 && secs < 4, `${name}: ${secs}`);
+      const sources = nodes.filter((x) => x.kind === 'Oscillator' || x.kind === 'BufferSource');
+      assert.ok(sources.length > 0, name);
+      for (const s of sources) assert.ok(s.started && s.stopAt > a.t && s.stopAt <= a.t + secs + 0.1, `${name}: a source left running`);
     }
   }
 });

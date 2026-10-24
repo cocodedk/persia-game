@@ -4,7 +4,7 @@ import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
 import { LEVELS } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { TICK } from '../../src/core/replay.js';
+import { TICK } from '../../src/core/kinds.js';
 
 // The aim is the autopilot's whole skill, so it is measured on real flights: every level, quiet
 // (nothing shoots back), ship invulnerable, power-ups swept away (a spread would blur the count).

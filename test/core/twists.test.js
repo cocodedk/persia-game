@@ -28,7 +28,7 @@ test('every world has the twist state, plain data, and keeps it identical on a r
       }
       return JSON.stringify(w);
     };
-    assert.equal(run(true), run(false), `${id} replays exactly, even through a structuredClone`);
+    assert.equal(run(true), run(false), `${id} steps on exactly, even through a structuredClone`);
   }
 });
 

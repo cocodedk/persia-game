@@ -148,7 +148,7 @@ test('once the shield has run out the next bullet hurts', () => {
   assert.equal(w.ship.lives, 2);
 });
 
-test('a world with a power, pickups and bombs survives structuredClone and replays identically', () => {
+test('a world with a power, pickups and bombs survives structuredClone and steps on identically', () => {
   const w = playing(lv(['carrier', 'grunt']), { quiet: false });
   w.ship.power = { kind: 'spread', left: 10 };
   pickupAt(w, 'bomb', 700, 300);

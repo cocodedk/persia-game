@@ -4,7 +4,7 @@ import { createWorld, stepWorld } from '../../src/core/world.js';
 import { finished } from '../../src/core/util.js';
 import { LEVELS } from '../../src/core/levels.js';
 import { autopilot } from '../../src/core/autopilot.js';
-import { TICK } from '../../src/core/replay.js';
+import { TICK } from '../../src/core/kinds.js';
 import { IDLE, step } from './world-kit.js';
 
 // Shared by the autopilot tests.

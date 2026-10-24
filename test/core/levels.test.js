@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { WORLDS, LEVELS, DEMO_LEVEL, levelById } from '../../src/core/levels.js';
+import { WORLDS, LEVELS, levelById } from '../../src/core/levels.js';
 import { difficulty } from '../../src/core/difficulty.js';
 import { ROLES, FORMATIONS, PATTERNS, TWISTS, BOSSES } from '../../src/core/kinds.js';
 
@@ -85,21 +85,6 @@ test('world 1 has bunkers on every wave level, world 4 waves all fire shuriken',
 
 test('levels are plain data: a JSON round trip changes nothing', () => {
   assert.deepEqual(JSON.parse(JSON.stringify(LEVELS)), LEVELS);
-});
-
-test('DEMO_LEVEL is a gentle world 1 level: a 6x3 grunt grid, then a sway with one carrier', () => {
-  assert.equal(DEMO_LEVEL.world, 1);
-  assert.equal(DEMO_LEVEL.d, 0);
-  assert.ok(Number.isInteger(DEMO_LEVEL.seed));
-  assert.equal(DEMO_LEVEL.waves.length, 2);
-  DEMO_LEVEL.waves.forEach((w, i) => assertWaveValid(w, `demo wave ${i}`));
-  const [first, second] = DEMO_LEVEL.waves;
-  assert.deepEqual([first.formation, first.rows, first.cols], ['grid', 3, 6]);
-  assert.ok(first.roles.every((r) => r === 'grunt'));
-  assert.equal(second.formation, 'sway');
-  const carriers = second.roles.filter((r) => r === 'carrier').length * second.cols;
-  assert.equal(carriers, 1);
-  assert.ok(LEVELS.every((l) => l.id !== DEMO_LEVEL.id));
 });
 
 test('levelById finds every level and returns undefined for an unknown id', () => {
