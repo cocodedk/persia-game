@@ -1,8 +1,9 @@
-// Silhouette painters for the parallax layers, one per layer kind (adapted from Barrage). Each fills
-// `g` (w x h, the band standing on the frame's bottom) in the layer colour; `rng` is seeded, `lights`
-// collects the glows that pulse on top ({ x, y, r, color, ph, a }).
+// Silhouette painters for the parallax layers, one per layer kind (adapted from Barrage); a level's
+// landmark has its own (landmarks/). Each fills `g` (w x h, the band standing on the frame's bottom)
+// in the layer colour; `rng` is seeded, `lights` collects the glows that pulse on top
+// ({ x, y, r, color, ph, a }), in px.
 import { profile, ridgeTop } from './parallax-kit.js';
-import { WILD } from './parallax-wild.js';
+import { persepolis } from './landmarks/persepolis.js';
 
 // A flat floor whose top is one glowing line.
 function ground(g, w, h, rng, L, lights) {
@@ -12,13 +13,13 @@ function ground(g, w, h, rng, L, lights) {
   for (let x = 40; x < w; x += 180 + rng() * 120) lights.push({ x, y: h * 0.3 + 2, r: 34, color: L.line, ph: rng(), a: 0.5 });
 }
 
-const GENERIC = {
+const PAINTERS = {
   mountains: (g, w, h, rng, L) => profile(g, w, h, ridgeTop(rng, w, h, L.roughness)),
   ground,
+  persepolis,
 };
 
 export function paintLayer(g, w, h, rng, L, lights) {
   g.fillStyle = L.color;
-  const paint = GENERIC[L.kind] ?? WILD[L.kind];
-  paint(g, w, h, rng, L, lights);
+  PAINTERS[L.kind](g, w, h, rng, L, lights);
 }

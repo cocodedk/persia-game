@@ -39,7 +39,7 @@ Nothing else is measured for the concept level.
 - Any quiz, test, or "prove you understood".
 - Learner speech or recording.
 - Teaching the script. The Persian word is shown, never explained.
-- Iranian backdrops (Persepolis and other known places). Wanted later, not now.
+- Iranian backdrops beyond level 1's Persepolis.
 - More than one level, more worlds, new voice clips.
 - Accounts, backend, telemetry. Static, like every cocode.dk game.
 
@@ -81,7 +81,7 @@ Things that would make the level a failure even if it runs:
 | Scope now | One level, then evaluate. | Babak |
 | On-screen text | Clean screen. Picture plus voice plus the Persian word, each letter its own colour. No Danish. | Babak |
 | Teaching ramp | Level 1 teaches nothing visibly. Later levels and richer endings add the layer gradually. | Babak |
-| Backdrops | Known places in Iran, later. | Babak |
+| Backdrops | Every level's backdrop is a known place in Iran, in pixel art. Level 1 is Persepolis at night under the blood moon. Brought forward after playing the build. | Babak |
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 

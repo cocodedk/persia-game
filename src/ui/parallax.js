@@ -1,8 +1,10 @@
 // Parallax silhouettes (adapted from Barrage): each layer is a band standing on the bottom of the
 // frame, baked once per level, and shifted sideways against the ship's x so the world has depth as
-// the ship flies. A layer may carry lights (the ground line's glow) that pulse on top.
-//   look.layers[i] = { kind, color, height, speed 0 far .. 1 near, roughness, rim?, haze? }
-import { W, H, makeCanvas, rgba, shade, glow, lin } from './sprites.js';
+// the ship flies, pixelated (sprites.js). A layer may carry lights (fire, the ground line's glow) that
+// pulse on top.
+//   look.layers[i] = { kind, color, height (a multiple of PIXEL), speed 0 far .. 1 near, roughness?,
+//                      rim?, haze?, and the tones its painter reads (a landmark's lit, ink, fire...) }
+import { W, H, PIXEL, makeCanvas, rgba, shade, glow, lin, pixelate } from './sprites.js';
 import { makeRng } from '../core/rng.js';
 import { paintLayer } from './parallax-shapes.js';
 
@@ -31,9 +33,9 @@ export function buildLayers(look, seed) {
     r.fillStyle = L.rim ?? shade(L.color, 0.28);
     r.fillRect(0, 0, w, h);
     g.globalCompositeOperation = 'destination-over';
-    g.drawImage(rim, 0, -2);
+    g.drawImage(rim, 0, -PIXEL);
     g.globalCompositeOperation = 'source-over';
-    return { canvas: c, top: H - h, speed: L.speed, lights, far: i === 0 };
+    return { canvas: pixelate(c), top: H - h, speed: L.speed, lights, far: i === 0 };
   });
 }
 

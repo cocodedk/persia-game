@@ -24,14 +24,16 @@ function ridge(rng, n, rough) {
   return pts.map((p) => (p - lo) / (hi - lo || 1));
 }
 
-// A ridge as a top-edge function: peaks reach the band's top, valleys sit at `floor` of it.
-export function ridgeTop(rng, w, h, rough, floor = 0.05, sharp = 1.3) {
+// A ridge as a top-edge function: peaks reach the band's top, valleys sit at FLOOR of it.
+const FLOOR = 0.05;
+const SHARP = 1.3;
+export function ridgeTop(rng, w, h, rough) {
   const r = ridge(rng, 64, rough);
   const seg = w / 64;
   return (x) => {
     const i = Math.min(63, Math.floor(x / seg));
     const u = x / seg - i;
     const v = r[i] + (r[i + 1] - r[i]) * u;
-    return h * (1 - floor - (0.95 - floor) * v ** sharp);
+    return h * (1 - FLOOR - (0.95 - FLOOR) * v ** SHARP);
   };
 }

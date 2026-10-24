@@ -69,6 +69,23 @@ export function cached(key, w, h, paint) {
   return c;
 }
 
+// The backdrops (sky, parallax) are pixel art: painted smooth, then baked through pixelate once,
+// sampled down to one pixel per PIXEL x PIXEL block, their alpha made hard, scaled back up unsmoothed.
+export const PIXEL = 4;
+export function pixelate(c) {
+  const s = makeCanvas(c.width / PIXEL, c.height / PIXEL);
+  const sg = s.getContext('2d');
+  sg.drawImage(c, 0, 0, s.width, s.height);
+  const img = sg.getImageData(0, 0, s.width, s.height);
+  for (let i = 3; i < img.data.length; i += 4) img.data[i] = img.data[i] < 128 ? 0 : 255;
+  sg.putImageData(img, 0, 0);
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, c.width, c.height);
+  g.imageSmoothingEnabled = false;
+  g.drawImage(s, 0, 0, c.width, c.height);
+  return c;
+}
+
 // Gradients from [[at, colour], ...] stops: linear from (x0, y0) to (x1, y1); radial from r0 at the
 // focus (fx, fy) to r1 round (x, y).
 export function lin(g, x0, y0, x1, y1, stops) {

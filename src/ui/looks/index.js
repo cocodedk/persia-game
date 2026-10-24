@@ -1,7 +1,7 @@
 // The game's art direction, one data file (persia.js), plain data:
 //   sky       gradient stops [[at, colour], ...] top to bottom
 //   body      what is baked into the sky (sky-bodies.js); haze: colour far layers fade toward
-//   layers    3 parallax bands, far to near (parallax.js; kinds in parallax-shapes/-wild.js)
+//   layers    3 parallax bands, far to near (parallax.js; kinds in parallax-shapes.js)
 //   ambient   particle entries per depth (ambient.js); flourish: animated extras (flourish.js)
 //   palette   accent (HUD, engine), shot, beam (laser power), enemy + enemyRim (bullets), alien
 //             colours per species (aliens/animals.js paints in them) and boss colours
