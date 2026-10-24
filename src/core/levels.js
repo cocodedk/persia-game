@@ -8,7 +8,8 @@
 // below from the levels played before it.
 // `persian` names the parts the level shows in Persian digits ('wave': the wave count, 'score': the
 // score, 'combo': the combo, 'level': its own number wherever play names it, 'boss': its giant's name
-// as the species' word).
+// as the species' word, 'waveWord': the wave line's label, the pack's word in place of 'WAVE', the
+// line then read right to left).
 // `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars';
 // ui/weather.js draws each kind and the pack words it) and `from` is the number within the level of
 // the wave it begins with; it lasts to the end, the giant's fight included.

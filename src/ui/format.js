@@ -2,15 +2,17 @@
 //   fmt(n)                          12,345 (rounded)
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
-//   showsPersian(level, part)       whether the level shows that part ('wave', 'score', 'combo',
-//                                   'level') in Persian
+//   showsPersian(level, part)       whether the level shows that part ('wave', 'waveWord', 'score',
+//                                   'combo', 'level', 'boss') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part in Persian
 //   levelName(level)                the level's name where play shows it (the HUD, its card, pause
 //                                   and the end cards), its number in the pack's digits when the
 //                                   level shows its own number in Persian; the title keeps level.name
-//   waveText(level, wave)           the HUD's wave count in the world's numbers, 'WAVE 6 / 10', in
-//                                   the pack's digits when the level shows its wave count in Persian
+//   waveText(level, wave)           the HUD's wave line in the world's numbers, 'WAVE 6 / 10', the count
+//                                   in the pack's digits when the level shows its 'wave' in Persian, and
+//                                   the pack's word in place of 'WAVE' when it shows its 'waveWord' (the
+//                                   line then reads right to left: the word, then the count)
 //   scoreText(level, score)         a score, '146,800', in the pack's digits and grouping when the
 //                                   level shows its score in Persian (the HUD and the end cards)
 //   bossName(level, def)            the giant's name on the HUD bar: its species' word in the pack when
@@ -28,7 +30,8 @@ export const localText = (level, part, s) => (showsPersian(level, part) ? localD
 
 export function waveText(level, wave) {
   const show = (n) => localText(level, 'wave', String(n));
-  return `WAVE ${show(waveNumber(level, Math.max(1, wave)))} / ${show(waveNumber(level, level.waves.length))}`;
+  const count = `${show(waveNumber(level, Math.max(1, wave)))} / ${show(waveNumber(level, level.waves.length))}`;
+  return showsPersian(level, 'waveWord') ? `${PACK.hud.wave} ${count}` : `WAVE ${count}`;
 }
 
 export const scoreText = (level, score) => localText(level, 'score', fmt(score));

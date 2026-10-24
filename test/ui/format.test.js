@@ -26,6 +26,13 @@ test("level 1 counts its waves in ASCII; level 2 counts on from six in the pack'
   assert.equal(waveText(LEVELS[1], 5), `WAVE ${D[1]}${D[0]} / ${D[1]}${D[0]}`);
 });
 
+test("a level with 'waveWord' leads its wave count with the pack's word; levels 1 to 5 keep WAVE n / m", () => {
+  const probe = { ...LEVELS[4], first: 26, persian: [...LEVELS[4].persian, 'waveWord'] };
+  assert.equal(waveText(probe, 1), `${PACK.hud.wave} ${D[2]}${D[6]} / ${D[3]}${D[0]}`);
+  assert.equal(waveText({ ...probe, persian: ['waveWord'] }, 1), `${PACK.hud.wave} 26 / 30`, 'the word and the digits are separate parts');
+  for (const level of LEVELS.slice(0, 5)) assert.ok(waveText(level, 1).startsWith('WAVE '), level.id);
+});
+
 test("levels 1 and 2 keep the score in ASCII; level 3 writes it in the pack's digits and grouping", () => {
   assert.equal(scoreText(LEVEL, 146800), '146,800');
   assert.equal(scoreText(LEVELS[1], 146800), '146,800');
@@ -52,14 +59,15 @@ test("a level with 'boss' names its giant by its species' word in the pack; the 
   }
 });
 
-test('word sets a whole word in the pack face in one fillText, with no letter spacing', () => {
+test('word sets a whole word in the pack face in one fillText, with no letter spacing, in the pack direction', () => {
   const calls = [];
-  const ctx = { fillText: (...a) => calls.push(a), letterSpacing: '3px' };
+  const ctx = { fillText: (...a) => calls.push([...a, ctx.direction]), letterSpacing: '3px' };
   word(ctx, 'abc', 960, 38, 22, '#fff');
   assert.equal(ctx.font, `${PACK.font.weight} 22px "${PACK.font.family}", sans-serif`);
   assert.equal(ctx.letterSpacing, '0px');
   assert.equal(ctx.textAlign, 'center');
-  assert.deepEqual(calls, [['abc', 960, 38]]);
+  assert.deepEqual(calls, [['abc', 960, 38, PACK.dir]]);
+  assert.equal(ctx.direction, 'inherit', 'the next text is set as before');
 });
 
 test("the HUD and the screens set numbers in the pack's digits face first", () => {

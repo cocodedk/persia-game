@@ -68,7 +68,9 @@ function combo(ctx, world, t) {
 function wave(ctx, world, look) {
   panel(ctx, W / 2 - 150, TOP, 300, PH);
   label(ctx, levelName(world.level).toUpperCase(), W / 2, CAP, 'center', look.palette.accent);
-  text(ctx, waveText(world.level, world.wave), W / 2, MAIN, 32, '#ffffff', 'center', 900);
+  const line = waveText(world.level, world.wave);
+  if (showsPersian(world.level, 'waveWord')) word(ctx, line, W / 2, MAIN, 32, '#ffffff');
+  else text(ctx, line, W / 2, MAIN, 32, '#ffffff', 'center', 900);
 }
 
 function bossBar(ctx, world, look, hud) {
