@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
 import { LEVEL, LEVELS } from '../../src/core/levels.js';
-import { fmt, localDigits, scoreText, waveText, levelName, localText } from '../../src/ui/format.js';
-import { FONT } from '../../src/ui/hud-kit.js';
+import { bossDef } from '../../src/core/bosses-data.js';
+import { fmt, localDigits, scoreText, waveText, levelName, localText, bossName } from '../../src/ui/format.js';
+import { FONT, word } from '../../src/ui/hud-kit.js';
 
 const D = PACK.digits; // the expected strings are built from the pack, so no Persian enters a test
 
@@ -38,6 +39,27 @@ test("level 4 names itself and counts its combo in the pack's digits; levels 1 t
   assert.equal(levelName(LEVELS[3]), `Level ${D[4]}`);
   assert.equal(localText(LEVELS[3], 'combo', '×8'), `×${D[8]}`);
   assert.equal(localText(LEVELS[2], 'combo', '×8'), '×8');
+});
+
+test("a level with 'boss' names its giant by its species' word in the pack; the others by its English name", () => {
+  const bird = bossDef('giant-bird');
+  const named = { ...LEVELS[3], persian: [...LEVELS[3].persian, 'boss'] };
+  assert.equal(bossName(named, bird), PACK.species.find((s) => s.id === 'bird').word);
+  assert.equal(bossName(LEVELS[3], bird), 'GIANT BIRD');
+  for (const level of LEVELS.slice(0, 4)) {
+    assert.ok(!level.persian.includes('boss'), level.id);
+    assert.equal(bossName(level, bossDef(level.boss)), bossDef(level.boss).name.toUpperCase(), level.id);
+  }
+});
+
+test('word sets a whole word in the pack face in one fillText, with no letter spacing', () => {
+  const calls = [];
+  const ctx = { fillText: (...a) => calls.push(a), letterSpacing: '3px' };
+  word(ctx, 'abc', 960, 38, 22, '#fff');
+  assert.equal(ctx.font, `${PACK.font.weight} 22px "${PACK.font.family}", sans-serif`);
+  assert.equal(ctx.letterSpacing, '0px');
+  assert.equal(ctx.textAlign, 'center');
+  assert.deepEqual(calls, [['abc', 960, 38]]);
 });
 
 test("the HUD and the screens set numbers in the pack's digits face first", () => {

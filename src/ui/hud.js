@@ -10,9 +10,9 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { scoreText, waveText, localText, levelName } from './format.js';
+import { scoreText, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
-import { panel, text, label, shipIcon, bombIcon } from './hud-kit.js';
+import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
 
 const TOP = 16;
@@ -81,7 +81,9 @@ function bossBar(ctx, world, look, hud) {
   const x = W / 2 - bw / 2;
   const y = TOP + 40;
   panel(ctx, x - 24, TOP, bw + 48, PH, rgba(look.palette.boss.weak, 0.7));
-  label(ctx, def.name.toUpperCase(), W / 2, CAP, 'center', shade(look.palette.boss.weak, 0.4));
+  const ink = shade(look.palette.boss.weak, 0.4);
+  if (showsPersian(world.level, 'boss')) word(ctx, bossName(world.level, def), W / 2, CAP, 22, ink);
+  else label(ctx, bossName(world.level, def), W / 2, CAP, 'center', ink);
   ctx.fillStyle = 'rgba(255,255,255,0.1)';
   ctx.fillRect(x, y, bw, 24);
   ctx.fillStyle = 'rgba(255,255,255,0.55)';

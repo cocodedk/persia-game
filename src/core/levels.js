@@ -7,7 +7,8 @@
 // A world counts its waves across its levels: `first` is the number of the level's first wave, set
 // below from the levels played before it.
 // `persian` names the parts the level shows in Persian digits ('wave': the wave count, 'score': the
-// score, 'combo': the combo, 'level': its own number wherever play names it).
+// score, 'combo': the combo, 'level': its own number wherever play names it, 'boss': its giant's name
+// as the species' word).
 // `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars';
 // ui/weather.js draws each kind and the pack words it) and `from` is the number within the level of
 // the wave it begins with; it lasts to the end, the giant's fight included.

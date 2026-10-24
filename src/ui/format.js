@@ -13,6 +13,8 @@
 //                                   the pack's digits when the level shows its wave count in Persian
 //   scoreText(level, score)         a score, '146,800', in the pack's digits and grouping when the
 //                                   level shows its score in Persian (the HUD and the end cards)
+//   bossName(level, def)            the giant's name on the HUD bar: its species' word in the pack when
+//                                   the level shows its 'boss' in Persian, else 'GIANT BIRD'
 import { waveNumber } from '../core/levels.js';
 import { PACK } from '../data/pack.js';
 
@@ -32,3 +34,6 @@ export function waveText(level, wave) {
 export const scoreText = (level, score) => localText(level, 'score', fmt(score));
 
 export const levelName = (level) => localText(level, 'level', level.name);
+
+export const bossName = (level, def) =>
+  showsPersian(level, 'boss') ? PACK.species.find((s) => s.id === def.species).word : def.name.toUpperCase();

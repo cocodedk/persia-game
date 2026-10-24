@@ -23,6 +23,18 @@ export function text(ctx, s, x, y, size, color, align = 'left', weight = 800) {
   ctx.fillText(s, x, y);
 }
 
+// A whole Persian word in the pack's word face, one fillText with no letter spacing, so its letters
+// stay joined. The face is loaded at boot (word-moment.js), minutes before a giant comes in play; on a
+// giant started directly (?debug&level=5&boss) the first frames may fall back to the system face,
+// still joined.
+export function word(ctx, s, x, y, size, color) {
+  ctx.font = `${PACK.font.weight} ${size}px "${PACK.font.family}", sans-serif`;
+  ctx.letterSpacing = '0px';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = color;
+  ctx.fillText(s, x, y);
+}
+
 // A small spaced-out caption.
 export function label(ctx, s, x, y, align = 'left', color = 'rgba(255,255,255,0.62)') {
   ctx.letterSpacing = '3px';
