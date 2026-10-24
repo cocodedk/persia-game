@@ -54,3 +54,11 @@ test("level 3's end cards give the score and the best in the pack's digits; leve
   assert.deepEqual(score(lost.el), [`${D[9]}${D[0]}${D[0]}`]);
   assert.deepEqual(texts(lost.el, (e) => e.className === 'banner-kicker'), ['Level 3']);
 });
+
+test("level 4's end cards name it in the pack's digits", () => {
+  const kicker = (el) => texts(el, (e) => e.className === 'banner-kicker');
+  const four = `Level ${PACK.digits[4]}`;
+  assert.deepEqual(kicker(results({ level: LEVELS[3] }).el), [four]);
+  const lost = failedScreen({ score: 900, world: { level: LEVELS[3], wave: 3, boss: null } }, { retry() {}, title() {} });
+  assert.deepEqual(kicker(lost.el), [four]);
+});

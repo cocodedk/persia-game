@@ -18,6 +18,7 @@ import { resetInput } from './input.js';
 import { backdropScene, playScene } from './scenes.js';
 import { titleScreen } from './screens/title.js';
 import { landmarkArt } from './landmark-art.js';
+import { levelName } from './format.js';
 import { cardScreen } from './screens/card.js';
 import { openScreen } from './screens/open.js';
 import { pauseScreen } from './screens/pause.js';
@@ -103,7 +104,7 @@ export function createRouter({ canvas, stage, input, voice }) {
     duck(0.35);
     play('pause');
     stage.show(pauseScreen({
-      label: app.scene.level.name,
+      label: levelName(app.scene.level),
       resume: () => {
         app.screen = 'play';
         duck(1);

@@ -2,9 +2,13 @@
 //   fmt(n)                          12,345 (rounded)
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
-//   showsPersian(level, part)       whether the level shows that part ('wave', 'score') in Persian
+//   showsPersian(level, part)       whether the level shows that part ('wave', 'score', 'combo',
+//                                   'level') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
-//                                   level shows that part ('wave', 'score') in Persian
+//                                   level shows that part in Persian
+//   levelName(level)                the level's name where play shows it (the HUD, its card, pause
+//                                   and the end cards), its number in the pack's digits when the
+//                                   level shows its own number in Persian; the title keeps level.name
 //   waveText(level, wave)           the HUD's wave count in the world's numbers, 'WAVE 6 / 10', in
 //                                   the pack's digits when the level shows its wave count in Persian
 //   scoreText(level, score)         a score, '146,800', in the pack's digits and grouping when the
@@ -26,3 +30,5 @@ export function waveText(level, wave) {
 }
 
 export const scoreText = (level, score) => localText(level, 'score', fmt(score));
+
+export const levelName = (level) => localText(level, 'level', level.name);

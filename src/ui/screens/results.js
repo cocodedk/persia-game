@@ -7,7 +7,7 @@
 import { h, button, shell, starRow, armed, endKeys, scoreSpan } from './dom.js';
 import { play } from '../audio.js';
 import { easeOut } from '../../core/math.js';
-import { scoreText } from '../format.js';
+import { scoreText, levelName } from '../format.js';
 
 const COUNT_TIME = 1.1; // s the score takes to count up
 const STAR_AT = [0.55, 0.85, 1.15]; // s each star stamps in
@@ -28,7 +28,7 @@ export function resultsScreen(o, act) {
   ];
   el.append(
     h('div', 'banner',
-      h('p', 'banner-kicker', o.level.name),
+      h('p', 'banner-kicker', levelName(o.level)),
       h('h2', 'banner-title', 'Victory'),
       stars,
       h('p', 'result-line', h('span', 'result-cap', 'Score'), score),

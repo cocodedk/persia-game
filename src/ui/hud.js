@@ -10,7 +10,7 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { scoreText, waveText } from './format.js';
+import { scoreText, waveText, localText, levelName } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { panel, text, label, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
@@ -56,7 +56,7 @@ function combo(ctx, world, t) {
   ctx.save();
   ctx.translate(x + 75, COMBO_MID);
   ctx.scale(pulse, pulse); // about the number's own centre, so it grows toward both neighbours alike
-  text(ctx, `×${mult}`, 0, COMBO_SIZE * 0.07, COMBO_SIZE, color, 'center', 900);
+  text(ctx, localText(world.level, 'combo', `×${mult}`), 0, COMBO_SIZE * 0.07, COMBO_SIZE, color, 'center', 900);
   ctx.restore();
   const f = clamp(timer / COMBO_WINDOW, 0, 1);
   if (mult > 1 && f > 0) {
@@ -67,7 +67,7 @@ function combo(ctx, world, t) {
 
 function wave(ctx, world, look) {
   panel(ctx, W / 2 - 150, TOP, 300, PH);
-  label(ctx, world.level.name.toUpperCase(), W / 2, CAP, 'center', look.palette.accent);
+  label(ctx, levelName(world.level).toUpperCase(), W / 2, CAP, 'center', look.palette.accent);
   text(ctx, waveText(world.level, world.wave), W / 2, MAIN, 32, '#ffffff', 'center', 900);
 }
 

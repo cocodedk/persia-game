@@ -2,6 +2,7 @@
 // Retry / Title.
 //   failedScreen({ score, world }, { retry, title }) -> screen
 import { h, button, shell, armed, endKeys, scoreSpan } from './dom.js';
+import { levelName } from '../format.js';
 import { bossDef } from '../../core/bosses-data.js';
 import { waveNumber } from '../../core/levels.js';
 
@@ -21,7 +22,7 @@ export function failedScreen(o, act) {
   const items = [button('Retry', go(act.retry), 'btn btn-big'), button('Title', go(act.title), 'btn btn-big')];
   el.append(
     h('div', 'banner',
-      h('p', 'banner-kicker', o.world.level.name),
+      h('p', 'banner-kicker', levelName(o.world.level)),
       h('h2', 'banner-title', 'Shot down'),
       h('p', 'result-line', h('span', 'result-cap', 'Score'), scoreSpan(o.world.level, o.score)),
       h('p', 'result-best', progress(o.world))),

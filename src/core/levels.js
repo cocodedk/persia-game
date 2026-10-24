@@ -6,7 +6,8 @@
 // names it), `landmark` its backdrop (looks/).
 // A world counts its waves across its levels: `first` is the number of the level's first wave, set
 // below from the levels played before it.
-// `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count, 'score': the score).
+// `persian` names the parts the level shows in Persian digits ('wave': the wave count, 'score': the
+// score, 'combo': the combo, 'level': its own number wherever play names it).
 // `rain`, when a level has it, is the number within the level of the wave the rain begins with; it
 // falls from then to the end, the giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
@@ -61,7 +62,7 @@ const LEVEL_3 = {
 
 const LEVEL_4 = {
   id: 'level-4', name: 'Level 4', place: 'Azadi Tower', seed: 41659, d: 0.35, boss: 'giant-bird', landmark: 'azadi',
-  persian: ['wave', 'score'], rain: 3,
+  persian: ['wave', 'score', 'combo', 'level'], rain: 3,
   waves: [
     w('sway', 8, 'bbh', 'fan', 1.1), // 16: birds over a row of horses
     w('escort', 3, 'orro', 'aimed', 1.1), // 17: cows guard two rows of rabbits

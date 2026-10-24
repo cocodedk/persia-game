@@ -72,9 +72,11 @@ test('the world counts its waves across the levels: level 2 from six, level 3 fr
   assert.equal(waveNumber(LEVEL_4, 5), 20);
 });
 
-test('a level shows in Persian only parts of the HUD the game knows', () => {
+test('a level shows in Persian only parts the game knows', () => {
   assert.deepEqual(LEVEL.persian, []);
-  for (const level of LEVELS) for (const part of level.persian) assert.ok(['wave', 'score'].includes(part), `${level.id}: ${part}`);
+  const known = ['wave', 'score', 'combo', 'level'];
+  for (const level of LEVELS) for (const part of level.persian) assert.ok(known.includes(part), `${level.id}: ${part}`);
+  assert.deepEqual(LEVEL_4.persian, known, 'level 4 shows them all');
 });
 
 test('every level has an integer seed and a difficulty in 0..1, and is plain data', () => {

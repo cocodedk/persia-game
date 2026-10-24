@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
 import { LEVEL, LEVELS } from '../../src/core/levels.js';
-import { fmt, localDigits, scoreText, waveText } from '../../src/ui/format.js';
+import { fmt, localDigits, scoreText, waveText, levelName, localText } from '../../src/ui/format.js';
 import { FONT } from '../../src/ui/hud-kit.js';
 
 const D = PACK.digits; // the expected strings are built from the pack, so no Persian enters a test
@@ -33,8 +33,16 @@ test("levels 1 and 2 keep the score in ASCII; level 3 writes it in the pack's di
   assert.equal(scoreText(LEVELS[2], 1234567.4), `${D[1]}${PACK.group}${D[2]}${D[3]}${D[4]}${PACK.group}${D[5]}${D[6]}${D[7]}`);
 });
 
+test("level 4 names itself and counts its combo in the pack's digits; levels 1 to 3 in ASCII", () => {
+  assert.deepEqual(LEVELS.slice(0, 3).map(levelName), ['Level 1', 'Level 2', 'Level 3']);
+  assert.equal(levelName(LEVELS[3]), `Level ${D[4]}`);
+  assert.equal(localText(LEVELS[3], 'combo', '×8'), `×${D[8]}`);
+  assert.equal(localText(LEVELS[2], 'combo', '×8'), '×8');
+});
+
 test("the HUD and the screens set numbers in the pack's digits face first", () => {
   assert.ok(FONT.startsWith(`"${PACK.font.digits}", `), FONT);
   const css = readFileSync(new URL('../../src/ui/css/base.css', import.meta.url), 'utf8');
   assert.ok(css.includes(`--display: "${PACK.font.digits}", `), 'the screens\' display face');
+  assert.ok(css.includes(`--font: "${PACK.font.digits}", `), 'the screens\' text face');
 });
