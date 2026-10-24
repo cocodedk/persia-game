@@ -7,7 +7,7 @@ import { SPECIES } from '../../src/core/kinds.js';
 import { root } from '../repo-kit.js';
 
 const MANIFEST = JSON.parse(readFileSync(`${root}public/audio/manifest.json`, 'utf8'));
-const LINES = [...PACK.species, ...PACK.numbers];
+const LINES = [...PACK.species, ...PACK.numbers, PACK.rain];
 
 // A species word: Arabic script and ZWNJ only; never Arabic kaf or yeh, a diacritic, or a digit of any
 // kind; no ZWNJ at either end. Written as escapes: only the pack holds Arabic-script characters.
@@ -16,8 +16,8 @@ const BANNED = /[\u0643\u064A\u064B-\u065F\u0660-\u0669\u06F0-\u06F90-9]/;
 const EDGE = /^\u200C|\u200C$/;
 const obeys = (word) => RULE.test(word) && !BANNED.test(word) && !EDGE.test(word);
 
-test('every species word is Persian script only: no Arabic kaf or yeh, no diacritics, no digits, no edge ZWNJ', () => {
-  for (const { word } of PACK.species) assert.ok(obeys(word), word);
+test('every species word, and the rain, is Persian script only: no Arabic kaf or yeh, no diacritics, no digits, no edge ZWNJ', () => {
+  for (const { word } of [...PACK.species, PACK.rain]) assert.ok(obeys(word), word);
 });
 
 test('the digits are the ten Persian ones, 0 to 9, never Arabic-Indic or ASCII', () => {

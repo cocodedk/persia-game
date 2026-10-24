@@ -446,5 +446,21 @@
     ],
     "license": "MIT model; CC0 dataset",
     "sourceFile": "public/audio/number-20-word.a320dc7f48d6.mp3"
+  },
+  {
+    "file": "public/audio/baran.mp3",
+    "clipId": "vocabulary-3-baran",
+    "sha256": "fb87360b118b10196b68f055e057cd0efff1a01f7df23076efe08c3e9c007fa4",
+    "durationMs": 760,
+    "transcript": "باران",
+    "synthesisText": "باران",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-baran.fb87360b118b.mp3"
   }
 ]

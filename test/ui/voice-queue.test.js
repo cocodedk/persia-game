@@ -40,6 +40,12 @@ test("level 3's first wave says eleven: the count goes on", () => {
   assert.deepEqual(said.slice(1), [species('bird'), species('fish')]);
 });
 
+test("level 4's third wave says eighteen, its species, then the rain", () => {
+  const said = lines([{ type: 'wave', n: 18, species: ['bird', 'cat'], rain: true }]);
+  assert.deepEqual(said, [number(18), species('bird'), species('cat'), PACK.rain]);
+  assert.equal(lines([wave(19, 'dog')]).includes(PACK.rain), false, 'only the wave the rain begins with says it');
+});
+
 test("level 4's first wave says sixteen", () => {
   const said = lines(createWorld(LEVELS[3]).events);
   assert.equal(said[0], number(16));

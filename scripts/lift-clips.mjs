@@ -34,6 +34,7 @@ const NAMES = {
   'number-18-word': 'hojdah',
   'number-19-word': 'nuzdah',
   'number-20-word': 'bist',
+  'vocabulary-3-baran': 'baran',
 };
 
 const lessons = process.argv[2];

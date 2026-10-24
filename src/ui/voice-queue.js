@@ -1,8 +1,8 @@
 // What the voice says, and when. DOM-free, so the timing is tested in node; voice.js plays it.
 // A line is its pack entry: { clip, ms } is played, { word, say } shown meanwhile, a species' also has
 // an id.
-//   voiceLines(events, pack) -> entries   a wave says its number in the world, then each of its species; a boss its
-//   species. A tick with no events says nothing and allocates nothing.
+//   voiceLines(events, pack) -> entries   a wave says its number in the world, then each of its species,
+//   then the rain's word if the rain begins with it; a boss its species. A tick with no events says nothing and allocates nothing.
 //   createQueue() -> { lines, wait, now }   entries not started yet; wait = s until the next may start;
 //   now = the last entry started
 //   enqueue(q, lines)   replaces the unstarted backlog (a wave cleared before its lines were said);
@@ -22,6 +22,7 @@ export function voiceLines(events, pack) {
     if (e.type === 'wave') {
       lines.push(pack.numbers.find((x) => x.n === e.n));
       for (const id of e.species) lines.push(speciesOf(pack, id));
+      if (e.rain) lines.push(pack.rain);
     } else if (e.type === 'boss') {
       lines.push(speciesOf(pack, e.species));
     }

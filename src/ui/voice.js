@@ -19,7 +19,7 @@ const decodeOffline = (bytes) => (offline ??= new OfflineAudioContext(1, 1, 4800
 
 export function createVoice(pack, { nodes = audioNodes, duck = duckSpeech, fetch = globalThis.fetch, decode = decodeOffline, show, hide }) {
   const buffers = new Map();
-  for (const { clip } of [...pack.numbers, ...pack.species]) {
+  for (const { clip } of [...pack.numbers, ...pack.species, pack.rain]) {
     fetch(clip).then((r) => (r.ok ? r.arrayBuffer() : null)).then((bytes) => bytes && decode(bytes))
       .then((buffer) => buffer && buffers.set(clip, buffer))
       .catch(() => {});

@@ -70,7 +70,9 @@ export function spawnWave(world) {
     age: 0, clock: 0, dir: world.wave % 2 ? 1 : -1, speed: spec.speed * world.scale.formationSpeed,
     total: slots.length, dive: randBetween(world.rng, 2, 4),
   };
-  emit(world, 'wave', { n: waveNumber(world.level, world.wave), species: [...new Set(spec.species)] });
+  const e = { n: waveNumber(world.level, world.wave), species: [...new Set(spec.species)] };
+  if (world.wave === world.level.rain) e.rain = true; // the rain begins with this wave (levels.js)
+  emit(world, 'wave', e);
 }
 
 // Damage an alien; at 0 hp it dies (scored), and a carrier leaves a pickup where it fell. The

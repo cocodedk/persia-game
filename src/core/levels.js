@@ -1,5 +1,5 @@
 // Level data, plain and serialisable:
-//   { id, name, place, seed, d, boss, landmark, first, persian,
+//   { id, name, place, seed, d, boss, landmark, first, persian, rain?,
 //     waves: [{ formation, cols, species: [id per row, top row first], pattern, speed }] }
 // The waves fly in order, then the boss. `seed` is the fixed seed of the level's world rng, `d` its
 // difficulty (difficulty.js), `name` what the screens call it, `place` where it is (the title's card
@@ -7,6 +7,8 @@
 // A world counts its waves across its levels: `first` is the number of the level's first wave, set
 // below from the levels played before it.
 // `persian` names the parts of the HUD the level shows in Persian ('wave': the wave count, 'score': the score).
+// `rain`, when a level has it, is the number within the level of the wave the rain begins with; it
+// falls from then to the end, the giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
 //   w(formation, cols, rows, pattern, speed)  one wave. `rows` is one species letter per row, top
@@ -59,11 +61,11 @@ const LEVEL_3 = {
 
 const LEVEL_4 = {
   id: 'level-4', name: 'Level 4', place: 'Azadi Tower', seed: 41659, d: 0.35, boss: 'giant-bird', landmark: 'azadi',
-  persian: ['wave', 'score'],
+  persian: ['wave', 'score'], rain: 3,
   waves: [
     w('sway', 8, 'bbh', 'fan', 1.1), // 16: birds over a row of horses
     w('escort', 3, 'orro', 'aimed', 1.1), // 17: cows guard two rows of rabbits
-    w('dive', 10, 'bbcc', 'fan', 1.15), // 18: birds and cats swoop
+    w('dive', 10, 'bbcc', 'fan', 1.15), // 18: birds and cats swoop, and the rain begins
     w('grid', 10, 'ddmm', 'aimed', 1.2), // 19: dogs over mice
     w('spiral', 10, 'bbff', 'ring', 1.3), // 20: forty birds and fish
   ],
@@ -81,6 +83,9 @@ export function nextLevel(level) {
   const i = LEVELS.indexOf(level);
   return i < 0 ? null : LEVELS[i + 1] ?? null;
 }
+
+// Whether it rains on the world: its level has rain, and the rain's wave or the giant has come.
+export const isRaining = (world) => world.level.rain != null && (world.boss !== null || world.wave >= world.level.rain);
 
 // The world's number of a level's wave (1 is its first).
 export const waveNumber = (level, wave) => level.first + wave - 1;

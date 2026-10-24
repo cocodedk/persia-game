@@ -13,6 +13,8 @@ import { LOOK } from './looks/index.js';
 import { buildSky } from './sky.js';
 import { buildLayers, drawLayers } from './parallax.js';
 import { drawAmbient } from './ambient.js';
+import { fadeRain, drawRain } from './rain.js';
+import { isRaining } from '../core/levels.js';
 import { drawFlourishes } from './flourish.js';
 import { drawPickups } from './pickups-view.js';
 import { drawAliens } from './aliens/index.js';
@@ -34,7 +36,8 @@ export function createView(canvas, level) {
   return {
     canvas, ctx: canvas.getContext('2d'), level, look,
     sky: buildSky(look), layers: buildLayers(look, look.landmarks[level.landmark], level.seed ?? 1),
-    quality: createQuality(), hud: { lag: null }, showHud: true, named: null,
+    quality: createQuality(), hud: { lag: null }, showHud: true, named: null, rain: { k: 0, t: 0 },
+    reduced: globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
     fit: { w: 0, h: 0, dpr: 0, s: 1, ox: 0, oy: 0 },
   };
 }
@@ -65,13 +68,14 @@ function letterbox(v, f) {
   ctx.fillRect(0, 0, c.width, c.height);
 }
 
-// Everything in the world, shaken by fx.shake: parallax, boss, aliens, bullets, ship, fx.
+// Everything in the world, shaken by fx.shake: parallax, rain, boss, aliens, bullets, ship, fx.
 function field(ctx, v, world, fx, t) {
   const { look } = v;
   const q = v.quality.level;
   ctx.save();
   ctx.translate(fx.shakeX, fx.shakeY);
   drawLayers(ctx, v.layers, world.ship.x, t, q);
+  drawRain(ctx, fadeRain(v.rain, isRaining(world), t), t, q, v.reduced);
   drawBoss(ctx, world, look, t, q, v.named); // under the aliens: minions launch from it and fly over it (R27)
   drawAliens(ctx, world, look, t, v.named);
   drawPickups(ctx, world, look, t);
