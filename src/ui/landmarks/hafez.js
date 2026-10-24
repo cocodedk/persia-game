@@ -12,7 +12,7 @@ const UNDER = 16; // blocks from the floor down to the band's foot; the ground h
 const COLS = 5; // columns seen across the pavilion's front
 const BAY = 16; // blocks from one column to the next
 const TALL = 32; // the columns' height in blocks
-const DOME = 32; // the dome's height in blocks, the finial above it
+const DOME = 44; // the dome's height in blocks, the finial above it
 const SPAN = (COLS - 1) * BAY + 2; // blocks from the first column's left to the last's right
 
 export function hafez(g, w, h, rng, L, lights) {
@@ -105,7 +105,7 @@ function pavilion({ box, post, slab, lights, L, F }, mid) {
 function dome(box, mid, base) {
   const R = SPAN / 2 + 2;
   for (let j = 0; j < DOME; j++) {
-    const half = Math.max(1, Math.round(R * (1 - j / DOME) ** 0.6));
+    const half = Math.max(1, Math.round(R * (1 - j / DOME) ** 0.8));
     const y = base - 1 - j;
     box(mid - half, y, half * 2, 1, j < 2 ? 'h' : 'd');
     for (const u of [-0.7, -0.35, 0, 0.35, 0.7]) box(mid + Math.round(u * half), y, 1, 1, 'D');

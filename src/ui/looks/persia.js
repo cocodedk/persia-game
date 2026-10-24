@@ -14,7 +14,7 @@ export default {
     persepolis: [FAR, { kind: 'persepolis', ...STONE, height: 460, fire: '#ff7a2a', flame: '#ffd36a' }, GROUND],
     siosepol: [{ ...FAR, height: 560 }, { kind: 'siosepol', ...STONE, height: 360, glow: '#c8782a', lamp: '#ffd36a',
       water: '#0a0818', tree: '#120a24' }, GROUND],
-    hafez: [{ ...FAR, height: 520 }, { kind: 'hafez', ...STONE, height: 440, glow: '#c8782a', lamp: '#ffd36a', tree: '#120a24',
+    hafez: [{ ...FAR, height: 520 }, { kind: 'hafez', ...STONE, height: 488, glow: '#c8782a', lamp: '#ffd36a', tree: '#120a24',
       fruit: '#ff8a2a', dome: '#24404a', rib: '#4a7a7a', tile: '#1e6a7a', tomb: '#d8c8b8' }, GROUND],
   },
   ambient: [
