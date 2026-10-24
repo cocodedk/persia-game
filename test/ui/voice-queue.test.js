@@ -5,6 +5,7 @@ import { LINE_GAP, voiceLines, createQueue, enqueue, stepQueue, sayingOf } from 
 import { species, number } from './pack-kit.js';
 import { createWorld } from '../../src/core/world.js';
 import { LEVELS } from '../../src/core/levels.js';
+import { playing, clear, seconds, drain as events } from '../core/world-kit.js';
 
 const wave = (n, ...ids) => ({ type: 'wave', n, species: ids });
 const lines = (events) => voiceLines(events, PACK);
@@ -28,8 +29,8 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [species('cat')]);
 });
 
-test('each later level\'s first wave counts on from the one before: six, eleven, sixteen', () => {
-  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']]]) {
+test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one', () => {
+  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']]]) {
     assert.deepEqual(lines(createWorld(LEVELS[i]).events), [number(n), ...ids.map(species)], LEVELS[i].id);
   }
 });
@@ -43,6 +44,19 @@ test("level 4's third wave says eighteen, its species, then the rain", () => {
 test('a wave that begins the stars says the stars line in the same place', () => {
   const said = lines([{ type: 'wave', n: 23, species: ['bird', 'cow'], weather: 'stars' }]);
   assert.deepEqual(said, [number(23), species('bird'), species('cow'), PACK.weather.stars]);
+});
+
+// Everything level 5 says, wave by wave, from a fresh world (a retry is one): the stars once, at 23.
+test("level 5 says the stars once, with wave 23, and a retry is clear until then", () => {
+  const w = playing(LEVELS[4]);
+  const waves = [lines(createWorld(LEVELS[4]).events)];
+  for (let i = 1; i < LEVELS[4].waves.length; i++) {
+    clear(w);
+    seconds(w, 1.3);
+    waves.push(lines(events(w)));
+  }
+  assert.deepEqual(waves.map((said) => said.includes(PACK.weather.stars)), [false, false, true, false, false]);
+  assert.deepEqual(waves.map((said) => said[0]), [21, 22, 23, 24, 25].map(number));
 });
 
 test('a tick with no events, or none that speak, says nothing', () => {

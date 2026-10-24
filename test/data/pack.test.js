@@ -39,13 +39,13 @@ test('the rule rejects Arabic kaf, Arabic yeh, a diacritic and an ASCII digit', 
   for (const bad of ['\u0643', '\u064A', '\u064E', '1']) assert.ok(!obeys(word + bad), `${word} + ${bad}`);
 });
 
-test('every line carries the name it is said by, in plain lowercase Latin letters', () => {
-  for (const { clip, say } of LINES) assert.match(say ?? '', /^[a-z]+$/, clip);
+test('every line carries the name it is said by, in plain lowercase Latin letters, hyphens between the parts of bist-o-yek', () => {
+  for (const { clip, say } of LINES) assert.match(say ?? '', /^[a-z]+(-[a-z]+)*$/, clip);
 });
 
-test('pack species are exactly the core SPECIES ids, and numbers are 1..20', () => {
+test('pack species are exactly the core SPECIES ids, and numbers are 1..25', () => {
   assert.deepEqual(PACK.species.map((s) => s.id).sort(), Object.keys(SPECIES).sort());
-  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: 20 }, (_, i) => i + 1));
+  assert.deepEqual(PACK.numbers.map((x) => x.n), Array.from({ length: 25 }, (_, i) => i + 1));
 });
 
 test('every pack clip is on disk, listed once in the manifest with its sha256, ms equal to durationMs, reviewed', () => {

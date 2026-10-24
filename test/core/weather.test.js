@@ -4,8 +4,9 @@ import { createWorld } from '../../src/core/world.js';
 import { LEVELS, weatherOf } from '../../src/core/levels.js';
 import { seconds, playing, drain, ofType, clear } from './world-kit.js';
 
-// Level 4's rain begins with its third wave, 18, and falls to the end, the giant's fight included.
-// No other level has weather, and a retry is a fresh world, so the rain begins at wave 18 again.
+// Level 4's rain begins with its third wave, 18, and falls to the end, the giant's fight included;
+// level 5's stars do the same from wave 23. No other level has weather, and a retry is a fresh
+// world, so each begins at its wave again.
 
 // A level's run through its waves: each wave's event, and the weather once it has spawned;
 // then the world, its last wave cleared and its giant come.
@@ -24,29 +25,23 @@ function run(level) {
 }
 
 // A fresh world is a retry too, so its dry first waves are the retry's.
-test("level 4's third wave brings the rain and it rains from then on; no other level has weather", () => {
+test("level 4's third wave brings the rain and level 5's the stars, and it lasts from then on; no other level has weather", () => {
+  const KIND = { 'level-4': 'rain', 'level-5': 'stars' };
   for (const level of LEVELS) {
     const { seen } = run(level);
-    const four = level.id === 'level-4';
-    assert.deepEqual(seen.map(([e]) => e.weather ?? null), level.waves.map((_, i) => (four && i === 2 ? 'rain' : null)), level.id);
-    assert.deepEqual(seen.map(([, kind]) => kind), level.waves.map((_, i) => (four && i >= 2 ? 'rain' : null)), level.id);
+    const kind = KIND[level.id];
+    assert.deepEqual(seen.map(([e]) => e.weather ?? null), level.waves.map((_, i) => (kind && i === 2 ? kind : null)), level.id);
+    assert.deepEqual(seen.map(([, k]) => k), level.waves.map((_, i) => (kind && i >= 2 ? kind : null)), level.id);
   }
 });
 
-test("it rains through level 4's giant fight, and from the first frame when it starts at the giant", () => {
-  const { world } = run(LEVELS[3]);
-  assert.ok(world.boss, 'the giant has come');
-  assert.equal(weatherOf(world), 'rain');
-  assert.equal(weatherOf(createWorld({ ...LEVELS[3], waves: null })), 'rain'); // ?debug&boss
+test("it rains through level 4's giant fight and the stars fall through level 5's, and from the first frame when it starts at the giant", () => {
+  for (const [level, kind] of [[LEVELS[3], 'rain'], [LEVELS[4], 'stars']]) {
+    const { world } = run(level);
+    assert.ok(world.boss, 'the giant has come');
+    assert.equal(weatherOf(world), kind);
+    assert.equal(weatherOf(createWorld({ ...level, waves: null })), kind); // ?debug&boss
+  }
   assert.equal(weatherOf(createWorld({ ...LEVELS[2], waves: null })), null);
 });
 
-// Weather is one mechanism with a kind: level 4 with stars from its third wave does what its rain does.
-test('a level whose weather is stars carries and names it the same way', () => {
-  const stars = { ...LEVELS[3], weather: { kind: 'stars', from: 3 } };
-  const { seen, world } = run(stars);
-  assert.deepEqual(seen.map(([e]) => e.weather ?? null), [null, null, 'stars', null, null]);
-  assert.deepEqual(seen.map(([, kind]) => kind), [null, null, 'stars', 'stars', 'stars']);
-  assert.equal(weatherOf(world), 'stars', 'through the giant');
-  assert.equal(weatherOf(createWorld({ ...stars, waves: null })), 'stars', 'and from the first frame at the giant');
-});

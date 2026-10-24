@@ -15,10 +15,9 @@ export function bossWorld(kind, opts) {
   return world;
 }
 export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
-// The boss as its level fights it, at the level's difficulty, without the waves before it. A boss no
-// level has yet (the giant cow, until level 5 lands) is fought as the last level would.
+// The boss as its level fights it, at the level's difficulty, without the waves before it.
 export function realLevel(kind) {
-  const lv = LEVELS.find((l) => l.boss === kind) ?? LEVELS.at(-1);
+  const lv = LEVELS.find((l) => l.boss === kind);
   return bossLevel(kind, lv.d, { seed: lv.seed });
 }
 
