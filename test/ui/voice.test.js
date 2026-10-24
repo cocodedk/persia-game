@@ -27,7 +27,7 @@ function rig({ audio = true, fetch = bytes, decode = async (b) => ({ clip: b.url
   const r = { started, ducks, shown, bus, hidden: 0, audio };
   r.voice = createVoice(PACK, {
     nodes: () => (r.audio ? { ctx, voice: bus } : null), duck: (level) => ducks.push(level), fetch, decode,
-    show: (word) => shown.push(word), hide: () => { r.hidden += 1; },
+    show: (word, say, ms) => { shown.push(word); r.said = { say, ms }; }, hide: () => { r.hidden += 1; },
   });
   return r;
 }
@@ -42,6 +42,7 @@ test('with no audio nodes the word still shows on schedule', async () => {
   assert.deepEqual(r.shown, []);
   r.voice.update(0.02);
   assert.deepEqual(r.shown, [species('dog').word]);
+  assert.deepEqual(r.said, { say: species('dog').say, ms: species('dog').ms }, 'its name beside it, as long as it is said');
   assert.deepEqual(r.ducks, [], 'nothing played, so nothing ducked');
 });
 

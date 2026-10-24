@@ -27,6 +27,10 @@ test('the rule rejects Arabic kaf, Arabic yeh, a diacritic and an ASCII digit', 
   for (const bad of ['\u0643', '\u064A', '\u064E', '1']) assert.ok(!obeys(word + bad), `${word} + ${bad}`);
 });
 
+test('every species carries the name it is said by, in plain lowercase Latin letters', () => {
+  for (const { id, say } of PACK.species) assert.match(say ?? '', /^[a-z]+$/, id);
+});
+
 test('pack species are exactly the core SPECIES ids, and numbers are 1..5', () => {
   assert.deepEqual(PACK.species.map((s) => s.id).sort(), Object.keys(SPECIES).sort());
   assert.deepEqual(PACK.numbers.map((x) => x.n), [1, 2, 3, 4, 5]);

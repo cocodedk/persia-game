@@ -1,8 +1,9 @@
 // The word moment: a species' word, large over the play for about a second as it is said, each
 // letter its own colour from the pack's palette. A DOM overlay, never canvas text, so the letters
-// stay joined: one plain inline span per letter, which the browser shapes as one word.
+// stay joined: one plain inline span per letter, which the browser shapes as one word. Beside it, the
+// name in Latin letters for as long as it is said (ms).
 //   letterRuns(word, colours) -> [{ text, colour }]   one run per letter; a ZWNJ stays with the letter before it
-//   createWordMoment(root, canvas, pack) -> { show(word), hide() }   word.css times it
+//   createWordMoment(root, canvas, pack) -> { show(word, say, ms), hide() }   word.css times it
 // It is placed on the world as drawn: the canvas box holds the 1920 x 1080 world letterboxed (view.js).
 import { WIDTH, HEIGHT } from '../core/kinds.js';
 import { h } from './screens/dom.js';
@@ -33,12 +34,13 @@ export function createWordMoment(root, canvas, pack) {
   root.append(el);
 
   return {
-    show(word) {
+    show(word, say, ms) {
       el.replaceChildren(...letterRuns(word, pack.letterColours).map(({ text, colour }) => {
         const span = h('span', null, text);
         span.style.color = colour;
         return span;
-      }));
+      }), h('span', 'say', say));
+      el.style.setProperty('--said', `${ms}ms`);
       const r = canvas.getBoundingClientRect();
       const worldH = Math.min(r.height, (r.width * HEIGHT) / WIDTH);
       el.style.left = `${r.left + r.width / 2}px`;

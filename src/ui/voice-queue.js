@@ -1,7 +1,7 @@
 // What the voice says, and when. DOM-free, so the timing is tested in node; voice.js plays it.
 //   voiceLines(events) -> Line[]   a wave says its number, then each of its species; a boss its species
 //   Line = { kind: 'number', n } | { kind: 'species', id }
-//   clipOf(pack, line) -> { clip, ms, word }   word is null for a number (only species are shown)
+//   clipOf(pack, line) -> { clip, ms, word, say }   word is null for a number (only species are shown)
 //   createQueue() -> { lines, wait }   lines not started yet; wait = s until the next may start
 //   enqueue(q, lines)   replaces the unstarted backlog (a wave cleared before its lines were said)
 //   stepQueue(q, dt, pack) -> the Line that starts now, or null. Stepped only while the scene steps,
@@ -26,8 +26,8 @@ export function clipOf(pack, line) {
     const { clip, ms } = pack.numbers.find((x) => x.n === line.n);
     return { clip, ms, word: null };
   }
-  const { clip, ms, word } = pack.species.find((s) => s.id === line.id);
-  return { clip, ms, word };
+  const { clip, ms, word, say } = pack.species.find((s) => s.id === line.id);
+  return { clip, ms, word, say };
 }
 
 export const createQueue = () => ({ lines: [], wait: 0 });

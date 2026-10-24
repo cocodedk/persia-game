@@ -46,7 +46,8 @@ the level shorthand and the core rules.
 - Pause on blur, M mutes, frame time capped at 0.1 s, `prefers-reduced-motion` respected.
 - `localStorage` only under `persia.` keys, always inside try/catch. The game works without it.
 - Clean screen in play: no captions, translations or help text. Invaders' HUD stays. The only
-  language on screen is the word moment. No Danish anywhere. Chrome is English. No English animal
+  language on screen is the word moment, with the name in Latin letters (pack `say`) beside the
+  word while it is said. No Danish anywhere. Chrome is English. No English animal
   name is ever shown, because it would be a translation.
 - The code never contains a Persian word. Arabic-script characters (U+0600–U+06FF) appear in `src/`
   and `test/` only in `src/data/pack.js`. Species ids in code are English (`dog`, `cat`, …).

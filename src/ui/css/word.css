@@ -8,6 +8,14 @@
   text-shadow: 0 0 0.04em, 0 0 0.2em, 0 0.03em 0.05em rgba(0, 0, 0, 0.9), 0 0 0.5em rgba(0, 0, 0, 0.55);
 }
 .word-moment.show { animation: word-moment 1.35s both; }
+/* The name in Latin letters, left of the word so the word stays centred: one quiet colour and no
+   glow, so the lit letters keep the eye. It lasts --said, the clip's length (word-moment.js). */
+.word-moment .say {
+  position: absolute; right: 100%; top: 50%; translate: 0 -50%; margin-right: 0.7em;
+  font-size: 0.34em; letter-spacing: 0.04em; color: #f4ecda;
+  text-shadow: 0 0.05em 0.1em rgba(0, 0, 0, 0.9), 0 0 0.6em rgba(0, 0, 0, 0.6);
+}
+.word-moment.show .say { animation: word-fade var(--said) both; }
 
 /* in by 0.12 s, held to 1.0 s, out by 1.35 s */
 @keyframes word-moment {

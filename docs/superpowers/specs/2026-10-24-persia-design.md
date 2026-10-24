@@ -82,6 +82,7 @@ Things that would make the level a failure even if it runs:
 | On-screen text | Clean screen. Picture plus voice plus the Persian word, each letter its own colour. No Danish. | Babak |
 | Teaching ramp | Level 1 teaches nothing visibly. Later levels and richer endings add the layer gradually. | Babak |
 | Backdrops | Known places in Iran, later. | Babak |
+| Romanization | While a name is said, it shows in Latin letters beside the Persian word. Added after playing the build. | Babak |
 
 ## Level 1 specification
 
@@ -120,7 +121,9 @@ waves that gives each word a handful of hearings. Tune by feel; never approach f
 word appears large for about a second, then fades. Each letter is a different colour from a fixed
 palette, so the eye registers that the shape is made of parts. The word is rendered as a DOM overlay
 on the canvas so joined letters stay joined (per-letter canvas text would break the joining). It is
-the only language on screen during play. No Danish, no transliteration. Invaders' HUD stays as it is,
+the only language on screen during play. While the clip plays, the name also shows in Latin letters
+beside the word (`sag`, `gorbe`, as the clip IDs spell them), in one quiet colour so the lit letters
+keep the eye, gone when the voice stops. No Danish. Invaders' HUD stays as it is,
 ASCII digits included; Persian digits in chrome would be teaching creep for level 1.
 
 **Music under speech.** The voice gets its own bus; music and effects duck under it using invaders'
