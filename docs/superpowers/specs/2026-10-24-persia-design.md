@@ -540,7 +540,8 @@ is said as it arrives, it lights up while the name is said, and its HUD bar read
 
 **Rainbow.** From wave 48 to the end, the giant's fight included, a rainbow stands in the night sky. It
 is a moonbow: as one does at night, it stands opposite the moon, so its arc rises behind the tomb from
-the right. Its seven pale bands are pixel blocks, faint enough that the night stays night. It comes in
+the right. It is drawn as a Japanese pixel game draws a rainbow (Babak's ask): seven chunky bands
+of pixel blocks, red outside to violet inside, each one flat, full colour, distinct from the next. It comes in
 over the weather's two-second fade, then stays. As it begins, the voice says رنگین‌کمان (rangin-kaman)
 after the wave's number and species, and the word moment shows it. It does not move, so reduced motion
 does not change it, and neither does half quality. The rainbow is the seventh kind of a level's weather.
