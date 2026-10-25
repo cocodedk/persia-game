@@ -7,7 +7,7 @@ import { PIXEL } from '../sprites.js';
 import { int } from '../../core/rng.js';
 import { BASE, key, brick, lamp, light } from './yazd-brick.js';
 
-const D = 2;
+export const D = 2; // the depth the tower stands at, and the lamps that light it
 export const MOUND = { half: 64, flat: 20, tall: 24 }; // its half-width, the flat top's half-width, its height
 const STEPS = { top: 13, foot: 23 }; // the flight's width at the door and at the plain
 const POSTS = [-100, -80, -62, -46, -32, -15, 15, 32, 46, 62, 80, 100]; // from the middle; each stands on the ground there

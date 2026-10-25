@@ -10,8 +10,8 @@
 // the dawn is at full strength. Its colours are constants here, as the moon's and the stars' are
 // (the look is not asked).
 //   drawDawn(ctx, k)   k 0..1 how far it has come in, scaling every band's alpha. weather.js also
-//     passes t, the quality and reduced motion; dawn has no motion and no sprite, so it takes none
-//     of them (the voice has named the dawn)
+//     passes t, the quality, reduced motion and the weather's age; dawn has no motion and no sprite,
+//     so it takes none of them (the voice has named the dawn)
 import { W, H, PIXEL, mix } from './sprites.js';
 import { MOON } from './sky-bodies.js';
 

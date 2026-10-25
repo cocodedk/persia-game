@@ -10,7 +10,7 @@ import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.camel;
 const COLS = 48;
-const ROWS = 34; // the hump's top row sits at y -170, as low as the HUD allows (R28)
+const ROWS = 34; // the hump's top row is the grid's, at y -170, as low as the HUD allows (R28)
 const BROW = [92, -52]; // the brows' glow, which throbs in live()
 const BROW_RED = '#9a0f1e'; // deep, so that lit on the khaki coat it stays crimson
 const HAIR = '#5a3a22'; // the tuft's dark brown
@@ -21,7 +21,7 @@ const halfWidth = outlineWidth(OUTLINE);
 
 // The hump: the top half of an ellipse standing up behind the head between the ears (the head hides
 // its lower half), its edge ragged where the hair hangs.
-const HUMP_TOP = -170;
+const HUMP_TOP = -(ROWS * PX) / 2;
 const HUMP_BASE = -75; // where it is widest
 const HUMP_TALL = HUMP_BASE - HUMP_TOP;
 const HUMP_HALF = 90;

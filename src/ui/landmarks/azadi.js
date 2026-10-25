@@ -6,7 +6,7 @@
 // L.ink, L.glow, L.lamp, L.tower and L.towerLit. Rows are counted from F, the plaza's floor, and the
 // tower's heights from the floor up.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 
 const UNDER = 16; // blocks from the floor down to the band's foot; the ground hides the lowest 14
 const FOOT = 64; // the tower's half-width at the floor
@@ -24,8 +24,8 @@ export function azadi(g, w, h, rng, L, lights) {
     '#': L.color, '+': L.lit, '-': L.ink, G: L.lamp, h: mix(L.glow, L.ink, 0.55),
     c: mix(L.color, L.ink, 0.35), w: L.tower, W: L.towerLit, x: mix(L.tower, L.ink, 0.3), v: mix(L.tower, L.ink, 0.6),
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };
-  const mid = Math.round(art.BW / 2);
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
+  const { mid } = art;
   g.save();
   g.scale(PIXEL, PIXEL);
   city(art);

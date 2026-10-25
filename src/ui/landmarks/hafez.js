@@ -6,7 +6,7 @@
 // trees, their fruit lit. The layer brings L.lit, L.ink, L.glow, L.lamp, L.tree, L.fruit, L.dome,
 // L.rib, L.tile and L.tomb. Rows are counted from F, the garden's floor.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 
 const UNDER = 16; // blocks from the floor down to the band's foot; the ground hides the lowest 14
 const COLS = 5; // columns seen across the pavilion's front
@@ -20,8 +20,8 @@ export function hafez(g, w, h, rng, L, lights) {
     '#': L.color, '+': L.lit, '-': L.ink, g: L.glow, G: mix(L.lamp, L.glow, 0.4), h: mix(L.glow, L.ink, 0.55),
     t: L.tree, o: L.fruit, d: L.dome, D: L.rib, b: L.tile, T: L.tomb,
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };
-  const mid = Math.round(art.BW / 2);
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
+  const { mid } = art;
   g.save();
   g.scale(PIXEL, PIXEL);
   hall(art);

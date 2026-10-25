@@ -11,6 +11,17 @@ const EIGHT = ['bird', 'cat', 'cow', 'dog', 'fish', 'horse', 'mouse', 'rabbit'];
 const rows = (level, id) => level.waves.flatMap((x) => x.species).filter((s) => s === id).length;
 const perWave = (level, role) => level.waves.map((x) => x.cols * x.species.filter((id) => SPECIES[id] === role).length);
 const gunners = (level) => perWave(level, 'gunner').reduce((n, c) => n + c, 0);
+// `level` is no harder to survive than the one before it: no more gunners, no wave with more divers
+// than any earlier level's (and never over 40), no higher d, and each wave no faster than its own.
+function noHarder(level) {
+  const i = LEVELS.indexOf(level);
+  const prev = LEVELS[i - 1];
+  const mostDivers = Math.max(...LEVELS.slice(0, i).flatMap((l) => perWave(l, 'diver')));
+  assert.ok(gunners(level) <= gunners(prev), `no more gunners than ${prev.name}`);
+  perWave(level, 'diver').forEach((n, j) => assert.ok(n <= mostDivers && n <= 40, `wave ${waveNumber(level, j + 1)} has ${n} divers, the most before it ${mostDivers}`));
+  assert.ok(level.d <= prev.d);
+  level.waves.forEach((x, j) => assert.ok(x.speed <= prev.waves[j].speed, `wave ${waveNumber(level, j + 1)} is no faster than wave ${waveNumber(prev, j + 1)}`));
+}
 
 test('level 1 is five waves, then the giant; level 2 five more, then the giant mouse', () => {
   assert.equal(LEVELS[0], LEVEL);
@@ -83,24 +94,16 @@ test('level 7 brings all eight animals, the horse, its boss, in more rows than a
 });
 
 test('level 8 brings all nine animals, the lion, its boss, and is no harder to survive than level 7: no more gunners, no wave with more divers than any before it, its pace', () => {
-  const mostDivers = Math.max(...LEVELS.slice(0, 7).flatMap((level) => perWave(level, 'diver')));
   assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'camel').sort());
   assert.equal(bossDef(LEVEL_8.boss).species, 'lion');
-  assert.ok(gunners(LEVEL_8) <= gunners(LEVEL_7), 'no more gunners than level 7');
-  perWave(LEVEL_8, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 36} has ${n} divers, the most before it ${mostDivers}`));
-  assert.equal(LEVEL_8.d, LEVEL_7.d);
-  LEVEL_8.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_7.waves[i].speed, `wave ${i + 36} is no faster than wave ${i + 31}`));
+  noHarder(LEVEL_8);
 });
 
 test('level 9 brings nine animals, every one but the horse, the camel, its boss, among them, and is no harder to survive than level 8: no more gunners, no wave with more divers than any before it, its pace', () => {
-  const mostDivers = Math.max(...LEVELS.slice(0, 8).flatMap((level) => perWave(level, 'diver')));
   assert.deepEqual(levelSpecies(LEVEL_9).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'horse').sort());
   assert.equal(bossDef(LEVEL_9.boss).species, 'camel');
   assert.ok(LEVEL_9.waves[0].species.includes('camel') && LEVELS.slice(0, 8).every((level) => rows(level, 'camel') === 0), 'the camel first comes in wave 41');
-  assert.ok(gunners(LEVEL_9) <= gunners(LEVEL_8), 'no more gunners than level 8');
-  perWave(LEVEL_9, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 41} has ${n} divers, the most before it ${mostDivers}`));
-  assert.ok(LEVEL_9.d <= LEVEL_8.d);
-  LEVEL_9.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_8.waves[i].speed, `wave ${i + 41} is no faster than wave ${i + 36}`));
+  noHarder(LEVEL_9);
 });
 
 test('level 3 drops more power-ups than level 2: six rabbits in its escort; its giant and those of levels 4 to 9 send one in every phase', () => {

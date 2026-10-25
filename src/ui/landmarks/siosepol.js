@@ -6,7 +6,7 @@
 // by ripples. The layer brings L.lit, L.ink, L.glow, L.lamp, L.water and L.tree. Rows are counted
 // from F, the waterline.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 
 const SPANS = 33;
 const PITCH = 12; // blocks per span: a 3-block pier, then a 9-block arch
@@ -22,7 +22,7 @@ export function siosepol(g, w, h, rng, L, lights) {
   const tone = {
     '#': L.color, '+': L.lit, '-': L.ink, G: L.lamp, g: L.glow, h: mix(L.glow, L.ink, 0.55), '~': L.water, t: L.tree,
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, H: h / PIXEL };
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
   const x0 = Math.round((art.BW - SPANS * PITCH - 3) / 2); // the first pier
   const x1 = x0 + SPANS * PITCH + 3; // past the last pier
   g.save();
@@ -88,8 +88,8 @@ function poplar(box, x, y, tall) {
 }
 
 // The river from the waterline down, its surface glinting.
-function river({ box, rng, F, BW, H }) {
-  box(0, F, BW, H - F, '~');
+function river({ box, rng, F, BW }) {
+  box(0, F, BW, UNDER, '~');
   for (let x = 0; x < BW; x += 3 + Math.floor(rng() * 7)) box(x, F, 1 + Math.floor(rng() * 3), 1, '+');
 }
 

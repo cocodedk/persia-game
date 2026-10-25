@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { fadeWeather, drawWeather } from '../../src/ui/weather.js';
 import { LEVELS } from '../../src/core/levels.js';
-import { installCanvas, counting } from './dom-kit.js';
+import { installCanvas, counting, rectsOf } from './dom-kit.js';
 
 installCanvas(); // the stars' heads are a baked sprite
 
@@ -82,12 +82,9 @@ test('sunrise is drawn in the sky, under the parallax and the field, as dawn\'s 
 
 test('the weather\'s age reaches its drawing: the sun is higher the longer the weather has lasted', () => {
   const world = { level: { weather: { kind: 'sunrise', from: 3 } }, boss: null, wave: 3 };
-  const top = (since, t) => {
-    let y = Infinity;
-    const ctx = new Proxy({}, { get: (o, k) => (k in o ? o[k] : (...a) => { if (k === 'fillRect' && a[2] < 1920) y = Math.min(y, a[1]); }) });
-    drawWeather(ctx, { weather: { since }, quality: { level: 1 }, reduced: false }, world, t, 'sky');
-    return y;
-  };
+  const view = (since) => ({ weather: { since }, quality: { level: 1 }, reduced: false });
+  const sun = (since, t) => rectsOf((ctx) => drawWeather(ctx, view(since), world, t, 'sky')).filter((r) => r.w < 1920); // dawn's bands cross the width
+  const top = (since, t) => Math.min(...sun(since, t).map((r) => r.y));
   assert.ok(top(0, 30) < top(0, 5), 'the same clock, a weather begun earlier');
   assert.equal(top(0, 100), top(-100, 0), 'the age is what counts, not the clock');
 });

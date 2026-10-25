@@ -9,9 +9,8 @@
 // S the inscription's ground, lit to shade, u s its letters, G g h k the door's light.
 import { PIXEL } from '../sprites.js';
 import { BASE, key, brick, nestedArch } from './yazd-brick.js';
-import { MOUND } from './qabus-park.js';
+import { D, MOUND } from './qabus-park.js';
 
-const D = 2;
 const HALF = 10; // the wall is 21 blocks wide, its middle flange on the centre column
 const CRESTS = [-10, -7, 0, 7, 10]; // the flanges seen from the front, from the middle
 const SHAFT = 66; // rows from its foot to the eave

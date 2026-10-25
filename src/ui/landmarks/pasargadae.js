@@ -6,7 +6,7 @@
 // L.lit, L.ink, L.glow, L.lamp and L.stone, the floodlit limestone. Rows are counted from F, the
 // plain's floor; a stone's light is a level, 0 lit and warm to 1 dark and cool.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 import { ruins } from './pasargadae-ruins.js';
 
 const UNDER = 16; // blocks from the floor down to the band's foot; the ground hides the lowest 14
@@ -35,9 +35,8 @@ export function pasargadae(g, w, h, rng, L, lights) {
   tone.R = mix(L.stone, L.lamp, 0.5); // a tread's lit front edge
   tone.T = mix(tone[at(0.88)], L.ink, 0.3); // the tympanum, recessed in the roof
   [0.35, 0.45, 0.52, 0.62, 0.72].forEach((d, i) => { tone[i + 1] = mix(L.stone, L.ink, d); }); // the ruins' stone
-  const F = h / PIXEL - UNDER;
-  const art = { ...blocks(g, tone), rng, lights, L, F, row: (y) => F - 1 - y, BW: w / PIXEL }; // row: `y` blocks above the floor
-  const mid = Math.round(art.BW / 2);
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
+  const { mid } = art;
   g.save();
   g.scale(PIXEL, PIXEL);
   art.slab(0, art.F, art.BW, UNDER);
