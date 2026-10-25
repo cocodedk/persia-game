@@ -12,7 +12,7 @@ export const ROLES = {
 export const POWERS = ['spread', 'laser', 'rapid', 'shield'];
 
 // The animal an alien is drawn as and named by; its value is the invaders role it fights as.
-export const SPECIES = { dog: 'grunt', cat: 'diver', bird: 'diver', fish: 'gunner', horse: 'gunner', cow: 'armored', rabbit: 'carrier', mouse: 'diver' };
+export const SPECIES = { dog: 'grunt', cat: 'diver', bird: 'diver', fish: 'gunner', horse: 'gunner', cow: 'armored', rabbit: 'carrier', mouse: 'diver', lion: 'diver' };
 
 // The playfield: a fixed 1920x1080 frame, y down. Its top is the HUD band, whose panels end at
 // HUD_BOTTOM; nothing that must be seen or shot may sit behind them.

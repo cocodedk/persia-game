@@ -7,6 +7,7 @@ import { EMIT } from '../../src/core/patterns.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 
 const [, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7] = LEVELS;
+const EIGHT = Object.keys(SPECIES).filter((id) => id !== 'lion').sort(); // the animals before the lion
 const rows = (level, id) => level.waves.flatMap((x) => x.species).filter((s) => s === id).length;
 
 test('level 1 is five waves, then the giant; level 2 five more, then the giant mouse', () => {
@@ -39,20 +40,19 @@ test('every level brings a carrier wave in its first two and flies four or more 
   }
 });
 
-test('level 1 brings every species but the mouse; level 2 brings all eight, the mouse in its first wave', () => {
-  const all = Object.keys(SPECIES).sort();
-  assert.deepEqual(levelSpecies(LEVEL).toSorted(), all.filter((id) => id !== 'mouse'));
-  assert.deepEqual(levelSpecies(LEVEL_2).toSorted(), all);
+test('level 1 brings every species but the mouse and the lion; level 2 brings all eight, the mouse in its first wave', () => {
+  assert.deepEqual(levelSpecies(LEVEL).toSorted(), EIGHT.filter((id) => id !== 'mouse'));
+  assert.deepEqual(levelSpecies(LEVEL_2).toSorted(), EIGHT);
   assert.ok(LEVEL_2.waves[0].species.includes('mouse'));
 });
 
 test('level 3 brings all eight, the fish, its boss, in four or more rows', () => {
-  assert.deepEqual(levelSpecies(LEVEL_3).toSorted(), Object.keys(SPECIES).sort());
+  assert.deepEqual(levelSpecies(LEVEL_3).toSorted(), EIGHT);
   assert.ok(LEVEL_3.waves.flatMap((x) => x.species).filter((id) => id === 'fish').length >= 4);
 });
 
 test('level 4 brings all eight, the bird, its boss, in more rows than the fish had in level 3', () => {
-  assert.deepEqual(levelSpecies(LEVEL_4).toSorted(), Object.keys(SPECIES).sort());
+  assert.deepEqual(levelSpecies(LEVEL_4).toSorted(), EIGHT);
   assert.equal(bossDef(LEVEL_4.boss).species, 'bird');
   assert.ok(LEVEL_4.waves.flatMap((x) => x.species).filter((id) => id === 'bird').length > 4);
 });

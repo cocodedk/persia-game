@@ -24,7 +24,7 @@
 //        `speed` multiplies the formation's pace and stacks with scaled(d).formationSpeed.
 import { bossDef } from './bosses-data.js';
 
-const LETTER = { d: 'dog', c: 'cat', b: 'bird', f: 'fish', h: 'horse', o: 'cow', r: 'rabbit', m: 'mouse' };
+const LETTER = { d: 'dog', c: 'cat', b: 'bird', f: 'fish', h: 'horse', o: 'cow', r: 'rabbit', m: 'mouse', l: 'lion' };
 
 const w = (formation, cols, rows, pattern, speed) =>
   ({ formation, cols, species: [...rows].map((c) => LETTER[c]), pattern, speed });

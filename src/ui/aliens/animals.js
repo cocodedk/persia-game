@@ -1,10 +1,11 @@
-// The eight animals, angry and a little absurd, as crisp pixel sprites on a CRT: every cell a lit
+// The nine animals, angry and a little absurd, as crisp pixel sprites on a CRT: every cell a lit
 // phosphor dot with an afterglow, the eyes and lights burning. Every one but the rabbit glares from
 // under lit red brows. The whole formation steps in time; frame 2 is the snarl, the beat, the claws.
 // Exports RATE, HALO and PAINTERS, a painter per species id (bake.js bakes them).
 // Original bitmaps, at most 11 cells wide (no wider than the hit): X body, h highlight, d shadow,
 // k ink (sockets, mouths, nostrils), w teeth and claws, b lit brow, o lit eye, y lit cat's eye,
-// p lit lips, nose and tongue, a beak, n horn, m muzzle, r lit nose ring, c lit core, s lit spit.
+// p lit lips, nose and tongue, a beak, n horn, m muzzle, r lit nose ring, c lit core, s lit spit,
+// e the lion's dark mane (and its nose).
 import { pixels, phosphor, shade } from './kit.js';
 
 const PX = 5;
@@ -66,10 +67,17 @@ const ROWS = {
     'XXX.....XXX', 'XmmX...XmmX', 'XmmmX.XmmmX', '.XXXXXXXXX.', 'XbbXXXXXbbX', 'XXXbbXbbXXX',
     'XXkoXXXokXX', '.wXXXhXXXw.', 'w.XXXpXXX.w', '..XkwkwkX..', '...XpppX...', '....XXX....',
   ]],
+  lion: [[ // round ears over a dark mane, a golden face, a broad dark nose, fangs
+    '.XXX...XXX.', '.XdXeeeXdX.', '.eeeeeeeee.', 'eebbXXXbbee', 'eeXbbXbbXee', 'eekoXXXokee',
+    'eeXXeeeXXee', 'eeXhhkhhXee', 'eeXXwkwXXee', '.eeeXXXeee.', '..eeeeeee..', '...e.e.e...',
+  ], [ // ears laid back, the mane flared, roaring
+    'e.e.eee.e.e', 'eXXeeeeeXXe', 'eeeeeeeeeee', 'eebbXXXbbee', 'eeXbbXbbXee', 'eekoXXXokee',
+    'eeXXeeeXXee', 'eeXwkkkwXee', 'eeXkkpkkXee', 'eeeXwkwXeee', '.eeeXXXeee.', '..e.e.e.e..',
+  ]],
 };
 
 const cells = (c) => ({
-  X: c, h: shade(c, 0.55), d: shade(c, -0.45), k: '#1a0a2a', w: '#fff8e8', m: '#ffb0c4',
+  X: c, h: shade(c, 0.55), d: shade(c, -0.45), k: '#1a0a2a', e: '#7a3416', w: '#fff8e8', m: '#ffb0c4',
   b: ['#ff1428', true], o: ['#ffffff', true], y: ['#ffe14a', true], p: ['#ff5a8a', true],
   a: '#ffb03a', n: '#e0c890', r: ['#ffd23a', true], c: ['#ffe14a', true], s: ['#c8f4ff', true],
 });

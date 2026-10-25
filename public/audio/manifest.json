@@ -128,6 +128,22 @@
     "sourceFile": "public/audio/vocabulary-5-mush.7f19d8459f94.mp3"
   },
   {
+    "file": "public/audio/shir.mp3",
+    "clipId": "vocabulary-5-shir",
+    "sha256": "09d72da41fecd420e7f5cea70e94d0a64ef98c572dedfde720128dbcc8480ee7",
+    "durationMs": 970,
+    "transcript": "شیر",
+    "synthesisText": "شیر",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-shir.09d72da41fec.mp3"
+  },
+  {
     "file": "public/audio/yek.mp3",
     "clipId": "number-1-word",
     "sha256": "c65da9198b270359e7cf41d54f5de11dc7aa62b879e9d586eba02aa56244cc9a",
