@@ -112,8 +112,8 @@ Babak approves 46, 47 and 49 in the lessons repo first.
 
 ### Task 7: Finish (Opus)
 
-- [ ] `simplify` over the level; apply what holds.
+- [x] `simplify` over the level; apply what holds.
 - [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from nine levels to ten and name the fox (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
-- [ ] Advisor review of the branch; apply what holds.
-- [ ] Memory: update the state note, `landmark-backdrops` and `level-10-decisions` (it exists); `zg index` in `memory/`.
-- [ ] `npm test`, push `main` once Babak has played it and says push, check CI and Pages with `gh run list`.
+- [x] ~~Advisor review of the branch; apply what holds.~~ Dropped: Babak asked for no Fable reviews.
+- [x] Memory: update the state note, `landmark-backdrops` and `level-10-decisions` (it exists); `zg index` in `memory/`.
+- [x] `npm test`, push `main` once Babak has played it and says push, check CI and Pages with `gh run list`.
