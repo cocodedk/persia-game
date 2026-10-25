@@ -560,6 +560,22 @@
     "sourceFile": "public/audio/vocabulary-3-aseman.abe847b272b4.mp3"
   },
   {
+    "file": "public/audio/khorshid.mp3",
+    "clipId": "vocabulary-3-khorshid",
+    "sha256": "95f0060545729dc4a1b87ac9d293c0361a99b0959f3d5e2e65d0c32f16d068f6",
+    "durationMs": 890,
+    "transcript": "خورشید",
+    "synthesisText": "خورشید",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-khorshid.95f006054572.mp3"
+  },
+  {
     "file": "public/audio/bist-o-yek.mp3",
     "clipId": "counting-2199-tal-21",
     "sha256": "5c6e6a91ebf438b708b2055c7f1d6603b43d054928251d1652e0e9c1778d5327",

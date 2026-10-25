@@ -16,7 +16,7 @@ test('the weather fades in over 2 s from the first frame it is drawn, a world th
   assert.equal(fadeWeather(w, 14), 1);
 });
 
-// The streaks, stars or petals (one `moveTo` each; `drawImage` for the moon's halo and disc, `fillRect` for dawn's bands) the
+// The streaks, stars or petals (one `moveTo` each; `drawImage` for the moon's halo and disc, `fillRect` for dawn's bands and the sun's rows) the
 // weather draws in `phase` for `world` at t = 5 s, its fade begun at 0.
 function drawn(world, phase, t = 5, call = 'moveTo') {
   const { ctx, count } = counting(call);
@@ -69,4 +69,25 @@ test('dawn is drawn in the sky, under the parallax and the field, as bands, and 
   assert.equal(drawn(world, 'field', 5, 'fillRect'), 0);
   assert.equal(drawn({ ...world, wave: 2 }, 'sky', 5, 'fillRect'), 0, 'dry before its wave');
   assert.ok(drawn({ ...world, wave: 1, boss: {} }, 'sky', 5, 'fillRect') > 2, 'and at the giant');
+});
+
+test('sunrise is drawn in the sky, under the parallax and the field, as dawn\'s bands and the sun, and never in the field', () => {
+  const world = { level: { weather: { kind: 'sunrise', from: 3 } }, boss: null, wave: 3 };
+  const dawn = drawn({ ...world, level: { weather: { kind: 'dawn', from: 3 } } }, 'sky', 5, 'fillRect');
+  assert.ok(drawn(world, 'sky', 5, 'fillRect') > dawn + 20, 'the bands and a disc of rows');
+  assert.equal(drawn(world, 'field', 5, 'fillRect'), 0);
+  assert.equal(drawn({ ...world, wave: 2 }, 'sky', 5, 'fillRect'), 0, 'dry before its wave');
+  assert.ok(drawn({ ...world, wave: 1, boss: {} }, 'sky', 5, 'fillRect') > dawn + 20, 'and at the giant');
+});
+
+test('the weather\'s age reaches its drawing: the sun is higher the longer the weather has lasted', () => {
+  const world = { level: { weather: { kind: 'sunrise', from: 3 } }, boss: null, wave: 3 };
+  const top = (since, t) => {
+    let y = Infinity;
+    const ctx = new Proxy({}, { get: (o, k) => (k in o ? o[k] : (...a) => { if (k === 'fillRect' && a[2] < 1920) y = Math.min(y, a[1]); }) });
+    drawWeather(ctx, { weather: { since }, quality: { level: 1 }, reduced: false }, world, t, 'sky');
+    return y;
+  };
+  assert.ok(top(0, 30) < top(0, 5), 'the same clock, a weather begun earlier');
+  assert.equal(top(0, 100), top(-100, 0), 'the age is what counts, not the clock');
 });
