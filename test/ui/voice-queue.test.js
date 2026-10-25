@@ -61,6 +61,10 @@ test("a level's weather line is said once, with the wave it begins at, after tha
   }
 });
 
+test("a wave that begins the moon says the moon's line last, after its number and species", () => {
+  assert.deepEqual(lines([{ ...wave(3, 'bird', 'mouse'), weather: 'moon' }]), [number(3), species('bird'), species('mouse'), PACK.weather.moon]);
+});
+
 test('a tick with no events, or none that speak, says nothing', () => {
   assert.equal(lines([]).length, 0);
   assert.equal(lines([]), lines([]), 'and allocates nothing');

@@ -37,6 +37,7 @@ const NAMES = {
   'vocabulary-3-baran': 'baran',
   'word-bridge-setareh': 'setare',
   'vocabulary-3-gol': 'gol',
+  'vocabulary-3-mah': 'mah',
   'counting-2199-tal-21': 'bist-o-yek',
   'counting-2199-tal-22': 'bist-o-do',
   'counting-2199-tal-23': 'bist-o-se',

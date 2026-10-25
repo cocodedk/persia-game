@@ -16,10 +16,10 @@ test('the weather fades in over 2 s from the first frame it is drawn, a world th
   assert.equal(fadeWeather(w, 14), 1);
 });
 
-// The streaks, stars or petals (one `moveTo` each) the weather draws in `phase` for `world` at
-// t = 5 s, its fade begun at 0.
-function drawn(world, phase, t = 5) {
-  const { ctx, count } = counting('moveTo');
+// The streaks, stars or petals (one `moveTo` each; `drawImage` for the moon's halo and disc) the
+// weather draws in `phase` for `world` at t = 5 s, its fade begun at 0.
+function drawn(world, phase, t = 5, call = 'moveTo') {
+  const { ctx, count } = counting(call);
   drawWeather(ctx, { weather: { since: 0 }, quality: { level: 1 }, reduced: false }, world, t, phase);
   return count();
 }
@@ -53,4 +53,12 @@ test('petals are drawn in the field, over the parallax and under what fights, an
   assert.equal(drawn(world, 'sky'), 0);
   assert.equal(drawn({ ...world, wave: 2 }, 'field'), 0, 'dry before its wave');
   assert.equal(drawn({ ...world, wave: 1, boss: {} }, 'field'), 70, 'and at the giant');
+});
+
+test('the moon is drawn in the sky, under the parallax and the field, as a halo and a disc, and never in the field', () => {
+  const world = { level: { weather: { kind: 'moon', from: 3 } }, boss: null, wave: 3 };
+  assert.equal(drawn(world, 'sky', 5, 'drawImage'), 2);
+  assert.equal(drawn(world, 'field', 5, 'drawImage'), 0);
+  assert.equal(drawn({ ...world, wave: 2 }, 'sky', 5, 'drawImage'), 0, 'dry before its wave');
+  assert.equal(drawn({ ...world, wave: 1, boss: {} }, 'sky', 5, 'drawImage'), 2, 'and at the giant');
 });

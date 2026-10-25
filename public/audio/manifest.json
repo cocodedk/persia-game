@@ -496,6 +496,22 @@
     "sourceFile": "public/audio/vocabulary-3-gol.c274848da7f3.mp3"
   },
   {
+    "file": "public/audio/mah.mp3",
+    "clipId": "vocabulary-3-mah",
+    "sha256": "ed0a03c87bcc2040d62dc86db11eb7e9bd64b23297df09c77f7d394b59917ded",
+    "durationMs": 760,
+    "transcript": "ماه",
+    "synthesisText": "ماه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-mah.ed0a03c87bcc.mp3"
+  },
+  {
     "file": "public/audio/bist-o-yek.mp3",
     "clipId": "counting-2199-tal-21",
     "sha256": "cf7ac678b18843f16cd7dcf8ad24dd0a12061e039c181c5012773110bb169d04",

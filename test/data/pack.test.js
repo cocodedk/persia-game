@@ -23,6 +23,11 @@ test('every species word, every weather\'s and every HUD word is Persian script 
   for (const word of [...words, ...Object.values(PACK.hud)]) assert.ok(obeys(word), word);
 });
 
+test('the pack words each kind of weather: rain, stars, petals and the moon, and every kind a level has', () => {
+  assert.deepEqual(Object.keys(PACK.weather).sort(), ['moon', 'petals', 'rain', 'stars']);
+  for (const { weather } of LEVELS) assert.ok(!weather || PACK.weather[weather.kind], weather?.kind);
+});
+
 test('the digits are the ten Persian ones, 0 to 9, never Arabic-Indic or ASCII', () => {
   assert.equal(PACK.digits, Array.from({ length: 10 }, (_, d) => String.fromCharCode(0x06f0 + d)).join(''));
 });
