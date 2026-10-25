@@ -71,7 +71,7 @@ Things that would make the level a failure even if it runs:
 
 | Topic | Decision | Whose |
 |---|---|---|
-| Platform | Laptop, keyboard and mouse. Phone second, if ever. | Babak |
+| Platform | Laptop, keyboard and mouse. Phone second, if ever. Since 2026-10-25 a tap on the HUD's bombs panel drops a bomb, so a touch screen can bomb too; nothing else is done for phones. | Babak |
 | Base | Fork invaders. | Fable, after recon of invaders, wonderland, breakout |
 | Name and home | "Persia", own repo, `persia.cocode.dk`. | Babak (name), Fable (own repo and subdomain) |
 | Audience | Grown-ups. | Babak |
@@ -86,6 +86,7 @@ Things that would make the level a failure even if it runs:
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
 | Relaxed, never exhausting | The game is for relaxing and learning, not for hardship or skill. Enemies may shoot but never overwhelm the player; a new level is no harder to survive than the one before. Decided while planning level 7 (2026-10-25). | Babak |
 | Giants name what they send | In every giant's fight, each animal the giant sends out is named as it leaves, every time: the voice says its line, the word moment shows it, and its animals light up as in the waves. Decided after playing level 7's fight (2026-10-25). | Babak |
+| Show how to bomb | The bombs panel shows how to drop one in every level: small key caps for B and the mouse's right button beside its label, a tap mark once a touch has been seen. They are part of the HUD, not help text. Asked for while planning level 8 (2026-10-25). | Babak |
 | Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
 | Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the score turns to Persian digits everywhere it shows. Decided after playing level 2. | Babak |
 | Level 4 | The Azadi Tower in Tehran at night; waves numbered ۱۶ to ۲۰; a giant bird is the boss; rain falls from wave 18 and the voice says باران as it begins; the combo and the level's number turn to Persian digits. The title's levels become cards side by side, each with a picture of its landmark and its place's name. Decided after playing level 3. | Babak |
@@ -392,6 +393,60 @@ Persian; the end cards' labels and the title menu stay English.
 
 **Reaching it.** Open like levels 2 to 6: the title lists Level 7, level 6's results offer Next.
 Failing level 7 retries level 7 from wave 31.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
+## Level 8 specification
+
+Decided with Babak on 2026-10-25, after level 7 went live.
+
+**Shape.** Five waves and a boss, no harder to survive than level 7. The waves are 36 to 40.
+
+**Where.** Isfahan at night on Naqsh-e Jahan Square: the Shah Mosque's great turquoise dome over its
+tiled portal and twin minarets, Ali Qapu's tall porch on slim wooden columns, the two-storey arcades
+running round the square with lamps in their arches, the long pool in front. The dome shows on the
+title card. The sky, the far mountains, the palette and the music stay the world's.
+
+**Enemies.** Nine animals: the eight and a new one, the lion, شیر (shir), the boss's species. The lion
+pounces: it leaves its row and dives at the ship as the cat, the bird and the mouse do, one at a time.
+It comes first in wave 36, where its name is said and shown as every species' is, and again in wave 40.
+Wave 37 is the escort with the rabbits, as waves 12 to 32 before it. No more shooting animals than level
+7, no wave with more divers than any earlier level's, and level 7's pace.
+
+**The lion.** A small pixel sprite like the other animals: a golden face in a dark mane, round ears,
+lit red brows, a broad nose; its second frame roars. It walks in the parade after the mouse, the pack's
+order.
+
+**Boss.** A giant lion, face on: the great mane round its face; its two round ears and the mane's crown
+between them are its plates; the eyes and the roaring mouth burn, and lions pour from the mouth. A
+rabbit leaves the crown in every phase. It fights as the dog and the horse do. Its name is said as it
+arrives, it lights up while the name is said, and its HUD bar reads شیر.
+
+**Dawn.** From wave 38 to the end, the giant's fight included, dawn starts to colour the night sky: low
+over the mountains the sky warms in bands to rose and amber, fading up into the night; the moon and the
+stars stay. As it begins the voice says آسمان (aseman) after the wave's number and species, and the word
+moment shows it. It comes over the weather's two-second fade and then stays. Reduced motion and half
+quality do not change it. Dawn is the fifth kind of a level's weather and, like the stars and the moon,
+belongs to the sky, behind the mountains and the landmark.
+
+**Spoken set.** Level 7's set, plus `counting-2199-ti-40` (۴۰, chehel), `vocabulary-3-aseman` (آسمان),
+and five clips made and approved first in a review round in the lessons repo: شیر, kept there as an
+entry no lesson teaches, and 36 to 39 (si-o-shesh to si-o-noh), as 32 to 35 were. Every clip carries
+`reviewedBy: ["cocodedk"]`.
+
+**The seventh step of the Persian ramp.** The HUD's bombs label reads بمب (bomb) in the pack's word face,
+in the place and size of BOMBS. It is read, never heard. Everything level 7 shows in Persian stays
+Persian; the end cards' labels and the title menu stay English.
+
+**Bombs, in every level.** The bombs panel shows how to drop a bomb: beside its label, small key caps for
+B and the mouse's right button, drawn in the HUD's pixel style. On a touch screen a tap on the bombs
+panel drops a bomb (a touch already steers and fires), and once a touch has been seen the caps give way
+to a tap mark. This lands first, on its own, before the rest of the level.
+
+**The title.** Eight cards side by side, still fitting at 1920 x 1080 and in a 1280 x 720 window.
+
+**Reaching it.** Open like levels 2 to 7: the title lists Level 8, level 7's results offer Next.
+Failing level 8 retries level 8 from wave 36.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
