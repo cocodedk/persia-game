@@ -37,7 +37,7 @@ export default {
   flourish: ['shooting'],
   palette: {
     accent: '#ffb03a', shot: '#c8ffe0', beam: '#5dff8a', enemy: '#ff5ad8', enemyRim: '#1a0420',
-    alien: { dog: '#e8d0a8', cat: '#ff9a3a', bird: '#3affc8', fish: '#5ab8ff', horse: '#c88a5a', cow: '#f4f4f4', rabbit: '#ff7ac8', mouse: '#7c7698', lion: '#e8a838' },
+    alien: { dog: '#e8d0a8', cat: '#ff9a3a', bird: '#3affc8', fish: '#5ab8ff', horse: '#c88a5a', cow: '#f4f4f4', rabbit: '#ff7ac8', mouse: '#7c7698', lion: '#e8a838', camel: '#a8925a' },
     boss: { hull: '#2a1430', plate: '#ff9a3a', weak: '#ffe14a' },
   },
   bullet: 'pixel',

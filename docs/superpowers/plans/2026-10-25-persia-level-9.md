@@ -67,10 +67,10 @@ Babak approves شتر in the lessons repo first.
 
 **Interfaces:** Produces the species id `'camel'`, fighting as `'gunner'`, and its pack line `{ id: 'camel', word: 'شتر', say: 'shotor', clip: 'public/audio/shotor.mp3', ms }`, appended last.
 
-- [ ] Change the level tests that say a level brings every species (levels 2 to 8) to "every species but `'camel'`" (they pass before and after); the kinds, art and pack tests are the ones that fail once `SPECIES.camel` exists, until the sprite, palette and pack line land.
-- [ ] `ROWS.camel`: two frames, at most 11 cells wide, in the legend there: a long sandy face, small ears, heavy lids over dark eyes, lit red brows, a split upper lip; frame 2 spits.
-- [ ] Screenshot a wave with a camel row (a temporary local edit of level 1's wave 1, not committed) at play size and in the word moment's face.
-- [ ] `npm test`: all pass. Commit `feat: the camel joins the animals`.
+- [x] Change the level tests that say a level brings every species (levels 2 to 8) to "every species but `'camel'`" (they pass before and after); the kinds, art and pack tests are the ones that fail once `SPECIES.camel` exists, until the sprite, palette and pack line land.
+- [x] `ROWS.camel`: two frames, at most 11 cells wide, in the legend there: a long sandy face, small ears, heavy lids over dark eyes, lit red brows, a split upper lip; frame 2 spits.
+- [x] Screenshot a wave with a camel row (a temporary local edit of level 1's wave 1, not committed) at play size and in the word moment's face.
+- [x] `npm test`: all pass. Commit `feat: the camel joins the animals`.
 
 ### Task 4: The giant camel
 

@@ -144,6 +144,22 @@
     "sourceFile": "public/audio/vocabulary-5-shir.09d72da41fec.mp3"
   },
   {
+    "file": "public/audio/shotor.mp3",
+    "clipId": "vocabulary-5-shotor",
+    "sha256": "e64d9fdac8d15ad37145952ec9e5cbaa9e53ece74de906690dd7b77512125e86",
+    "durationMs": 760,
+    "transcript": "شُتُر",
+    "synthesisText": "[[ ʃotˈor ]]",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-shotor.e64d9fdac8d1.mp3"
+  },
+  {
     "file": "public/audio/yek.mp3",
     "clipId": "number-1-word",
     "sha256": "c65da9198b270359e7cf41d54f5de11dc7aa62b879e9d586eba02aa56244cc9a",

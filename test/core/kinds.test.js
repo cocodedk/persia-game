@@ -16,9 +16,9 @@ test('the powers are the agreed names in the agreed order', () => {
   assert.deepEqual(POWERS, ['spread', 'laser', 'rapid', 'shield']);
 });
 
-test('each of the nine species fights as an invaders role', () => {
+test('each of the ten species fights as an invaders role', () => {
   assert.deepEqual(SPECIES, {
-    dog: 'grunt', cat: 'diver', bird: 'diver', fish: 'gunner', horse: 'gunner', cow: 'armored', rabbit: 'carrier', mouse: 'diver', lion: 'diver',
+    dog: 'grunt', cat: 'diver', bird: 'diver', fish: 'gunner', horse: 'gunner', cow: 'armored', rabbit: 'carrier', mouse: 'diver', lion: 'diver', camel: 'gunner',
   });
   for (const role of Object.values(SPECIES)) assert.ok(role in ROLES, role);
 });

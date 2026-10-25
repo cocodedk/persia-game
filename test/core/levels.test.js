@@ -84,7 +84,7 @@ test('level 7 brings all eight animals, the horse, its boss, in more rows than a
 
 test('level 8 brings all nine animals, the lion, its boss, and is no harder to survive than level 7: no more gunners, no wave with more divers than any before it, its pace', () => {
   const mostDivers = Math.max(...LEVELS.slice(0, 7).flatMap((level) => perWave(level, 'diver')));
-  assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).sort());
+  assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'camel').sort());
   assert.equal(bossDef(LEVEL_8.boss).species, 'lion');
   assert.ok(gunners(LEVEL_8) <= gunners(LEVEL_7), 'no more gunners than level 7');
   perWave(LEVEL_8, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 36} has ${n} divers, the most before it ${mostDivers}`));

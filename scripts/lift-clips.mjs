@@ -15,6 +15,7 @@ const NAMES = {
   'vocabulary-5-khargush': 'khargush',
   'vocabulary-5-mush': 'mush',
   'vocabulary-5-shir': 'shir',
+  'vocabulary-5-shotor': 'shotor',
   'number-1-word': 'yek',
   'number-2-word': 'do',
   'number-3-word': 'se',
