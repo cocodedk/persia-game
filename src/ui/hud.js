@@ -24,7 +24,7 @@ const MAIN = TOP + 55; // big number row
 // keeps 8 px clear of each.
 const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
-// The score's Persian label: its alef stands as tall as the caps of the labels beside it; larger crowds the 46px number under it.
+// The score's and the lives' Persian labels (both have an alef): it stands as tall as the caps of the labels beside it; larger crowds the 46px number under it.
 const SCORE_WORD_SIZE = 18;
 // The bombs' Persian label has no alef to match to the caps: at this size its body fills the band the
 // caps of BOMBS filled, standing on their baseline, and the hint stays a clear 36 px to its right.
@@ -138,7 +138,7 @@ function stock(ctx, world, look, t) {
   const s = world.ship;
   const x = STOCK_X;
   panel(ctx, x, TOP, STOCK_W, PH);
-  label(ctx, 'LIVES', x + 24, CAP);
+  caption(ctx, world.level, 'lives', x + 24, SCORE_WORD_SIZE);
   caption(ctx, world.level, 'bombs', x + BOMBS_DX, BOMBS_WORD_SIZE);
   bombKeys(ctx, x + 250, CAP, touchSeen());
   for (let i = 0; i < LIVES; i++) shipIcon(ctx, x + 38 + i * 38, MAIN + 2, look.palette.accent, i < s.lives);
