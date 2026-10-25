@@ -28,8 +28,9 @@ import giantDog from './giant-dog.js';
 import giantHorse from './giant-horse.js';
 import giantLion from './giant-lion.js';
 import giantCamel from './giant-camel.js';
+import giantFox from './giant-fox.js';
 
-export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish, 'giant-bird': giantBird, 'giant-cow': giantCow, 'giant-dog': giantDog, 'giant-horse': giantHorse, 'giant-lion': giantLion, 'giant-camel': giantCamel };
+export const BOSS_ART = { giant, 'giant-mouse': giantMouse, 'giant-fish': giantFish, 'giant-bird': giantBird, 'giant-cow': giantCow, 'giant-dog': giantDog, 'giant-horse': giantHorse, 'giant-lion': giantLion, 'giant-camel': giantCamel, 'giant-fox': giantFox };
 const cache = new Map();
 
 export function painterFor(mod, id) {

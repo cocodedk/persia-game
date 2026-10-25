@@ -24,7 +24,7 @@ export const atk = (pattern, every, from, p = {}) => ({ pattern, every, from, p 
 export const minion = (species, count, every, from) => ({ species, role: SPECIES[species], count, every, from });
 export const phase = (until, move, attacks, extra = {}) => ({ until, move, attacks, ...extra });
 
-// The three-phase fight the face-on giants share (fish to camel): `mouth` is the part that fires and
+// The three-phase fight the face-on giants share (fish to fox): `mouth` is the part that fires and
 // sends out `species`; a rabbit leaves `rabbitFrom` in every phase.
 export const faceFight = (species, mouth, rabbitFrom) => [
   phase(0.65, 'sway', [
