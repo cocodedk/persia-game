@@ -99,7 +99,19 @@ const LEVEL_6 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6];
+const LEVEL_7 = {
+  id: 'level-7', name: 'Level 7', place: 'Milad Tower', seed: 72269, d: 0.45, boss: 'giant-horse', landmark: 'milad',
+  persian: ['wave', 'score', 'combo', 'level', 'boss', 'waveWord', 'scoreWord'], weather: { kind: 'moon', from: 3 },
+  waves: [
+    w('grid', 6, 'hhdd', 'aimed', 1.2), // 31: horses over dogs
+    w('escort', 3, 'orro', 'aimed', 1.2), // 32: cows guard two rows of rabbits
+    w('dive', 10, 'bbmm', 'fan', 1.25), // 33: birds and mice swoop, and the moon turns white
+    w('sway', 6, 'hhf', 'fan', 1.3), // 34: two rows of horses over the fish: the gunners
+    w('spiral', 10, 'ccdd', 'ring', 1.4), // 35: forty cats and dogs
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

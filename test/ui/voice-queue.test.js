@@ -29,8 +29,8 @@ test('a wave event says its number, then its species; a boss event says its spec
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'cat' }]), [species('cat')]);
 });
 
-test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one, twenty-six', () => {
-  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']], [5, 26, ['dog', 'cat']]]) {
+test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one, twenty-six, thirty-one', () => {
+  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']], [5, 26, ['dog', 'cat']], [6, 31, ['horse', 'dog']]]) {
     assert.deepEqual(lines(createWorld(LEVELS[i]).events), [number(n), ...ids.map(species)], LEVELS[i].id);
   }
 });

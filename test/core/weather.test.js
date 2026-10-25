@@ -5,8 +5,8 @@ import { LEVELS, weatherOf } from '../../src/core/levels.js';
 import { seconds, playing, drain, ofType, clear } from './world-kit.js';
 
 // Level 4's rain begins with its third wave, 18, and falls to the end, the giant's fight included;
-// level 5's stars do the same from wave 23, and level 6's petals from wave 28. No other level has
-// weather, and a retry is a fresh world, so each begins at its wave again.
+// level 5's stars do the same from wave 23, level 6's petals from wave 28 and level 7's moon from wave 33.
+// No other level has weather, and a retry is a fresh world, so each begins at its wave again.
 
 // A level's run through its waves: each wave's event, and the weather once it has spawned;
 // then the world, its last wave cleared and its giant come.
@@ -25,8 +25,8 @@ function run(level) {
 }
 
 // A fresh world is a retry too, so its dry first waves are the retry's.
-test("level 4's third wave brings the rain, level 5's the stars and level 6's the petals, and it lasts from then on; no other level has weather", () => {
-  const KIND = { 'level-4': 'rain', 'level-5': 'stars', 'level-6': 'petals' };
+test("level 4's third wave brings the rain, level 5's the stars, level 6's the petals and level 7's the moon, and it lasts from then on; no other level has weather", () => {
+  const KIND = { 'level-4': 'rain', 'level-5': 'stars', 'level-6': 'petals', 'level-7': 'moon' };
   for (const level of LEVELS) {
     const { seen } = run(level);
     const kind = KIND[level.id];
@@ -35,8 +35,8 @@ test("level 4's third wave brings the rain, level 5's the stars and level 6's th
   }
 });
 
-test("it rains through level 4's giant fight, the stars fall through level 5's and the petals through level 6's, and from the first frame when it starts at the giant", () => {
-  for (const [level, kind] of [[LEVELS[3], 'rain'], [LEVELS[4], 'stars'], [LEVELS[5], 'petals']]) {
+test("it rains through level 4's giant fight, the stars fall through level 5's, the petals through level 6's and the moon shines through level 7's, and from the first frame when it starts at the giant", () => {
+  for (const [level, kind] of [[LEVELS[3], 'rain'], [LEVELS[4], 'stars'], [LEVELS[5], 'petals'], [LEVELS[6], 'moon']]) {
     const { world } = run(level);
     assert.ok(world.boss, 'the giant has come');
     assert.equal(weatherOf(world), kind);

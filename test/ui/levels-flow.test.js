@@ -94,12 +94,16 @@ test("results offer Next to the level after, none after the last, and Again repl
   later();
   press(screen(), 'Next');
   flow.showResults({ level: LEVELS[5], ...result });
+  assert.deepEqual(labels(screen()), ['Next', 'Again', 'Title']);
+  later();
+  press(screen(), 'Next');
+  flow.showResults({ level: LEVELS[6], ...result });
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
   later();
   press(screen(), 'Again');
   flow.showResults({ level: { ...LEVEL, waves: null }, ...result }); // ?debug&boss: not a level of the list
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
-  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[3], LEVELS[4], LEVELS[5], LEVELS[5]]);
+  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[3], LEVELS[4], LEVELS[5], LEVELS[6], LEVELS[6]]);
 });
 
 LEVELS.slice(1).forEach((level, i) => {
@@ -109,6 +113,6 @@ LEVELS.slice(1).forEach((level, i) => {
     later();
     press(screen(), 'Retry');
     assert.deepEqual(started, [level]);
-    assert.equal(level.first, [6, 11, 16, 21, 26][i]);
+    assert.equal(level.first, [6, 11, 16, 21, 26, 31][i]);
   });
 });
