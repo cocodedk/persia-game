@@ -35,18 +35,18 @@
 
 ### Task 0: Baselines (Opus)
 
-- [ ] Bake hashes of the sky, all nine landmarks and all nine giants, and the HUD probe of levels 1 to 9, on `2d7d759`.
+- [x] Bake hashes of the sky, all nine landmarks and all nine giants, and the HUD probe of levels 1 to 9, on `2d7d759`.
 
 ### Task 1: The Tomb of Ferdowsi at night
 
 **Files:** create `src/ui/landmarks/ferdowsi.js` (split as Qabus split, e.g. `ferdowsi-tomb.js`, `ferdowsi-garden.js`, each under 200 lines); modify `src/ui/parallax-shapes.js` (`PAINTERS.ferdowsi`), `src/ui/looks/persia.js` (`landmarks.ferdowsi`, and the header names it), `src/ui/landmarks/kit.js` and `src/ui/landmarks/siosepol.js` (`reflect` moves into the kit).
 
-- [ ] The painter builds its art with `scene()` from `landmarks/kit.js`, as `qabus.js` does, with tones from its look entry: a white stone warmed by the floodlight, its shade a cool grey, the pool's water, the lawns' and hedges' greens, the lamps; lights pushed for the lamps.
-- [ ] The tomb at the layer's centre, wide and squat beside Qabus's tower: a broad white cube on a wide, low platform of steps; four tall corner columns with double-headed bull capitals (`stamp` the `CAPITAL` exported by `persepolis-art.js`, which reads the painter's own tones) under a deep stepped cornice; a pair of shorter engaged columns on each wall; the winged figure high on the front over panels of verse (a few rows of dark marks, not letters); floodlit from below, brightest low.
-- [ ] The pool, side on: `F` is its far edge at the platform's foot, as Si-o-se-pol's `F` is its waterline, and the water is the band's `UNDER` rows (about 30 to 36 blocks, since the ground hides the lowest 14) in the middle x-range, with lawn and low hedges either side, lamps on the paths beside it, trees beyond, and the fountains as lit specks on the water. The mirror: move `reflect` from `siosepol.js:97` into `landmarks/kit.js` as `reflect(g, x, w, F, depth)`; Si-o-se-pol passes `0, w, F, 44` (its hash holds), Ferdowsi the pool's x-range and its own depth.
-- [ ] Heights: the cornice inside the title-card crop (x 480, y 480, w 960, h 600, taken on the frame, `landmark-art.js:10`); the layer about 480 high (squat beside Qabus's 592, never over 592), a multiple of `PIXEL`. Pin its FAR height in the look, as Milad and Si-o-se-pol pin 560, high enough that the far ridge at the rainbow's feet stays above the bow's centre (Task 2); Task 6 moves the bow, never FAR.
-- [ ] Screenshot the backdrop alone, its title-card crop and a wave over it; the nine earlier landmarks and the sky hash as in Task 0.
-- [ ] Commit `feat(ui): the Tomb of Ferdowsi at night, level 10's backdrop`.
+- [x] The painter builds its art with `scene()` from `landmarks/kit.js`, as `qabus.js` does, with tones from its look entry: a white stone warmed by the floodlight, its shade a cool grey, the pool's water, the lawns' and hedges' greens, the lamps; lights pushed for the lamps.
+- [x] The tomb at the layer's centre, wide and squat beside Qabus's tower: a broad white cube on a wide, low platform of steps; four tall corner columns with double-headed bull capitals (`stamp` the `CAPITAL` exported by `persepolis-art.js`, which reads the painter's own tones) under a deep stepped cornice; a pair of shorter engaged columns on each wall; the winged figure high on the front over panels of verse (a few rows of dark marks, not letters); floodlit from below, brightest low.
+- [x] The pool, side on: `F` is its far edge at the platform's foot, as Si-o-se-pol's `F` is its waterline, and the water is the band's `UNDER` rows (about 30 to 36 blocks, since the ground hides the lowest 14) in the middle x-range, with lawn and low hedges either side, lamps on the paths beside it, trees beyond, and the fountains as lit specks on the water. The mirror: move `reflect` from `siosepol.js:97` into `landmarks/kit.js` as `reflect(g, x, w, F, depth)`; Si-o-se-pol passes `0, w, F, 44` (its hash holds), Ferdowsi the pool's x-range and its own depth.
+- [x] Heights: the cornice inside the title-card crop (x 480, y 480, w 960, h 600, taken on the frame, `landmark-art.js:10`); the layer about 480 high (squat beside Qabus's 592, never over 592), a multiple of `PIXEL`. Pin its FAR height in the look, as Milad and Si-o-se-pol pin 560, high enough that the far ridge at the rainbow's feet stays above the bow's centre (Task 2); Task 6 moves the bow, never FAR.
+- [x] Screenshot the backdrop alone, its title-card crop and a wave over it; the nine earlier landmarks and the sky hash as in Task 0.
+- [x] Commit `feat(ui): the Tomb of Ferdowsi at night, level 10's backdrop`.
 
 ### Task 2: The rainbow, a seventh weather
 
@@ -54,12 +54,12 @@
 
 **Interfaces:** Consumes `cached(key, w, h, paint)` (`sprites.js:62`) as `moon.js` uses it and `MOON` from `sky-bodies.js`. Produces `drawRainbow(ctx, k)` and `BLOCKS`, the bow's blocks in frame coordinates as rows of `[x, y, w, colour]`, built at load as `sunrise.js` builds `LAYERS`; the bake paints them and the test imports them (an export used in its own file and by a test passes `test/repo-dead.test.js:60-66`).
 
-- [ ] `drawRainbow`: nothing at `k` 0; else `drawImage` of the bow baked once by `cached`, at `globalAlpha` `k` times `STRENGTH` (0.85 as shipped, Babak's ask: the colours distinct, as a Japanese pixel game draws a rainbow). The bake is `BLOCKS`' bounding box, its top-left a multiple of 8, drawn at that top-left; it paints each block with `fillRect`. Seven bands, red outside to violet inside, one block per band; as shipped the block is `4 * PIXEL` (16 px) so the bow is 112 px across with chunky steps, and each band is one flat, full colour (the first draft, 8 px blocks pulled toward white, read too pale for the word). Its centre right of the tomb and below the far ridge, so the arc rises behind the tomb from the right, its feet behind the far mountains, its top under the HUD band, every block outside `MOON`'s disc. Constants in `rainbow.js` (`BOW`, `STRENGTH`), placed provisionally here; Task 6 checks them on level 10's own backdrop. It takes no motion, so `reduced` and the quality change nothing. `WEATHER.rainbow = ['sky', drawRainbow]`.
-- [ ] Pack `weather.rainbow`: `{ word: 'رنگین‌کمان', say: 'rangin-kaman', clip: 'public/audio/rangin-kaman.mp3', ms }`, `ms` from the approved record; the manifest gains this one entry; `test/data/pack.test.js:27`'s list of weather kinds gains `'rainbow'`.
-- [ ] Comments: `weather.js`'s header, `levels.js`'s weather line and `pack.js`'s weather line name seven kinds.
-- [ ] Tests: nothing drawn at `k` 0; every block of `BLOCKS` lies on the 8 px grid, outside `MOON`'s disc and below the HUD band; at `k` 1 the `drawImage` destination is the blocks' top-left, and two frames draw the same canvas (as `test/ui/moon.test.js:38-41` checks); in `weather.test.js` with a probe level, the rainbow draws in `'sky'` only, from wave 3 and at the giant; in `voice-queue.test.js` a wave event with `weather: 'rainbow'` says the rainbow line after the species.
-- [ ] Screenshot, with a temporary uncommitted edit giving level 9 `weather: { kind: 'rainbow', from: 3 }`, the word moment (رنگین‌کمان whole, its halves apart at the ZWNJ, each letter coloured) and the bow settled with a wave in play; measure `drawRainbow` per frame.
-- [ ] Commit `feat: a moonbow, a weather the voice names rangin-kaman`.
+- [x] `drawRainbow`: nothing at `k` 0; else `drawImage` of the bow baked once by `cached`, at `globalAlpha` `k` times `STRENGTH` (0.85 as shipped, Babak's ask: the colours distinct, as a Japanese pixel game draws a rainbow). The bake is `BLOCKS`' bounding box, its top-left a multiple of 8, drawn at that top-left; it paints each block with `fillRect`. Seven bands, red outside to violet inside, one block per band; as shipped the block is `4 * PIXEL` (16 px) so the bow is 112 px across with chunky steps, and each band is one flat, full colour (the first draft, 8 px blocks pulled toward white, read too pale for the word). Its centre right of the tomb and below the far ridge, so the arc rises behind the tomb from the right, its feet behind the far mountains, its top under the HUD band, every block outside `MOON`'s disc. Constants in `rainbow.js` (`BOW`, `STRENGTH`), placed provisionally here; Task 6 checks them on level 10's own backdrop. It takes no motion, so `reduced` and the quality change nothing. `WEATHER.rainbow = ['sky', drawRainbow]`.
+- [x] Pack `weather.rainbow`: `{ word: 'رنگین‌کمان', say: 'rangin-kaman', clip: 'public/audio/rangin-kaman.mp3', ms }`, `ms` from the approved record; the manifest gains this one entry; `test/data/pack.test.js:27`'s list of weather kinds gains `'rainbow'`.
+- [x] Comments: `weather.js`'s header, `levels.js`'s weather line and `pack.js`'s weather line name seven kinds.
+- [x] Tests: nothing drawn at `k` 0; every block of `BLOCKS` lies on the 8 px grid, outside `MOON`'s disc and below the HUD band; at `k` 1 the `drawImage` destination is the blocks' top-left, and two frames draw the same canvas (as `test/ui/moon.test.js:38-41` checks); in `weather.test.js` with a probe level, the rainbow draws in `'sky'` only, from wave 3 and at the giant; in `voice-queue.test.js` a wave event with `weather: 'rainbow'` says the rainbow line after the species.
+- [x] Screenshot, with a temporary uncommitted edit giving level 9 `weather: { kind: 'rainbow', from: 3 }`, the word moment (رنگین‌کمان whole, its halves apart at the ZWNJ, each letter coloured) and the bow settled with a wave in play; measure `drawRainbow` per frame.
+- [x] Commit `feat: a moonbow, a weather the voice names rangin-kaman`.
 
 ### Task 3: The fox
 
@@ -88,11 +88,11 @@ Babak approves روباه in the lessons repo first.
 
 **Files:** `src/data/pack.js` (`hud.combo`, and its header's `hud` line), `src/core/levels.js` (the header names `'comboWord'`), `src/ui/format.js` (its header: `hudLabel`'s keys gain `'combo'`, `showsPersian`'s parts `'comboWord'`), `src/ui/hud.js` (`caption()`, `combo()`); tests `test/ui/format.test.js`, `test/core/levels.test.js`.
 
-- [ ] Pack `hud.combo: 'پیاپی'` (through `humanizer-pa`).
-- [ ] `caption(ctx, level, key, x, size, align = 'left')`, passing `align` to `word` and `label`; `combo()` calls `caption(ctx, world.level, 'combo', x + 75, ALEF_WORD_SIZE, 'center')` in place of the COMBO label. پیاپی has an alef, so it starts at the alef words' size, and `ALEF_WORD_SIZE`'s comment names the three labels; if its final ی's tail touches the x8 number at its pulse, a `COMBO_WORD_SIZE` of 16, never a move of `COMBO_MID`. Judged from a screenshot.
-- [ ] Tests: `levels.test.js` `known` gains `'comboWord'`; `format.test.js` `hudLabel(level, 'combo')` gives the pack's word with the part, `{ text: 'COMBO', persian: false }` without it.
-- [ ] Screenshot the HUD with a probe level that has `'comboWord'`, cold and burning (x8); the HUD probe of levels 1 to 9 hashes as in Task 0.
-- [ ] Commit `feat(ui): a level can name its combo in Persian`.
+- [x] Pack `hud.combo: 'پیاپی'` (through `humanizer-pa`).
+- [x] `caption(ctx, level, key, x, size, align = 'left')`, passing `align` to `word` and `label`; `combo()` calls `caption(ctx, world.level, 'combo', x + 75, ALEF_WORD_SIZE, 'center')` in place of the COMBO label. پیاپی has an alef, so it starts at the alef words' size, and `ALEF_WORD_SIZE`'s comment names the three labels; if its final ی's tail touches the x8 number at its pulse, a `COMBO_WORD_SIZE` of 16, never a move of `COMBO_MID`. Judged from a screenshot.
+- [x] Tests: `levels.test.js` `known` gains `'comboWord'`; `format.test.js` `hudLabel(level, 'combo')` gives the pack's word with the part, `{ text: 'COMBO', persian: false }` without it.
+- [x] Screenshot the HUD with a probe level that has `'comboWord'`, cold and burning (x8); the HUD probe of levels 1 to 9 hashes as in Task 0.
+- [x] Commit `feat(ui): a level can name its combo in Persian`.
 
 ### Task 6: Level 10 and waves forty-six to fifty
 
@@ -113,7 +113,7 @@ Babak approves 46, 47 and 49 in the lessons repo first.
 ### Task 7: Finish (Opus)
 
 - [ ] `simplify` over the level; apply what holds.
-- [ ] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from nine levels to ten and name the fox (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
+- [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from nine levels to ten and name the fox (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
 - [ ] Advisor review of the branch; apply what holds.
 - [ ] Memory: update the state note, `landmark-backdrops` and `level-10-decisions` (it exists); `zg index` in `memory/`.
 - [ ] `npm test`, push `main` once Babak has played it and says push, check CI and Pages with `gh run list`.
