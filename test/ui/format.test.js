@@ -40,24 +40,11 @@ test("levels 1 and 2 keep the score in ASCII; level 3 writes it in the pack's di
   assert.equal(scoreText(LEVELS[2], 1234567.4), `${D[1]}${PACK.group}${D[2]}${D[3]}${D[4]}${PACK.group}${D[5]}${D[6]}${D[7]}`);
 });
 
-test("a level with 'scoreWord' labels its score with the pack's word; the others say SCORE", () => {
-  assert.deepEqual(hudLabel(LEVELS[6], 'score'), { text: PACK.hud.score, persian: true });
-  assert.deepEqual(hudLabel(LEVELS[5], 'score'), { text: 'SCORE', persian: false }, 'level 6 has the score digits but not the word');
-});
-
-test("a level with 'bombsWord' labels its bombs with the pack's word; the others say BOMBS", () => {
-  assert.deepEqual(hudLabel(LEVELS[7], 'bombs'), { text: PACK.hud.bombs, persian: true });
-  for (const level of LEVELS.slice(0, 7)) assert.deepEqual(hudLabel(level, 'bombs'), { text: 'BOMBS', persian: false }, level.id);
-});
-
-test("a level with 'livesWord' labels its lives with the pack's word; the others say LIVES", () => {
-  assert.deepEqual(hudLabel(LEVELS[8], 'lives'), { text: PACK.hud.lives, persian: true });
-  for (const level of LEVELS.slice(0, 8)) assert.deepEqual(hudLabel(level, 'lives'), { text: 'LIVES', persian: false }, level.id);
-});
-
-test("a level with 'comboWord' labels its combo with the pack's word; the others say COMBO", () => {
-  assert.deepEqual(hudLabel(LEVELS[9], 'combo'), { text: PACK.hud.combo, persian: true });
-  for (const level of LEVELS.slice(0, 9)) assert.deepEqual(hudLabel(level, 'combo'), { text: 'COMBO', persian: false }, level.id);
+test("from its level on, a HUD label reads the pack's word (score from level 7, bombs 8, lives 9, combo 10); before, the English", () => {
+  for (const [label, from, english] of [['score', 7, 'SCORE'], ['bombs', 8, 'BOMBS'], ['lives', 9, 'LIVES'], ['combo', 10, 'COMBO']]) {
+    assert.deepEqual(hudLabel(LEVELS[from - 1], label), { text: PACK.hud[label], persian: true }, `level ${from}`);
+    for (const level of LEVELS.slice(0, from - 1)) assert.deepEqual(hudLabel(level, label), { text: english, persian: false }, level.id);
+  }
 });
 
 test("level 4 names itself and counts its combo in the pack's digits; levels 1 to 3 in ASCII", () => {

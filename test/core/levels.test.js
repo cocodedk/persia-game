@@ -94,20 +94,20 @@ test('level 7 brings all eight animals, the horse, its boss, in more rows than a
 });
 
 test('level 8 brings all nine animals, the lion, its boss, and is no harder to survive than level 7: no more gunners, no wave with more divers than any before it, its pace', () => {
-  assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'camel' && id !== 'fox').sort());
+  assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), [...EIGHT, 'lion'].sort());
   assert.equal(bossDef(LEVEL_8.boss).species, 'lion');
   noHarder(LEVEL_8);
 });
 
 test('level 9 brings nine animals, every one but the horse, the camel, its boss, among them, and is no harder to survive than level 8: no more gunners, no wave with more divers than any before it, its pace', () => {
-  assert.deepEqual(levelSpecies(LEVEL_9).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'horse' && id !== 'fox').sort());
+  assert.deepEqual(levelSpecies(LEVEL_9).toSorted(), [...EIGHT.filter((id) => id !== 'horse'), 'camel', 'lion'].sort());
   assert.equal(bossDef(LEVEL_9.boss).species, 'camel');
   assert.ok(LEVEL_9.waves[0].species.includes('camel') && LEVELS.slice(0, 8).every((level) => rows(level, 'camel') === 0), 'the camel first comes in wave 41');
   noHarder(LEVEL_9);
 });
 
 test('level 10 brings ten animals, every one but the fish, the fox, its boss, among them, and is no harder to survive than level 9: no more gunners, no wave with more divers than any before it, its pace', () => {
-  assert.deepEqual(levelSpecies(LEVEL_10).toSorted(), Object.keys(SPECIES).filter((id) => id !== 'fish').sort());
+  assert.deepEqual(levelSpecies(LEVEL_10).toSorted(), [...EIGHT.filter((id) => id !== 'fish'), 'camel', 'fox', 'lion'].sort());
   assert.equal(bossDef(LEVEL_10.boss).species, 'fox');
   assert.ok(LEVEL_10.waves[0].species.includes('fox') && LEVELS.slice(0, 9).every((level) => rows(level, 'fox') === 0), 'the fox first comes in wave 46');
   noHarder(LEVEL_10);

@@ -22,13 +22,10 @@ const WALL = STAIR + SHAFT + CAPITAL.length; // up to the foot of the cornice
 const CORNICE = [[47, 1, 0.8], [47, 2, 0.55], [50, 2, 0.45], [53, 2, 0.3]]; // half-width, rows, darkness
 const ENGAGED = { at: 15, w: 4, tall: 30 }; // the pair on the wall: distance from the middle, width, height
 const ARCHITRAVE = STAIR + ENGAGED.tall; // the course the engaged columns carry, four rows
-// Each column's first block from the wall's left edge, its width and its top: a corner, the two engaged and a corner.
-const COLUMNS = [
-  [0, COLUMN, WALL],
-  [HALF - ENGAGED.at - ENGAGED.w, ENGAGED.w, ARCHITRAVE],
-  [HALF + ENGAGED.at, ENGAGED.w, ARCHITRAVE],
-  [HALF * 2 - COLUMN, COLUMN, WALL],
-];
+const CORNERS = [-HALF, HALF - COLUMN]; // each corner column's first block from the middle
+const PAIR = [-ENGAGED.at - ENGAGED.w, ENGAGED.at]; // and each engaged column's
+// Every column as its first block from the middle, its width and its top.
+const COLUMNS = [...CORNERS.map((x) => [x, COLUMN, WALL]), ...PAIR.map((x) => [x, ENGAGED.w, ARCHITRAVE])];
 const FLOODS = [-30, -12, 12, 30]; // from the middle: the lamps at the platform's top that light the stone
 
 // The stone's tones: a ramp of white warmed by the floodlights at its lit end and cooling to the
@@ -86,14 +83,14 @@ function face(art) {
   const { mid, box, row } = art;
   const wall = HALF * 2;
   const hug = (i, up) => COLUMNS.some(([x, cw, top]) => up < top && (i === x - 1 || i === x + cw)); // beside a column, where it casts its shade
-  const dark = (i, j) => dim(WALL - 1 - j) + 0.08 + (hug(i, WALL - 1 - j) ? 0.3 : 0) + (j < 3 ? 0.2 : 0); // the cornice's shade over its top rows
+  const dark = (i, j) => dim(WALL - 1 - j) + 0.08 + (hug(i - HALF, WALL - 1 - j) ? 0.3 : 0) + (j < 3 ? 0.2 : 0); // the cornice's shade over its top rows
   brick(art, D, mid - HALF, row(WALL - 1), wall, WALL - STAIR, dark, 0);
-  for (const s of [-1, 1]) {
-    const x = s < 0 ? mid - ENGAGED.at - ENGAGED.w : mid + ENGAGED.at;
+  for (const dx of PAIR) {
+    const x = mid + dx;
     shaft(art, x, ENGAGED.w, STAIR, ARCHITRAVE - 2);
     box(x - 1, row(ARCHITRAVE - 1), ENGAGED.w + 2, 1, key(D, 0.05));
     box(x - 1, row(ARCHITRAVE - 2), ENGAGED.w + 2, 1, key(D, 0.5));
-    verse(art, s < 0 ? mid - 32 : mid + 21, 11, STAIR + 5, ARCHITRAVE - 5);
+    verse(art, dx < 0 ? mid - 32 : mid + 21, 11, STAIR + 5, ARCHITRAVE - 5);
   }
   verse(art, mid - 11, 22, STAIR + 5, ARCHITRAVE - 5);
   const bw = wall - COLUMN * 2;
@@ -106,9 +103,9 @@ function face(art) {
 // The two corner columns that face us, each under its double-headed bull capital.
 function corners(art) {
   const { mid, row, stamp } = art;
-  for (const x of [mid - HALF, mid + HALF - COLUMN]) {
-    shaft(art, x, COLUMN, STAIR, STAIR + SHAFT);
-    stamp(CAPITAL, x - 6, row(WALL - 1));
+  for (const dx of CORNERS) {
+    shaft(art, mid + dx, COLUMN, STAIR, STAIR + SHAFT);
+    stamp(CAPITAL, mid + dx - 6, row(WALL - 1));
   }
 }
 

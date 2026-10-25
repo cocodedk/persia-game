@@ -152,11 +152,11 @@ const giantCamel = boss('giant-camel', 'Giant Camel', 'camel', 270, { w: 640, h:
 const giantFox = boss('giant-fox', 'Giant Fox', 'fox', 270, { w: 640, h: 300 }, [
   armor('earL', -112, -95, 60, 110, 6),
   armor('earR', 112, -95, 60, 110, 6),
-  armor('brow', 0, -92, 140, 60, 8),
+  armor('crown', 0, -92, 140, 60, 8),
   weak('eyeL', -92, -22, 80, 60, 44),
   weak('eyeR', 92, -22, 80, 60, 44),
   weak('mouth', 0, 114, 110, 70, 70),
-], faceFight('fox', 'mouth', 'brow'));
+], faceFight('fox', 'mouth', 'crown'));
 
 export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse, giantLion, giantCamel, giantFox];
 

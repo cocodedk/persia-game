@@ -77,7 +77,7 @@ test('attacks come from real parts with real patterns, and are slower than their
 
 // Each face-on giant: two plates and a third that the rabbit leaves from, two eyes and a mouth to burn,
 // its own species from the mouth in every phase (one, then two).
-for (const [species, plates, rabbitFrom] of [['cow', ['hornL', 'hornR', 'curl'], 'curl'], ['dog', ['earL', 'earR', 'nose'], 'nose'], ['horse', ['earL', 'earR', 'forelock'], 'forelock'], ['lion', ['earL', 'earR', 'crown'], 'crown'], ['camel', ['earL', 'earR', 'tuft'], 'tuft'], ['fox', ['earL', 'earR', 'brow'], 'brow']]) {
+for (const [species, plates, rabbitFrom] of [['cow', ['hornL', 'hornR', 'curl'], 'curl'], ['dog', ['earL', 'earR', 'nose'], 'nose'], ['horse', ['earL', 'earR', 'forelock'], 'forelock'], ['lion', ['earL', 'earR', 'crown'], 'crown'], ['camel', ['earL', 'earR', 'tuft'], 'tuft'], ['fox', ['earL', 'earR', 'crown'], 'crown']]) {
   test(`the giant ${species}: ${plates.join(', ')} for plates, two eyes and a mouth to burn, ${species}s from the mouth and a rabbit from the ${rabbitFrom} in every phase`, () => {
     const def = bossDef(`giant-${species}`);
     assert.equal(def.species, species);

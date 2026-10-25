@@ -37,7 +37,7 @@ const browAt = (x, y) => {
 function hullCell(x, y, c) {
   if (!headAt(x, y)) return null;
   if (browAt(x, y)) return [BROW_RED, true];
-  if (noseAt(x, y)) return noseAt(x, y - PX) || x > -PX * 2 ? BLACK : '#8a8aa8'; // its glint, top left
+  if (noseAt(x, y)) return !noseAt(x, y - PX) && x <= -PX * 2 ? '#8a8aa8' : BLACK; // a glint along its top edge, left of the middle
   const ax = Math.abs(x);
   if (!headAt(x, y - PX)) return cheekAt(x, y) ? shade(CHEEK, -0.04) : shade(c, 0.2); // the moonlit rim
   if (!headAt(x, y + PX)) return cheekAt(x, y) ? shade(CHEEK, -0.5) : '#120610';
@@ -67,7 +67,7 @@ function ear(b, l, _part, S) {
 
 // The crown: the russet between the ears, domed on top and dipping to a point over the nose, in
 // streaks of fur running down to it.
-function brow(b, l, p, S) {
+function crown(b, l, p, S) {
   const c = coat(S);
   const top = (x) => -30 + (x / 70) ** 2 * 14;
   const bottom = (x) => 30 - Math.abs(x) * 0.5;
@@ -100,7 +100,7 @@ export default {
   margin: 40,
   crack: AMBER,
   hull,
-  parts: { ear, brow, eye: eyeArt(EYE), mouth },
+  parts: { ear, crown, eye: eyeArt(EYE), mouth },
   rage: [null, (l) => ruff(l, AMBER), (l) => ruff(l, RED)],
   live: throb(...BROW), // the brows throb, quicker with every phase
 };

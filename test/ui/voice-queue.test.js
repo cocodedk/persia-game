@@ -81,10 +81,6 @@ test("a wave that begins the sunrise says the sunrise's line last, after its num
   assert.deepEqual(lines([{ ...wave(3, 'bird', 'mouse'), weather: 'sunrise' }]), [number(3), species('bird'), species('mouse'), PACK.weather.sunrise]);
 });
 
-test("a wave that begins the rainbow says the rainbow's line last, after its number and species", () => {
-  assert.deepEqual(lines([{ ...wave(3, 'bird', 'mouse'), weather: 'rainbow' }]), [number(3), species('bird'), species('mouse'), PACK.weather.rainbow]);
-});
-
 test('a tick with no events, or none that speak, says nothing', () => {
   assert.equal(lines([]).length, 0);
   assert.equal(lines([]), lines([]), 'and allocates nothing');

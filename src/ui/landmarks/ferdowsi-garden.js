@@ -7,7 +7,7 @@
 import { PIXEL } from '../sprites.js';
 import { int } from '../../core/rng.js';
 import { lamp, light } from './yazd-brick.js';
-import { pine, cypress } from './qabus-park.js';
+import { pine, cypress, lampPost } from './park.js';
 import { FOOT } from './ferdowsi-tomb.js';
 
 export const UNDER = 34; // blocks from the pool's far edge down to the band's foot; the ground hides the lowest 14
@@ -63,18 +63,8 @@ export function hedges(art) {
   }
 }
 
-// The posts' shafts and lanterns; the light they throw was set before the lawn was painted.
-export function posts({ box, mid, F }) {
-  for (const s of [-1, 1]) {
-    for (const dx of POSTS) {
-      const x = postX(mid, s, dx);
-      const top = lantern(F);
-      box(x, top + 1, 1, POST, 'k');
-      box(x - 1, top, 3, 1, 'g');
-      box(x, top, 1, 1, 'G');
-      box(x - 1, top - 1, 3, 1, 'k');
-    }
-  }
+export function posts(art) {
+  for (const s of [-1, 1]) for (const dx of POSTS) lampPost(art, postX(art.mid, s, dx), lantern(art.F), POST);
 }
 
 // Trees on both sides, standing on the walk's far edge beyond the steps.

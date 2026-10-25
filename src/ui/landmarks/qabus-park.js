@@ -6,6 +6,7 @@
 import { PIXEL } from '../sprites.js';
 import { int } from '../../core/rng.js';
 import { BASE, key, brick, lamp, light } from './yazd-brick.js';
+import { pine, cypress, lampPost } from './park.js';
 
 export const D = 2; // the depth the tower stands at, and the lamps that light it
 export const MOUND = { half: 64, flat: 20, tall: 24 }; // its half-width, the flat top's half-width, its height
@@ -56,31 +57,6 @@ export function steps(art) {
   }
 }
 
-// A pine `tall` blocks high on the plain, column x: a bare trunk, then a flat crown, lit down its left.
-export function pine({ box, row, rng }, x, tall) {
-  const trunk = Math.round(tall * 0.5);
-  box(x, row(trunk - 1), 1, trunk, 'k');
-  const crown = tall - trunk;
-  const half = Math.round(tall * 0.45);
-  for (let j = 0; j < crown; j++) {
-    const k = (j + 0.5) / crown; // 0 at the crown's foot, 1 at its top
-    const hw = Math.max(2, Math.round(half * Math.sqrt(1 - (2 * k - 1) ** 2) * (k < 0.5 ? 1 : 0.75 + 0.5 * (1 - k))));
-    box(x - hw, row(trunk + j), hw * 2 + 1, 1, 't');
-    for (let i = -hw; i <= hw; i++) if (rng() < (i < 0 ? 0.2 : 0.04) * k) box(x + i, row(trunk + j), 1, 1, 'y');
-    box(x - hw, row(trunk + j), 1, 1, 'e');
-  }
-}
-
-// A cypress `tall` blocks high, up to `half` blocks either side of column x: a dark flame, lit down its left.
-export function cypress({ box, row }, x, tall, half) {
-  for (let j = 0; j < tall; j++) {
-    const t = j / (tall - 1); // 0 at its foot, 1 at its tip
-    const hw = t > 0.97 ? 0 : Math.max(1, Math.round(half * Math.sin(Math.min(1, (1 - t) * 1.6) * (Math.PI / 2)) ** 0.7));
-    box(x - hw, row(j), hw * 2 + 1, 1, 't');
-    box(x - hw, row(j), 1, 1, 'y');
-  }
-}
-
 // Trees on both sides. Behind the mound they stand by its shoulders, tall, with only their tops
 // showing; in front they ring it on the plain, shorter near the steps so the hill stays in sight,
 // and past the park, where the town begins, there is a tree now and then.
@@ -98,13 +74,6 @@ export function trees(art, behind) {
   }
 }
 
-export function posts({ box, row, mid }) {
-  for (const dx of POSTS) {
-    const x = mid + dx;
-    const base = hill(dx);
-    box(x, row(base + POST - 1), 1, POST, 'k');
-    box(x - 1, row(base + POST), 3, 1, 'g');
-    box(x, row(base + POST), 1, 1, 'G');
-    box(x - 1, row(base + POST + 1), 3, 1, 'k');
-  }
+export function posts(art) {
+  for (const dx of POSTS) lampPost(art, art.mid + dx, art.row(hill(dx) + POST), POST);
 }
