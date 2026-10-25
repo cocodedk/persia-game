@@ -41,10 +41,10 @@
 
 **Files:** create `src/ui/landmarks/qabus.js` (split as Naqsh split, e.g. `qabus-tower.js`, `qabus-park.js`, each under 200 lines); modify `src/ui/parallax-shapes.js` (`PAINTERS.qabus`), `src/ui/looks/persia.js` (`landmarks.qabus`, and the header names it).
 
-- [ ] The painter follows `naqsh.js`: block helpers from `landmarks/kit.js`, the fired brick and its lamps from `yazd-brick.js` (`tones`, `brick`, `lamp`, `light`), tones from its look entry (a paler, yellower brick than Yazd's, a warm floodlight, the park's greens), lights pushed for the lamps.
-- [ ] The tower at the layer's centre, about 14 blocks wide: of its ten sharp flanges five show from the front, each a lit edge beside a shaded face, the outer pairs narrower, floodlit from below so the light is brightest low down; the conical brick roof; a pale band of inscription under the roof and another over the tall pointed doorway at its foot; the green mound under it with steps up to the door; round the mound a park of pines and cypresses with lamps, the town's low lit roofs on the plain to either side. The cone's tip inside the title-card crop (x 480, y 480, w 960, h 600, taken on the frame, `landmark-art.js:10`), so the layer's `height` is at most 592, a multiple of `PIXEL`; pin its FAR height in the look as Naqsh did.
-- [ ] Screenshot the backdrop alone, its title-card crop and a wave over it; the eight earlier landmarks and the sky hash as in Task 0.
-- [ ] Commit `feat(ui): Gonbad-e Qabus at night, level 9's backdrop`.
+- [x] The painter follows `naqsh.js`: block helpers from `landmarks/kit.js`, the fired brick and its lamps from `yazd-brick.js` (`tones`, `brick`, `lamp`, `light`), tones from its look entry (a paler, yellower brick than Yazd's, a warm floodlight, the park's greens), lights pushed for the lamps.
+- [x] The tower at the layer's centre, 21 blocks wide as shipped, its points standing out a block more (at 14 it read as a minaret), 66 rows of shaft under a cone of the shaft's own brick, a small door a fifth of the shaft's height: of its ten sharp flanges five show from the front, each a lit edge beside a shaded face, the outer pairs narrower, floodlit from below so the light is brightest low down; the conical brick roof; a pale band of inscription under the roof and another over the tall pointed doorway at its foot; the green mound under it with steps up to the door; round the mound a park of pines and cypresses with lamps, the town's low lit roofs on the plain to either side. The cone's tip inside the title-card crop (x 480, y 480, w 960, h 600, taken on the frame, `landmark-art.js:10`), so the layer's `height` is at most 592, a multiple of `PIXEL`; pin its FAR height in the look as Naqsh did.
+- [x] Screenshot the backdrop alone, its title-card crop and a wave over it; the eight earlier landmarks and the sky hash as in Task 0.
+- [x] Commit `feat(ui): Gonbad-e Qabus at night, level 9's backdrop`.
 
 ### Task 2: Sunrise, a sixth weather
 
