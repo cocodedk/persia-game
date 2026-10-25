@@ -5,7 +5,7 @@
 // windows lit, and the highway's lamps in a line in front (milad-city.js). The layer brings L.lit,
 // L.ink, L.glow, L.lamp, L.tower, L.towerLit and L.red. Rows are counted from F, the street.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 import { tower } from './milad-tower.js';
 import { city, highway } from './milad-city.js';
 
@@ -18,9 +18,7 @@ export function milad(g, w, h, rng, L, lights) {
     w: L.tower, W: L.towerLit, f: mix(L.tower, L.towerLit, 0.3), x: mix(L.tower, L.ink, 0.3), v: mix(L.tower, L.ink, 0.6),
     R: L.red,
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL };
-  art.mid = Math.round(art.BW / 2);
-  art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the street
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
   g.save();
   g.scale(PIXEL, PIXEL);
   city(art);

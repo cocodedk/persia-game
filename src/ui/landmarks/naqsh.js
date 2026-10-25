@@ -8,7 +8,7 @@
 // and L.turq; the mud brick and the tile are Yazd's (yazd-brick.js). Rows are counted from F, the
 // pool's far edge, the arcades' foot.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 import { tones } from './yazd-brick.js';
 import { mosque, PORTAL } from './naqsh-mosque.js';
 import { palace, PALACE } from './naqsh-palace.js';
@@ -22,9 +22,7 @@ export function naqsh(g, w, h, rng, L, lights) {
     V: L.turq, X: mix(L.turq, '#ffffff', 0.4), Y: mix(L.turq, L.ink, 0.45), Z: mix(L.turq, L.ink, 0.72),
     q: mix(L.lamp, L.glow, 0.5), p: mix(L.pool, L.ink, 0.5),
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
-  art.mid = Math.round(art.BW / 2);
-  art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the arcades' foot
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
   art.palace = art.mid + PALACE.at;
   art.stands = [[art.palace - PALACE.half, art.palace + PALACE.half], [art.mid - PORTAL.half, art.mid + PORTAL.half]]; // where the arcades are hidden
   g.save();

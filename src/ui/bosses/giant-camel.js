@@ -71,10 +71,10 @@ const hair = (l, colour) => litCells(l, COLS, ROWS, (x, y) => humpAt(x, y) && !h
 // An ear (drawn as the left one): small and rounded, leaning out from the crown, its inside in shade.
 function ear(b, l, p, S) {
   const c = coat(S);
-  const leaf = (x, y) => inside(x - 0.2 * y, y, 0, 0, 22, 31);
+  const leaf = (x, y) => inside(x - 0.2 * y, y, 0, 0, 30, 31);
   grid(b, l, p.w / PX, p.h / PX, (x, y) => {
     if (!leaf(x, y)) return null;
-    if (inside(x - 0.2 * y, y, 3, 8, 9, 18)) return shade(c, -0.7);
+    if (inside(x - 0.2 * y, y, 3, 8, 12, 18)) return shade(c, -0.7);
     if (!leaf(x, y - PX) || !leaf(x - PX, y)) return shade(c, 0.28);
     return !leaf(x, y + PX) ? shade(c, -0.55) : shade(c, -0.18);
   });

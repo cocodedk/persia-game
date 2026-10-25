@@ -138,8 +138,8 @@ const giantLion = boss('giant-lion', 'Giant Lion', 'lion', 270, { w: 640, h: 300
 // hump behind the head is drawn, not a part. A rabbit leaves the tuft in every phase, and the fight is
 // the lion's.
 const giantCamel = boss('giant-camel', 'Giant Camel', 'camel', 270, { w: 640, h: 300 }, [
-  armor('earL', -125, -100, 40, 60, 6),
-  armor('earR', 125, -100, 40, 60, 6),
+  armor('earL', -125, -100, 60, 60, 6),
+  armor('earR', 125, -100, 60, 60, 6),
   armor('tuft', 0, -88, 100, 60, 8),
   weak('eyeL', -92, -10, 80, 60, 44),
   weak('eyeR', 92, -10, 80, 60, 44),

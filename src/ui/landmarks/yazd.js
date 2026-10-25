@@ -7,7 +7,7 @@
 // brings L.lit, L.ink, L.glow, L.lamp, L.brick, L.pool, L.tree and L.tile. Rows are counted from F,
 // the street.
 import { PIXEL, rgba, lin } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 import { tones, hazeOf } from './yazd-brick.js';
 import { layout, paintRow } from './yazd-house.js';
 import { dowlat } from './yazd-dowlat.js';
@@ -25,9 +25,7 @@ const ROWS = [
 ];
 
 export function yazd(g, w, h, rng, L, lights) {
-  const art = { ...blocks(g, tones(L)), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
-  art.mid = Math.round(art.BW / 2);
-  art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the street
+  const art = scene(g, w, h, rng, L, lights, tones(L), UNDER);
   art.mosque = art.mid + MOSQUE;
   g.save();
   g.scale(PIXEL, PIXEL);

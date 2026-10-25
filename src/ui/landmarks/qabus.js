@@ -8,7 +8,7 @@
 // L.ink, L.glow, L.lamp, L.brick, L.tile, L.tree, L.grass and L.roof (the town's tiles); the brick
 // and its lamps are Yazd's (yazd-brick.js). Rows are counted from F, the plain the park stands on.
 import { PIXEL, mix } from '../sprites.js';
-import { blocks } from './kit.js';
+import { scene } from './kit.js';
 import { tones } from './yazd-brick.js';
 import { tower } from './qabus-tower.js';
 import { lamps, mound, steps, trees, posts } from './qabus-park.js';
@@ -24,9 +24,7 @@ export function qabus(g, w, h, rng, L, lights) {
     r: L.roof, o: mix(L.roof, L.ink, 0.45), p: mix(L.roof, L.ink, 0.75), // the town's tiles, lit to shade
     S: mix(L.tile, L.ink, 0.25), s: mix(L.tile, L.ink, 0.7), // the inscription's ground and its letters in shade
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
-  art.mid = Math.round(art.BW / 2);
-  art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the plain
+  const art = scene(g, w, h, rng, L, lights, tone, UNDER);
   g.save();
   g.scale(PIXEL, PIXEL);
   art.box(0, art.F, art.BW, UNDER, 'O');
