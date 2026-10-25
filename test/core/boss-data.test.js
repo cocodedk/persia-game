@@ -8,8 +8,8 @@ import { EMIT } from '../../src/core/patterns.js';
 
 const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 
-test("the giant cat, mouse, fish, bird, cow, dog, horse and lion are the bosses, looked up by kind", () => {
-  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow', 'giant-dog', 'giant-horse', 'giant-lion']);
+test("the giant cat, mouse, fish, bird, cow, dog, horse, lion and camel are the bosses, looked up by kind", () => {
+  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow', 'giant-dog', 'giant-horse', 'giant-lion', 'giant-camel']);
   for (const def of BOSS_DEFS) assert.equal(bossDef(def.kind), def);
   assert.equal(bossDef('nope'), undefined);
 });
@@ -77,7 +77,7 @@ test('attacks come from real parts with real patterns, and are slower than their
 
 // Each face-on giant: two plates and a third that the rabbit leaves from, two eyes and a mouth to burn,
 // its own species from the mouth in every phase (one, then two).
-for (const [species, plates, rabbitFrom] of [['cow', ['hornL', 'hornR', 'curl'], 'curl'], ['dog', ['earL', 'earR', 'nose'], 'nose'], ['horse', ['earL', 'earR', 'forelock'], 'forelock'], ['lion', ['earL', 'earR', 'crown'], 'crown']]) {
+for (const [species, plates, rabbitFrom] of [['cow', ['hornL', 'hornR', 'curl'], 'curl'], ['dog', ['earL', 'earR', 'nose'], 'nose'], ['horse', ['earL', 'earR', 'forelock'], 'forelock'], ['lion', ['earL', 'earR', 'crown'], 'crown'], ['camel', ['earL', 'earR', 'tuft'], 'tuft']]) {
   test(`the giant ${species}: ${plates.join(', ')} for plates, two eyes and a mouth to burn, ${species}s from the mouth and a rabbit from the ${rabbitFrom} in every phase`, () => {
     const def = bossDef(`giant-${species}`);
     assert.equal(def.species, species);

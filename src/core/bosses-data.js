@@ -133,7 +133,20 @@ const giantLion = boss('giant-lion', 'Giant Lion', 'lion', 270, { w: 640, h: 300
   weak('mouth', 0, 84, 140, 80, 70),
 ], faceFight('lion', 'mouth', 'crown'));
 
-export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse, giantLion];
+// Level 9's giant camel, face on: each small ear and the shaggy tuft on the crown between them are its
+// plates; the heavy-lidded eyes and the split-lipped jaws burn, and the camels pour from the jaws. The
+// hump behind the head is drawn, not a part. A rabbit leaves the tuft in every phase, and the fight is
+// the lion's.
+const giantCamel = boss('giant-camel', 'Giant Camel', 'camel', 270, { w: 640, h: 300 }, [
+  armor('earL', -125, -100, 40, 60, 6),
+  armor('earR', 125, -100, 40, 60, 6),
+  armor('tuft', 0, -88, 100, 60, 8),
+  weak('eyeL', -92, -10, 80, 60, 44),
+  weak('eyeR', 92, -10, 80, 60, 44),
+  weak('mouth', 0, 100, 110, 80, 70),
+], faceFight('camel', 'mouth', 'tuft'));
+
+export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse, giantLion, giantCamel];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 
