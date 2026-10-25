@@ -119,4 +119,4 @@ Babak played the horse's fight and missed the names: the giant says only its own
 - [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from six levels to seven (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
 - [x] Advisor review of the branch; apply what holds.
 - [x] Memory: the state note, `landmark-backdrops`, a `level-7-decisions` note; `zg index` in `memory/`.
-- [ ] `npm test`, push `main`, check CI and Pages with `gh run list`.
+- [x] `npm test`, push `main`, check CI and Pages with `gh run list`.
