@@ -84,6 +84,7 @@ Things that would make the level a failure even if it runs:
 | Backdrops | Every level's backdrop is a known place in Iran, in pixel art. Level 1 is Persepolis at night under the blood moon. Brought forward after playing the build. | Babak |
 | Every spoken line is shown | Whatever the voice says is on screen as it is said: the Persian word, or a wave's Persian digit, with its Latin spelling beside it; a species also shows its face, its own enemy sprite drawn big. Added after playing the build. | Babak |
 | Persian ramp | As levels are added, the screen turns gradually more Persian: points (score, combo, wave count) towards Persian digits, text (HUD labels, chrome, results) towards Persian words. Level 1 is the floor. | Babak |
+| Relaxed, never exhausting | The game is for relaxing and learning, not for hardship or skill. Enemies may shoot but never overwhelm the player; a new level is no harder to survive than the one before. Decided while planning level 7 (2026-10-25). | Babak |
 | Level 2 | Si-o-se-pol at night; waves numbered ۶ to ۱۰, continuing level 1's count; the mouse joins the waves and a giant mouse is the boss; the HUD's wave count turns to Persian digits. Decided after playing level 1. | Babak |
 | Level 3 | The Tomb of Hafez in Shiraz at night; waves numbered ۱۱ to ۱۵; a giant fish is the boss; no new species (every approved animal clip is in); the score turns to Persian digits everywhere it shows. Decided after playing level 2. | Babak |
 | Level 4 | The Azadi Tower in Tehran at night; waves numbered ۱۶ to ۲۰; a giant bird is the boss; rain falls from wave 18 and the voice says باران as it begins; the combo and the level's number turn to Persian digits. The title's levels become cards side by side, each with a picture of its landmark and its place's name. Decided after playing level 3. | Babak |
@@ -342,6 +343,51 @@ wave) with the count, right to left, in the pack's word face. It is read, never 
 
 **Reaching it.** Open like levels 2 to 5: the title lists Level 6, level 5's results offer Next.
 Failing level 6 retries level 6 from wave 26.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
+## Level 7 specification
+
+Decided with Babak on 2026-10-25, after level 6 went live.
+
+**Shape.** Five waves and a boss, no harder to survive than level 6 (the game relaxes and teaches; enemies may
+shoot but never overwhelm). The waves are 31 to 35.
+
+**Where.** Tehran at night under the Milad Tower: the tall concrete shaft rising from its broad
+octagonal base, the great pod near the top ringed with bands of lit windows and capped by a small
+dome, the slim mast above it with red lights blinking, the tallest thing on screen. Round its foot the
+city spreads low across the whole width, blocks and towers with lit windows and a highway's lamps.
+The tower stands right of the moon, and its pod shows on the title card. The far mountains are the
+Alborz. The sky, the far mountains, the palette and the music stay the world's.
+
+**Enemies.** The eight animals; the horse, the boss's species, fills more rows than in any level
+before. Horses shoot back, so the level has no more shooting animals than level 6, and its pace and
+difficulty are level 6's. Wave 32 is the escort with the rabbits, as waves 12, 17, 22 and 27.
+
+**Boss.** A giant horse, face on: a long face with a pale blaze down it, its two pointed ears and the
+forelock between them are its plates; the eyes and the muzzle with its flared nostrils burn, and horses
+pour from the muzzle. A rabbit leaves the forelock in every phase. Its name is said as it arrives, it
+lights up while the name is said, and its HUD bar reads its Persian name, اسب, as the cow's and the dog's do.
+
+**The moon.** From wave 33 to the end, the giant's fight included, the blood moon swells and turns
+white, the clouds still drawn across it. As it begins the voice says ماه (mah) after the wave's
+number and species, and the word moment shows it. It changes over the weather's two-second fade and
+then stays. Under reduced motion it brightens without swelling, and half quality does not change it.
+The moon is the fourth kind of a level's weather, after rain, stars and petals, and like the stars it
+belongs to the sky, behind the mountains and the landmark.
+
+**Spoken set.** Level 6's set, plus `counting-2199-tal-31` (۳۱, si-o-yek), `vocabulary-3-mah` (ماه),
+and four clips for 32 to 35 (`counting-2199-tal-32` to `-35`), made and approved first in a review round
+in the lessons repo, as 26 to 29 were. Every clip carries `reviewedBy: ["cocodedk"]`.
+
+**The sixth step of the Persian ramp.** The HUD's score label reads امتیاز (emtiyaz) in the pack's word
+face, in the place and size of SCORE. It is read, never heard. Everything level 6 shows in Persian stays
+Persian; the end cards' labels and the title menu stay English.
+
+**The title.** Seven cards side by side, still fitting at 1920 x 1080 and in a 1280 x 720 window.
+
+**Reaching it.** Open like levels 2 to 6: the title lists Level 7, level 6's results offer Next.
+Failing level 7 retries level 7 from wave 31.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
