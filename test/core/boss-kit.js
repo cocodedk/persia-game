@@ -17,7 +17,7 @@ export function bossWorld(kind, opts) {
 export const part = (world, id) => world.boss.parts.find((p) => p.id === id);
 // The boss as its level fights it, at the level's difficulty, without the waves before it.
 export function realLevel(kind) {
-  const lv = LEVELS.find((l) => l.boss === kind) ?? LEVELS.at(-1); // until a level brings the lion's giant
+  const lv = LEVELS.find((l) => l.boss === kind);
   return bossLevel(kind, lv.d, { seed: lv.seed });
 }
 

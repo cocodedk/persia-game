@@ -54,7 +54,7 @@ test('the arrows move along the cards and Enter plays the one in focus', () => {
   document.activeElement = null;
 });
 
-test("each level's parade names its own animals: level 1 seven, the mouse waiting, the levels after it all eight", () => {
+test("each level's parade names its own animals: level 1 seven, the mouse waiting, levels 2 to 7 all eight, level 8 all nine", () => {
   const { flow, said, screen } = setup();
   const walk = (level) => {
     said.length = 0;
@@ -65,7 +65,8 @@ test("each level's parade names its own animals: level 1 seven, the mouse waitin
   const seven = ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish'];
   assert.deepEqual(walk(LEVEL), seven);
   const eight = ['dog', 'cow', 'rabbit', 'bird', 'cat', 'horse', 'fish', 'mouse'];
-  for (const level of LEVELS.slice(1)) assert.deepEqual(walk(level), eight, level.id);
+  for (const level of LEVELS.slice(1, 7)) assert.deepEqual(walk(level), eight, level.id);
+  assert.deepEqual(walk(LEVELS[7]), [...eight, 'lion']);
 });
 
 test("results offer Next to the level after, none after the last, and Again replays the level just played", () => {
@@ -98,12 +99,16 @@ test("results offer Next to the level after, none after the last, and Again repl
   later();
   press(screen(), 'Next');
   flow.showResults({ level: LEVELS[6], ...result });
+  assert.deepEqual(labels(screen()), ['Next', 'Again', 'Title']);
+  later();
+  press(screen(), 'Next');
+  flow.showResults({ level: LEVELS[7], ...result });
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
   later();
   press(screen(), 'Again');
   flow.showResults({ level: { ...LEVEL, waves: null }, ...result }); // ?debug&boss: not a level of the list
   assert.deepEqual(labels(screen()), ['Again', 'Title']);
-  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[3], LEVELS[4], LEVELS[5], LEVELS[6], LEVELS[6]]);
+  assert.deepEqual(started, [LEVELS[1], LEVEL, LEVELS[2], LEVELS[3], LEVELS[4], LEVELS[5], LEVELS[6], LEVELS[7], LEVELS[7]]);
 });
 
 LEVELS.slice(1).forEach((level, i) => {
@@ -113,6 +118,6 @@ LEVELS.slice(1).forEach((level, i) => {
     later();
     press(screen(), 'Retry');
     assert.deepEqual(started, [level]);
-    assert.equal(level.first, [6, 11, 16, 21, 26, 31][i]);
+    assert.equal(level.first, [6, 11, 16, 21, 26, 31, 36][i]);
   });
 });

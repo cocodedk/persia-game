@@ -6,7 +6,7 @@ import { MOTION } from '../../src/core/formations.js';
 import { EMIT } from '../../src/core/patterns.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 
-const [, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7] = LEVELS;
+const [, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8] = LEVELS;
 const EIGHT = Object.keys(SPECIES).filter((id) => id !== 'lion').sort(); // the animals before the lion
 const rows = (level, id) => level.waves.flatMap((x) => x.species).filter((s) => s === id).length;
 
@@ -81,16 +81,28 @@ test('level 7 brings all eight animals, the horse, its boss, in more rows than a
   LEVEL_7.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_6.waves[i].speed, `wave ${i + 31} is no faster than wave ${i + 26}`));
 });
 
-test('level 3 drops more power-ups than level 2: six rabbits in its escort; its giant and those of levels 4 to 7 send one in every phase', () => {
+test('level 8 brings all nine animals, the lion, its boss, and is no harder to survive than level 7: no more gunners, no wave with more divers than any before it, its pace', () => {
+  const count = (level, role) => level.waves.map((x) => x.cols * x.species.filter((id) => SPECIES[id] === role).length);
+  const gunners = (level) => count(level, 'gunner').reduce((n, c) => n + c, 0);
+  const mostDivers = Math.max(...LEVELS.slice(0, 7).flatMap((level) => count(level, 'diver')));
+  assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).sort());
+  assert.equal(bossDef(LEVEL_8.boss).species, 'lion');
+  assert.ok(gunners(LEVEL_8) <= gunners(LEVEL_7), 'no more gunners than level 7');
+  count(LEVEL_8, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 36} has ${n} divers, the most before it ${mostDivers}`));
+  assert.equal(LEVEL_8.d, LEVEL_7.d);
+  LEVEL_8.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_7.waves[i].speed, `wave ${i + 36} is no faster than wave ${i + 31}`));
+});
+
+test('level 3 drops more power-ups than level 2: six rabbits in its escort; its giant and those of levels 4 to 8 send one in every phase', () => {
   const rabbits = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => id === 'rabbit').length, 0);
   assert.equal(rabbits(LEVEL_3), 6);
   assert.ok(rabbits(LEVEL_3) > rabbits(LEVEL_2));
-  for (const level of [LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7]) {
+  for (const level of [LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8]) {
     for (const p of bossDef(level.boss).phases) assert.ok(p.minions.some((m) => m.species === 'rabbit'), `${level.id} until ${p.until}`);
   }
 });
 
-test('the world counts its waves across the levels: level 2 from six, level 3 from eleven, level 4 from sixteen, level 5 from twenty-one, level 6 from twenty-six, level 7 from thirty-one', () => {
+test('the world counts its waves across the levels: level 2 from six, level 3 from eleven, level 4 from sixteen, level 5 from twenty-one, level 6 from twenty-six, level 7 from thirty-one, level 8 from thirty-six', () => {
   assert.equal(waveNumber(LEVEL, 1), 1);
   assert.equal(waveNumber(LEVEL_2, 1), 6);
   assert.equal(waveNumber(LEVEL_2, 5), 10);
@@ -104,6 +116,8 @@ test('the world counts its waves across the levels: level 2 from six, level 3 fr
   assert.equal(waveNumber(LEVEL_6, 5), 30);
   assert.equal(waveNumber(LEVEL_7, 1), 31);
   assert.equal(waveNumber(LEVEL_7, 5), 35);
+  assert.equal(waveNumber(LEVEL_8, 1), 36);
+  assert.equal(waveNumber(LEVEL_8, 5), 40);
 });
 
 test('a level shows in Persian only parts the game knows', () => {
@@ -114,6 +128,7 @@ test('a level shows in Persian only parts the game knows', () => {
   assert.deepEqual(LEVEL_5.persian, [...LEVEL_4.persian, 'boss']);
   assert.deepEqual(LEVEL_6.persian, [...LEVEL_5.persian, 'waveWord']);
   assert.deepEqual(LEVEL_7.persian, [...LEVEL_6.persian, 'scoreWord']);
+  assert.deepEqual(LEVEL_8.persian, [...LEVEL_7.persian, 'bombsWord']);
 });
 
 test('every level has an integer seed and a difficulty in 0..1, and is plain data', () => {

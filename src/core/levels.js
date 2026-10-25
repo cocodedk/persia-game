@@ -112,7 +112,19 @@ const LEVEL_7 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7];
+const LEVEL_8 = {
+  id: 'level-8', name: 'Level 8', place: 'Naqsh-e Jahan', seed: 83311, d: 0.45, boss: 'giant-lion', landmark: 'naqsh',
+  persian: ['wave', 'score', 'combo', 'level', 'boss', 'waveWord', 'scoreWord', 'bombsWord'], weather: { kind: 'dawn', from: 3 },
+  waves: [
+    w('grid', 6, 'llcc', 'aimed', 1.2), // 36: lions over cats
+    w('escort', 3, 'orro', 'aimed', 1.2), // 37: cows guard two rows of rabbits
+    w('dive', 10, 'bbmm', 'fan', 1.25), // 38: birds and mice swoop, and dawn begins
+    w('sway', 6, 'hhf', 'fan', 1.3), // 39: two rows of horses over the fish: the gunners
+    w('spiral', 10, 'lldd', 'ring', 1.4), // 40: forty lions and dogs
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

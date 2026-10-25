@@ -782,5 +782,85 @@
     ],
     "license": "MIT model; CC0 dataset",
     "sourceFile": "public/audio/counting-2199-tal-35.9e67b45b0d0d.mp3"
+  },
+  {
+    "file": "public/audio/si-o-shesh.mp3",
+    "clipId": "counting-2199-tal-36",
+    "sha256": "7b3e01b04f403fd925cd5a850e1449123c974a7284d7c0145cae2bac254bd98c",
+    "durationMs": 1100,
+    "transcript": "سی و شِش",
+    "synthesisText": "سیُ شِش",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/counting-2199-tal-36.7b3e01b04f40.mp3"
+  },
+  {
+    "file": "public/audio/si-o-haft.mp3",
+    "clipId": "counting-2199-tal-37",
+    "sha256": "4818ac8604b3d95574dc38cc311dec266d2b4ec6eaaa97a9bf285aedba4e19a8",
+    "durationMs": 1020,
+    "transcript": "سی و هَفت",
+    "synthesisText": "سیُ هَفت",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/counting-2199-tal-37.4818ac8604b3.mp3"
+  },
+  {
+    "file": "public/audio/si-o-hasht.mp3",
+    "clipId": "counting-2199-tal-38",
+    "sha256": "84519904ee1ada5225ea5698bccc6fc99bd1644c766d09b01a068876bc469bf8",
+    "durationMs": 970,
+    "transcript": "سی و هَشت",
+    "synthesisText": "سیُ هَشت",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/counting-2199-tal-38.84519904ee1a.mp3"
+  },
+  {
+    "file": "public/audio/si-o-noh.mp3",
+    "clipId": "counting-2199-tal-39",
+    "sha256": "5bcb98de44d687b992ef14eaa7dab2560aa592e2ab61c782afef7051c333969c",
+    "durationMs": 940,
+    "transcript": "سی و نُه",
+    "synthesisText": "سیُ نُه",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/counting-2199-tal-39.5bcb98de44d6.mp3"
+  },
+  {
+    "file": "public/audio/chehel.mp3",
+    "clipId": "counting-2199-ti-40",
+    "sha256": "50d3178e734958bf3f6b1b5f169ceabc9e94f47bb16c9bfc0c2d28ec5922553a",
+    "durationMs": 760,
+    "transcript": "چِهِل",
+    "synthesisText": "چِهِل",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/counting-2199-ti-40.50d3178e7349.mp3"
   }
 ]
