@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createWorld, stepWorld } from '../../src/core/world.js';
-import { WARN } from '../../src/core/boss-attack.js';
+import { WARN, stepMinions } from '../../src/core/boss-attack.js';
 import { BOSS_DEFS, bossDef } from '../../src/core/bosses-data.js';
 import { IDLE, TICK, seconds, drain, ofType, shotAt } from './world-kit.js';
 import { bossLevel, bossWorld, part, leave, realLevel } from './boss-kit.js';
@@ -87,6 +87,41 @@ test('later phases bring minions that fly at the ship, and a carrier among them 
   shotAt(w, w.aliens.find((a) => a.role === 'carrier'));
   stepWorld(w, TICK, IDLE);
   assert.equal(w.pickups.length, 1);
+});
+
+// One minion group, due now, from the giant's mouth: stepMinions on its own.
+function launch(w, count = 3, species = 'cat') {
+  const def = { phases: [{ minions: [{ species, role: 'diver', count, every: 10, from: 'mouth' }] }] };
+  w.boss.phase = 0;
+  w.boss.mcd = [0];
+  stepMinions(w, w.boss, def, 0);
+  return ofType(drain(w), 'minion');
+}
+
+test('a launch emits one minion event with the species and how many left the giant', () => {
+  const w = bossWorld('giant');
+  const sent = launch(w, 3, 'rabbit');
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].species, 'rabbit');
+  assert.equal(sent[0].count, 3);
+  assert.equal(w.aliens.filter((a) => a.minion).length, 3);
+});
+
+test('a destroyed part sends nothing and says nothing', () => {
+  const w = bossWorld('giant');
+  part(w, 'mouth').hp = 0;
+  assert.equal(launch(w).length, 0);
+  assert.equal(w.aliens.length, 0);
+});
+
+test('the cap counts what was launched: a full screen says nothing, a nearly full one only what fit', () => {
+  const w = bossWorld('giant');
+  for (let i = 0; i < 6; i++) w.aliens.push({ id: 100 + i, minion: true, hp: 1 });
+  const sent = launch(w, 3);
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].count, 2);
+  assert.equal(launch(w).length, 0, 'eight are out: no room');
+  assert.equal(w.aliens.length, 8);
 });
 
 test('the boss stays on screen and above the player zone in every phase of a real fight', () => {

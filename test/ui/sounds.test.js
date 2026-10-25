@@ -19,6 +19,7 @@ const SILENT = {
   cleared: 'the results screen plays the stinger after the slow motion',
   wave: 'the voice speaks it (voice.js)',
   boss: 'the voice speaks it (voice.js)',
+  minion: 'the voice names the animal a giant sends (voice.js)',
 };
 
 test('every event the core emits makes a sound that exists, or is silent on purpose', () => {

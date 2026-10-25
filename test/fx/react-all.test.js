@@ -19,7 +19,7 @@ import { sampleEvent } from '../event-sample.js';
 // Every event type fx reacts to (react.js merges these), and the events the core emits that fx
 // deliberately leaves to the screens and the voice.
 const REACTS = Object.keys({ ...FIGHT, ...BOSS, ...WORLD });
-const SILENT = ['failed', 'wave', 'boss'];
+const SILENT = ['failed', 'wave', 'boss', 'minion'];
 
 test('every event type the core emits has a reaction, or is listed as silent here', () => {
   const dir = fileURLToPath(new URL('../../src/core/', import.meta.url));

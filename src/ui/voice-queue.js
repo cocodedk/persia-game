@@ -2,7 +2,9 @@
 // A line is its pack entry: { clip, ms } is played, { word, say } shown meanwhile, a species' also has
 // an id.
 //   voiceLines(events, pack) -> entries   a wave says its number in the world, then each of its species,
-//   then the weather's word if the weather begins with it; a boss its species. A tick with no events says nothing and allocates nothing.
+//   then the weather's word if the weather begins with it; a boss its species, and each animal a
+//   boss sends out (a 'minion' event) its own, every time. A tick with no events says nothing and
+//   allocates nothing.
 //   createQueue() -> { lines, wait, now }   entries not started yet; wait = s until the next may start;
 //   now = the last entry started
 //   enqueue(q, lines)   replaces the unstarted backlog (a wave cleared before its lines were said);
@@ -26,7 +28,7 @@ export function voiceLines(events, pack) {
       lines.push(pack.numbers.find((x) => x.n === e.n));
       for (const id of e.species) lines.push(speciesOf(pack, id));
       if (e.weather) lines.push(pack.weather[e.weather]);
-    } else if (e.type === 'boss') {
+    } else if (e.type === 'boss' || e.type === 'minion') {
       lines.push(speciesOf(pack, e.species));
     }
   }

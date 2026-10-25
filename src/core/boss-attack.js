@@ -54,12 +54,14 @@ export function stepAttacks(world, b, def, dt) {
 // Launch `m.count` aliens of the species from a part, unless the part is destroyed. They are
 // ordinary aliens without a formation slot (slot null, minion true), each fighting as its species'
 // role: divers and the rest fly at the ship, a carrier crosses the screen below the boss with a
-// power-up to shoot loose.
+// power-up to shoot loose. A launch of at least one emits 'minion' { species, count }, so the
+// giant names what it sends; none when the part is gone or the cap leaves no room.
 function launch(world, b, m) {
   const src = b.parts.find((p) => p.id === m.from);
   if (src.hp <= 0) return;
   let live = world.aliens.reduce((n, a) => n + (a.minion ? 1 : 0), 0);
-  for (let i = 0; i < m.count && live < MINION_CAP; i++, live++) {
+  let count = 0;
+  for (let i = 0; i < m.count && live < MINION_CAP; i++, live++, count++) {
     const id = world.nextId++;
     const carrier = m.role === 'carrier';
     const hp = ROLES[m.role].hp; // minions carry no armour bonus
@@ -69,6 +71,7 @@ function launch(world, b, m) {
       mode: carrier ? 'hold' : 'dive', t: 0, dive: null, minion: true, vx: carrier ? (id % 2 ? 150 : -150) : 0,
     });
   }
+  if (count) emit(world, 'minion', { species: m.species, count });
 }
 
 // Each minion group of the phase launches when its countdown runs out. Minions never shoot.
