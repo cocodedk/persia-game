@@ -290,10 +290,10 @@
   {
     "file": "public/audio/yazdah.mp3",
     "clipId": "number-11-word",
-    "sha256": "4241ab6f810abe795166b4cc50d1fed48dbe9b76145ee95068001a3f96d0baea",
-    "durationMs": 840,
+    "sha256": "36df6125081f6aadc593c363f5c1051f64546a70d584ce73aabeaca02620c649",
+    "durationMs": 890,
     "transcript": "یازدَه",
-    "synthesisText": "یازدَه",
+    "synthesisText": "یازْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -301,15 +301,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-11-word.4241ab6f810a.mp3"
+    "sourceFile": "public/audio/number-11-word.36df6125081f.mp3"
   },
   {
     "file": "public/audio/davazdah.mp3",
     "clipId": "number-12-word",
-    "sha256": "d1a7f2863482a7ed9dc9d22f6d2f64a4286986ef4338a96ebacc5371bf855f9a",
-    "durationMs": 890,
+    "sha256": "f3f98f4913697a06269f5b5b3d571e43c212593fdef424e6bf9fa4aa8b8c5823",
+    "durationMs": 780,
     "transcript": "دوازدَه",
-    "synthesisText": "دوازدَه",
+    "synthesisText": "دوازْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -317,15 +317,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-12-word.d1a7f2863482.mp3"
+    "sourceFile": "public/audio/number-12-word.f3f98f491369.mp3"
   },
   {
     "file": "public/audio/sizdah.mp3",
     "clipId": "number-13-word",
-    "sha256": "3483c01dbabd2ec2cd59d83f562032c1867677731ca23ca4f03b59dcaea1f2ff",
-    "durationMs": 890,
+    "sha256": "cce386fb81593b1d1910dd1b5ddc1a3a42d7d245586795afab7525ac5f2b37fd",
+    "durationMs": 760,
     "transcript": "سیزدَه",
-    "synthesisText": "سیزدَه",
+    "synthesisText": "سیزْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -333,15 +333,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-13-word.3483c01dbabd.mp3"
+    "sourceFile": "public/audio/number-13-word.cce386fb8159.mp3"
   },
   {
     "file": "public/audio/chahardah.mp3",
     "clipId": "number-14-word",
-    "sha256": "6794f2eef7054f623f06516fe5c00fc8080191f70dc05c83585b9dce78d5a3dc",
-    "durationMs": 860,
+    "sha256": "4f0f1d4cc68ce1e83f5cc9cef1c0a5c57cb29d9a40dac6c4581740fe103fec95",
+    "durationMs": 810,
     "transcript": "چَهاردَه",
-    "synthesisText": "چَهاردَه",
+    "synthesisText": "چَهارْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -349,15 +349,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-14-word.6794f2eef705.mp3"
+    "sourceFile": "public/audio/number-14-word.4f0f1d4cc68c.mp3"
   },
   {
     "file": "public/audio/panzdah.mp3",
     "clipId": "number-15-word",
-    "sha256": "587a1260a6dc1acef65cafd3f44357d8e06a979bdc16d74fd26304debfbc48ed",
-    "durationMs": 1070,
+    "sha256": "442a0b916241c5167885faafb1251608687e95f90fc39b225c32d5a55697c861",
+    "durationMs": 970,
     "transcript": "پانزدَه",
-    "synthesisText": "پانزدَه",
+    "synthesisText": "پانْزْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -365,15 +365,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-15-word.587a1260a6dc.mp3"
+    "sourceFile": "public/audio/number-15-word.442a0b916241.mp3"
   },
   {
     "file": "public/audio/shanzdah.mp3",
     "clipId": "number-16-word",
-    "sha256": "7623fb909f34218d368b9f1982cb1f52b7f6800f5043e9545f9d79199de82fee",
-    "durationMs": 910,
+    "sha256": "9ad36522618b27f78c67a2cf113c1e61b46ca727117b030b13914842661e6edf",
+    "durationMs": 810,
     "transcript": "شانزدَه",
-    "synthesisText": "شانزدَه",
+    "synthesisText": "شانْزْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -381,15 +381,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-16-word.7623fb909f34.mp3"
+    "sourceFile": "public/audio/number-16-word.9ad36522618b.mp3"
   },
   {
-    "file": "public/audio/hafdah.mp3",
+    "file": "public/audio/hefdah.mp3",
     "clipId": "number-17-word",
-    "sha256": "2e38633259674c39d5c910596139fff28c3934c4bf8927bb3a73f250c8b8f787",
+    "sha256": "e86eb23012cc2a9fd58b237bfb26c6bc6e5bc9b433c815fba49f58a0a836eff9",
     "durationMs": 780,
     "transcript": "هَفدَه",
-    "synthesisText": "هَفدَه",
+    "synthesisText": "هِفْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -397,15 +397,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-17-word.2e3863325967.mp3"
+    "sourceFile": "public/audio/number-17-word.e86eb23012cc.mp3"
   },
   {
-    "file": "public/audio/hojdah.mp3",
+    "file": "public/audio/hejdah.mp3",
     "clipId": "number-18-word",
-    "sha256": "1c1d3c625807b6f8e5077b141824a1dea93927b4aef9e36fabf167976178ce76",
+    "sha256": "c117be4d1a2603e14ed287c6c689fb9a24c0c6efab23485f0e0dd2ada0bf3f04",
     "durationMs": 910,
     "transcript": "هُجدَه",
-    "synthesisText": "هُجدَه",
+    "synthesisText": "هِجْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -413,15 +413,15 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-18-word.1c1d3c625807.mp3"
+    "sourceFile": "public/audio/number-18-word.c117be4d1a26.mp3"
   },
   {
     "file": "public/audio/nuzdah.mp3",
     "clipId": "number-19-word",
-    "sha256": "7b65271aed4402d39ced8f28b92cb0bdb720487646e136fb60990ae4c22f8c31",
-    "durationMs": 860,
+    "sha256": "1cd89667117f5a888a876308aad9ab59d46c8055e4ac72e2a43659b950d92dbb",
+    "durationMs": 840,
     "transcript": "نوزدَه",
-    "synthesisText": "نوزدَه",
+    "synthesisText": "نوزْدَه",
     "voiceModel": "fa_IR-ganji-medium",
     "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
     "engineVersion": "1.4.2",
@@ -429,7 +429,7 @@
       "cocodedk"
     ],
     "license": "MIT model; CC0 dataset",
-    "sourceFile": "public/audio/number-19-word.7b65271aed44.mp3"
+    "sourceFile": "public/audio/number-19-word.1cd89667117f.mp3"
   },
   {
     "file": "public/audio/bist.mp3",
