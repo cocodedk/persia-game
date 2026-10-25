@@ -121,7 +121,19 @@ const giantHorse = boss('giant-horse', 'Giant Horse', 'horse', 270, { w: 640, h:
   weak('mouth', 0, 100, 120, 80, 70),
 ], faceFight('horse', 'mouth', 'forelock'));
 
-export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse];
+// Level 8's giant lion, face on: each round ear and the crown of the mane between them are its plates;
+// the eyes and the roaring jaws under the broad nose burn, and the lions pour from the jaws. A rabbit
+// leaves the crown in every phase, and the fight is the dog's and the horse's.
+const giantLion = boss('giant-lion', 'Giant Lion', 'lion', 270, { w: 640, h: 300 }, [
+  armor('earL', -195, -100, 80, 80, 6),
+  armor('earR', 195, -100, 80, 80, 6),
+  armor('crown', 0, -120, 150, 50, 8),
+  weak('eyeL', -92, -10, 80, 60, 44),
+  weak('eyeR', 92, -10, 80, 60, 44),
+  weak('mouth', 0, 84, 140, 80, 70),
+], faceFight('lion', 'mouth', 'crown'));
+
+export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse, giantLion];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 
