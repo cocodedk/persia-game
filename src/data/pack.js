@@ -8,9 +8,9 @@
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms }, one per wave of the game, 1 to the last; `word` is n in
 //                 Persian digits, shown as it is said
-//   weather       { rain, stars, petals, moon, dawn, sunrise }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
-//                 said after the number and species of the wave the weather begins with, shown as a
-//                 species' word is, without a face
+//   weather       { rain, stars, petals, moon, dawn, sunrise }, each { word, say, clip, ms }, by a
+//                 level's weather kind (levels.js): said after the number and species of the wave
+//                 the weather begins with, shown as a species' word is, without a face
 //   hud           { wave, score, bombs, lives }, the words the HUD shows in place of its English labels (a
 //                 level's 'waveWord', 'scoreWord', 'bombsWord' and 'livesWord' parts, levels.js); read,
 //                 never heard, so no clip, set as a species' word is

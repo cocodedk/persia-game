@@ -1,6 +1,7 @@
-// A level's weather (levels.js weatherOf) is drawn by its kind: each kind in WEATHER names the phase
-// of the frame it falls in and the function that draws it. Rain and petals fall in the field, under
-// what fights; stars, the moon, dawn and sunrise belong to the sky, so the mountains and the landmark cover them.
+// A level's weather (levels.js weatherOf) is drawn by its kind: each kind in WEATHER names the
+// phase of the frame it falls in and the function that draws it. Rain and petals fall in the field,
+// under what fights; stars, the moon, dawn and sunrise belong to the sky, so the mountains and the
+// landmark cover them.
 //   fadeWeather(w, t) -> k   w = { since: null } eases k from 0 up to 1 over FADE s from the first
 //     frame the weather is drawn (it never stops within a world, and each level and retry has a view
 //     of its own, so a world that has weather from its start fades it in too)
@@ -31,5 +32,6 @@ export function fadeWeather(w, t) {
 export function drawWeather(ctx, v, world, t, phase) {
   const [at, draw] = WEATHER[weatherOf(world)] ?? [];
   if (at !== phase) return;
-  draw(ctx, fadeWeather(v.weather, t), t, v.quality.level, v.reduced, t - v.weather.since);
+  const k = fadeWeather(v.weather, t); // starts the weather's clock on its first frame
+  draw(ctx, k, t, v.quality.level, v.reduced, t - v.weather.since);
 }

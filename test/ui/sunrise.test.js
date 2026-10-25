@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { installCanvas } from './dom-kit.js';
+import { installCanvas, rectsOf, channels } from './dom-kit.js';
 
 // Sunrise is level 8's dawn with the sun over it: a disc of 8 px blocks that climbs out from behind the
 // far mountains over RISE seconds, clear of the moon, and stays; with reduced motion it stands from the start.
@@ -10,15 +10,6 @@ const { drawDawn } = await import('../../src/ui/dawn.js');
 const { MOON } = await import('../../src/ui/sky-bodies.js');
 const { W } = await import('../../src/ui/sprites.js');
 
-// What a frame draws: each fillRect as { x, y, w, h, colour, alpha }, the colour and alpha it was drawn with.
-function rectsOf(draw) {
-  const rects = [];
-  const ctx = new Proxy({}, {
-    get: (o, key) => (key in o ? o[key] : (...a) => { if (key === 'fillRect') rects.push({ x: a[0], y: a[1], w: a[2], h: a[3], colour: o.fillStyle, alpha: o.globalAlpha }); }),
-  });
-  draw(ctx);
-  return rects;
-}
 const dawn = (k) => rectsOf((ctx) => drawDawn(ctx, k));
 // The sun's own rects: the frame less dawn's bands under it, which cross the whole width.
 const sun = (k, age, reduced = false) => {
@@ -28,7 +19,6 @@ const sun = (k, age, reduced = false) => {
   return all.slice(bands);
 };
 const top = (rects) => Math.min(...rects.map((r) => r.y));
-const channels = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 
 test('nothing is drawn while the weather has not begun to fade in', () => {
   assert.equal(rectsOf((ctx) => drawSunrise(ctx, 0, 0, 1, false, 0)).length, 0);

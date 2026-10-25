@@ -5,7 +5,7 @@
 // tuft on the crown are its plates; the weak points burn: two half-shut eyes and the muzzle, its
 // nostrils over the split upper lip and the open mouth, the camels are spat from. The brows throb
 // quicker as the fight heats up, and the strands of the hump's hair light amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, FANG, LID, grid, inside, litCells, eyeArt, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, FANG, LID, grid, inside, litCells, eyeArt, throb, outlineWidth } from './kit.js';
 import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.camel;
@@ -17,22 +17,16 @@ const HAIR = '#5a3a22'; // the tuft's dark brown
 
 // The head's half-width at each height, from the crown down to the chin.
 const OUTLINE = [[-92, 30], [-88, 60], [-80, 84], [-66, 106], [-46, 122], [-20, 130], [14, 126], [34, 88], [52, 52], [64, 46], [78, 48], [96, 50], [122, 50], [136, 48], [142, 36]];
-function halfWidth(y) {
-  const i = OUTLINE.findIndex(([oy]) => oy >= y);
-  if (i < 0 || y < OUTLINE[0][0]) return -1;
-  if (i === 0) return OUTLINE[0][1];
-  const [y0, w0] = OUTLINE[i - 1];
-  const [y1, w1] = OUTLINE[i];
-  return w0 + ((w1 - w0) * (y - y0)) / (y1 - y0);
-}
+const halfWidth = outlineWidth(OUTLINE);
 
 // The hump: the top half of an ellipse standing up behind the head between the ears (the head hides
 // its lower half), its edge ragged where the hair hangs.
 const HUMP_TOP = -170;
 const HUMP_BASE = -75; // where it is widest
+const HUMP_TALL = HUMP_BASE - HUMP_TOP;
 const HUMP_HALF = 90;
 const humpHalf = (y) => {
-  const t = (HUMP_BASE - y) / (HUMP_BASE - HUMP_TOP);
+  const t = (HUMP_BASE - y) / HUMP_TALL;
   const shaggy = y > HUMP_TOP + 3 * PX && Math.floor((y - HUMP_TOP) / PX) % 3 === 1 ? PX : 0;
   return HUMP_HALF * Math.sqrt(1 - t * t) - shaggy;
 };
@@ -53,7 +47,7 @@ function hullCell(x, y, c) {
     if (!humpAt(x, y - PX)) return shade(c, 0.1); // the moonlit crest of the hump
     if (!humpAt(x - PX, y) || !humpAt(x + PX, y)) return shade(c, -0.66);
     if (inside(x, y, -20, -135, 38, 22)) return shade(c, strandAt(x, y) ? -0.2 : -0.04); // the moon on its shoulder
-    return shade(c, (strandAt(x, y) ? -0.52 : -0.34) - 0.16 * ((y - HUMP_TOP) / 95)); // darker toward the head
+    return shade(c, (strandAt(x, y) ? -0.52 : -0.34) - 0.16 * ((y - HUMP_TOP) / HUMP_TALL)); // darker toward the head
   }
   if (browAt(x, y)) return [BROW_RED, true];
   if (!headAt(x, y - PX)) return shade(c, 0.2); // the moonlit crown

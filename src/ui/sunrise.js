@@ -8,7 +8,7 @@
 // rim, and a few faint rings of the same gold round it at low alpha. It stands opposite the moon,
 // mirrored about the screen's middle, right of the landmark (the layer's centre). Its colours and
 // place are constants here, as the moon's and dawn's are (the look is not asked); where it stands once
-// risen is read against each level's far ridge.
+// risen is set against level 9's far ridge.
 //   drawSunrise(ctx, k, t, quality, reduced, age)   k 0..1 how far the weather has faded in, scaling
 //     every alpha; age the seconds since the weather began (weather.js), the climb's clock. Under
 //     reduced motion the sun stands at its height from the start; t and the quality change nothing

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { installCanvas } from './dom-kit.js';
+import { installCanvas, rectsOf, channels } from './dom-kit.js';
 
 // Dawn is flat bands across the sky under the red moon: on the sky's grid, rising from nothing to full
 // strength at the foot and staying full to the bottom of the screen.
@@ -9,16 +9,7 @@ const { drawDawn } = await import('../../src/ui/dawn.js');
 const { MOON } = await import('../../src/ui/sky-bodies.js');
 const { W, H, PIXEL } = await import('../../src/ui/sprites.js');
 
-// What a frame draws: each fillRect as { x, y, w, h, colour, alpha }, the colour and alpha it was drawn with.
-function frame(k, ...rest) {
-  const rects = [];
-  const ctx = new Proxy({}, {
-    get: (o, key) => (key in o ? o[key] : (...a) => { if (key === 'fillRect') rects.push({ x: a[0], y: a[1], w: a[2], h: a[3], colour: o.fillStyle, alpha: o.globalAlpha }); }),
-  });
-  drawDawn(ctx, k, ...rest);
-  return rects;
-}
-const channels = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const frame = (k, ...rest) => rectsOf((ctx) => drawDawn(ctx, k, ...rest));
 
 test('nothing is drawn while the weather has not begun to fade in', () => {
   assert.equal(frame(0).length, 0);

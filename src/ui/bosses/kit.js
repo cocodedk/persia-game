@@ -47,6 +47,16 @@ const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid
 // Pixel art over cols x rows cells of PX, at(x, y) taking each cell's centre in px.
 export const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
 export const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
+// The half-width at height y of a head outlined by `outline`, [y, half-width] pairs from the top
+// down, the widths eased between them: -1 above or below it.
+export const outlineWidth = (outline) => (y) => {
+  const i = outline.findIndex(([oy]) => oy >= y);
+  if (i < 0 || y < outline[0][0]) return -1;
+  if (i === 0) return outline[0][1];
+  const [y0, w0] = outline[i - 1];
+  const [y1, w1] = outline[i];
+  return w0 + ((w1 - w0) * (y - y0)) / (y1 - y0);
+};
 // Whether (x, y) is one of `cells`, each [x, y] a cell centre mirrored either side of the middle.
 export const markAt = (cells, x, y) => cells.some(([sx, sy]) => Math.abs(Math.abs(x) - sx) < 5 && Math.abs(y - sy) < 5);
 

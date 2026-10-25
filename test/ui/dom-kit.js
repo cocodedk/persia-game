@@ -9,6 +9,9 @@
 //   installElements()  document.createElement gives such elements
 //   all(el)            el and every stand-in element under it, in document order
 //   texts(el, pick)    the text of each element under el (el too) that pick(e) keeps
+//   rectsOf(draw)      each fillRect draw(ctx) makes, as { x, y, w, h, colour, alpha }, the colour and
+//                      alpha it was drawn with
+//   channels(hex)      a '#rrggbb' colour's [r, g, b]
 //   FRAMES             uneven frame lengths (s), as a real frame clock gives
 //   walkFrames(end, onFrame, frames = FRAMES)   steps a clock from 0 to `end` in frames cycling through
 //                      `frames`, calling onFrame(t0, t1) for each
@@ -41,6 +44,16 @@ export const element = (tag) => ({
 export function installElements() {
   globalThis.document = { createElement: element, addEventListener() {}, activeElement: null, hidden: false };
 }
+
+export function rectsOf(draw) {
+  const rects = [];
+  const ctx = new Proxy({}, {
+    get: (o, key) => (key in o ? o[key] : (...a) => { if (key === 'fillRect') rects.push({ x: a[0], y: a[1], w: a[2], h: a[3], colour: o.fillStyle, alpha: o.globalAlpha }); }),
+  });
+  draw(ctx);
+  return rects;
+}
+export const channels = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
 
 export const FRAMES = [0.016, 0.1, 0.033, 0.0071, 0.067];
 

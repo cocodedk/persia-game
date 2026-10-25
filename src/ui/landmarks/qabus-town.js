@@ -1,7 +1,7 @@
 // The town on the plain either side of the park (qabus.js): two rows of low houses, the far one
 // faded toward the haze, each a plain brick wall with its windows, some of them lit, under a hipped
 // roof that overhangs it by a block, as the roofs of Golestan are. Painted behind the park. `up`
-// counts blocks up from the plain. Tones: R r o p the roof, lit to shade, g k a lit and a dark window.
+// counts blocks up from the plain. Tones: r o p the roof, lit to shade, g k a lit and a dark window.
 import { int } from '../../core/rng.js';
 import { BASE, brick } from './yazd-brick.js';
 

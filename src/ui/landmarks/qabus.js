@@ -18,10 +18,10 @@ const UNDER = 16; // blocks from the plain down to the band's foot; the ground h
 
 export function qabus(g, w, h, rng, L, lights) {
   const tone = {
-    ...tones({ pool: L.glow, ...L }), // tones() asks for a pool; there is none here
+    ...tones(L),
     m: mix(L.grass, L.lamp, 0.4), M: L.grass, N: mix(L.grass, L.ink, 0.55), O: mix(L.grass, L.ink, 0.82), // the lawn: lit, plain, shade, deep
     y: mix(L.tree, L.grass, 0.5), // the trees' lit green
-    R: mix(L.roof, L.lamp, 0.45), r: L.roof, o: mix(L.roof, L.ink, 0.45), p: mix(L.roof, L.ink, 0.75), // the town's tiles, lit to shade
+    r: L.roof, o: mix(L.roof, L.ink, 0.45), p: mix(L.roof, L.ink, 0.75), // the town's tiles, lit to shade
     S: mix(L.tile, L.ink, 0.25), s: mix(L.tile, L.ink, 0.7), // the inscription's ground and its letters in shade
   };
   const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };

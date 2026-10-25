@@ -5,7 +5,7 @@
 // points burn: two staring eyes and the muzzle, its nostrils flared over the open mouth, the horses
 // are spat from. The brows throb quicker as the fight heats up, and the strands of the mane light
 // amber, then red.
-import { pixels, phosphor, bloom, PX, RED, AMBER, FANG, LID, grid, litCells, eyeArt, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, RED, AMBER, FANG, LID, grid, litCells, eyeArt, throb, outlineWidth } from './kit.js';
 import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.horse;
@@ -16,14 +16,7 @@ const BROW_RED = '#9a0f1e'; // deep, so that lit on the brown coat it stays crim
 
 // The head's half-width at each height, from the poll down to the chin.
 const OUTLINE = [[-92, 40], [-84, 66], [-60, 76], [-10, 80], [30, 74], [62, 66], [100, 60], [134, 56], [142, 40]];
-function halfWidth(y) {
-  const i = OUTLINE.findIndex(([oy]) => oy >= y);
-  if (i < 0 || y < OUTLINE[0][0]) return -1;
-  if (i === 0) return OUTLINE[0][1];
-  const [y0, w0] = OUTLINE[i - 1];
-  const [y1, w1] = OUTLINE[i];
-  return w0 + ((w1 - w0) * (y - y0)) / (y1 - y0);
-}
+const halfWidth = outlineWidth(OUTLINE);
 
 // The hull, in boss coordinates: the head, the blaze, the muzzle under it, the V of each brow, and the
 // mane behind the head: a mass round the upper face, hanging in locks, each to its own point.

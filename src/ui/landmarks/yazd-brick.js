@@ -44,7 +44,7 @@ export function tones(L) {
   const tone = {
     '-': L.ink, G: L.lamp, g: L.glow, h: mix(L.glow, L.ink, 0.55),
     k: mix(L.ink, L.brick, 0.05), K: mix(L.ink, L.brick, 0.2),
-    w: L.pool, W: mix(L.pool, '#ffffff', 0.55), n: mix(L.pool, L.ink, 0.72),
+    ...(L.pool && { w: L.pool, W: mix(L.pool, '#ffffff', 0.55), n: mix(L.pool, L.ink, 0.72) }),
     t: L.tree, e: mix(L.tree, L.lamp, 0.25),
     T: L.tile, U: mix(L.tile, L.lamp, 0.45), u: mix(L.tile, L.ink, 0.55),
   };

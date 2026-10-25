@@ -12,9 +12,10 @@
 // line then read right to left, 'scoreWord': the score's label, the pack's word in place of 'SCORE',
 // 'bombsWord': the bombs panel's label, the pack's word in place of 'BOMBS', 'livesWord': the lives
 // panel's, in place of 'LIVES').
-// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars', 'petals', 'moon', 'dawn', 'sunrise';
-// ui/weather.js draws each kind and the pack words it) and `from` is the number within the level of
-// the wave it begins with; it lasts to the end, the giant's fight included.
+// `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars',
+// 'petals', 'moon', 'dawn', 'sunrise'; ui/weather.js draws each kind and the pack words it) and
+// `from` is the number within the level of the wave it begins with; it lasts to the end, the
+// giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
 //   w(formation, cols, rows, pattern, speed)  one wave. `rows` is one species letter per row, top
