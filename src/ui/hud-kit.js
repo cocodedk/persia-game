@@ -27,11 +27,11 @@ export function text(ctx, s, x, y, size, color, align = 'left', weight = 800) {
 // stay joined. The face is loaded at boot (word-moment.js), minutes before a giant comes in play; on a
 // giant started directly (?debug&level=5&boss) the first frames may fall back to the system face,
 // still joined. It is set in the pack's direction, so a word with a count beside it (the wave line)
-// reads from the right; textAlign 'center' still centres the line on x.
-export function word(ctx, s, x, y, size, color) {
+// reads from the right; `align` ('center' by default) is where x falls on the line, 'left' its left end.
+export function word(ctx, s, x, y, size, color, align = 'center') {
   ctx.font = `${PACK.font.weight} ${size}px "${PACK.font.family}", sans-serif`;
   ctx.letterSpacing = '0px';
-  ctx.textAlign = 'center';
+  ctx.textAlign = align;
   ctx.fillStyle = color;
   ctx.direction = PACK.dir;
   ctx.fillText(s, x, y);

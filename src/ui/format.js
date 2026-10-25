@@ -3,7 +3,7 @@
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
 //   showsPersian(level, part)       whether the level shows that part ('wave', 'waveWord', 'score',
-//                                   'combo', 'level', 'boss') in Persian
+//                                   'scoreWord', 'combo', 'level', 'boss') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part in Persian
 //   levelName(level)                the level's name where play shows it (the HUD, its card, pause

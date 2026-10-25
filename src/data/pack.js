@@ -11,8 +11,9 @@
 //   weather       { rain, stars, petals, moon }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
 //                 said after the number and species of the wave the weather begins with, shown as a
 //                 species' word is, without a face
-//   hud           { wave }, the words the HUD shows in place of its English labels (a level's 'waveWord'
-//                 part, levels.js); read, never heard, so no clip, set as a species' word is
+//   hud           { wave, score }, the words the HUD shows in place of its English labels (a level's
+//                 'waveWord' and 'scoreWord' parts, levels.js); read, never heard, so no clip, set as a
+//                 species' word is
 //   digits        the ten digits, 0 to 9, a number is written in where the screen shows it in Persian
 //   group         the mark that groups such a number's thousands
 //   letterColours the colours the word moment cycles through, one per letter
@@ -67,7 +68,7 @@ export const PACK = {
     petals: { word: 'گل', say: 'gol', clip: 'public/audio/gol.mp3', ms: 760 },
     moon: { word: 'ماه', say: 'mah', clip: 'public/audio/mah.mp3', ms: 760 },
   },
-  hud: { wave: 'موج' },
+  hud: { wave: 'موج', score: 'امتیاز' },
   digits: '۰۱۲۳۴۵۶۷۸۹',
   group: '٬',
   letterColours: ['#ffd23a', '#3affc8', '#ff5ad8', '#7aa8ff', '#ff8a3a'],

@@ -12,6 +12,7 @@ import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
 import { scoreText, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
+import { PACK } from '../data/pack.js';
 import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
 
@@ -24,6 +25,8 @@ const MAIN = TOP + 55; // big number row
 // keeps 8 px clear of each.
 const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
+// The score's Persian label: its alef stands as tall as the caps of the labels beside it; larger crowds the 46px number under it.
+const SCORE_WORD_SIZE = 18;
 
 let shown = { n: NaN, level: null, text: '' }; // the score as last formatted, and for which level
 function score(ctx, world) {
@@ -31,7 +34,8 @@ function score(ctx, world) {
     shown = { n: world.score, level: world.level, text: scoreText(world.level, world.score) };
   }
   panel(ctx, 32, TOP, 360, PH);
-  label(ctx, 'SCORE', 56, CAP);
+  if (showsPersian(world.level, 'scoreWord')) word(ctx, PACK.hud.score, 56, CAP, SCORE_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
+  else label(ctx, 'SCORE', 56, CAP);
   text(ctx, shown.text, 54, MAIN, 46, '#ffffff', 'left', 900);
 }
 

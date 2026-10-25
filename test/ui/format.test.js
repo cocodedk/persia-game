@@ -67,6 +67,8 @@ test('word sets a whole word in the pack face in one fillText, with no letter sp
   assert.equal(ctx.textAlign, 'center');
   assert.deepEqual(calls, [['abc', 960, 38, PACK.dir]]);
   assert.equal(ctx.direction, 'inherit', 'the next text is set as before');
+  word(ctx, 'abc', 56, 38, 18, '#fff', 'left');
+  assert.equal(ctx.textAlign, 'left', 'a passed align reaches textAlign');
 });
 
 test("the HUD and the screens set numbers in the pack's digits face first", () => {
