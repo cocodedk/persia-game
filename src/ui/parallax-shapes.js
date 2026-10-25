@@ -12,6 +12,7 @@ import { yazd } from './landmarks/yazd.js';
 import { milad } from './landmarks/milad.js';
 import { naqsh } from './landmarks/naqsh.js';
 import { qabus } from './landmarks/qabus.js';
+import { ferdowsi } from './landmarks/ferdowsi.js';
 
 // A flat floor whose top is one glowing line.
 function ground(g, w, h, rng, L, lights) {
@@ -33,6 +34,7 @@ const PAINTERS = {
   milad,
   naqsh,
   qabus,
+  ferdowsi,
 };
 
 export function paintLayer(g, w, h, rng, L, lights) {

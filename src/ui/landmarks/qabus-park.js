@@ -57,7 +57,7 @@ export function steps(art) {
 }
 
 // A pine `tall` blocks high on the plain, column x: a bare trunk, then a flat crown, lit down its left.
-function pine({ box, row, rng }, x, tall) {
+export function pine({ box, row, rng }, x, tall) {
   const trunk = Math.round(tall * 0.5);
   box(x, row(trunk - 1), 1, trunk, 'k');
   const crown = tall - trunk;
@@ -72,7 +72,7 @@ function pine({ box, row, rng }, x, tall) {
 }
 
 // A cypress `tall` blocks high, up to `half` blocks either side of column x: a dark flame, lit down its left.
-function cypress({ box, row }, x, tall, half) {
+export function cypress({ box, row }, x, tall, half) {
   for (let j = 0; j < tall; j++) {
     const t = j / (tall - 1); // 0 at its foot, 1 at its tip
     const hw = t > 0.97 ? 0 : Math.max(1, Math.round(half * Math.sin(Math.min(1, (1 - t) * 1.6) * (Math.PI / 2)) ** 0.7));

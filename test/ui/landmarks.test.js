@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import * as ART from '../../src/ui/landmarks/persepolis-art.js';
+import { WINGED } from '../../src/ui/landmarks/ferdowsi-art.js';
 import { installCanvas } from './dom-kit.js';
 
 installCanvas();
@@ -28,6 +29,14 @@ test('the Persepolis pictures are rectangles of known tones', () => {
       assert.equal(row.length, rows[0].length, `${name}: ${row}`);
       assert.match(row, /^[.#+\-fy]+$/, `${name}: ${row}`);
     }
+  }
+});
+
+// The tomb's winged figure is hand-drawn the same way, in the stone's three tones.
+test("the Tomb of Ferdowsi's winged figure is a rectangle of known tones", () => {
+  for (const row of WINGED) {
+    assert.equal(row.length, WINGED[0].length, row);
+    assert.match(row, /^[.#+\-]+$/, row);
   }
 });
 

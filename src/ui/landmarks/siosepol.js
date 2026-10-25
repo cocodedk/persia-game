@@ -6,7 +6,7 @@
 // by ripples. The layer brings L.lit, L.ink, L.glow, L.lamp, L.water and L.tree. Rows are counted
 // from F, the waterline.
 import { PIXEL, mix } from '../sprites.js';
-import { scene } from './kit.js';
+import { scene, reflect } from './kit.js';
 
 const SPANS = 33;
 const PITCH = 12; // blocks per span: a 3-block pier, then a 9-block arch
@@ -32,7 +32,7 @@ export function siosepol(g, w, h, rng, L, lights) {
   bridge(art, x0, x1);
   river(art);
   g.restore();
-  reflect(g, w, art.F);
+  reflect(g, 0, w, art.F, UNDER);
 }
 
 // The deck in one face of stone, then the piers, and the arches lit or cut into it.
@@ -91,15 +91,4 @@ function poplar(box, x, y, tall) {
 function river({ box, rng, F, BW }) {
   box(0, F, BW, UNDER, '~');
   for (let x = 0; x < BW; x += 3 + Math.floor(rng() * 7)) box(x, F, 1 + Math.floor(rng() * 3), 1, '+');
-}
-
-// Everything above the waterline mirrored below it, row by row: every third row is left to the
-// water and every other pair is shifted a block, so it ripples; it dims with depth.
-function reflect(g, w, F) {
-  for (let k = 1; F - k > 0; k++) {
-    if (k % 3 === 0) continue;
-    g.globalAlpha = 0.45 * (1 - k / 44);
-    g.drawImage(g.canvas, 0, (F - k) * PIXEL, w, PIXEL, (k % 4 < 2 ? 0 : PIXEL), (F + k) * PIXEL, w, PIXEL);
-  }
-  g.globalAlpha = 1;
 }

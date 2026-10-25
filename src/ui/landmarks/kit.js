@@ -9,6 +9,7 @@
 //   scene(g, w, h, rng, L, lights, tone, under) -> art   a w x h layer's blocks with what its painter
 //        shares: F the row `under` blocks above the band's foot, BW the width in blocks, mid its middle
 //        column, row(up) the row of the block `up` blocks above F, and lamps, one list per depth
+//   reflect(g, x, w, F, depth)   what stands above row F in the columns x..x+w (px) mirrored below it
 import { PIXEL } from '../sprites.js';
 
 export function blocks(g, tone) {
@@ -40,4 +41,16 @@ export function scene(g, w, h, rng, L, lights, tone, under) {
   art.mid = Math.round(art.BW / 2);
   art.row = (up) => art.F - 1 - up;
   return art;
+}
+
+// Everything above row F in the px columns x to x + w mirrored below it, row by row, down `depth`
+// blocks: every third row is left to the water and every other pair is shifted a block, so it
+// ripples; it dims with depth. Paint it after the water and with `g` unscaled, since it works in px.
+export function reflect(g, x, w, F, depth) {
+  for (let k = 1; k < depth && F - k > 0; k++) {
+    if (k % 3 === 0) continue;
+    g.globalAlpha = 0.45 * (1 - k / depth);
+    g.drawImage(g.canvas, x, (F - k) * PIXEL, w, PIXEL, x + (k % 4 < 2 ? 0 : PIXEL), (F + k) * PIXEL, w, PIXEL);
+  }
+  g.globalAlpha = 1;
 }

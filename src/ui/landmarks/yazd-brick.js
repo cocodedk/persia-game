@@ -8,7 +8,7 @@
 import { PIXEL, mix } from '../sprites.js';
 import { clamp } from '../../core/math.js';
 
-const SHADES = 16;
+export const SHADES = 16;
 const MIST = [0.5, 0.25, 0]; // how far each depth fades toward the haze
 export const BASE = [0.6, 0.54, 0.48]; // how dark a plain wall is, by depth
 
