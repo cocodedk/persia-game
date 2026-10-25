@@ -18,7 +18,7 @@
 - `src/core` and `src/fx` stay pure: no DOM, canvas, `Math.random` or `Date.now`.
 - No Persian word, digit or separator in code outside `src/data/pack.js`; tests build Persian strings from the pack.
 - Persian code points only; the pack test covers every new string; Persian a player reads goes through `humanizer-pa`.
-- Clips come in through `scripts/lift-clips.mjs <lessons repo>` (its `NAMES` table), only approved IDs; the manifest keeps every existing entry byte-identical and gains exactly six (mah in Task 3, the five numbers in Task 5).
+- Clips come in through `scripts/lift-clips.mjs <lessons repo>` (its `NAMES` table), only approved IDs; the manifest keeps every other entry byte-identical, gains exactly six (mah in Task 3, the five numbers in Task 5), and has its 21 to 29 entries replaced by the re-recorded clips (Task 5).
 - Every export is used (`test/repo-dead.test.js`); band heights are multiples of `PIXEL`.
 - Levels 1 to 6, their six giants and six landmarks, and the baked sky stay pixel-identical (hash the bakes before and after); the rain, the stars and the petals fall exactly as before.
 - Visual work follows `frontend-design` and is judged from screenshots; `simplify` runs at the end.
@@ -84,12 +84,12 @@ Shooting stars and twinkles draw before the weather's sky phase, so they pass be
 
 ### Task 5: Level 7 and waves thirty-one to thirty-five
 
-Babak approves `counting-2199-tal-32` to `-35` in the lessons repo first.
+Babak approves the re-recorded composed numbers in the lessons repo first. Babak heard the 32 to 35 drafts say "si va do"; Piper read every composed number's و as "va", the approved 21 to 29 and 31 included. On 2026-10-25 he chose to fix it in the lessons repo's number builder (the synthesis text marks the ten with a damma, `سیُ دو`, so the voice says "si-o-do"; the written form keeps و) and to re-record all twenty of its composed numbers.
 
 **Files:** `src/core/levels.js` (`LEVEL_7`), `src/data/pack.js` (numbers 31 to 35), `scripts/lift-clips.mjs`, `public/audio/`; tests as level 6's.
 
 - [ ] `LEVEL_7`: `id 'level-7'`, `name 'Level 7'`, `place 'Milad Tower'`, `seed: 72269`, `d: 0.45` (level 6's), `boss 'giant-horse'`, `landmark 'milad'`, `persian` level 6's plus `'scoreWord'`, `weather: { kind: 'moon', from: 3 }`. Waves at level 6's speeds, two species each (`levels.test.js` checks it): 31 `w('grid', 6, 'hhdd', 'aimed', 1.2)` (horses over dogs), 32 `w('escort', 3, 'orro', 'aimed', 1.2)`, 33 `w('dive', 10, 'bbmm', 'fan', 1.25)` (birds and mice swoop, and the moon turns white), 34 `w('sway', 6, 'hhf', 'fan', 1.3)` (two rows of horses over the fish: the gunners), 35 `w('spiral', 10, 'ccdd', 'ring', 1.4)` (forty cats and dogs). All eight animals; four rows of horses, where no level before had more than two, and 30 gunner aliens, under level 6's 32. The game relaxes and teaches: no harder to survive than level 6.
-- [ ] Pack numbers 31 to 35: `say` `si-o-yek`, `si-o-do`, `si-o-se`, `si-o-chahar`, `si-o-panj`; `ms` from the approved records; clips from `counting-2199-tal-31` to `-35`. The manifest gains five.
+- [ ] Pack numbers 31 to 35: `say` `si-o-yek`, `si-o-do`, `si-o-se`, `si-o-chahar`, `si-o-panj`; `ms` from the approved records; clips from `counting-2199-tal-31` to `-35`. The manifest gains five. Re-lift 21 to 29 from their re-recorded approvals: the same files and `say` names, new audio, the pack's `ms` and the manifest's entries for them updated; levels 5 and 6 then say "bist-o-…".
 - [ ] `test/core/boss-kit.js` `realLevel`: drop Task 2's `?? LEVELS.at(-1)`.
 - [ ] Seven cards: the row already shrinks them, but at 1280 x 720 a card has about 137 px for text and "Tomb of Cyrus" in 1.25rem bold needs about 145, so expect to trim `.card-place` (to about 1.1rem) until every place name holds one line; screenshot 1920 x 1080 and 1280 x 720.
 - [ ] Tests that change or grow:

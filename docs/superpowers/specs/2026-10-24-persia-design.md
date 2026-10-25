@@ -378,7 +378,10 @@ belongs to the sky, behind the mountains and the landmark.
 
 **Spoken set.** Level 6's set, plus `counting-2199-tal-31` (۳۱, si-o-yek), `vocabulary-3-mah` (ماه),
 and four clips for 32 to 35 (`counting-2199-tal-32` to `-35`), made and approved first in a review round
-in the lessons repo, as 26 to 29 were. Every clip carries `reviewedBy: ["cocodedk"]`.
+in the lessons repo, as 26 to 29 were. Every clip carries `reviewedBy: ["cocodedk"]`. A number built of a ten and
+a unit is said with the joining "o" (si-o-do, bist-o-yek), never "va": Babak heard "va" in the first drafts,
+and on 2026-10-25 every composed number in the lessons repo was re-recorded, so 21 to 29 change in levels 5
+and 6 too.
 
 **The sixth step of the Persian ramp.** The HUD's score label reads امتیاز (emtiyaz) in the pack's word
 face, in the place and size of SCORE. It is read, never heard. Everything level 6 shows in Persian stays
