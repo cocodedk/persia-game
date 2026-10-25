@@ -7,8 +7,10 @@ import { EMIT } from '../../src/core/patterns.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 
 const [, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8] = LEVELS;
-const EIGHT = Object.keys(SPECIES).filter((id) => id !== 'lion').sort(); // the animals before the lion
+const EIGHT = ['bird', 'cat', 'cow', 'dog', 'fish', 'horse', 'mouse', 'rabbit']; // the animals before the lion
 const rows = (level, id) => level.waves.flatMap((x) => x.species).filter((s) => s === id).length;
+const perWave = (level, role) => level.waves.map((x) => x.cols * x.species.filter((id) => SPECIES[id] === role).length);
+const gunners = (level) => perWave(level, 'gunner').reduce((n, c) => n + c, 0);
 
 test('level 1 is five waves, then the giant; level 2 five more, then the giant mouse', () => {
   assert.equal(LEVELS[0], LEVEL);
@@ -72,7 +74,6 @@ test('level 6 brings all eight animals, the dog, its boss, in more rows than any
 });
 
 test('level 7 brings all eight animals, the horse, its boss, in more rows than any earlier level, and is no harder to survive than level 6', () => {
-  const gunners = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => SPECIES[id] === 'gunner').length, 0);
   assert.deepEqual(levelSpecies(LEVEL_7).toSorted(), levelSpecies(LEVEL_6).toSorted());
   assert.equal(bossDef(LEVEL_7.boss).species, 'horse');
   assert.ok(rows(LEVEL_7, 'horse') > 2 && LEVELS.slice(0, 6).every((level) => rows(level, 'horse') <= 2));
@@ -82,13 +83,11 @@ test('level 7 brings all eight animals, the horse, its boss, in more rows than a
 });
 
 test('level 8 brings all nine animals, the lion, its boss, and is no harder to survive than level 7: no more gunners, no wave with more divers than any before it, its pace', () => {
-  const count = (level, role) => level.waves.map((x) => x.cols * x.species.filter((id) => SPECIES[id] === role).length);
-  const gunners = (level) => count(level, 'gunner').reduce((n, c) => n + c, 0);
-  const mostDivers = Math.max(...LEVELS.slice(0, 7).flatMap((level) => count(level, 'diver')));
+  const mostDivers = Math.max(...LEVELS.slice(0, 7).flatMap((level) => perWave(level, 'diver')));
   assert.deepEqual(levelSpecies(LEVEL_8).toSorted(), Object.keys(SPECIES).sort());
   assert.equal(bossDef(LEVEL_8.boss).species, 'lion');
   assert.ok(gunners(LEVEL_8) <= gunners(LEVEL_7), 'no more gunners than level 7');
-  count(LEVEL_8, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 36} has ${n} divers, the most before it ${mostDivers}`));
+  perWave(LEVEL_8, 'diver').forEach((n, i) => assert.ok(n <= mostDivers && n <= 40, `wave ${i + 36} has ${n} divers, the most before it ${mostDivers}`));
   assert.equal(LEVEL_8.d, LEVEL_7.d);
   LEVEL_8.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_7.waves[i].speed, `wave ${i + 36} is no faster than wave ${i + 31}`));
 });

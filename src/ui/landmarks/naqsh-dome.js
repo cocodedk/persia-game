@@ -7,7 +7,7 @@ import { PIXEL } from '../sprites.js';
 const R = 20; // the bulb's greatest half-width
 const DRUM = { half: 17, up: 56, tall: 16 }; // its half-width, the row its foot is on, its height
 const BULB = 36;
-const BAND = [8, 6]; // a band of patterned tile every 8 rows, from the 6th, two rows deep
+const BAND = { every: 8, from: 6 }; // a band of patterned tile every 8 rows, from the 6th, two rows deep
 const WINDOWS = 7; // across the drum's front, 5 blocks apart
 
 // How wide the bulb is at height t (0 at its foot to 1 at its tip), as a share of R: it swells,
@@ -16,7 +16,7 @@ const swell = (t) => (t < 0.3 ? 0.8 + 0.2 * Math.sin((t / 0.3) * (Math.PI / 2)) 
 
 export function dome(art, cx) {
   drum(art, cx);
-  bulb(art, cx, DRUM.up + DRUM.tall);
+  bulb(art, cx);
 }
 
 function drum({ box, row }, cx) {
@@ -33,11 +33,12 @@ function drum({ box, row }, cx) {
   }
 }
 
-function bulb({ box, row, lights, L }, cx, base) {
+function bulb({ box, row, lights, L }, cx) {
+  const base = DRUM.up + DRUM.tall;
   for (let j = 0; j < BULB; j++) {
     const t = j / (BULB - 1);
     const hw = Math.round(R * swell(t));
-    const band = j % BAND[0] >= BAND[1];
+    const band = j % BAND.every >= BAND.from;
     for (let c = cx - hw; c <= cx + hw; c++) {
       const u = hw ? (c - cx) / hw : 0; // -1 at its left edge to 1 at its right
       const lit = 0.95 - 0.5 * Math.abs(u + 0.35) ** 1.5 - 0.4 * t ** 0.9; // brightest low down, a little left of the middle

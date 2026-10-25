@@ -1,10 +1,10 @@
 // The mud brick Yazd is built of (yazd.js and its parts): a tone ramp for each depth of the city,
 // the lamps that light the walls round them, a wall of brick laid in courses, a parapet's shading
-// and a pointed arch's outline. A brick tone is a number, depth * SHADES + level: depth 0 is the
-// far row, faded toward the haze, 1 the middle, 2 the near; level 0 is lit warm by a lamp, SHADES - 1 deep shade. A caller asks for a darkness
-// 0..1 and `key` picks the level. The other tones are letters: '-' ink, G lamp, g glow, h dim glow,
-// k vent slot, K its back wall, w pool line, W its glint, n the pool's depth, t cypress, e its lit
-// edge, T tile, U lit tile, u dark tile.
+// and a portal's nested pointed arches. A brick tone is a number, depth * SHADES + level: depth 0
+// is the far row, faded toward the haze, 1 the middle, 2 the near; level 0 is lit warm by a lamp,
+// SHADES - 1 deep shade. A caller asks for a darkness 0..1 and `key` picks the level. The other
+// tones are letters: '-' ink, G lamp, g glow, h dim glow, k vent slot, K its back wall, w pool
+// line, W its glint, n the pool's depth, t cypress, e its lit edge, T tile, U lit tile, u dark tile.
 import { PIXEL, mix } from '../sprites.js';
 import { clamp } from '../../core/math.js';
 
@@ -23,6 +23,20 @@ export function archHalf([half, spring, apex], up) {
   if (up <= spring) return half;
   const s = ((up - spring) * Math.sqrt(3) * half) / (apex - spring);
   return Math.max(0, Math.round(Math.sqrt(4 * half * half - s * s) - half));
+}
+
+// A portal's nested pointed arches, `arches` [outline, tile band, recess], on column cx at depth d,
+// from the street up: the outline in shade, then each block of the band in the tone
+// tone(x, up, inner) gives it, `inner` when the block lies in the recess.
+export function nestedArch(art, d, cx, arches, tone) {
+  const { box, row } = art;
+  for (let up = 0; up <= arches[0][2]; up++) {
+    const [outline, band, recess] = arches.map((a) => archHalf(a, up));
+    if (up < arches[0][2]) box(cx - outline - 1, row(up), outline * 2 + 3, 1, key(d, BASE[d] - 0.3));
+    for (let x = cx - band; x <= cx + band; x++) {
+      box(x, row(up), 1, 1, tone(x, up, Math.abs(x - cx) <= recess && up <= arches[2][2]));
+    }
+  }
 }
 
 export function tones(L) {

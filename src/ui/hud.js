@@ -10,7 +10,7 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { scoreText, scoreLabel, bombsLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
+import { scoreText, hudLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { TOP, PH, STOCK_W, STOCK_X, BOMBS_DX, DIM, panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
@@ -29,9 +29,10 @@ const SCORE_WORD_SIZE = 18;
 // The bombs' Persian label has no alef to match to the caps: at this size its body fills the band the
 // caps of BOMBS filled, standing on their baseline, and the hint stays a clear 36 px to its right.
 const BOMBS_WORD_SIZE = 24;
-// A panel's caption: the pack's word where the level shows `part` in Persian, else a spaced label.
-function caption(ctx, level, part, s, x, size) {
-  if (showsPersian(level, part)) word(ctx, s, x, CAP, size, DIM, 'left');
+// A panel's caption (hudLabel): the pack's word, or a spaced label.
+function caption(ctx, level, key, x, size) {
+  const { text: s, persian } = hudLabel(level, key);
+  if (persian) word(ctx, s, x, CAP, size, DIM, 'left');
   else label(ctx, s, x, CAP);
 }
 
@@ -41,7 +42,7 @@ function score(ctx, world) {
     shown = { n: world.score, level: world.level, text: scoreText(world.level, world.score) };
   }
   panel(ctx, 32, TOP, 360, PH);
-  caption(ctx, world.level, 'scoreWord', scoreLabel(world.level), 56, SCORE_WORD_SIZE);
+  caption(ctx, world.level, 'score', 56, SCORE_WORD_SIZE);
   text(ctx, shown.text, 54, MAIN, 46, '#ffffff', 'left', 900);
 }
 
@@ -138,7 +139,7 @@ function stock(ctx, world, look, t) {
   const x = STOCK_X;
   panel(ctx, x, TOP, STOCK_W, PH);
   label(ctx, 'LIVES', x + 24, CAP);
-  caption(ctx, world.level, 'bombsWord', bombsLabel(world.level), x + BOMBS_DX, BOMBS_WORD_SIZE);
+  caption(ctx, world.level, 'bombs', x + BOMBS_DX, BOMBS_WORD_SIZE);
   bombKeys(ctx, x + 250, CAP, touchSeen());
   for (let i = 0; i < LIVES; i++) shipIcon(ctx, x + 38 + i * 38, MAIN + 2, look.palette.accent, i < s.lives);
   for (let i = 0; i < BOMB_MAX; i++) bombIcon(ctx, x + 186 + i * 36, MAIN + 2, look.power.bomb, i < s.bombs);

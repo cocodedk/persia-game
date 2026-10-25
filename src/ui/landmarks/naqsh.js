@@ -14,8 +14,7 @@ import { mosque, PORTAL } from './naqsh-mosque.js';
 import { palace, PALACE } from './naqsh-palace.js';
 import { arcades, pool } from './naqsh-square.js';
 
-const SHOWN = 6; // rows of the pool that show above the ground
-const HIDDEN = 14; // the rows under it the ground hides
+const UNDER = 20; // blocks from the arcades' foot down to the band's foot: 6 of pool show, the ground hides 14
 
 export function naqsh(g, w, h, rng, L, lights) {
   const tone = {
@@ -23,14 +22,14 @@ export function naqsh(g, w, h, rng, L, lights) {
     V: L.turq, X: mix(L.turq, '#ffffff', 0.4), Y: mix(L.turq, L.ink, 0.45), Z: mix(L.turq, L.ink, 0.72),
     q: mix(L.lamp, L.glow, 0.5), p: mix(L.pool, L.ink, 0.5),
   };
-  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - SHOWN - HIDDEN, BW: w / PIXEL, lamps: [[], [], []] };
+  const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
   art.mid = Math.round(art.BW / 2);
   art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the arcades' foot
   const at = art.mid + PALACE.at;
   art.stands = [[at - PALACE.half, at + PALACE.half], [art.mid - PORTAL.half, art.mid + PORTAL.half]]; // where the arcades are hidden
   g.save();
   g.scale(PIXEL, PIXEL);
-  art.box(0, art.F, art.BW, SHOWN + HIDDEN, '-');
+  art.box(0, art.F, art.BW, UNDER, '-');
   const bays = arcades(art);
   mosque(art);
   palace(art);

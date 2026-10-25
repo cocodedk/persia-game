@@ -65,7 +65,3 @@ test('the colours warm from violet through rose to amber at the horizon', () => 
   const rose = frame(1).map((r) => channels(r.colour)).find(([r, g, b]) => r > 0xc0 && b > g && b > 0x60);
   assert.ok(rose, 'a rose between: red high, blue over green');
 });
-
-test('half quality, reduced motion and the clock change nothing', () => {
-  assert.deepEqual(frame(0.7, 40, 0.5, true), frame(0.7, 3, 1, false));
-});

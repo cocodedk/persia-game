@@ -47,6 +47,8 @@ const cell = (i, n) => (i - n / 2 + 0.5) * PX; // a cell's centre, from the grid
 // Pixel art over cols x rows cells of PX, at(x, y) taking each cell's centre in px.
 export const grid = (b, l, cols, rows, at) => pixelArt(b, l, cols, rows, PX, (i, j) => at(cell(i, cols), cell(j, rows)));
 export const inside = (x, y, cx, cy, rx, ry) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1;
+// Whether (x, y) is one of `cells`, each [x, y] a cell centre mirrored either side of the middle.
+export const markAt = (cells, x, y) => cells.some(([sx, sy]) => Math.abs(Math.abs(x) - sx) < 5 && Math.abs(y - sy) < 5);
 
 // Every cell of a cols x rows grid that pick(x, y) keeps, lit in one colour: a rage overlay's
 // stripes or gills.

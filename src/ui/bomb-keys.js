@@ -11,8 +11,6 @@ const CAP_H = 12; // a little over the label's cap height (11 px)
 
 function keyCap(ctx, x, y) {
   roundRect(ctx, x + 0.75, y - CAP_H / 2 + 0.75, CAP_H - 1.5, CAP_H - 1.5, 3);
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = DIM;
   ctx.stroke();
   text(ctx, 'B', x + CAP_H / 2, y + 0.5, 10, DIM, 'center', 900);
 }
@@ -20,8 +18,7 @@ function keyCap(ctx, x, y) {
 // A mouse seen from above, its right button filled.
 function mouse(ctx, x, y) {
   const w = 9;
-  const h = CAP_H;
-  const top = y - h / 2;
+  const top = y - CAP_H / 2;
   ctx.fillStyle = LIT;
   ctx.beginPath();
   ctx.moveTo(x + w / 2, top + 1);
@@ -30,9 +27,7 @@ function mouse(ctx, x, y) {
   ctx.lineTo(x + w / 2, top + 5);
   ctx.closePath();
   ctx.fill();
-  roundRect(ctx, x + 0.75, top + 0.75, w - 1.5, h - 1.5, 3.5);
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = DIM;
+  roundRect(ctx, x + 0.75, top + 0.75, w - 1.5, CAP_H - 1.5, 3.5);
   ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(x + 1, top + 5.5);
@@ -43,8 +38,6 @@ function mouse(ctx, x, y) {
 }
 
 function tapMark(ctx, cx, cy) {
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = DIM;
   ctx.beginPath();
   ctx.arc(cx, cy, 6, 0, TAU);
   ctx.stroke();
@@ -55,6 +48,8 @@ function tapMark(ctx, cx, cy) {
 }
 
 export function bombKeys(ctx, x, y, touch) {
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = DIM;
   if (touch) tapMark(ctx, x + 13, y);
   else {
     keyCap(ctx, x, y);

@@ -5,7 +5,7 @@
 // weak points burn: two staring eyes with slit pupils and the roaring jaws, fangs bared, the lions
 // are spat from. The brows throb quicker as the fight heats up, and the strands of the mane light
 // amber, then red.
-import { pixels, phosphor, bloom, PX, TAU, RED, AMBER, FANG, LID, grid, inside, litCells, eyeArt, throb } from './kit.js';
+import { pixels, phosphor, bloom, PX, TAU, RED, AMBER, FANG, LID, grid, inside, markAt, litCells, eyeArt, throb } from './kit.js';
 import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.lion;
@@ -33,7 +33,6 @@ const faceAt = (x, y) => (Math.abs(x) / 150) ** 2.4 + (Math.abs(y - 12) / 108) *
 const noseAt = (x, y) => y >= 10 && y < 46 && Math.abs(x) <= 48 - (y - 10) * 0.6;
 const muzzleAt = (x, y) => (Math.abs(x) / 112) ** 2.4 + (Math.abs(y - 78) / 52) ** 2.4 <= 1;
 const SPOTS = [[85, 62], [100, 76], [85, 90]]; // one cell each, either side
-const markAt = (x, y) => SPOTS.some(([sx, sy]) => Math.abs(Math.abs(x) - sx) < 5 && Math.abs(y - sy) < 5);
 const socketAt = (x, y) => Math.abs(Math.abs(x) - 92) <= 50 && Math.abs(y + 10) <= 40;
 const browAt = (x, y) => {
   const ax = Math.abs(x);
@@ -62,7 +61,7 @@ function hullCell(x, y, c) {
   if (!faceAt(x, y - PX)) return shade(c, 0.3); // the moonlit brow
   if (!faceAt(x, y + PX)) return '#120610';
   if (noseAt(x, y)) return noseCell(x, y);
-  if (markAt(x, y)) return shade(c, -0.7);
+  if (markAt(SPOTS, x, y)) return shade(c, -0.7);
   if (socketAt(x, y)) return shade(c, -0.38);
   if (muzzleAt(x, y)) return shade(c, !muzzleAt(x, y + PX) ? -0.15 : 0.38);
   if (Math.abs(x) <= 18 && y < 12) return shade(c, 0.22); // the bridge
@@ -81,11 +80,12 @@ const mane = (l, colour) => litCells(l, COLS, ROWS, (x, y) => outerManeAt(x, y) 
 // An ear (drawn as the left one): round, its rim lit by the moon, its hollow in shade toward the face.
 function ear(b, l, p, S) {
   const c = coat(S);
+  const round = (x, y) => inside(x, y, 0, 0, 40, 40);
   grid(b, l, p.w / PX, p.h / PX, (x, y) => {
-    if (!inside(x, y, 0, 0, 40, 40)) return null;
+    if (!round(x, y)) return null;
     if (inside(x, y, 7, 7, 17, 19)) return '#7a3220';
-    if (!inside(x, y - PX, 0, 0, 40, 40)) return shade(c, 0.35);
-    if (!inside(x, y + PX, 0, 0, 40, 40)) return shade(c, -0.55);
+    if (!round(x, y - PX)) return shade(c, 0.35);
+    if (!round(x, y + PX)) return shade(c, -0.55);
     return shade(c, -0.2);
   });
   phosphor(b, l, 0.22, 4);

@@ -3,15 +3,15 @@
 // top and fading up into the night; it is the bake's red glow (sky-bodies.js horizonGlow) coming to
 // light. Drawn in the sky phase, before the parallax layers, so the mountains and the landmark stand
 // in front of it. The first band starts just under the red moon's disc and the baked stars lie
-// above it, so neither is ever tinted.
+// above it, so neither is tinted; the few twinkles lower down (ambient.js) take its colour.
 // Bands, not a gradient, like the sky's own pixel blocks: each is a fillRect across the screen,
 // BAND tall, a whole number of PIXEL blocks, on the sky's grid. A band's alpha rises from 0 at TOP
 // to 1 at FOOT, slowly at first so the upper sky stays night; from FOOT to the bottom of the screen
 // the dawn is at full strength. Its colours are constants here, as the moon's and the stars' are
 // (the look is not asked).
-//   drawDawn(ctx, k, t, quality, reduced)   k 0..1 how far it has come in, scaling every band's alpha;
-//     it has no motion and no sprite, so t, the quality and reduced motion change nothing (the voice
-//     has named the dawn)
+//   drawDawn(ctx, k)   k 0..1 how far it has come in, scaling every band's alpha. weather.js also
+//     passes t, the quality and reduced motion; dawn has no motion and no sprite, so it takes none
+//     of them (the voice has named the dawn)
 import { W, H, PIXEL, mix } from './sprites.js';
 import { MOON } from './sky-bodies.js';
 

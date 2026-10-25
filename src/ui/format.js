@@ -15,10 +15,9 @@
 //                                   line then reads right to left: the word, then the count)
 //   scoreText(level, score)         a score, '146,800', in the pack's digits and grouping when the
 //                                   level shows its score in Persian (the HUD and the end cards)
-//   scoreLabel(level)               the HUD's score label: the pack's word when the level shows its
-//                                   'scoreWord' in Persian, else 'SCORE'
-//   bombsLabel(level)               the HUD's bombs label: the pack's word when the level shows its
-//                                   'bombsWord' in Persian, else 'BOMBS'
+//   hudLabel(level, key)            a HUD panel's label, key 'score' or 'bombs', as { text, persian }:
+//                                   the pack's word when the level shows its `${key}Word` in Persian,
+//                                   else the key in capitals
 //   bossName(level, def)            the giant's name on the HUD bar: its species' word in the pack when
 //                                   the level shows its 'boss' in Persian, else 'GIANT BIRD'
 import { waveNumber } from '../core/levels.js';
@@ -40,9 +39,10 @@ export function waveText(level, wave) {
 
 export const scoreText = (level, score) => localText(level, 'score', fmt(score));
 
-export const scoreLabel = (level) => (showsPersian(level, 'scoreWord') ? PACK.hud.score : 'SCORE');
-
-export const bombsLabel = (level) => (showsPersian(level, 'bombsWord') ? PACK.hud.bombs : 'BOMBS');
+export function hudLabel(level, key) {
+  const persian = showsPersian(level, `${key}Word`);
+  return { text: persian ? PACK.hud[key] : key.toUpperCase(), persian };
+}
 
 export const levelName = (level) => localText(level, 'level', level.name);
 

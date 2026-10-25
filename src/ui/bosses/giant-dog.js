@@ -5,7 +5,7 @@
 // nose is the third plate; the weak points burn: two round eyes and the open barking mouth, fangs
 // bared, the dogs are spat from. The brows throb quicker as the fight heats up, and the locks of fur
 // and the patch light amber, then red.
-import { pixels, phosphor, bloom, PX, AMBER, RED, FANG, LID, grid, inside, litCells, eyeArt, throb, spine, spineAt } from './kit.js';
+import { pixels, phosphor, bloom, PX, AMBER, RED, FANG, LID, grid, inside, markAt, litCells, eyeArt, throb, spine, spineAt } from './kit.js';
 import { shade } from '../sprites.js';
 
 const coat = (S) => S.look.palette.alien.dog;
@@ -31,7 +31,6 @@ const muzzleAt = (x, y) => (Math.abs(x) / 118) ** 2.6 + (Math.abs(y - 58) / 80) 
 const patchAt = (x, y) => inside(x, y, 100, -40, 66, 52);
 const SPOTS = [[65, 25], [85, 15], [75, 45]]; // one cell each, either side
 const SNARL = [[65, 55], [75, 60], [85, 65]]; // the lines of the lip, from the nose down to the fangs
-const markAt = (cells, x, y) => cells.some(([sx, sy]) => Math.abs(Math.abs(x) - sx) < 5 && Math.abs(y - sy) < 5);
 const browAt = (x, y) => {
   const ax = Math.abs(x);
   const at = -100 + (150 - ax) * 0.35; // high at the outer end, low over the inner corner

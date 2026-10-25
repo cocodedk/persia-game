@@ -5,7 +5,7 @@
 // Painted as the middle row, so the houses in front of it hide its foot. `up` counts blocks up from
 // the street.
 import { PIXEL } from '../sprites.js';
-import { BASE, key, brick, light, lamp, archHalf } from './yazd-brick.js';
+import { BASE, key, brick, light, lamp, nestedArch } from './yazd-brick.js';
 
 const D = 1;
 const PORTAL = { half: 18, tall: 58 }; // the frame's half-width, its height
@@ -22,16 +22,11 @@ export function jameh(art, cx) {
     const edge = i < 2 ? -0.15 : i > PORTAL.half * 2 - 3 ? 0.25 : 0;
     return BASE[D] + 0.05 + edge + (j === 0 ? -0.3 : j === 2 ? 0.25 : 0);
   }, 2);
-  for (let up = 0; up <= ARCHES[0][2]; up++) {
-    const [outline, band, recess] = ARCHES.map((a) => archHalf(a, up));
-    if (up < ARCHES[0][2]) box(cx - outline - 1, row(up), outline * 2 + 3, 1, key(D, BASE[D] - 0.3));
-    for (let x = cx - band; x <= cx + band; x++) {
-      const lit = light(art.lamps[D], x, row(up));
-      const inner = Math.abs(x - cx) <= recess && up <= ARCHES[2][2];
-      const tile = (x + up) % 2 === 0;
-      box(x, row(up), 1, 1, inner ? (lit > 0.4 ? 'T' : 'u') : lit > 0.3 ? (tile ? 'U' : 'T') : tile ? 'T' : 'u');
-    }
-  }
+  nestedArch(art, D, cx, ARCHES, (x, up, inner) => {
+    const lit = light(art.lamps[D], x, row(up));
+    const tile = (x + up) % 2 === 0;
+    return inner ? (lit > 0.4 ? 'T' : 'u') : lit > 0.3 ? (tile ? 'U' : 'T') : tile ? 'T' : 'u';
+  });
   for (const s of [-1, 1]) minaret(art, cx + s * TOWER.at);
 }
 

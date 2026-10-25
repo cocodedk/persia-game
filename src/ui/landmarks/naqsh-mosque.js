@@ -5,7 +5,7 @@
 // dome (naqsh-dome.js). Painted as the middle row, a little misted. `up` counts blocks up from the
 // street. Tones: T U u tile, k K recess, g h G the door and lamps; the brick is Yazd's (yazd-brick.js).
 import { PIXEL } from '../sprites.js';
-import { BASE, key, brick, light, lamp, archHalf } from './yazd-brick.js';
+import { BASE, key, brick, light, lamp, archHalf, nestedArch } from './yazd-brick.js';
 import { dome } from './naqsh-dome.js';
 
 const D = 1;
@@ -43,15 +43,8 @@ function portal(art, cx) {
   }
   box(cx - half - 1, row(tall), half * 2 + 3, 1, key(D, BASE[D] + 0.3)); // the cornice, lit on top and shadowed under
   box(cx - half - 1, row(tall - 1), half * 2 + 3, 1, key(D, BASE[D] - 0.25));
-  for (const s of [-1, 1]) for (const up of NICHES) niche(art, s > 0 ? cx + 23 : cx - 26, up);
-  for (let up = 0; up <= ARCHES[0][2]; up++) {
-    const [outline, band, recess] = ARCHES.map((a) => archHalf(a, up));
-    if (up < ARCHES[0][2]) box(cx - outline - 1, row(up), outline * 2 + 3, 1, key(D, BASE[D] - 0.3));
-    for (let x = cx - band; x <= cx + band; x++) {
-      const inner = Math.abs(x - cx) <= recess && up <= ARCHES[2][2];
-      box(x, row(up), 1, 1, inner ? honeycomb(x - cx, up) : field(art, x, up));
-    }
-  }
+  for (const x of [cx - 26, cx + 23]) for (const up of NICHES) niche(art, x, up);
+  nestedArch(art, D, cx, ARCHES, (x, up, inner) => (inner ? honeycomb(x - cx, up) : field(art, x, up)));
   for (let up = 0; up <= DOOR[2]; up++) {
     const hw = archHalf(DOOR, up);
     box(cx - hw, row(up), hw * 2 + 1, 1, up > DOOR[2] - 3 ? 'h' : 'g');
