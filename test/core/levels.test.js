@@ -7,6 +7,7 @@ import { EMIT } from '../../src/core/patterns.js';
 import { bossDef } from '../../src/core/bosses-data.js';
 
 const [, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7] = LEVELS;
+const rows = (level, id) => level.waves.flatMap((x) => x.species).filter((s) => s === id).length;
 
 test('level 1 is five waves, then the giant; level 2 five more, then the giant mouse', () => {
   assert.equal(LEVELS[0], LEVEL);
@@ -57,27 +58,24 @@ test('level 4 brings all eight, the bird, its boss, in more rows than the fish h
 });
 
 test('level 5 brings all eight animals, the cow, its boss, in more rows than any earlier level, a step harder than level 4', () => {
-  const cows = (level) => level.waves.flatMap((x) => x.species).filter((id) => id === 'cow').length;
   assert.deepEqual(levelSpecies(LEVEL_5).toSorted(), levelSpecies(LEVEL_4).toSorted());
   assert.equal(bossDef(LEVEL_5.boss).species, 'cow');
-  assert.ok(cows(LEVEL_5) > 2 && LEVELS.slice(0, 4).every((level) => cows(level) <= 2));
+  assert.ok(rows(LEVEL_5, 'cow') > 2 && LEVELS.slice(0, 4).every((level) => rows(level, 'cow') <= 2));
   assert.ok(LEVEL_5.d > LEVEL_4.d);
 });
 
 test('level 6 brings all eight animals, the dog, its boss, in more rows than any earlier level, a step harder than level 5', () => {
-  const dogs = (level) => level.waves.flatMap((x) => x.species).filter((id) => id === 'dog').length;
   assert.deepEqual(levelSpecies(LEVEL_6).toSorted(), levelSpecies(LEVEL_5).toSorted());
   assert.equal(bossDef(LEVEL_6.boss).species, 'dog');
-  assert.ok(dogs(LEVEL_6) > 5 && LEVELS.slice(0, 5).every((level) => dogs(level) <= 5));
+  assert.ok(rows(LEVEL_6, 'dog') > 5 && LEVELS.slice(0, 5).every((level) => rows(level, 'dog') <= 5));
   assert.ok(LEVEL_6.d > LEVEL_5.d);
 });
 
 test('level 7 brings all eight animals, the horse, its boss, in more rows than any earlier level, and is no harder to survive than level 6', () => {
-  const horses = (level) => level.waves.flatMap((x) => x.species).filter((id) => id === 'horse').length;
   const gunners = (level) => level.waves.reduce((n, x) => n + x.cols * x.species.filter((id) => SPECIES[id] === 'gunner').length, 0);
   assert.deepEqual(levelSpecies(LEVEL_7).toSorted(), levelSpecies(LEVEL_6).toSorted());
   assert.equal(bossDef(LEVEL_7.boss).species, 'horse');
-  assert.ok(horses(LEVEL_7) > 2 && LEVELS.slice(0, 6).every((level) => horses(level) <= 2));
+  assert.ok(rows(LEVEL_7, 'horse') > 2 && LEVELS.slice(0, 6).every((level) => rows(level, 'horse') <= 2));
   assert.ok(gunners(LEVEL_7) <= gunners(LEVEL_6), 'no more gunners than level 6');
   assert.equal(LEVEL_7.d, LEVEL_6.d);
   LEVEL_7.waves.forEach((x, i) => assert.ok(x.speed <= LEVEL_6.waves[i].speed, `wave ${i + 31} is no faster than wave ${i + 26}`));

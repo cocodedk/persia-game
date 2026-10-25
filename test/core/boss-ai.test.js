@@ -98,12 +98,11 @@ function launch(w, count = 3, species = 'cat') {
   return ofType(drain(w), 'minion');
 }
 
-test('a launch emits one minion event with the species and how many left the giant', () => {
+test('a launch emits one minion event with the species, and the aliens that left the giant', () => {
   const w = bossWorld('giant');
   const sent = launch(w, 3, 'rabbit');
   assert.equal(sent.length, 1);
   assert.equal(sent[0].species, 'rabbit');
-  assert.equal(sent[0].count, 3);
   assert.equal(w.aliens.filter((a) => a.minion).length, 3);
 });
 
@@ -119,7 +118,7 @@ test('the cap counts what was launched: a full screen says nothing, a nearly ful
   for (let i = 0; i < 6; i++) w.aliens.push({ id: 100 + i, minion: true, hp: 1 });
   const sent = launch(w, 3);
   assert.equal(sent.length, 1);
-  assert.equal(sent[0].count, 2);
+  assert.equal(w.aliens.length, 8, 'only what fit: 6 + 2');
   assert.equal(launch(w).length, 0, 'eight are out: no room');
   assert.equal(w.aliens.length, 8);
 });

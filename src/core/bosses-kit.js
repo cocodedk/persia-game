@@ -24,6 +24,27 @@ export const atk = (pattern, every, from, p = {}) => ({ pattern, every, from, p 
 export const minion = (species, count, every, from) => ({ species, role: SPECIES[species], count, every, from });
 export const phase = (until, move, attacks, extra = {}) => ({ until, move, attacks, ...extra });
 
+// The three-phase fight the face-on giants share (fish to horse): `mouth` is the part that fires and
+// sends out `species`; a rabbit leaves `rabbitFrom` in every phase.
+export const faceFight = (species, mouth, rabbitFrom) => [
+  phase(0.65, 'sway', [
+    atk('aimed', 2, mouth, { speed: 0.9 }),
+    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
+    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
+  ], { minions: [minion(species, 1, 10, mouth), minion('rabbit', 1, 12, rabbitFrom)] }),
+  phase(0.3, 'sway', [
+    atk('fan', 3, mouth, { count: 5, spread: 0.8 }),
+    atk('aimed', 2.4, 'eyeL'),
+    atk('aimed', 2.4, 'eyeR'),
+  ], { rate: 1.3, minions: [minion(species, 2, 9, mouth), minion('rabbit', 1, 12, rabbitFrom)] }),
+  phase(0, 'charge', [
+    atk('ring', 4.2, mouth, { count: 14, speed: 0.85 }),
+    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
+    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
+    atk('laser', 8, mouth),
+  ], { rate: 1.5, minions: [minion(species, 2, 8, mouth), minion('rabbit', 1, 12, rabbitFrom)] }),
+];
+
 export function boss(kind, name, species, y, size, parts, phases) {
   const maxHp = parts.reduce((n, p) => n + p.hp, 0);
   const bottom = Math.max(...parts.map((p) => p.dy + p.h / 2));

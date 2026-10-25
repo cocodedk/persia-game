@@ -1,5 +1,4 @@
-import { boss, weak, armor, atk, minion, phase } from './bosses-kit.js';
-import { giantHorse } from './bosses-data-2.js';
+import { boss, weak, armor, atk, minion, phase, faceFight } from './bosses-kit.js';
 
 // The boss: a giant angry cat head. Its parts are where the picture needs them: the brow plate
 // carrying the ears on top, a paw reaching out at each side, and the weak points underneath, two
@@ -72,24 +71,7 @@ const giantFish = boss('giant-fish', 'Giant Fish', 'fish', 270, { w: 640, h: 300
   weak('eyeL', -110, -10, 80, 60, 44),
   weak('eyeR', 110, -10, 80, 60, 44),
   weak('mouth', 0, 85, 120, 70, 70),
-], [
-  phase(0.65, 'sway', [
-    atk('aimed', 2, 'mouth', { speed: 0.9 }),
-    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
-    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
-  ], { minions: [minion('fish', 1, 10, 'mouth'), minion('rabbit', 1, 12, 'crest')] }),
-  phase(0.3, 'sway', [
-    atk('fan', 3, 'mouth', { count: 5, spread: 0.8 }),
-    atk('aimed', 2.4, 'eyeL'),
-    atk('aimed', 2.4, 'eyeR'),
-  ], { rate: 1.3, minions: [minion('fish', 2, 9, 'mouth'), minion('rabbit', 1, 12, 'crest')] }),
-  phase(0, 'charge', [
-    atk('ring', 4.2, 'mouth', { count: 14, speed: 0.85 }),
-    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
-    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
-    atk('laser', 8, 'mouth'),
-  ], { rate: 1.5, minions: [minion('fish', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'crest')] }),
-]);
+], faceFight('fish', 'mouth', 'crest'));
 
 // Level 4's giant bird, face on, wings spread: each wing and the crest of head feathers are its
 // plates; the round eyes and the open beak burn, and the birds pour from the beak. A rabbit leaves the
@@ -101,24 +83,7 @@ const giantBird = boss('giant-bird', 'Giant Bird', 'bird', 270, { w: 640, h: 300
   weak('eyeL', -80, -20, 70, 60, 44),
   weak('eyeR', 80, -20, 70, 60, 44),
   weak('beak', 0, 75, 90, 90, 70),
-], [
-  phase(0.65, 'sway', [
-    atk('aimed', 2, 'beak', { speed: 0.9 }),
-    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
-    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
-  ], { minions: [minion('bird', 1, 10, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
-  phase(0.3, 'sway', [
-    atk('fan', 3, 'beak', { count: 5, spread: 0.8 }),
-    atk('aimed', 2.4, 'eyeL'),
-    atk('aimed', 2.4, 'eyeR'),
-  ], { rate: 1.3, minions: [minion('bird', 2, 9, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
-  phase(0, 'charge', [
-    atk('ring', 4.2, 'beak', { count: 14, speed: 0.85 }),
-    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
-    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
-    atk('laser', 8, 'beak'),
-  ], { rate: 1.5, minions: [minion('bird', 2, 8, 'beak'), minion('rabbit', 1, 12, 'crest')] }),
-]);
+], faceFight('bird', 'beak', 'crest'));
 
 // Level 5's giant cow, face on: each horn and the curl of hair between them are its plates; the round
 // eyes and the wide mouth under the pink muzzle burn, and the cows pour from the mouth. A rabbit
@@ -130,24 +95,7 @@ const giantCow = boss('giant-cow', 'Giant Cow', 'cow', 270, { w: 640, h: 300 }, 
   weak('eyeL', -90, -20, 80, 60, 44),
   weak('eyeR', 90, -20, 80, 60, 44),
   weak('mouth', 0, 112, 120, 60, 70),
-], [
-  phase(0.65, 'sway', [
-    atk('aimed', 2, 'mouth', { speed: 0.9 }),
-    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
-    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
-  ], { minions: [minion('cow', 1, 10, 'mouth'), minion('rabbit', 1, 12, 'curl')] }),
-  phase(0.3, 'sway', [
-    atk('fan', 3, 'mouth', { count: 5, spread: 0.8 }),
-    atk('aimed', 2.4, 'eyeL'),
-    atk('aimed', 2.4, 'eyeR'),
-  ], { rate: 1.3, minions: [minion('cow', 2, 9, 'mouth'), minion('rabbit', 1, 12, 'curl')] }),
-  phase(0, 'charge', [
-    atk('ring', 4.2, 'mouth', { count: 14, speed: 0.85 }),
-    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
-    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
-    atk('laser', 8, 'mouth'),
-  ], { rate: 1.5, minions: [minion('cow', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'curl')] }),
-]);
+], faceFight('cow', 'mouth', 'curl'));
 
 // Level 6's giant dog, face on: each floppy ear and the black nose are its plates; the round eyes and
 // the barking mouth under the pale muzzle burn, and the dogs pour from the mouth. A rabbit leaves the
@@ -159,24 +107,19 @@ const giantDog = boss('giant-dog', 'Giant Dog', 'dog', 270, { w: 640, h: 300 }, 
   weak('eyeL', -90, -40, 80, 60, 44),
   weak('eyeR', 90, -40, 80, 60, 44),
   weak('mouth', 0, 105, 120, 70, 70),
-], [
-  phase(0.65, 'sway', [
-    atk('aimed', 2, 'mouth', { speed: 0.9 }),
-    atk('fan', 4.4, 'eyeL', { count: 3, spread: 0.5 }),
-    atk('fan', 4.4, 'eyeR', { count: 3, spread: 0.5 }),
-  ], { minions: [minion('dog', 1, 10, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
-  phase(0.3, 'sway', [
-    atk('fan', 3, 'mouth', { count: 5, spread: 0.8 }),
-    atk('aimed', 2.4, 'eyeL'),
-    atk('aimed', 2.4, 'eyeR'),
-  ], { rate: 1.3, minions: [minion('dog', 2, 9, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
-  phase(0, 'charge', [
-    atk('ring', 4.2, 'mouth', { count: 14, speed: 0.85 }),
-    atk('fan', 3, 'eyeL', { count: 5, spread: 0.8 }),
-    atk('fan', 3, 'eyeR', { count: 5, spread: 0.8 }),
-    atk('laser', 8, 'mouth'),
-  ], { rate: 1.5, minions: [minion('dog', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
-]);
+], faceFight('dog', 'mouth', 'nose'));
+
+// Level 7's giant horse, face on: each pointed ear and the forelock between them are its plates; the
+// wide-set eyes and the muzzle with its flared nostrils burn, and the horses pour from the muzzle. A
+// rabbit leaves the forelock in every phase.
+const giantHorse = boss('giant-horse', 'Giant Horse', 'horse', 270, { w: 640, h: 300 }, [
+  armor('earL', -80, -115, 60, 70, 6),
+  armor('earR', 80, -115, 60, 70, 6),
+  armor('forelock', 0, -75, 60, 70, 8),
+  weak('eyeL', -92, -10, 80, 60, 44),
+  weak('eyeR', 92, -10, 80, 60, 44),
+  weak('mouth', 0, 100, 120, 80, 70),
+], faceFight('horse', 'mouth', 'forelock'));
 
 export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse];
 

@@ -30,7 +30,7 @@ test('a wave event says its number, then its species; a boss event says its spec
 });
 
 test("a boss's minion event says that species' line, every time, and a rabbit's says the rabbit's", () => {
-  const sent = (id) => ({ type: 'minion', species: id, count: 2 });
+  const sent = (id) => ({ type: 'minion', species: id });
   assert.deepEqual(lines([sent('cat')]), [species('cat')]);
   assert.deepEqual(lines([sent('rabbit')]), [species('rabbit')]);
   assert.deepEqual(lines([sent('cat')]), [species('cat')], 'the same again');

@@ -22,23 +22,23 @@ test('nothing is drawn while the weather has not begun to fade in', () => {
   assert.equal(frame(0).length, 0);
 });
 
-test('settled, a halo and a disc are drawn, both centred on the red moon, the disc on whole blocks', () => {
+test('settled, a halo and a disc are drawn, both centred on the red moon, the halo as baked, the disc on whole blocks', () => {
   const calls = frame(1);
   assert.equal(calls.length, 2);
-  for (const [x, y, w, h] of calls) {
-    assert.equal(x + w / 2, MOON.x);
-    assert.equal(y + h / 2, MOON.y);
-  }
+  const [hx, hy, , halo] = calls[0];
+  assert.deepEqual([hx + halo.width / 2, hy + halo.height / 2], [MOON.x, MOON.y]);
   const [x, y, w, h, alpha] = disc(calls);
+  assert.deepEqual([x + w / 2, y + h / 2], [MOON.x, MOON.y]);
   assert.ok(w > 2 * MOON.r && w === h, 'a square larger than the red moon');
   assert.equal(w % 8, 0, 'a whole number of 2-block steps');
   assert.deepEqual([x % 8, y % 8], [0, 0], 'its blocks sit on the sky grid');
   assert.equal(alpha, 1);
-  assert.ok(calls[0][4] > 0 && calls[0][4] <= 1, 'the halo has its own alpha');
+  assert.equal(frame(0.5)[0][2], 0.5, 'the halo fades in with k');
 });
 
-test('the disc is one sprite baked once, however often it is drawn', () => {
+test('the disc and the halo are each one sprite baked once, however often they are drawn', () => {
   assert.equal(disc(frame(1))[5], disc(frame(0.4))[5]);
+  assert.equal(frame(1)[0][3], frame(0.4)[0][3]);
 });
 
 test('it fades in at alpha k and swells from the red moon\'s size to its own; reduced motion only brightens', () => {

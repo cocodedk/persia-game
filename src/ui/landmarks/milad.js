@@ -13,7 +13,7 @@ const UNDER = 16; // blocks from the street down to the band's foot; the ground 
 
 export function milad(g, w, h, rng, L, lights) {
   const tone = {
-    '#': L.color, '+': L.lit, '-': L.ink, G: L.lamp, g: mix(L.lamp, L.glow, 0.5), h: mix(L.glow, L.ink, 0.55),
+    '#': L.color, '-': L.ink, G: L.lamp, g: mix(L.lamp, L.glow, 0.5), h: mix(L.glow, L.ink, 0.55),
     c: mix(L.color, L.ink, 0.35), C: mix(L.color, L.lit, 0.18), d: mix(L.glow, L.color, 0.6),
     w: L.tower, W: L.towerLit, f: mix(L.tower, L.towerLit, 0.3), x: mix(L.tower, L.ink, 0.3), v: mix(L.tower, L.ink, 0.6),
     R: L.red,

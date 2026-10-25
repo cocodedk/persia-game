@@ -10,9 +10,8 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { scoreText, waveText, localText, levelName, bossName, showsPersian } from './format.js';
+import { scoreText, scoreLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
-import { PACK } from '../data/pack.js';
 import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
 
@@ -34,8 +33,9 @@ function score(ctx, world) {
     shown = { n: world.score, level: world.level, text: scoreText(world.level, world.score) };
   }
   panel(ctx, 32, TOP, 360, PH);
-  if (showsPersian(world.level, 'scoreWord')) word(ctx, PACK.hud.score, 56, CAP, SCORE_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
-  else label(ctx, 'SCORE', 56, CAP);
+  const name = scoreLabel(world.level);
+  if (showsPersian(world.level, 'scoreWord')) word(ctx, name, 56, CAP, SCORE_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
+  else label(ctx, name, 56, CAP);
   text(ctx, shown.text, 54, MAIN, 46, '#ffffff', 'left', 900);
 }
 

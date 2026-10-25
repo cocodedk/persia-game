@@ -75,40 +75,16 @@ test('attacks come from real parts with real patterns, and are slower than their
   assert.ok(WARN >= 0.6, 'the telegraph is at least 0.6 s');
 });
 
-test('the giant cow: two horns and a curl for plates, two eyes and a mouth to burn, cows from the mouth and a rabbit from the curl in every phase', () => {
-  const def = bossDef('giant-cow');
-  assert.equal(def.species, 'cow');
-  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['hornL', 'hornR', 'curl']);
-  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
-  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
-  assert.deepEqual(def.phases.map((ph) => from(ph, 'cow').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
-  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'curl']]);
-});
-
-test('the giant dog: two ears and a nose for plates, two eyes and a mouth to burn, dogs from the mouth and a rabbit from the nose in every phase', () => {
-  const def = bossDef('giant-dog');
-  assert.equal(def.species, 'dog');
-  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['earL', 'earR', 'nose']);
-  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
-  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
-  assert.deepEqual(def.phases.map((ph) => from(ph, 'dog').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
-  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'nose']]);
-});
-
-test('the giant horse: two ears and a forelock for plates, two eyes and a mouth to burn, horses from the mouth and a rabbit from the forelock in every phase', () => {
-  const def = bossDef('giant-horse');
-  assert.equal(def.species, 'horse');
-  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['earL', 'earR', 'forelock']);
-  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
-  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
-  assert.deepEqual(def.phases.map((ph) => from(ph, 'horse').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
-  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'forelock']]);
-});
-
-test("the giant horse fights as the dog does: the same hp, phases, attacks and rates", () => {
-  const horse = bossDef('giant-horse');
-  const dog = bossDef('giant-dog');
-  assert.deepEqual(horse.parts.map((p) => p.hp), dog.parts.map((p) => p.hp));
-  const fight = (d) => d.phases.map(({ until, move, attacks, rate }) => ({ until, move, attacks, rate }));
-  assert.deepEqual(fight(horse), fight(dog));
-});
+// Each face-on giant: two plates and a third that the rabbit leaves from, two eyes and a mouth to burn,
+// its own species from the mouth in every phase (one, then two).
+for (const [species, plates, rabbitFrom] of [['cow', ['hornL', 'hornR', 'curl'], 'curl'], ['dog', ['earL', 'earR', 'nose'], 'nose'], ['horse', ['earL', 'earR', 'forelock'], 'forelock']]) {
+  test(`the giant ${species}: ${plates.join(', ')} for plates, two eyes and a mouth to burn, ${species}s from the mouth and a rabbit from the ${rabbitFrom} in every phase`, () => {
+    const def = bossDef(`giant-${species}`);
+    assert.equal(def.species, species);
+    assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), plates);
+    assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
+    const from = (ph, id) => ph.minions.filter((m) => m.species === id).map((m) => [m.count, m.from]);
+    assert.deepEqual(def.phases.map((ph) => from(ph, species)), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
+    for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit'), [[1, rabbitFrom]]);
+  });
+}
