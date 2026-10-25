@@ -107,16 +107,16 @@ Babak played the horse's fight and missed the names: the giant says only its own
 
 **Files:** `src/core/boss-attack.js` (`launch`), `src/ui/voice-queue.js` (`voiceLines` and its header); tests `test/core/` (the boss minion tests), `test/ui/voice-queue.test.js`.
 
-- [ ] `launch(world, b, m)`: once it has pushed at least one minion, `emit(world, 'minion', { species: m.species, count })`, `count` the number it launched; nothing when the source part is gone or the cap leaves no room.
-- [ ] `voiceLines`: a `'minion'` event says its species' line, as a `'boss'` event does. The word moment and the lit-up animals follow from the line (`sayingOf`), nothing else changes; the giant also lights up when its own species is named, as it does on arrival.
-- [ ] Tests: a launch emits one `'minion'` event with the species and the count; none when the part is destroyed or the cap is full; a `'minion'` event says that species' line, and a rabbit's says the rabbit's.
-- [ ] Screenshot level 7's fight as a horse leaves the giant, its word and Latin on screen.
-- [ ] Commit `feat: a giant names each animal it sends out`.
+- [x] `launch(world, b, m)`: once it has pushed at least one minion, `emit(world, 'minion', { species: m.species })`; nothing when the source part is gone or the cap leaves no room.
+- [x] `voiceLines`: a `'minion'` event says its species' line, as a `'boss'` event does. The word moment and the lit-up animals follow from the line (`sayingOf`), nothing else changes; the giant also lights up when its own species is named, as it does on arrival.
+- [x] Tests: a launch emits one `'minion'` event with the species, and the aliens it launched are there; none when the part is destroyed or the cap is full; a `'minion'` event says that species' line, and a rabbit's says the rabbit's.
+- [x] Screenshot level 7's fight as a horse leaves the giant, its word and Latin on screen.
+- [x] Commit `feat: a giant names each animal it sends out`.
 
 ### Task 6: Finish (Opus)
 
-- [ ] `simplify` over the level; apply what holds.
-- [ ] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from six levels to seven (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
-- [ ] Advisor review of the branch; apply what holds.
-- [ ] Memory: the state note, `landmark-backdrops`, a `level-7-decisions` note; `zg index` in `memory/`.
+- [x] `simplify` over the level; apply what holds.
+- [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from six levels to seven (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
+- [x] Advisor review of the branch; apply what holds.
+- [x] Memory: the state note, `landmark-backdrops`, a `level-7-decisions` note; `zg index` in `memory/`.
 - [ ] `npm test`, push `main`, check CI and Pages with `gh run list`.
