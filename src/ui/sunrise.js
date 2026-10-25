@@ -21,7 +21,7 @@ import { smooth } from '../core/math.js';
 const BLOCK = 2 * PIXEL; // 8
 const R = 13; // the disc's radius in blocks: 104 px, about half the moon's
 const RISE = 60; // s from just under the ridge to half the disc above it
-const SUN = { x: W - MOON.x, y: 832 }; // its centre once risen: opposite the moon, at the far ridge there
+const SUN = { x: W - MOON.x, y: 928 }; // its centre once risen: opposite the moon, half of it over level 9's far ridge
 const TONES = ['#ffbd3d', '#ffe27a', '#fffbe6']; // gold rim, pale gold, near-white core
 const RINGS = [[R + 6, 0.035], [R + 4, 0.05], [R + 2, 0.07]]; // radius in blocks, alpha
 

@@ -62,6 +62,11 @@ const NAMES = {
   'counting-2199-tal-38': 'si-o-hasht',
   'counting-2199-tal-39': 'si-o-noh',
   'counting-2199-ti-40': 'chehel',
+  'counting-2199-tal-41': 'chehel-o-yek',
+  'counting-2199-tal-42': 'chehel-o-do',
+  'counting-2199-tal-43': 'chehel-o-se',
+  'counting-2199-tal-44': 'chehel-o-chahar',
+  'counting-2199-tal-45': 'chehel-o-panj',
 };
 
 const lessons = process.argv[2];

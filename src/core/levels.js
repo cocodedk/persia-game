@@ -125,7 +125,19 @@ const LEVEL_8 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8];
+const LEVEL_9 = {
+  id: 'level-9', name: 'Level 9', place: 'Gonbad-e Qabus', seed: 94127, d: 0.45, boss: 'giant-camel', landmark: 'qabus',
+  persian: ['wave', 'score', 'combo', 'level', 'boss', 'waveWord', 'scoreWord', 'bombsWord', 'livesWord'], weather: { kind: 'sunrise', from: 3 },
+  waves: [
+    w('grid', 6, 'aacc', 'aimed', 1.2), // 41: camels over cats
+    w('escort', 3, 'orro', 'aimed', 1.2), // 42: cows guard two rows of rabbits
+    w('dive', 10, 'bbmm', 'fan', 1.25), // 43: birds and mice swoop, and the sun begins to rise
+    w('sway', 6, 'llf', 'fan', 1.3), // 44: two rows of lions over the fish: the gunners
+    w('spiral', 10, 'ccdd', 'ring', 1.4), // 45: forty cats and dogs
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8, LEVEL_9];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;
