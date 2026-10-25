@@ -1,4 +1,5 @@
 import { boss, weak, armor, atk, minion, phase } from './bosses-kit.js';
+import { giantHorse } from './bosses-data-2.js';
 
 // The boss: a giant angry cat head. Its parts are where the picture needs them: the brow plate
 // carrying the ears on top, a paw reaching out at each side, and the weak points underneath, two
@@ -177,7 +178,7 @@ const giantDog = boss('giant-dog', 'Giant Dog', 'dog', 270, { w: 640, h: 300 }, 
   ], { rate: 1.5, minions: [minion('dog', 2, 8, 'mouth'), minion('rabbit', 1, 12, 'nose')] }),
 ]);
 
-export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog];
+export const BOSS_DEFS = [giant, giantMouse, giantFish, giantBird, giantCow, giantDog, giantHorse];
 
 const BY_KIND = new Map(BOSS_DEFS.map((d) => [d.kind, d]));
 

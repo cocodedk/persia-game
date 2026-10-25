@@ -8,8 +8,8 @@ import { EMIT } from '../../src/core/patterns.js';
 
 const sum = (parts) => parts.reduce((n, p) => n + p.hp, 0);
 
-test("the giant cat, mouse, fish, bird, cow and dog are the bosses, looked up by kind", () => {
-  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow', 'giant-dog']);
+test("the giant cat, mouse, fish, bird, cow, dog and horse are the bosses, looked up by kind", () => {
+  assert.deepEqual(BOSS_DEFS.map((d) => d.kind), ['giant', 'giant-mouse', 'giant-fish', 'giant-bird', 'giant-cow', 'giant-dog', 'giant-horse']);
   for (const def of BOSS_DEFS) assert.equal(bossDef(def.kind), def);
   assert.equal(bossDef('nope'), undefined);
 });
@@ -93,4 +93,22 @@ test('the giant dog: two ears and a nose for plates, two eyes and a mouth to bur
   const from = (ph, species) => ph.minions.filter((m) => m.species === species);
   assert.deepEqual(def.phases.map((ph) => from(ph, 'dog').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
   for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'nose']]);
+});
+
+test('the giant horse: two ears and a forelock for plates, two eyes and a mouth to burn, horses from the mouth and a rabbit from the forelock in every phase', () => {
+  const def = bossDef('giant-horse');
+  assert.equal(def.species, 'horse');
+  assert.deepEqual(def.parts.filter((p) => !p.weak).map((p) => p.id), ['earL', 'earR', 'forelock']);
+  assert.deepEqual(def.parts.filter((p) => p.weak).map((p) => p.id), ['eyeL', 'eyeR', 'mouth']);
+  const from = (ph, species) => ph.minions.filter((m) => m.species === species);
+  assert.deepEqual(def.phases.map((ph) => from(ph, 'horse').map((m) => [m.count, m.from])), [[[1, 'mouth']], [[2, 'mouth']], [[2, 'mouth']]]);
+  for (const ph of def.phases) assert.deepEqual(from(ph, 'rabbit').map((m) => [m.count, m.from]), [[1, 'forelock']]);
+});
+
+test("the giant horse fights as the dog does: the same hp, phases, attacks and rates", () => {
+  const horse = bossDef('giant-horse');
+  const dog = bossDef('giant-dog');
+  assert.deepEqual(horse.parts.map((p) => p.hp), dog.parts.map((p) => p.hp));
+  const fight = (d) => d.phases.map(({ until, move, attacks, rate }) => ({ until, move, attacks, rate }));
+  assert.deepEqual(fight(horse), fight(dog));
 });
