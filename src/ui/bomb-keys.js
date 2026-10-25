@@ -4,9 +4,8 @@
 //   bombKeys(ctx, x, y, touch)   x is the left end of the hint's 26 px slot, y its vertical middle
 import { roundRect } from './sprites.js';
 import { TAU } from '../core/math.js';
-import { text } from './hud-kit.js';
+import { DIM, text } from './hud-kit.js';
 
-const DIM = 'rgba(255,255,255,0.62)'; // the HUD's label colour
 const LIT = 'rgba(255,255,255,0.95)';
 const CAP_H = 12; // a little over the label's cap height (11 px)
 

@@ -1,7 +1,19 @@
-// HUD building blocks shared by hud.js: panels, text, and the small icons (ships for lives, bombs).
-import { INK, roundRect } from './sprites.js';
+// HUD building blocks shared by hud.js: panels, text, and the small icons (ships for lives, bombs),
+// and where the panels sit.
+import { W, INK, roundRect } from './sprites.js';
 import { TAU } from '../core/math.js';
+import { HUD_BOTTOM } from '../core/kinds.js';
 import { PACK } from '../data/pack.js';
+
+export const TOP = 16; // every panel's top
+export const PH = HUD_BOTTOM - TOP; // panel height
+// The lives and bombs panel, and the bombs half of it (where the BOMBS label starts): a touch that
+// lands there drops a bomb (input.js).
+export const STOCK_W = 300;
+export const STOCK_X = W - 32 - STOCK_W;
+export const BOMBS_DX = 172;
+export const BOMB_PANEL = { x: STOCK_X + BOMBS_DX, y: TOP, w: STOCK_W - BOMBS_DX, h: PH };
+export const DIM = 'rgba(255,255,255,0.62)'; // a caption's colour
 
 // The pack's digits face first (word-moment.js loads it): it sets the Persian digits of a wave count
 // or a score and nothing else, so every other character comes from the system face.
@@ -39,7 +51,7 @@ export function word(ctx, s, x, y, size, color, align = 'center') {
 }
 
 // A small spaced-out caption.
-export function label(ctx, s, x, y, align = 'left', color = 'rgba(255,255,255,0.62)') {
+export function label(ctx, s, x, y, align = 'left', color = DIM) {
   ctx.letterSpacing = '3px';
   text(ctx, s, x, y, 15, color, align, 800);
   ctx.letterSpacing = '0px';

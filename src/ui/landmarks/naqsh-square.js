@@ -5,7 +5,7 @@
 // water, V X Y the dome's reflection.
 import { int } from '../../core/rng.js';
 import { PIXEL } from '../sprites.js';
-import { BASE, key, brick, lamp } from './yazd-brick.js';
+import { BASE, PARAPET, key, brick, lamp } from './yazd-brick.js';
 import { dome } from './yazd-roof.js';
 
 const D = 2;
@@ -13,7 +13,6 @@ const BAY = 10; // blocks from one pier to the next
 const GROUND = { tall: 18, open: 13, w: 8 }; // the lower floor's wall, its arches' height and width
 const UPPER = { up: 20, tall: 14, open: 9, w: 6 };
 const ROOF = 34; // the parapet's lowest row; it is three rows deep
-const PARAPET = [-0.3, 0, 0.28]; // its lit top, its face, and the shadow it throws
 const edge = (i) => (i === 0 ? -0.1 : i === BAY - 1 ? 0.22 : 0); // a pier's lit left edge and shaded right
 
 // An opening `w` wide and `tall` high with a round head, its left edge on column x and its foot on

@@ -12,13 +12,11 @@ import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
 import { scoreText, scoreLabel, bombsLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
-import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
+import { TOP, PH, STOCK_W, STOCK_X, BOMBS_DX, DIM, panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
 import { bombKeys } from './bomb-keys.js';
 import { touchSeen } from './input.js';
 
-const TOP = 16;
-const PH = HUD_BOTTOM - TOP; // panel height
 const CAP = TOP + 22; // caption row
 const MAIN = TOP + 55; // big number row
 // The combo number: its ink centre (0.07 em above the 'middle' line it is drawn on) sits halfway
@@ -31,10 +29,11 @@ const SCORE_WORD_SIZE = 18;
 // The bombs' Persian label has no alef to match to the caps: at this size its body fills the band the
 // caps of BOMBS filled, standing on their baseline, and the hint stays a clear 36 px to its right.
 const BOMBS_WORD_SIZE = 24;
-// The lives and bombs panel, and the bombs half of it (where the BOMBS label starts): a tap there drops a bomb (input.js).
-const STOCK_X = W - 32 - 300;
-const BOMBS_DX = 172;
-export const BOMB_PANEL = { x: STOCK_X + BOMBS_DX, y: TOP, w: 300 - BOMBS_DX, h: PH };
+// A panel's caption: the pack's word where the level shows `part` in Persian, else a spaced label.
+function caption(ctx, level, part, s, x, size) {
+  if (showsPersian(level, part)) word(ctx, s, x, CAP, size, DIM, 'left');
+  else label(ctx, s, x, CAP);
+}
 
 let shown = { n: NaN, level: null, text: '' }; // the score as last formatted, and for which level
 function score(ctx, world) {
@@ -42,9 +41,7 @@ function score(ctx, world) {
     shown = { n: world.score, level: world.level, text: scoreText(world.level, world.score) };
   }
   panel(ctx, 32, TOP, 360, PH);
-  const name = scoreLabel(world.level);
-  if (showsPersian(world.level, 'scoreWord')) word(ctx, name, 56, CAP, SCORE_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
-  else label(ctx, name, 56, CAP);
+  caption(ctx, world.level, 'scoreWord', scoreLabel(world.level), 56, SCORE_WORD_SIZE);
   text(ctx, shown.text, 54, MAIN, 46, '#ffffff', 'left', 900);
 }
 
@@ -139,11 +136,9 @@ function ring(ctx, s, look, cx, cy, t) {
 function stock(ctx, world, look, t) {
   const s = world.ship;
   const x = STOCK_X;
-  panel(ctx, x, TOP, 300, PH);
+  panel(ctx, x, TOP, STOCK_W, PH);
   label(ctx, 'LIVES', x + 24, CAP);
-  const bombs = bombsLabel(world.level);
-  if (showsPersian(world.level, 'bombsWord')) word(ctx, bombs, x + BOMBS_DX, CAP, BOMBS_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
-  else label(ctx, bombs, x + BOMBS_DX, CAP);
+  caption(ctx, world.level, 'bombsWord', bombsLabel(world.level), x + BOMBS_DX, BOMBS_WORD_SIZE);
   bombKeys(ctx, x + 250, CAP, touchSeen());
   for (let i = 0; i < LIVES; i++) shipIcon(ctx, x + 38 + i * 38, MAIN + 2, look.palette.accent, i < s.lives);
   for (let i = 0; i < BOMB_MAX; i++) bombIcon(ctx, x + 186 + i * 36, MAIN + 2, look.power.bomb, i < s.bombs);

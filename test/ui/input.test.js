@@ -1,10 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createInput, readInput, resetInput, touchSeen } from '../../src/ui/input.js';
-import { BOMB_PANEL } from '../../src/ui/hud.js';
+import { BOMB_PANEL } from '../../src/ui/hud-kit.js';
 
 // The real handlers, fed fake pointer events: window listeners are kept by type, the canvas's own
-// pointerdown runs first (as it bubbles to the window). The view is a 1:1 fit of the 1920 x 1080 world.
+// pointerdown runs first (as it bubbles to the window). The view is a 1:1 fit of the 1920 x 1080 world,
+// read once before any touch, as play reads it every tick.
 const view = {
   canvas: { width: 1920, height: 1080, getBoundingClientRect: () => ({ left: 0, top: 0, width: 1920, height: 1080 }) },
   fit: { s: 1, ox: 0, oy: 0 },
@@ -23,7 +24,9 @@ function make() {
     if (type === 'pointerdown') own.pointerdown(ev);
     for (const fn of on[type] ?? []) fn(ev);
   };
-  return { input, fire, read: () => readInput(input, view) };
+  const read = () => readInput(input, view);
+  read();
+  return { input, fire, read };
 }
 
 test('no touch has been seen until one goes down, and then it stays seen', () => {
@@ -88,14 +91,32 @@ test('a tap shorter than a frame still bombs once, and steers nothing', () => {
   assert.deepEqual([next.bomb, next.target], [false, null]);
 });
 
-test('a pointercancel ends the hold the same way', () => {
+test('a pointercancel ends a bomb touch the same way', () => {
   const { input, fire, read } = make();
   fire('pointerdown', PANEL);
   read();
   fire('pointercancel');
   const r = read();
   assert.deepEqual([r.bomb, r.fire, r.target], [false, false, null]);
-  assert.equal(input.mouse.active, false);
+  assert.deepEqual([input.mouse.active, input.bombTouches.size], [false, 0]);
+});
+
+test('a thumb steering and firing keeps doing both while another finger taps the panel', () => {
+  const { fire, read } = make();
+  const thumb = { pointerId: 1 };
+  const tap = { pointerId: 2 };
+  fire('pointerdown', FIELD, thumb);
+  read();
+  fire('pointerdown', PANEL, tap);
+  fire('pointermove', { x: PANEL.x + 4, y: PANEL.y + 3 }, tap);
+  const down = read();
+  assert.deepEqual([down.bomb, down.fire, down.target], [true, true, FIELD]);
+  fire('pointerup', PANEL, { ...tap, buttons: 0 });
+  const lifted = read();
+  assert.deepEqual([lifted.bomb, lifted.fire, lifted.target], [false, true, FIELD]);
+  const on = { x: 700, y: 650 };
+  fire('pointermove', on, thumb);
+  assert.deepEqual(read().target, on);
 });
 
 test('a second tap bombs again', () => {
@@ -112,7 +133,7 @@ test('a screen taking over drops a bomb touch', () => {
   const { input, fire, read } = make();
   fire('pointerdown', PANEL);
   resetInput(input);
-  assert.deepEqual([read().bomb, input.mouse.hold], [false, false]);
+  assert.deepEqual([read().bomb, input.bombTouches.size], [false, 0]);
 });
 
 test('the mouse is unchanged on the panel: the left button fires and steers, the right bombs, keys bomb', () => {

@@ -3,11 +3,10 @@
 // street, the middle one lit windows, the far one a few lit specks. layout() fixes a row's houses
 // and lights its lamps; paintRow() paints them, so a lamp lights its neighbours too.
 import { int } from '../../core/rng.js';
-import { BASE, brick, lamp } from './yazd-brick.js';
+import { BASE, PARAPET, brick, lamp } from './yazd-brick.js';
 import { KINDS, SIDE, widthOf, badgir, dome, stair } from './yazd-roof.js';
 
 const GARDEN = 68; // the near row leaves this half-width round the middle clear
-const PARAPET = [-0.3, 0, 0.28]; // the parapet's lit top, its face, and the shadow it throws
 
 // The houses of depth d along the row, left to right, as
 // { x, w, top, wind?: { x, kind, tall }, dome?: { x, r }, door?, wins: [[x, y, lit]] }.

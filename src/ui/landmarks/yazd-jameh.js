@@ -5,20 +5,13 @@
 // Painted as the middle row, so the houses in front of it hide its foot. `up` counts blocks up from
 // the street.
 import { PIXEL } from '../sprites.js';
-import { BASE, key, brick, light, lamp } from './yazd-brick.js';
+import { BASE, key, brick, light, lamp, archHalf } from './yazd-brick.js';
 
 const D = 1;
 const PORTAL = { half: 18, tall: 58 }; // the frame's half-width, its height
 const ARCHES = [[11, 22, 56], [9, 24, 52], [6, 27, 46]]; // outline, tile band, recess: half-width, where it starts to close, its point
 const TOWER = { at: 13, wide: 5, tall: 96, balcony: 80 }; // each minaret: from the middle, shaft width, height, its balcony's
 const DOME = { at: -36, r: 13, from: 30 }; // the great dome: from the middle, radius, the row its drum starts on
-
-// The half-width at row `up` of a pointed arch `half` wide, closing from `spring` to its point at `apex`.
-function archHalf([half, spring, apex], up) {
-  if (up <= spring) return half;
-  const s = ((up - spring) * Math.sqrt(3) * half) / (apex - spring);
-  return Math.max(0, Math.round(Math.sqrt(4 * half * half - s * s) - half));
-}
 
 export function jameh(art, cx) {
   const { box, row } = art;

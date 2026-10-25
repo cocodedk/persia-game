@@ -9,10 +9,11 @@
 //   readInput(input, view) -> raw  { dx, dy, fire, bomb, target } for quantizeInput
 //   resetInput(input)              forget held keys and buttons (a screen took over)
 // Keys with Alt, Ctrl or Meta held are left alone: Alt+Left must stay the browser's Back.
-// A touch that starts on the HUD's bombs panel bombs once and neither steers nor fires until it lifts
-// (a touch anywhere else steers and fires like the mouse's left button); touchSeen() says a touch came.
+// A touch that lands on the HUD's bombs panel bombs once, and that is all it does until it lifts: it
+// neither steers nor fires, so one thumb steers while another taps. A touch anywhere else steers and
+// fires like the mouse's left button. touchSeen() says a touch came.
 import { MOVE } from './keys.js';
-import { BOMB_PANEL } from './hud.js';
+import { BOMB_PANEL } from './hud-kit.js';
 
 const FIRE = ['Space'];
 const BOMB = ['KeyB', 'ShiftLeft', 'ShiftRight'];
@@ -24,9 +25,9 @@ export const touchSeen = () => touched;
 export function createInput(canvas) {
   const input = {
     canvas, down: new Set(), taps: new Set(),
-    // touchDown: where a touch went down, until readInput decides whose it is; hold: it is a bomb
-    // touch, still down or not yet read; touching: a finger is down
-    mouse: { x: 0, y: 0, left: false, right: false, active: false, touchDown: null, hold: false, touching: false },
+    mouse: { x: 0, y: 0, left: false, right: false, active: false },
+    bombTouches: new Set(), // the pointer ids of touches that landed on the bombs panel, until they lift
+    view: null, // the view of the last read: where the bombs panel is on the page
     onKey: null, onGesture: null,
   };
   const m = input.mouse;
@@ -52,6 +53,7 @@ export function createInput(canvas) {
   addEventListener('blur', () => resetInput(input)); // key-ups are lost while unfocused
 
   addEventListener('pointermove', (e) => {
+    if (input.bombTouches.has(e.pointerId)) return;
     if (e.clientX === m.x && e.clientY === m.y) return; // a synthetic move at rest is not steering
     m.x = e.clientX;
     m.y = e.clientY;
@@ -60,11 +62,15 @@ export function createInput(canvas) {
     if (m.right && !(e.buttons & 2)) m.right = false;
   });
   canvas.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'touch' && onPanel(input.view, e.clientX, e.clientY)) {
+      input.bombTouches.add(e.pointerId);
+      input.taps.add('Mouse2'); // one bomb, as from the right button
+      return;
+    }
     Object.assign(m, { x: e.clientX, y: e.clientY, active: true });
     if (e.button === 0) m.left = true;
     if (e.button === 2) m.right = true;
     input.taps.add(`Mouse${e.button}`);
-    if (e.pointerType === 'touch') Object.assign(m, { touchDown: { x: e.clientX, y: e.clientY }, touching: true });
     try {
       canvas.setPointerCapture(e.pointerId); // the pointerup arrives even outside the window
     } catch {
@@ -72,11 +78,15 @@ export function createInput(canvas) {
     }
   });
   addEventListener('pointerup', (e) => {
+    if (input.bombTouches.delete(e.pointerId)) return; // it held nothing the ship uses
     if (e.button === 0) m.left = false;
     if (e.button === 2) m.right = false;
-    if (e.pointerType === 'touch') m.touching = false;
   });
-  addEventListener('pointercancel', () => { m.left = false; m.right = false; m.touching = false; });
+  addEventListener('pointercancel', (e) => {
+    if (input.bombTouches.delete(e.pointerId)) return;
+    m.left = false;
+    m.right = false;
+  });
   addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'touch') touched = true;
     gesture();
@@ -92,8 +102,7 @@ export function resetInput(input) {
   input.mouse.active = false;
   input.mouse.left = false;
   input.mouse.right = false;
-  input.mouse.touchDown = null;
-  input.mouse.hold = false;
+  input.bombTouches.clear(); // their lifts may be lost while unfocused
 }
 
 const any = (input, codes) => codes.some((c) => input.down.has(c) || input.taps.has(c));
@@ -109,7 +118,14 @@ function toWorld(view, x, y) {
   return { x: (px - f.ox) / f.s, y: (py - f.oy) / f.s };
 }
 
+function onPanel(view, x, y) {
+  const p = view && toWorld(view, x, y);
+  return Boolean(p) && p.x >= BOMB_PANEL.x && p.x < BOMB_PANEL.x + BOMB_PANEL.w
+    && p.y >= BOMB_PANEL.y && p.y < BOMB_PANEL.y + BOMB_PANEL.h;
+}
+
 export function readInput(input, view) {
+  input.view = view; // a pointerdown has no view of its own
   let dx = 0;
   let dy = 0;
   for (const code of input.down) {
@@ -119,24 +135,11 @@ export function readInput(input, view) {
     dy += mv[1];
   }
   const m = input.mouse;
-  let tap = false; // a touch on the bombs panel went down since the last read
-  if (m.touchDown) {
-    const p = toWorld(view, m.touchDown.x, m.touchDown.y);
-    m.hold = Boolean(p) && p.x >= BOMB_PANEL.x && p.x < BOMB_PANEL.x + BOMB_PANEL.w
-      && p.y >= BOMB_PANEL.y && p.y < BOMB_PANEL.y + BOMB_PANEL.h;
-    tap = m.hold;
-    m.touchDown = null;
-  }
-  const hold = m.hold; // this read still belongs to a bomb touch, which steers and fires nothing
-  if (hold && !m.touching) { // it lifted: the ship stays put, not pulled to the HUD
-    m.hold = false;
-    m.active = false;
-  }
   const raw = {
     dx, dy,
-    fire: any(input, FIRE) || (!hold && (m.left || input.taps.has('Mouse0'))),
-    bomb: any(input, BOMB) || m.right || input.taps.has('Mouse2') || tap,
-    target: m.active && !hold ? toWorld(view, m.x, m.y) : null,
+    fire: any(input, FIRE) || m.left || input.taps.has('Mouse0'),
+    bomb: any(input, BOMB) || m.right || input.taps.has('Mouse2'),
+    target: m.active ? toWorld(view, m.x, m.y) : null,
   };
   input.taps.clear(); // read by this tick
   return raw;

@@ -1,7 +1,7 @@
 // The mud brick Yazd is built of (yazd.js and its parts): a tone ramp for each depth of the city,
-// the lamps that light the walls round them, and a wall of brick laid in courses. A brick tone is a
-// number, depth * SHADES + level: depth 0 is the far row, faded toward the haze, 1 the middle, 2
-// the near; level 0 is lit warm by a lamp, SHADES - 1 deep shade. A caller asks for a darkness
+// the lamps that light the walls round them, a wall of brick laid in courses, a parapet's shading
+// and a pointed arch's outline. A brick tone is a number, depth * SHADES + level: depth 0 is the
+// far row, faded toward the haze, 1 the middle, 2 the near; level 0 is lit warm by a lamp, SHADES - 1 deep shade. A caller asks for a darkness
 // 0..1 and `key` picks the level. The other tones are letters: '-' ink, G lamp, g glow, h dim glow,
 // k vent slot, K its back wall, w pool line, W its glint, n the pool's depth, t cypress, e its lit
 // edge, T tile, U lit tile, u dark tile.
@@ -15,6 +15,15 @@ export const BASE = [0.6, 0.54, 0.48]; // how dark a plain wall is, by depth
 export const key = (d, dark) => d * SHADES + Math.round(clamp(dark, 0, 1) * (SHADES - 1));
 
 export const hazeOf = (L) => mix(L.lit, L.color, 0.5); // the colour the far rows fade toward
+
+export const PARAPET = [-0.3, 0, 0.28]; // a parapet's lit top, its face, and the shadow it throws
+
+// The half-width at row `up` of a pointed arch `half` wide, closing from `spring` to its point at `apex`.
+export function archHalf([half, spring, apex], up) {
+  if (up <= spring) return half;
+  const s = ((up - spring) * Math.sqrt(3) * half) / (apex - spring);
+  return Math.max(0, Math.round(Math.sqrt(4 * half * half - s * s) - half));
+}
 
 export function tones(L) {
   const haze = hazeOf(L);

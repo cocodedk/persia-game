@@ -17,7 +17,7 @@
 // LEVEL is level 1; LEVELS every level in the order they are played.
 //
 //   w(formation, cols, rows, pattern, speed)  one wave. `rows` is one species letter per row, top
-//        row first: d dog, c cat, b bird, f fish, h horse, o cow, r rabbit, m mouse. Every alien of a row is
+//        row first, from LETTER below (d dog, c cat, ...). Every alien of a row is
 //        that row's animal and fights as its role (SPECIES, in makeSlots), so a rabbit row holds
 //        `cols` carriers; rabbit rows therefore live in narrow waves (3 cols), which keeps the
 //        power-ups worth having.
