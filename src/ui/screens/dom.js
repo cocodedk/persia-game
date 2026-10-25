@@ -34,14 +34,15 @@ export function button(label, onPick, cls = 'btn') {
 
 // Move focus among `items` (elements in reading order) with the arrows; `cols` > 1 is a grid.
 // A plain list (cols 1) wraps around and takes left/right as well, for menus laid out in a row.
-// Enter / Space pick the focused item. Returns true when the key was handled.
+// In a grid left and right still walk the items in order and wrap, and up and down change row and
+// stop at the first and last. Enter / Space pick the focused item. Returns true when the key was handled.
 export function navigate(items, code, cols = 1) {
   const i = items.indexOf(document.activeElement);
   const mv = MOVE[code];
   if (mv) {
     if (i < 0) return focusItem(items[0]), true; // focus went astray: start over at the top
     let j = i + mv[0] + mv[1] * cols;
-    if (cols === 1) j = (j + items.length) % items.length;
+    if (cols === 1 || mv[1] === 0) j = (j + items.length) % items.length;
     if (j >= 0 && j < items.length) focusItem(items[j]);
     return true;
   }

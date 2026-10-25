@@ -37,8 +37,8 @@ test("a boss's minion event says that species' line, every time, and a rabbit's 
   assert.deepEqual(lines([{ type: 'boss', kind: 'giant', species: 'horse' }, sent('rabbit')]), [species('horse'), species('rabbit')]);
 });
 
-test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one, twenty-six, thirty-one, thirty-six, forty-one', () => {
-  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']], [5, 26, ['dog', 'cat']], [6, 31, ['horse', 'dog']], [7, 36, ['lion', 'cat']], [8, 41, ['camel', 'cat']]]) {
+test('each later level\'s first wave counts on from the one before: six, eleven, sixteen, twenty-one, twenty-six, thirty-one, thirty-six, forty-one, forty-six', () => {
+  for (const [i, n, ids] of [[1, 6, ['dog', 'mouse']], [2, 11, ['bird', 'fish']], [3, 16, ['bird', 'horse']], [4, 21, ['cow', 'dog']], [5, 26, ['dog', 'cat']], [6, 31, ['horse', 'dog']], [7, 36, ['lion', 'cat']], [8, 41, ['camel', 'cat']], [9, 46, ['fox', 'camel']]]) {
     assert.deepEqual(lines(createWorld(LEVELS[i]).events), [number(n), ...ids.map(species)], LEVELS[i].id);
   }
 });

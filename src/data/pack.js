@@ -79,6 +79,11 @@ export const PACK = {
     { n: 43, word: '۴۳', say: 'chehel-o-se', clip: 'public/audio/chehel-o-se.mp3', ms: 1100 },
     { n: 44, word: '۴۴', say: 'chehel-o-chahar', clip: 'public/audio/chehel-o-chahar.mp3', ms: 1040 },
     { n: 45, word: '۴۵', say: 'chehel-o-panj', clip: 'public/audio/chehel-o-panj.mp3', ms: 1250 },
+    { n: 46, word: '۴۶', say: 'chehel-o-shesh', clip: 'public/audio/chehel-o-shesh.mp3', ms: 1100 },
+    { n: 47, word: '۴۷', say: 'chehel-o-haft', clip: 'public/audio/chehel-o-haft.mp3', ms: 1040 },
+    { n: 48, word: '۴۸', say: 'chehel-o-hasht', clip: 'public/audio/chehel-o-hasht.mp3', ms: 1200 },
+    { n: 49, word: '۴۹', say: 'chehel-o-noh', clip: 'public/audio/chehel-o-noh.mp3', ms: 1070 },
+    { n: 50, word: '۵۰', say: 'panjah', clip: 'public/audio/panjah.mp3', ms: 760 },
   ],
   weather: {
     rain: { word: 'باران', say: 'baran', clip: 'public/audio/baran.mp3', ms: 760 },

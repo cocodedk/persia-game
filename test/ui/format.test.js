@@ -56,9 +56,8 @@ test("a level with 'livesWord' labels its lives with the pack's word; the others
 });
 
 test("a level with 'comboWord' labels its combo with the pack's word; the others say COMBO", () => {
-  const probe = { ...LEVELS[8], persian: [...LEVELS[8].persian, 'comboWord'] };
-  assert.deepEqual(hudLabel(probe, 'combo'), { text: PACK.hud.combo, persian: true });
-  for (const level of LEVELS) assert.deepEqual(hudLabel(level, 'combo'), { text: 'COMBO', persian: false }, level.id);
+  assert.deepEqual(hudLabel(LEVELS[9], 'combo'), { text: PACK.hud.combo, persian: true });
+  for (const level of LEVELS.slice(0, 9)) assert.deepEqual(hudLabel(level, 'combo'), { text: 'COMBO', persian: false }, level.id);
 });
 
 test("level 4 names itself and counts its combo in the pack's digits; levels 1 to 3 in ASCII", () => {

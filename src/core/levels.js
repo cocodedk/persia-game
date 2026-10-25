@@ -138,7 +138,20 @@ const LEVEL_9 = {
   ],
 };
 
-export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8, LEVEL_9];
+const LEVEL_10 = {
+  id: 'level-10', name: 'Level 10', place: 'Tomb of Ferdowsi', seed: 104173, d: 0.45, boss: 'giant-fox', landmark: 'ferdowsi',
+  persian: ['wave', 'score', 'combo', 'level', 'boss', 'waveWord', 'scoreWord', 'bombsWord', 'livesWord', 'comboWord'],
+  weather: { kind: 'rainbow', from: 3 },
+  waves: [
+    w('grid', 6, 'xxaa', 'aimed', 1.2), // 46: foxes over camels
+    w('escort', 3, 'orro', 'aimed', 1.2), // 47: cows guard two rows of rabbits
+    w('dive', 10, 'bbmm', 'fan', 1.25), // 48: birds and mice swoop, and the rainbow comes
+    w('sway', 6, 'llh', 'fan', 1.3), // 49: two rows of lions over the horses: the gunners
+    w('spiral', 10, 'ccdd', 'ring', 1.4), // 50: forty cats and dogs
+  ],
+};
+
+export const LEVELS = [LEVEL, LEVEL_2, LEVEL_3, LEVEL_4, LEVEL_5, LEVEL_6, LEVEL_7, LEVEL_8, LEVEL_9, LEVEL_10];
 let count = 0;
 for (const level of LEVELS) {
   level.first = count + 1;

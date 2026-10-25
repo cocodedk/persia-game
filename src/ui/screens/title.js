@@ -1,9 +1,12 @@
 // Title: the logo over a live autopilot battle, and the main menu.
 //   titleScreen({ items: [{ label, place, art, pick }], nowShowing }) -> screen
 // items is the menu in order, one card per level: its picture (`art`, a canvas) over its name and
-// its place; nowShowing names the backdrop's level.
+// its place; nowShowing names the backdrop's level. The arrows walk the cards in order, left and right
+// round the whole list, up and down between its rows.
 import { h, button, navigate, shell } from './dom.js';
 import { play } from '../audio.js';
+
+const PER_ROW = 5; // the cards wrap five to a row (.level-cards, css/screens.css)
 
 export function titleScreen({ items, nowShowing }) {
   const el = shell('title');
@@ -19,5 +22,5 @@ export function titleScreen({ items, nowShowing }) {
   const hint = h('p', 'hint', 'Enter play · M sound');
   const now = nowShowing ? h('p', 'now-showing', h('span', null, 'Now showing'), ` ${nowShowing}`) : null;
   el.append(h('div', 'title-stack', logo, menu), now, hint);
-  return { el, focus: cards[0], onKey: (code) => navigate(cards, code) };
+  return { el, focus: cards[0], onKey: (code) => navigate(cards, code, PER_ROW) };
 }
