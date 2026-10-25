@@ -506,6 +506,66 @@ Failing level 9 retries level 9 from wave 41.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
+## Level 10 specification
+
+Decided with Babak on 2026-10-25, after level 9 was built.
+
+**Shape.** Five waves and a boss, no harder to survive than level 9. The waves are 46 to 50.
+
+**Where.** The Tomb of Ferdowsi at Tus, near Mashhad, at night. A broad cube of white stone stands on a
+wide, low platform of steps. Four tall columns at its corners carry double-headed bull capitals, as at
+Persepolis, and they hold up a deep stepped cornice. A pair of shorter columns is set into each wall.
+The winged figure is carved high on the front, over panels of verse. It is floodlit from below, so the
+white stone glows against the night. In front, a long pool runs up to the foot of the steps. Its fountains
+catch the light, and it mirrors the tomb between lawns and low hedges. Lamps line the paths, and there
+are trees on either side. Set beside level 9's slim tower it reads wide and squat, and its cornice shows
+on the title card. The sky, the far mountains, the palette and the music stay the world's.
+
+**Enemies.** A new animal, the fox, روباه (rubah), brings the game's animals to eleven. It is the boss's
+species. The fox dives: it fights as a diver, as the cat, the mouse and the lion do. It comes first in
+wave 46, two rows of foxes over two rows of camels, where its name is said and shown as every species'
+is. Wave 47 is the escort with the rabbits. The horse comes back in wave 49, and the fish sits this
+level out. The level has no more shooting animals than level 9 (18), no wave with more divers than any
+earlier level's, and level 9's pace. It fields ten animals, every one but the fish.
+
+**The fox.** A small pixel sprite like the other animals: a russet face that narrows to a pointed muzzle
+with a black nose, white cheeks, tall pointed ears with black backs, amber eyes and lit red brows. It
+is redder than the cat, so the two never read alike. Its second frame shows its teeth. It walks in the
+parade after the camel, in the pack's order.
+
+**Boss.** A giant fox, face on. Its two tall black-backed ears and the russet brow between them are its
+plates. The eyes and the jaws under the black nose burn, and foxes pour from the jaws. A rabbit
+leaves the brow in every phase. It fights as the dog, the horse, the lion and the camel do. Its name
+is said as it arrives, it lights up while the name is said, and its HUD bar reads روباه.
+
+**Rainbow.** From wave 48 to the end, the giant's fight included, a rainbow stands in the night sky. It
+is a moonbow: as one does at night, it stands opposite the moon, so its arc rises behind the tomb from
+the right. Its seven pale bands are pixel blocks, faint enough that the night stays night. It comes in
+over the weather's two-second fade, then stays. As it begins, the voice says رنگین‌کمان (rangin-kaman)
+after the wave's number and species, and the word moment shows it. It does not move, so reduced motion
+does not change it, and neither does half quality. The rainbow is the seventh kind of a level's weather.
+It belongs to the sky, behind the mountains and the landmark.
+
+**Spoken set.** Level 9's set, plus two clips already approved, `counting-2199-tal-48` (۴۸,
+chehel-o-hasht) and `counting-2199-ti-50` (۵۰, panjah). Five more are made and approved first, in a
+review round in the lessons repo. The two words روباه and رنگین‌کمان are kept there as entries no lesson
+teaches, and the numbers are 46, 47 and 49 (chehel-o-shesh, chehel-o-haft, chehel-o-noh). Every clip
+carries `reviewedBy: ["cocodedk"]`.
+
+**The ninth step of the Persian ramp.** The HUD's combo label reads پیاپی (payapey, one after another)
+in the pack's word face, centred over the meter in the place and size of COMBO. It is read, never
+heard. Everything level 9 shows in Persian stays Persian. The end cards' labels and the title menu stay
+English.
+
+**The title.** Ten cards, in two rows of five. One row would squeeze every place name below reading
+size in a 1280 x 720 window. Each place name sits on one line, and the logo, both rows and the hint fit
+at 1920 x 1080 and in a 1280 x 720 window. Left and Right walk the cards in level order; Up and Down change row.
+
+**Reaching it.** It opens the way levels 2 to 9 do: the title lists Level 10, and level 9's results
+offer Next. Failing level 10 retries it from wave 46.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
 ## Word pack
 
 One data file, for example `src/data/pack.js`, that is the only place language lives:
