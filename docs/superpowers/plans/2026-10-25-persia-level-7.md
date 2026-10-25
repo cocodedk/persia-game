@@ -88,18 +88,30 @@ Babak approves the re-recorded composed numbers in the lessons repo first. Babak
 
 **Files:** `src/core/levels.js` (`LEVEL_7`), `src/data/pack.js` (numbers 31 to 35), `scripts/lift-clips.mjs`, `public/audio/`; tests as level 6's.
 
-- [ ] `LEVEL_7`: `id 'level-7'`, `name 'Level 7'`, `place 'Milad Tower'`, `seed: 72269`, `d: 0.45` (level 6's), `boss 'giant-horse'`, `landmark 'milad'`, `persian` level 6's plus `'scoreWord'`, `weather: { kind: 'moon', from: 3 }`. Waves at level 6's speeds, two species each (`levels.test.js` checks it): 31 `w('grid', 6, 'hhdd', 'aimed', 1.2)` (horses over dogs), 32 `w('escort', 3, 'orro', 'aimed', 1.2)`, 33 `w('dive', 10, 'bbmm', 'fan', 1.25)` (birds and mice swoop, and the moon turns white), 34 `w('sway', 6, 'hhf', 'fan', 1.3)` (two rows of horses over the fish: the gunners), 35 `w('spiral', 10, 'ccdd', 'ring', 1.4)` (forty cats and dogs). All eight animals; four rows of horses, where no level before had more than two, and 30 gunner aliens, under level 6's 32. The game relaxes and teaches: no harder to survive than level 6.
-- [ ] Pack numbers 31 to 35: `say` `si-o-yek`, `si-o-do`, `si-o-se`, `si-o-chahar`, `si-o-panj`; `ms` from the approved records; clips from `counting-2199-tal-31` to `-35`. The manifest gains five. Re-lift 21 to 29 from their re-recorded approvals: the same files and `say` names, new audio, the pack's `ms` and the manifest's entries for them updated; levels 5 and 6 then say "bist-o-…".
-- [ ] `test/core/boss-kit.js` `realLevel`: drop Task 2's `?? LEVELS.at(-1)`.
-- [ ] Seven cards: the row already shrinks them, but at 1280 x 720 a card has about 137 px for text and "Tomb of Cyrus" in 1.25rem bold needs about 145, so expect to trim `.card-place` (to about 1.1rem) until every place name holds one line; screenshot 1920 x 1080 and 1280 x 720.
-- [ ] Tests that change or grow:
+- [x] `LEVEL_7`: `id 'level-7'`, `name 'Level 7'`, `place 'Milad Tower'`, `seed: 72269`, `d: 0.45` (level 6's), `boss 'giant-horse'`, `landmark 'milad'`, `persian` level 6's plus `'scoreWord'`, `weather: { kind: 'moon', from: 3 }`. Waves at level 6's speeds, two species each (`levels.test.js` checks it): 31 `w('grid', 6, 'hhdd', 'aimed', 1.2)` (horses over dogs), 32 `w('escort', 3, 'orro', 'aimed', 1.2)`, 33 `w('dive', 10, 'bbmm', 'fan', 1.25)` (birds and mice swoop, and the moon turns white), 34 `w('sway', 6, 'hhf', 'fan', 1.3)` (two rows of horses over the fish: the gunners), 35 `w('spiral', 10, 'ccdd', 'ring', 1.4)` (forty cats and dogs). All eight animals; four rows of horses, where no level before had more than two, and 30 gunner aliens, under level 6's 32. The game relaxes and teaches: no harder to survive than level 6.
+- [x] Pack numbers 31 to 35: `say` `si-o-yek`, `si-o-do`, `si-o-se`, `si-o-chahar`, `si-o-panj`; `ms` from the approved records; clips from `counting-2199-tal-31` to `-35`. The manifest gains five. Re-lift 21 to 29 from their re-recorded approvals: the same files and `say` names, new audio, the pack's `ms` and the manifest's entries for them updated; levels 5 and 6 then say "bist-o-…".
+- [x] `test/core/boss-kit.js` `realLevel`: drop Task 2's `?? LEVELS.at(-1)`.
+- [x] Seven cards: the row already shrinks them, but at 1280 x 720 a card has about 137 px for text and "Tomb of Cyrus" in 1.25rem bold needs about 145, so expect to trim `.card-place` (to about 1.1rem) until every place name holds one line; screenshot 1920 x 1080 and 1280 x 720.
+- [x] Tests that change or grow:
   - `test/core/weather.test.js`: `KIND` gains `'level-7': 'moon'`; the level/kind pairs gain `[LEVELS[6], 'moon']`.
   - `test/ui/levels-flow.test.js`: level 6's results offer `['Next', 'Again', 'Title']`, level 7's `['Again', 'Title']`; `started` gains `LEVELS[6]`; the first waves gain 31; the parade walks all eight in level 7.
   - `test/core/levels.test.js`: wave numbering 31 and 35; a level 7 test, `horses(LEVEL_7) > 2 && LEVELS.slice(0, 6).every((l) => horses(l) <= 2)` (rows), `gunners(LEVEL_7) <= gunners(LEVEL_6)` (aliens whose `SPECIES` role is `'gunner'`, rows times `cols`), `LEVEL_7.d === LEVEL_6.d` and each wave's `speed` at or under level 6's same wave, its giant's species `'horse'`; `LEVEL_7.persian` deepEquals `[...LEVEL_6.persian, 'scoreWord']`; level 7's giant sends a rabbit every phase.
   - `test/ui/voice-queue.test.js`: the weather loop covers level 7; the first-wave test gains level 7 saying ۳۱ then horse and dog.
   - The autopilot clears level 7 and survives its first 60 s, as the level 6 test.
-- [ ] Play it at `?debug&level=7&auto`: the word moments, the moon turning, the horse's fight with its Persian bar, امتیاز over the score, the victory card with LEVEL ۷.
-- [ ] Commit `feat: level 7, the giant horse and waves thirty-one to thirty-five`.
+- [x] Play it at `?debug&level=7&auto`: the word moments, the moon turning, the horse's fight with its Persian bar, امتیاز over the score, the victory card with LEVEL ۷.
+- [x] Commit `feat: level 7, the giant horse and waves thirty-one to thirty-five`.
+
+### Task 5b: The giants name what they send
+
+Babak played the horse's fight and missed the names: the giant says only its own. He chose (2026-10-25) that every giant, levels 1 to 7, names each animal it sends out, every time it does.
+
+**Files:** `src/core/boss-attack.js` (`launch`), `src/ui/voice-queue.js` (`voiceLines` and its header); tests `test/core/` (the boss minion tests), `test/ui/voice-queue.test.js`.
+
+- [ ] `launch(world, b, m)`: once it has pushed at least one minion, `emit(world, 'minion', { species: m.species, count })`, `count` the number it launched; nothing when the source part is gone or the cap leaves no room.
+- [ ] `voiceLines`: a `'minion'` event says its species' line, as a `'boss'` event does. The word moment and the lit-up animals follow from the line (`sayingOf`), nothing else changes; the giant also lights up when its own species is named, as it does on arrival.
+- [ ] Tests: a launch emits one `'minion'` event with the species and the count; none when the part is destroyed or the cap is full; a `'minion'` event says that species' line, and a rabbit's says the rabbit's.
+- [ ] Screenshot level 7's fight as a horse leaves the giant, its word and Latin on screen.
+- [ ] Commit `feat: a giant names each animal it sends out`.
 
 ### Task 6: Finish (Opus)
 
