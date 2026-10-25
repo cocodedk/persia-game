@@ -512,6 +512,22 @@
     "sourceFile": "public/audio/vocabulary-3-mah.ed0a03c87bcc.mp3"
   },
   {
+    "file": "public/audio/aseman.mp3",
+    "clipId": "vocabulary-3-aseman",
+    "sha256": "abe847b272b4781ecad70fb3ff78755977c4c92b1d589bfcbe0a1c34663018e6",
+    "durationMs": 760,
+    "transcript": "آسِمان",
+    "synthesisText": "آسِمان",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-aseman.abe847b272b4.mp3"
+  },
+  {
     "file": "public/audio/bist-o-yek.mp3",
     "clipId": "counting-2199-tal-21",
     "sha256": "5c6e6a91ebf438b708b2055c7f1d6603b43d054928251d1652e0e9c1778d5327",

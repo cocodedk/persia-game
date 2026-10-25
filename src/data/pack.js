@@ -8,7 +8,7 @@
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms }, one per wave of the game, 1 to the last; `word` is n in
 //                 Persian digits, shown as it is said
-//   weather       { rain, stars, petals, moon }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
+//   weather       { rain, stars, petals, moon, dawn }, each { word, say, clip, ms }, by a level's weather kind (levels.js):
 //                 said after the number and species of the wave the weather begins with, shown as a
 //                 species' word is, without a face
 //   hud           { wave, score }, the words the HUD shows in place of its English labels (a level's
@@ -72,6 +72,7 @@ export const PACK = {
     stars: { word: 'ستاره', say: 'setare', clip: 'public/audio/setare.mp3', ms: 1120 },
     petals: { word: 'گل', say: 'gol', clip: 'public/audio/gol.mp3', ms: 760 },
     moon: { word: 'ماه', say: 'mah', clip: 'public/audio/mah.mp3', ms: 760 },
+    dawn: { word: 'آسمان', say: 'aseman', clip: 'public/audio/aseman.mp3', ms: 760 },
   },
   hud: { wave: 'موج', score: 'امتیاز' },
   digits: '۰۱۲۳۴۵۶۷۸۹',
