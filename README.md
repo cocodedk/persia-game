@@ -6,21 +6,21 @@ Persia is an arcade shooter for a laptop, played with keyboard and mouse in your
 
 ## What it is
 
-You fly a ship along the bottom of the screen and shoot angry pixel animals. There are seven levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Level 3 plays at the Tomb of Hafez in Shiraz, among cypresses and orange trees. Its waves count on from 11 to 15, all eight animals fly, and the boss is a giant fish. Level 4 plays at the Azadi Tower in Tehran. Its waves count on from 16 to 20, birds fill the sky, rain starts falling at wave 18, and the boss is a giant bird. Level 5 plays at the Tomb of Cyrus at Pasargadae, at night. Its waves count on from 21 to 25, cows fill more rows, stars start falling at wave 23, and the boss is a giant cow. Level 6 plays among the windcatchers of Yazd at night. Its waves count on from 26 to 30, dogs fill more rows than in any level before, flower petals start falling at wave 28, and the boss is a giant dog. Level 7 plays under the Milad Tower in Tehran at night. Its waves count on from 31 to 35, horses fill more rows than in any level before, the blood moon turns white at wave 33, and the boss is a giant horse. All seven levels are open from the start. The title screen shows them as cards side by side, each with a small picture of its place and the place's name.
+You fly a ship along the bottom of the screen and shoot angry pixel animals. There are eight levels of five waves each, and a wave is a group of enemies that flies in together. Level 1 plays over the ruins of Persepolis. There you meet a dog, a cow, a rabbit, a bird, a cat, a horse and a fish, and after wave 5 a giant cat arrives as the boss. Level 2 plays at night over Si-o-se-pol, the bridge of thirty-three arches in Isfahan. Its waves count on from 6 to 10, a mouse joins the animals, and the boss is a giant mouse. Level 3 plays at the Tomb of Hafez in Shiraz, among cypresses and orange trees. Its waves count on from 11 to 15, all eight animals fly, and the boss is a giant fish. Level 4 plays at the Azadi Tower in Tehran. Its waves count on from 16 to 20, birds fill the sky, rain starts falling at wave 18, and the boss is a giant bird. Level 5 plays at the Tomb of Cyrus at Pasargadae, at night. Its waves count on from 21 to 25, cows fill more rows, stars start falling at wave 23, and the boss is a giant cow. Level 6 plays among the windcatchers of Yazd at night. Its waves count on from 26 to 30, dogs fill more rows than in any level before, flower petals start falling at wave 28, and the boss is a giant dog. Level 7 plays under the Milad Tower in Tehran at night. Its waves count on from 31 to 35, horses fill more rows than in any level before, the blood moon turns white at wave 33, and the boss is a giant horse. Level 8 plays on Naqsh-e Jahan Square in Isfahan at night. Its waves count on from 36 to 40, a lion joins the animals and dives at your ship, dawn starts to colour the sky at wave 38, and the boss is a giant lion. All eight levels are open from the start. The title screen shows them as cards side by side, each with a small picture of its place and the place's name.
 
-You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after levels 1 to 6), Again and Title.
+You have three lives. Lose all three and the level starts again from its first wave. Beat the boss and that level's animals parade past, each named once. Then you see your score, with Next (after levels 1 to 7), Again and Title.
 
 The first time you start a level after the page loads, a short film-style opening runs. Press any key after the first second to skip it. Reloading the page brings it back.
 
-A voice speaks Persian as things happen. It says each wave's number as the wave starts and each animal's name the first time that animal appears in a wave. In a boss fight it names every animal the giant sends out, every time one comes. In level 4 it also says باران (baran, rain) when the rain starts, in level 5 ستاره (setare, star) when the stars start, in level 6 گل (gol, flower) when the petals start, and in level 7 ماه (mah, moon) when the moon turns white. Whatever it says also shows on screen for about a second:
+A voice speaks Persian as things happen. It says each wave's number as the wave starts and each animal's name the first time that animal appears in a wave. In a boss fight it names every animal the giant sends out, every time one comes. In level 4 it also says باران (baran, rain) when the rain starts, in level 5 ستاره (setare, star) when the stars start, in level 6 گل (gol, flower) when the petals start, in level 7 ماه (mah, moon) when the moon turns white, and in level 8 آسمان (aseman, sky) when dawn starts. Whatever it says also shows on screen for about a second:
 
 - the Persian word, each letter in its own colour (for a wave number, its Persian digits);
 - the same word in Latin letters beside it while it is said, so the cat shows گربه next to "gorbe";
 - for an animal, its face drawn big.
 
-There are no captions or translations. The menus are in English, and so is the score in levels 1 and 2. In levels 2 to 7 the wave count at the top of the screen is in Persian digits, in levels 3 to 7 so is the score, and in levels 4 to 7 the combo and the level's own number are too. In levels 5 to 7 the giant's name bar at the top reads its Persian name, گاو (gav) for the cow, سگ (sag) for the dog and اسب (asb) for the horse, instead of GIANT COW, GIANT DOG or GIANT HORSE. In levels 6 and 7 the wave line itself is Persian: it reads موج (mowj, wave) and the count, right to left. In level 7 the label over the score reads امتیاز (emtiyaz, score) instead of SCORE.
+There are no captions or translations. The menus are in English, and so is the score in levels 1 and 2. In levels 2 to 8 the wave count at the top of the screen is in Persian digits, in levels 3 to 8 so is the score, and in levels 4 to 8 the combo and the level's own number are too. In levels 5 to 8 the giant's name bar at the top reads its Persian name, گاو (gav) for the cow, سگ (sag) for the dog, اسب (asb) for the horse and شیر (shir) for the lion, instead of GIANT COW, GIANT DOG, GIANT HORSE or GIANT LION. In levels 6 to 8 the wave line itself is Persian: it reads موج (mowj, wave) and the count, right to left. In levels 7 and 8 the label over the score reads امتیاز (emtiyaz, score) instead of SCORE, and in level 8 the label over the bombs reads بمب (bomb) instead of BOMBS.
 
-Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what these seven levels run.
+Persia is forked from [Invaders](https://github.com/cocodedk/invaders), Babak Bandpey's own arcade shooter, and cut down to what these eight levels run.
 
 ## How to play
 
@@ -35,7 +35,7 @@ Open [persia.cocode.dk](https://persia.cocode.dk) and pick Level 1, or press Ent
 | Sound on or off | M | |
 | Menus | Arrow keys to move, Enter or Space to choose | Click |
 
-Shoot a rabbit and it drops a power-up (spread shot, laser, rapid fire or shield) or a bomb. Fly into it to pick it up. A bomb removes every enemy bullet and hits everything on screen. You start with one and can hold three.
+Shoot a rabbit and it drops a power-up (spread shot, laser, rapid fire or shield) or a bomb. Fly into it to pick it up. A bomb removes every enemy bullet and hits everything on screen. You start with one and can hold three. The bombs panel at the top right shows how to drop one, with key caps for B and the right mouse button. On a touch screen, tapping the bombs panel drops a bomb.
 
 The pause menu offers Resume, Restart and Title. Switching to another tab pauses the game too.
 
@@ -45,7 +45,7 @@ You need Python 3, or any other static file server.
 
 1. Open a terminal in the project folder (`git clone https://github.com/cocodedk/persia-game.git` if you don't have it yet).
 2. Run `python3 -m http.server 8000`. It prints that it is serving on port 8000.
-3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with seven level cards, Level 1 to Level 7.
+3. Open http://localhost:8000/ in your browser. You should see the PERSIA title screen with eight level cards, Level 1 to Level 8.
 
 Browsers do not run module scripts from a `file://` address, so double-clicking `index.html` will not work. There are no dependencies, no build step and no network requests while you play.
 
@@ -65,7 +65,7 @@ The design spec and the build plan are in `docs/superpowers/`.
 
 ## Voice clips
 
-There are forty-seven clips, in `public/audio/`: the eight animal names, the numbers one to thirty-five, and the words for rain, star, flower and moon. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
+There are fifty-four clips, in `public/audio/`: the nine animal names, the numbers one to forty, and the words for rain, star, flower, moon and sky. They come from the [Danish-Persian-Lessons](https://github.com/cocodedk/Danish-Persian-Lessons) repository. Nothing is generated while you play. Each clip was made ahead of time with the Piper voice model `fa_IR-ganji-medium`, and a native Persian reviewer approved it before it was added. A new clip needs a new review.
 
 `public/audio/manifest.json` records, for every clip, the text it speaks, the voice model and its checksum, the engine version, the reviewer and the clip's own SHA-256 checksum. The script that copied the clips in, `scripts/lift-clips.mjs`, refuses any clip with no reviewer on record.
 
