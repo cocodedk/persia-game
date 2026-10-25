@@ -61,10 +61,12 @@ Same as invaders: `src/core/` and `src/fx/` pure (no `window`, `document`, canva
 
 ## Agent roles
 
-- **Fable — planner, art director, reviewer.** Owns `docs/superpowers/`, writes and approves plans,
-  reviews executor output. Does not implement.
+- **Fable — planner, art director.** Owns `docs/superpowers/` and writes the plans. Does not implement
+  or review.
 - **Opus and Sonnet — executors.** Take the plan, implement it exactly, stop at the plan boundary. No
   new dependencies, no scope creep. Blocked or ambiguous: write questions at the top of the plan and stop.
+- **Reviews: no Fable.** Opus checks the executors' work itself (screenshots, pixel hashes, `simplify`).
+  Babak plays each level and says when to push.
 - Remind Babak to switch the model from Fable to an executor before building starts.
 
 ## Required skills
