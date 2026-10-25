@@ -113,4 +113,4 @@ Babak approves 41, 43, 44 and 45 in the lessons repo first.
 - [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from eight levels to nine and name the camel (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
 - [x] Advisor review of the branch; apply what holds.
 - [x] Memory: the state note, `landmark-backdrops`, a `level-9-decisions` note; `zg index` in `memory/`.
-- [ ] `npm test`, push `main` once Babak has played it and says push, check CI and Pages with `gh run list`.
+- [x] `npm test`, push `main` once Babak has played it and says push, check CI and Pages with `gh run list`.
