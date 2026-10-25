@@ -450,6 +450,62 @@ Failing level 8 retries level 8 from wave 36.
 
 **The ending.** The parade walks the animals the level brought, in the pack's order.
 
+## Level 9 specification
+
+Decided with Babak on 2026-10-25, after level 8 went live.
+
+**Shape.** Five waves and a boss, no harder to survive than level 8. The waves are 41 to 45.
+
+**Where.** Gonbad-e Qabus in Golestan at night, towards morning: the thousand-year-old tomb tower of
+fired brick on its green mound, ten sharp flanges running from its foot up to the conical brick roof,
+floodlit from below so each flange is a stripe of light and shadow; a pale band of inscription under
+the roof and another over the tall pointed doorway; steps climbing the mound; round its foot a park of
+pines and cypresses with lamps, and the town's low lit roofs on the plain to either side. The tower is
+tall and slim, and its cone shows on the title card. The sky, the far mountains, the palette and the
+music stay the world's.
+
+**Enemies.** The game's animals become ten with a new one, the camel, شتر (shotor), the boss's
+species. The camel spits: it fights as a gunner, as the fish and the horse do. It comes first in wave 41, two rows
+of camels over the cats, where its name is said and shown as every species' is. Wave 42 is the escort
+with the rabbits. The horse sits this level out so the camels can take the shooters' place: no more
+shooting animals than level 8 (18), no wave with more divers than any earlier level's, and level 8's
+pace. The level fields nine of them, every one but the horse.
+
+**The camel.** A small pixel sprite like the other animals: a long sandy face, small ears, heavy lids
+over dark eyes, lit red brows, a split upper lip; its second frame spits. It walks in the parade after
+the lion, the pack's order.
+
+**Boss.** A giant camel, face on: its two small ears and the shaggy tuft on its crown are its plates;
+the heavy-lidded eyes and the split-lipped mouth burn, and camels pour from the mouth. A rabbit leaves
+the tuft in every phase. It fights as the dog, the horse and the lion do. Its name is said as it
+arrives, it lights up while the name is said, and its HUD bar reads شتر.
+
+**Sunrise.** From wave 43 to the end, the giant's fight included, the sun comes up: level 8's dawn
+warms the sky low over the mountains, and the sun, a small white-gold disc of pixel blocks, climbs
+slowly from behind the far mountains to the right of the tower, opposite the moon, until about half
+of it shows, then stays. The moon and the stars stay. As it begins the voice says خورشید (khorshid) after the wave's
+number and species, and the word moment shows it. It comes over the weather's two-second fade. With
+reduced motion the sun does not climb: it stands at its height from the start. Half quality does not
+change it. Sunrise is the sixth kind of a level's weather and belongs to the sky, behind the mountains
+and the landmark.
+
+**Spoken set.** Level 8's set, plus `counting-2199-tal-42` (۴۲, chehel-o-do, already approved), and six
+clips made and approved first in a review round in the lessons repo: شتر and خورشید, kept there as
+entries no lesson teaches, and 41, 43, 44 and 45 (chehel-o-yek, chehel-o-se, chehel-o-chahar,
+chehel-o-panj). Every clip carries `reviewedBy: ["cocodedk"]`.
+
+**The eighth step of the Persian ramp.** The HUD's lives label reads جان (jan, life) in the pack's word
+face, in the place and size of LIVES. It is read, never heard. Everything level 8 shows in Persian stays
+Persian; the end cards' labels and the title menu stay English.
+
+**The title.** Nine cards side by side, still fitting at 1920 x 1080 and in a 1280 x 720 window, each
+place name on one line.
+
+**Reaching it.** Open like levels 2 to 8: the title lists Level 9, level 8's results offer Next.
+Failing level 9 retries level 9 from wave 41.
+
+**The ending.** The parade walks the animals the level brought, in the pack's order.
+
 ## Word pack
 
 One data file, for example `src/data/pack.js`, that is the only place language lives:

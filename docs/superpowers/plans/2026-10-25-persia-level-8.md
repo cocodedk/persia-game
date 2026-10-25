@@ -125,4 +125,4 @@ Babak approves 36 to 39 in the lessons repo first.
 - [x] README, `llms.txt`, the page's descriptions and the Open Graph tagline go from seven levels to eight and name the lion and the bomb tap (through `humanizer`); re-render `og.png` headed; CLAUDE.md's scope line.
 - [x] Advisor review of the branch; apply what holds.
 - [x] Memory: the state note, `landmark-backdrops`, a `level-8-decisions` note; `zg index` in `memory/`.
-- [ ] `npm test`, push `main`, check CI and Pages with `gh run list`.
+- [x] `npm test`, push `main`, check CI and Pages with `gh run list`.
