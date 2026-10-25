@@ -41,8 +41,8 @@ test('speciesSprites bakes two frames of body, lights and flash for each species
   }
 });
 
-test('warmAliens bakes all ten without throwing', () => {
-  assert.equal(SPECIES_LIST.length, 10);
+test('warmAliens bakes all eleven without throwing', () => {
+  assert.equal(SPECIES_LIST.length, 11);
   assert.doesNotThrow(() => warmAliens(LOOK));
 });
 

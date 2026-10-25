@@ -69,10 +69,10 @@ Babak approves روباه in the lessons repo first.
 
 **Interfaces:** Produces the species id `'fox'`, fighting as `'diver'`, its row letter `x`, and its pack line `{ id: 'fox', word: 'روباه', say: 'rubah', clip: 'public/audio/rubah.mp3', ms }`, appended last.
 
-- [ ] Level 8's and 9's species assertions (`test/core/levels.test.js:95`, `:101`, `Object.keys(SPECIES).filter(...)`) gain `&& id !== 'fox'` (they pass before and after; levels 2 to 7 compare with the fixed `EIGHT` and need nothing); the kinds, art and pack tests are the ones that fail once `SPECIES.fox` exists, until the sprite, palette and pack line land.
-- [ ] `ROWS.fox`: two frames, at most 11 cells wide: a russet face narrowing to a pointed muzzle with a black nose, white cheeks, tall pointed ears with black backs, amber eyes, lit red brows; frame 2 shows its teeth. The legend (`animals.js:103-107`) has no amber eye, so it gains one lit letter, `A: ['#ffb03a', true]` (the kit's amber); the cheeks reuse `w` (`#fff8e8`, the teeth and claws) unless a screenshot wants their own letter. `palette.alien.fox` a russet redder than the cat's `#ff9a3a`, judged in one row beside the cat, the lion and the camel.
-- [ ] Screenshot a wave with a fox row (a temporary local edit of level 1's wave 1, not committed) at play size and in the word moment's face.
-- [ ] `npm test`: all pass. Commit `feat: the fox joins the animals`.
+- [x] Level 8's and 9's species assertions (`test/core/levels.test.js:95`, `:101`, `Object.keys(SPECIES).filter(...)`) gain `&& id !== 'fox'` (they pass before and after; levels 2 to 7 compare with the fixed `EIGHT` and need nothing); the kinds, art and pack tests are the ones that fail once `SPECIES.fox` exists, until the sprite, palette and pack line land.
+- [x] `ROWS.fox`: two frames, at most 11 cells wide: a russet face narrowing to a pointed muzzle with a black nose, white cheeks, tall pointed ears with black backs, amber eyes, lit red brows; frame 2 shows its teeth. The legend (`animals.js:103-107`) has no amber eye, so it gains one lit letter, `A: ['#ffb03a', true]` (the kit's amber); the cheeks reuse `w` (`#fff8e8`, the teeth and claws) unless a screenshot wants their own letter. `palette.alien.fox` a russet redder than the cat's `#ff9a3a`, judged in one row beside the cat, the lion and the camel.
+- [x] Screenshot a wave with a fox row (a temporary local edit of level 1's wave 1, not committed) at play size and in the word moment's face.
+- [x] `npm test`: all pass. Commit `feat: the fox joins the animals`.
 
 ### Task 4: The giant fox
 

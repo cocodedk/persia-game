@@ -31,6 +31,7 @@ export const PACK = {
     { id: 'mouse', word: 'موش', say: 'mush', clip: 'public/audio/mush.mp3', ms: 970 },
     { id: 'lion', word: 'شیر', say: 'shir', clip: 'public/audio/shir.mp3', ms: 970 },
     { id: 'camel', word: 'شتر', say: 'shotor', clip: 'public/audio/shotor.mp3', ms: 760 },
+    { id: 'fox', word: 'روباه', say: 'rubah', clip: 'public/audio/rubah.mp3', ms: 890 },
   ],
   numbers: [
     { n: 1, word: '۱', say: 'yek', clip: 'public/audio/yek.mp3', ms: 760 },

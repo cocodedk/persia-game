@@ -160,6 +160,22 @@
     "sourceFile": "public/audio/vocabulary-5-shotor.e64d9fdac8d1.mp3"
   },
   {
+    "file": "public/audio/rubah.mp3",
+    "clipId": "vocabulary-5-rubah",
+    "sha256": "db4421d4dc09c6653ed4f1fb94cf40ed38e4e2680241628a8b8d6ceb543c75e3",
+    "durationMs": 890,
+    "transcript": "روباه",
+    "synthesisText": "[[ rubˈɑh ]]",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-5-rubah.db4421d4dc09.mp3"
+  },
+  {
     "file": "public/audio/yek.mp3",
     "clipId": "number-1-word",
     "sha256": "c65da9198b270359e7cf41d54f5de11dc7aa62b879e9d586eba02aa56244cc9a",
