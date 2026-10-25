@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { PACK } from '../../src/data/pack.js';
 import { LEVEL, LEVELS } from '../../src/core/levels.js';
 import { bossDef } from '../../src/core/bosses-data.js';
-import { fmt, localDigits, scoreText, scoreLabel, waveText, levelName, localText, bossName } from '../../src/ui/format.js';
+import { fmt, localDigits, scoreText, scoreLabel, bombsLabel, waveText, levelName, localText, bossName } from '../../src/ui/format.js';
 import { FONT, word } from '../../src/ui/hud-kit.js';
 
 const D = PACK.digits; // the expected strings are built from the pack, so no Persian enters a test
@@ -43,6 +43,11 @@ test("levels 1 and 2 keep the score in ASCII; level 3 writes it in the pack's di
 test("a level with 'scoreWord' labels its score with the pack's word; the others say SCORE", () => {
   assert.equal(scoreLabel(LEVELS[6]), PACK.hud.score);
   assert.equal(scoreLabel(LEVELS[5]), 'SCORE', 'level 6 has the score digits but not the word');
+});
+
+test("a level with 'bombsWord' labels its bombs with the pack's word; the others say BOMBS", () => {
+  assert.equal(bombsLabel({ ...LEVELS[6], persian: [...LEVELS[6].persian, 'bombsWord'] }), PACK.hud.bombs);
+  for (const level of LEVELS.slice(0, 7)) assert.equal(bombsLabel(level), 'BOMBS', level.id);
 });
 
 test("level 4 names itself and counts its combo in the pack's digits; levels 1 to 3 in ASCII", () => {

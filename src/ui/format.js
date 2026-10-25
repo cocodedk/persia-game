@@ -3,7 +3,7 @@
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
 //   showsPersian(level, part)       whether the level shows that part ('wave', 'waveWord', 'score',
-//                                   'scoreWord', 'combo', 'level', 'boss') in Persian
+//                                   'scoreWord', 'bombsWord', 'combo', 'level', 'boss') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part in Persian
 //   levelName(level)                the level's name where play shows it (the HUD, its card, pause
@@ -17,6 +17,8 @@
 //                                   level shows its score in Persian (the HUD and the end cards)
 //   scoreLabel(level)               the HUD's score label: the pack's word when the level shows its
 //                                   'scoreWord' in Persian, else 'SCORE'
+//   bombsLabel(level)               the HUD's bombs label: the pack's word when the level shows its
+//                                   'bombsWord' in Persian, else 'BOMBS'
 //   bossName(level, def)            the giant's name on the HUD bar: its species' word in the pack when
 //                                   the level shows its 'boss' in Persian, else 'GIANT BIRD'
 import { waveNumber } from '../core/levels.js';
@@ -39,6 +41,8 @@ export function waveText(level, wave) {
 export const scoreText = (level, score) => localText(level, 'score', fmt(score));
 
 export const scoreLabel = (level) => (showsPersian(level, 'scoreWord') ? PACK.hud.score : 'SCORE');
+
+export const bombsLabel = (level) => (showsPersian(level, 'bombsWord') ? PACK.hud.bombs : 'BOMBS');
 
 export const levelName = (level) => localText(level, 'level', level.name);
 

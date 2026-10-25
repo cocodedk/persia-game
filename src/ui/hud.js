@@ -10,7 +10,7 @@ import { POWER_TIME, BOMB_MAX } from '../core/powerups.js';
 import { LIVES } from '../core/ship.js';
 import { ENTER } from '../core/boss-move.js';
 import { bossDef } from '../core/bosses-data.js';
-import { scoreText, scoreLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
+import { scoreText, scoreLabel, bombsLabel, waveText, localText, levelName, bossName, showsPersian } from './format.js';
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
@@ -28,6 +28,9 @@ const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
 // The score's Persian label: its alef stands as tall as the caps of the labels beside it; larger crowds the 46px number under it.
 const SCORE_WORD_SIZE = 18;
+// The bombs' Persian label has no alef to match to the caps: at this size its body fills the band the
+// caps of BOMBS filled, standing on their baseline, and the hint stays a clear 36 px to its right.
+const BOMBS_WORD_SIZE = 24;
 // The lives and bombs panel, and the bombs half of it (where the BOMBS label starts): a tap there drops a bomb (input.js).
 const STOCK_X = W - 32 - 300;
 const BOMBS_DX = 172;
@@ -138,7 +141,9 @@ function stock(ctx, world, look, t) {
   const x = STOCK_X;
   panel(ctx, x, TOP, 300, PH);
   label(ctx, 'LIVES', x + 24, CAP);
-  label(ctx, 'BOMBS', x + BOMBS_DX, CAP);
+  const bombs = bombsLabel(world.level);
+  if (showsPersian(world.level, 'bombsWord')) word(ctx, bombs, x + BOMBS_DX, CAP, BOMBS_WORD_SIZE, 'rgba(255,255,255,0.62)', 'left');
+  else label(ctx, bombs, x + BOMBS_DX, CAP);
   bombKeys(ctx, x + 250, CAP, touchSeen());
   for (let i = 0; i < LIVES; i++) shipIcon(ctx, x + 38 + i * 38, MAIN + 2, look.palette.accent, i < s.lives);
   for (let i = 0; i < BOMB_MAX; i++) bombIcon(ctx, x + 186 + i * 36, MAIN + 2, look.power.bomb, i < s.bombs);
