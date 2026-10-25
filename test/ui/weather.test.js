@@ -80,6 +80,14 @@ test('sunrise is drawn in the sky, under the parallax and the field, as dawn\'s 
   assert.ok(drawn({ ...world, wave: 1, boss: {} }, 'sky', 5, 'fillRect') > dawn + 20, 'and at the giant');
 });
 
+test('the rainbow is drawn in the sky, under the parallax and the field, as one baked bow, and never in the field', () => {
+  const world = { level: { weather: { kind: 'rainbow', from: 3 } }, boss: null, wave: 3 };
+  assert.equal(drawn(world, 'sky', 5, 'drawImage'), 1);
+  assert.equal(drawn(world, 'field', 5, 'drawImage'), 0);
+  assert.equal(drawn({ ...world, wave: 2 }, 'sky', 5, 'drawImage'), 0, 'dry before its wave');
+  assert.equal(drawn({ ...world, wave: 1, boss: {} }, 'sky', 5, 'drawImage'), 1, 'and at the giant');
+});
+
 test('the weather\'s age reaches its drawing: the sun is higher the longer the weather has lasted', () => {
   const world = { level: { weather: { kind: 'sunrise', from: 3 } }, boss: null, wave: 3 };
   const view = (since) => ({ weather: { since }, quality: { level: 1 }, reduced: false });

@@ -8,7 +8,7 @@
 //                 said, `clip` its approved recording (public/audio/manifest.json), `ms` its length
 //   numbers       { n, word, say, clip, ms }, one per wave of the game, 1 to the last; `word` is n in
 //                 Persian digits, shown as it is said
-//   weather       { rain, stars, petals, moon, dawn, sunrise }, each { word, say, clip, ms }, by a
+//   weather       { rain, stars, petals, moon, dawn, sunrise, rainbow }, each { word, say, clip, ms }, by a
 //                 level's weather kind (levels.js): said after the number and species of the wave
 //                 the weather begins with, shown as a species' word is, without a face
 //   hud           { wave, score, bombs, lives, combo }, the words the HUD shows in place of its English
@@ -87,6 +87,7 @@ export const PACK = {
     moon: { word: 'ماه', say: 'mah', clip: 'public/audio/mah.mp3', ms: 760 },
     dawn: { word: 'آسمان', say: 'aseman', clip: 'public/audio/aseman.mp3', ms: 760 },
     sunrise: { word: 'خورشید', say: 'khorshid', clip: 'public/audio/khorshid.mp3', ms: 890 },
+    rainbow: { word: 'رنگین‌کمان', say: 'rangin-kaman', clip: 'public/audio/rangin-kaman.mp3', ms: 1230 },
   },
   hud: { wave: 'موج', score: 'امتیاز', bombs: 'بمب', lives: 'جان', combo: 'پیاپی' },
   digits: '۰۱۲۳۴۵۶۷۸۹',

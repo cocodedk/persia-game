@@ -592,6 +592,22 @@
     "sourceFile": "public/audio/vocabulary-3-khorshid.95f006054572.mp3"
   },
   {
+    "file": "public/audio/rangin-kaman.mp3",
+    "clipId": "vocabulary-3-ranginkaman",
+    "sha256": "df9b54162e57afd617423dd49f1d3e845cc208e01d4e4cca5530d48e613c03b9",
+    "durationMs": 1230,
+    "transcript": "رَنگین‌کَمان",
+    "synthesisText": "رَنگین‌کَمان",
+    "voiceModel": "fa_IR-ganji-medium",
+    "modelSha256": "6a98504bb77dc2fd3a863c977d37e67a6a525fdf661917385d569a3ff78e6cae",
+    "engineVersion": "1.4.2",
+    "reviewedBy": [
+      "cocodedk"
+    ],
+    "license": "MIT model; CC0 dataset",
+    "sourceFile": "public/audio/vocabulary-3-ranginkaman.df9b54162e57.mp3"
+  },
+  {
     "file": "public/audio/bist-o-yek.mp3",
     "clipId": "counting-2199-tal-21",
     "sha256": "5c6e6a91ebf438b708b2055c7f1d6603b43d054928251d1652e0e9c1778d5327",

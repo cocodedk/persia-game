@@ -13,7 +13,7 @@
 // 'bombsWord': the bombs panel's label, the pack's word in place of 'BOMBS', 'livesWord': the lives
 // panel's, in place of 'LIVES', 'comboWord': the combo meter's, in place of 'COMBO').
 // `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars',
-// 'petals', 'moon', 'dawn', 'sunrise'; ui/weather.js draws each kind and the pack words it) and
+// 'petals', 'moon', 'dawn', 'sunrise', 'rainbow'; ui/weather.js draws each kind and the pack words it) and
 // `from` is the number within the level of the wave it begins with; it lasts to the end, the
 // giant's fight included.
 // LEVEL is level 1; LEVELS every level in the order they are played.
