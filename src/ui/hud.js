@@ -14,6 +14,8 @@ import { scoreText, scoreLabel, waveText, localText, levelName, bossName, showsP
 import { HUD_BOTTOM } from '../core/kinds.js';
 import { panel, text, label, word, shipIcon, bombIcon } from './hud-kit.js';
 import { drawIcon } from './pickups-view.js';
+import { bombKeys } from './bomb-keys.js';
+import { touchSeen } from './input.js';
 
 const TOP = 16;
 const PH = HUD_BOTTOM - TOP; // panel height
@@ -26,6 +28,10 @@ const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
 // The score's Persian label: its alef stands as tall as the caps of the labels beside it; larger crowds the 46px number under it.
 const SCORE_WORD_SIZE = 18;
+// The lives and bombs panel, and the bombs half of it (where the BOMBS label starts): a tap there drops a bomb (input.js).
+const STOCK_X = W - 32 - 300;
+const BOMBS_DX = 172;
+export const BOMB_PANEL = { x: STOCK_X + BOMBS_DX, y: TOP, w: 300 - BOMBS_DX, h: PH };
 
 let shown = { n: NaN, level: null, text: '' }; // the score as last formatted, and for which level
 function score(ctx, world) {
@@ -129,10 +135,11 @@ function ring(ctx, s, look, cx, cy, t) {
 
 function stock(ctx, world, look, t) {
   const s = world.ship;
-  const x = W - 32 - 300;
+  const x = STOCK_X;
   panel(ctx, x, TOP, 300, PH);
   label(ctx, 'LIVES', x + 24, CAP);
-  label(ctx, 'BOMBS', x + 172, CAP);
+  label(ctx, 'BOMBS', x + BOMBS_DX, CAP);
+  bombKeys(ctx, x + 250, CAP, touchSeen());
   for (let i = 0; i < LIVES; i++) shipIcon(ctx, x + 38 + i * 38, MAIN + 2, look.palette.accent, i < s.lives);
   for (let i = 0; i < BOMB_MAX; i++) bombIcon(ctx, x + 186 + i * 36, MAIN + 2, look.power.bomb, i < s.bombs);
   if (s.power) ring(ctx, s, look, x - 58, TOP + PH / 2, t);

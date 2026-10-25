@@ -19,7 +19,7 @@
 html { font-size: min(calc(100vh / 54), calc(100vw / 96)); }
 html, body { margin: 0; height: 100%; background: #05060b; overflow: hidden; }
 body { font-family: var(--font); color: var(--ink); -webkit-font-smoothing: antialiased; user-select: none; }
-canvas#game { display: block; width: 100vw; height: 100vh; object-fit: contain; }
+canvas#game { display: block; width: 100vw; height: 100vh; object-fit: contain; touch-action: none; }
 body.playing canvas#game { cursor: none; }
 
 #ui { position: fixed; inset: 0; pointer-events: none; }
