@@ -25,8 +25,8 @@ export function naqsh(g, w, h, rng, L, lights) {
   const art = { ...blocks(g, tone), rng, lights, L, F: h / PIXEL - UNDER, BW: w / PIXEL, lamps: [[], [], []] };
   art.mid = Math.round(art.BW / 2);
   art.row = (up) => art.F - 1 - up; // the row of the block `up` blocks above the arcades' foot
-  const at = art.mid + PALACE.at;
-  art.stands = [[at - PALACE.half, at + PALACE.half], [art.mid - PORTAL.half, art.mid + PORTAL.half]]; // where the arcades are hidden
+  art.palace = art.mid + PALACE.at;
+  art.stands = [[art.palace - PALACE.half, art.palace + PALACE.half], [art.mid - PORTAL.half, art.mid + PORTAL.half]]; // where the arcades are hidden
   g.save();
   g.scale(PIXEL, PIXEL);
   art.box(0, art.F, art.BW, UNDER, '-');

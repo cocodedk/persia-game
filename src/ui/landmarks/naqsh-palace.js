@@ -24,9 +24,9 @@ function roof({ box, row }, cx, up, half) {
 
 export function palace(art) {
   const { box, row, lights, rng, L } = art;
-  const cx = art.mid + PALACE.at;
-  const lit = FLOORS.flatMap((up) => WINDOWS.map((dx) => ({ x: cx + dx, up, lit: rng() < 0.6 })));
-  for (const w of lit) if (w.lit) lamp(art, D, w.x, row(w.up + 3), 6, 0.4, false);
+  const cx = art.palace;
+  const wins = FLOORS.flatMap((up) => WINDOWS.map((dx) => ({ x: cx + dx, up, lit: rng() < 0.6 })));
+  for (const w of wins) if (w.lit) lamp(art, D, w.x, row(w.up + 3), 6, 0.4, false);
   lamp(art, D, cx, row(8), 18, 0.8);
   brick(art, D, cx - PALACE.half, row(BLOCK - 1), PALACE.half * 2 + 1, BLOCK, (i, j) => {
     const course = j === BLOCK - 25 ? 0.2 : 0;
@@ -34,7 +34,7 @@ export function palace(art) {
   }, 1);
   opening(art, cx - 7, 0, 14, 30, (j, k) => (k < 3 ? 'k' : j < 2 ? 'h' : j < 24 ? 'g' : 'h')); // the great door
   box(cx - 1, row(14), 2, 3, 'G');
-  for (const w of lit) opening(art, w.x - 2, w.up, 4, 7, w.lit ? 'g' : 'k');
+  for (const w of wins) opening(art, w.x - 2, w.up, 4, 7, w.lit ? 'g' : 'k');
   porch(art, cx);
   roof(art, cx, BLOCK + PORCH.tall, PORCH.half + 5);
   const top = BLOCK + PORCH.tall + 3; // the upper storey's foot

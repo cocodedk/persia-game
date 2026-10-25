@@ -19,9 +19,11 @@ const STRANDS = 72; // the strands of the mane, running out from the face (a mul
 
 // The mane: a wide oval round (0, MANE_Y) whose edge is a zigzag of TUFTS points.
 const MANE_Y = 6;
-const reach = (x, y) => Math.hypot(x / 270, (y - MANE_Y) / 150); // 1 at the mane's oval
+const MANE_RX = 270;
+const MANE_RY = 150;
+const reach = (x, y) => Math.hypot(x / MANE_RX, (y - MANE_Y) / MANE_RY); // 1 at the mane's oval
 function maneAt(x, y) {
-  const f = ((Math.atan2((y - MANE_Y) / 150, x / 270) - Math.PI / 2) * TUFTS) / TAU + 0.5;
+  const f = ((Math.atan2((y - MANE_Y) / MANE_RY, x / MANE_RX) - Math.PI / 2) * TUFTS) / TAU + 0.5;
   return reach(x, y) <= 1 - 0.19 * Math.abs(2 * (f - Math.floor(f)) - 1);
 }
 const strandAt = (x, y) => ((Math.floor((Math.atan2(y - MANE_Y, x) * STRANDS) / TAU) % 3) + 3) % 3; // 0 to 2, repeating

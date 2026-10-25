@@ -1,6 +1,6 @@
 // The mud brick Yazd is built of (yazd.js and its parts): a tone ramp for each depth of the city,
-// the lamps that light the walls round them, a wall of brick laid in courses, a parapet's shading
-// and a portal's nested pointed arches. A brick tone is a number, depth * SHADES + level: depth 0
+// the lamps that light the walls round them, a wall of brick laid in courses, a parapet's shading,
+// a portal's nested pointed arches and tiled field, and the minarets on its corners. A brick tone is a number, depth * SHADES + level: depth 0
 // is the far row, faded toward the haze, 1 the middle, 2 the near; level 0 is lit warm by a lamp,
 // SHADES - 1 deep shade. A caller asks for a darkness 0..1 and `key` picks the level. The other
 // tones are letters: '-' ink, G lamp, g glow, h dim glow, k vent slot, K its back wall, w pool
@@ -105,4 +105,32 @@ export function brick(art, d, x, top, bw, bh, dark, fine = 0) {
       }
     }
   }
+}
+
+// A tile of a portal's field (depth d) at block x, row `up`: the diagonal check, lit near a lamp.
+export function field(art, d, x, up) {
+  const check = (x + up) % 2 === 0;
+  return light(art.lamps[d], x, art.row(up)) > 0.3 ? (check ? 'U' : 'T') : check ? 'T' : 'u';
+}
+
+// A minaret of depth d centred on column mx: its shaft `shaft` blocks high under the balcony, tile
+// bands every 8 rows from rings[0] to below rings[1], the balcony and its railing, the upper shaft,
+// the lantern capped in tile, a finial and a lamp. `tall` and `balcony` are rows, counted as `up`.
+export function minaret(art, d, mx, { wide, tall, balcony, shaft, rings }) {
+  const { box, row } = art;
+  const x = mx - (wide >> 1);
+  brick(art, d, x, row(balcony - 1), wide, shaft, (i) => BASE[d] - 0.05 + (i === 0 ? -0.2 : i === wide - 1 ? 0.3 : 0), 1);
+  for (let up = rings[0]; up < rings[1]; up += 8) {
+    box(x + 1, row(up + 1), wide - 2, 2, 'T');
+    box(x + 1, row(up + 1), wide - 2, 1, 'U');
+  }
+  box(mx - 4, row(balcony), 9, 1, key(d, BASE[d] + 0.3)); // the balcony, lit on top, shadowed under
+  box(mx - 4, row(balcony + 1), 9, 1, key(d, BASE[d] - 0.25));
+  for (let i = 0; i < 9; i += 2) box(mx - 4 + i, row(balcony + 2), 1, 2, 'k'); // its railing
+  brick(art, d, mx - 1, row(tall - 4), 3, tall - balcony - 6, (i) => BASE[d] - 0.1 + (i === 2 ? 0.3 : 0), 1);
+  box(mx - 2, row(tall - 3), 5, 2, 'T'); // the lantern, capped in tile
+  box(mx - 2, row(tall - 3), 5, 1, 'U');
+  box(mx, row(tall + 1), 1, 3, key(d, BASE[d] - 0.3));
+  box(mx, row(balcony + 2), 1, 2, 'G');
+  lamp(art, d, mx, row(balcony + 2), 7, 0.7);
 }

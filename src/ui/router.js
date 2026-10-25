@@ -35,6 +35,7 @@ export function createRouter({ canvas, stage, input, voice }) {
     app.token += 1;
     app.screen = screen;
     app.scene = null;
+    input.view = null; // the panel tap's view of the scene just left; let it go
     setBeam(false);
     voice.clear();
     duck(1);

@@ -5,7 +5,7 @@
 // dome (naqsh-dome.js). Painted as the middle row, a little misted. `up` counts blocks up from the
 // street. Tones: T U u tile, k K recess, g h G the door and lamps; the brick is Yazd's (yazd-brick.js).
 import { PIXEL } from '../sprites.js';
-import { BASE, key, brick, light, lamp, archHalf, nestedArch } from './yazd-brick.js';
+import { BASE, key, lamp, archHalf, nestedArch, field, minaret } from './yazd-brick.js';
 import { dome } from './naqsh-dome.js';
 
 const D = 1;
@@ -13,7 +13,7 @@ export const PORTAL = { half: 31, tall: 60 }; // the frame's half-width, its hei
 const ARCHES = [[20, 34, 57], [18, 35, 54], [14, 36, 50]]; // outline, tile band, recess: half-width, where it starts to close, its point
 const DOOR = [6, 14, 22];
 const NICHES = [6, 20, 34]; // the blind niches either side: the row each one starts on
-const TOWER = { at: 28, wide: 5, tall: 104, balcony: 90 }; // each minaret: from the middle, shaft width, height, its balcony's
+const TOWER = { at: 28, wide: 5, tall: 104, balcony: 90, shaft: 30, rings: [63, 87] }; // each minaret: from the middle, its width, height and balcony, the shaft under that, its bands
 
 export function mosque(art) {
   const { lights, row, L } = art;
@@ -22,13 +22,7 @@ export function mosque(art) {
   lights.push({ x: (cx + 0.5) * PIXEL, y: row(26) * PIXEL, r: 110, color: L.lamp, ph: 0.9, a: 0.22 });
   dome(art, cx);
   portal(art, cx);
-  for (const s of [-1, 1]) minaret(art, cx + s * TOWER.at);
-}
-
-// A tile of the portal's field at block x, row `up`: the diagonal check, lit near a lamp.
-function field(art, x, up) {
-  const check = (x + up) % 2 === 0;
-  return light(art.lamps[D], x, art.row(up)) > 0.3 ? (check ? 'U' : 'T') : check ? 'T' : 'u';
+  for (const s of [-1, 1]) minaret(art, D, cx + s * TOWER.at, TOWER);
 }
 
 function portal(art, cx) {
@@ -38,13 +32,13 @@ function portal(art, cx) {
     const frieze = up >= tall - 4;
     for (let x = cx - half; x <= cx + half; x++) {
       const edge = Math.abs(x - cx) >= half - 1;
-      box(x, row(up), 1, 1, edge || up === tall - 5 ? 'u' : frieze ? (x % 2 ? 'U' : 'T') : field(art, x, up));
+      box(x, row(up), 1, 1, edge || up === tall - 5 ? 'u' : frieze ? (x % 2 ? 'U' : 'T') : field(art, D, x, up));
     }
   }
   box(cx - half - 1, row(tall), half * 2 + 3, 1, key(D, BASE[D] + 0.3)); // the cornice, lit on top and shadowed under
   box(cx - half - 1, row(tall - 1), half * 2 + 3, 1, key(D, BASE[D] - 0.25));
   for (const x of [cx - 26, cx + 23]) for (const up of NICHES) niche(art, x, up);
-  nestedArch(art, D, cx, ARCHES, (x, up, inner) => (inner ? honeycomb(x - cx, up) : field(art, x, up)));
+  nestedArch(art, D, cx, ARCHES, (x, up, inner) => (inner ? honeycomb(x - cx, up) : field(art, D, x, up)));
   for (let up = 0; up <= DOOR[2]; up++) {
     const hw = archHalf(DOOR, up);
     box(cx - hw, row(up), hw * 2 + 1, 1, up > DOOR[2] - 3 ? 'h' : 'g');
@@ -64,25 +58,4 @@ function niche({ box, row }, x, up) {
   box(x, row(up + 9), 4, 10, 'u');
   box(x + 1, row(up + 8), 2, 8, 'k');
   box(x + 1, row(up + 1), 2, 1, 'h');
-}
-
-// A minaret on the portal's top, centred on column mx.
-function minaret(art, mx) {
-  const { box, row } = art;
-  const { wide, tall, balcony } = TOWER;
-  const x = mx - (wide >> 1);
-  brick(art, D, x, row(balcony - 1), wide, balcony - PORTAL.tall, (i) => BASE[D] - 0.05 + (i === 0 ? -0.2 : i === wide - 1 ? 0.3 : 0), 1);
-  for (let up = PORTAL.tall + 3; up < balcony - 3; up += 8) {
-    box(x + 1, row(up + 1), wide - 2, 2, 'T');
-    box(x + 1, row(up + 1), wide - 2, 1, 'U');
-  }
-  box(mx - 4, row(balcony), 9, 1, key(D, BASE[D] + 0.3)); // the balcony, lit on top, shadowed under
-  box(mx - 4, row(balcony + 1), 9, 1, key(D, BASE[D] - 0.25));
-  for (let i = 0; i < 9; i += 2) box(mx - 4 + i, row(balcony + 2), 1, 2, 'k'); // its railing
-  brick(art, D, mx - 1, row(tall - 4), 3, tall - balcony - 6, (i) => BASE[D] - 0.1 + (i === 2 ? 0.3 : 0), 1);
-  box(mx - 2, row(tall - 3), 5, 2, 'T'); // the lantern, capped in tile
-  box(mx - 2, row(tall - 3), 5, 1, 'U');
-  box(mx, row(tall + 1), 1, 3, key(D, BASE[D] - 0.3));
-  box(mx, row(balcony + 2), 1, 2, 'G');
-  lamp(art, D, mx, row(balcony + 2), 7, 0.7);
 }
