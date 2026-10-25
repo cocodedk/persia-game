@@ -86,11 +86,11 @@ Babak approves شتر in the lessons repo first.
 
 **Files:** `src/data/pack.js` (`hud.lives`, and its header's `hud` line), `src/core/levels.js` (the header names `'livesWord'`), `src/ui/format.js` (its header: `hudLabel`'s keys gain `'lives'`, `showsPersian`'s parts `'livesWord'`), `src/ui/hud.js` (`stock()`); tests `test/ui/format.test.js`, `test/core/levels.test.js`.
 
-- [ ] Pack `hud.lives: 'جان'` (through `humanizer-pa`).
-- [ ] `hud.js` `stock()`: `caption(ctx, world.level, 'lives', x + 24, SCORE_WORD_SIZE)` in place of the LIVES label. جان has an alef as امتیاز does, and `hud.js:27-30` sizes alef words at 18 (24 is for بمب, which has none), so the two labels share the size; judged from a screenshot.
-- [ ] Tests: `levels.test.js` `known` gains `'livesWord'`; `format.test.js` `hudLabel(level, 'lives')` gives the pack's word with the part, `{ text: 'LIVES', persian: false }` without it.
-- [ ] Screenshot the HUD with a probe level that has `'livesWord'`; the HUD probe of levels 1 to 8 hashes as in Task 0.
-- [ ] Commit `feat(ui): a level can name its lives in Persian`.
+- [x] Pack `hud.lives: 'جان'` (through `humanizer-pa`).
+- [x] `hud.js` `stock()`: `caption(ctx, world.level, 'lives', x + 24, SCORE_WORD_SIZE)` in place of the LIVES label. جان has an alef as امتیاز does, and `hud.js:27-30` sizes alef words at 18 (24 is for بمب, which has none), so the two labels share the size; judged from a screenshot.
+- [x] Tests: `levels.test.js` `known` gains `'livesWord'`; `format.test.js` `hudLabel(level, 'lives')` gives the pack's word with the part, `{ text: 'LIVES', persian: false }` without it.
+- [x] Screenshot the HUD with a probe level that has `'livesWord'`; the HUD probe of levels 1 to 8 hashes as in Task 0.
+- [x] Commit `feat(ui): a level can name its lives in Persian`.
 
 ### Task 6: Level 9 and waves forty-one to forty-five
 
