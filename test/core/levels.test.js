@@ -137,7 +137,7 @@ test('the world counts its waves across the levels: level 2 from six, level 3 fr
 
 test('a level shows in Persian only parts the game knows', () => {
   assert.deepEqual(LEVEL.persian, []);
-  const known = ['wave', 'waveWord', 'score', 'scoreWord', 'bombsWord', 'livesWord', 'combo', 'level', 'boss'];
+  const known = ['wave', 'waveWord', 'score', 'scoreWord', 'bombsWord', 'livesWord', 'comboWord', 'combo', 'level', 'boss'];
   for (const level of LEVELS) for (const part of level.persian) assert.ok(known.includes(part), `${level.id}: ${part}`);
   for (const part of ['combo', 'level']) assert.ok(LEVEL_4.persian.includes(part), `level 4 shows its ${part}`);
   assert.deepEqual(LEVEL_5.persian, [...LEVEL_4.persian, 'boss']);

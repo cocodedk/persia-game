@@ -21,20 +21,20 @@ const CAP = TOP + 22; // caption row
 const MAIN = TOP + 55; // big number row
 // The combo number: its ink centre (0.07 em above the 'middle' line it is drawn on) sits halfway
 // between the caption's ink (to y 41) and the timer bar (from y 88), so at the x8 pulse (x1.14) it
-// keeps 8 px clear of each.
+// keeps 8 px clear of each (6 px of the Persian word's lowest dots, which reach to y 46).
 const COMBO_MID = 64.5;
 const COMBO_SIZE = 36;
-// The score's and the lives' Persian labels both have an alef: it stands as tall as the caps of the
-// labels beside it; larger crowds the score's 46px number under it.
+// The score's, the lives' and the combo's Persian labels all have an alef: it stands as tall as the caps
+// of the labels beside it; larger crowds the score's 46px number under it.
 const ALEF_WORD_SIZE = 18;
 // The bombs' Persian label has no alef to match to the caps: at this size its body fills the band the
 // caps of BOMBS filled, standing on their baseline, and the hint stays a clear 36 px to its right.
 const BOMBS_WORD_SIZE = 24;
-// A panel's caption (hudLabel): the pack's word, or a spaced label.
-function caption(ctx, level, key, x, size) {
+// A panel's caption (hudLabel): the pack's word, or a spaced label, at `x` by `align`.
+function caption(ctx, level, key, x, size, align = 'left') {
   const { text: s, persian } = hudLabel(level, key);
-  if (persian) word(ctx, s, x, CAP, size, DIM, 'left');
-  else label(ctx, s, x, CAP);
+  if (persian) word(ctx, s, x, CAP, size, DIM, align);
+  else label(ctx, s, x, CAP, align);
 }
 
 let shown = { n: NaN, level: null, text: '' }; // the score as last formatted, and for which level
@@ -63,7 +63,7 @@ function combo(ctx, world, t) {
   }
   const color = hotK === 2 ? '#ff6a2a' : hotK === 1 ? '#ffe14a' : mult > 1 ? '#ffffff' : 'rgba(255,255,255,0.4)';
   panel(ctx, x, TOP, 150, PH, hotK ? rgba(color, 0.95) : undefined);
-  label(ctx, 'COMBO', x + 75, CAP, 'center');
+  caption(ctx, world.level, 'combo', x + 75, ALEF_WORD_SIZE, 'center');
   const pulse = hotK ? 1 + (hotK === 2 ? 0.14 : 0.09) * Math.abs(Math.sin(t * (hotK === 2 ? 12 : 8))) : 1;
   ctx.save();
   ctx.translate(x + 75, COMBO_MID);

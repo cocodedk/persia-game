@@ -11,7 +11,7 @@
 // as the species' word, 'waveWord': the wave line's label, the pack's word in place of 'WAVE', the
 // line then read right to left, 'scoreWord': the score's label, the pack's word in place of 'SCORE',
 // 'bombsWord': the bombs panel's label, the pack's word in place of 'BOMBS', 'livesWord': the lives
-// panel's, in place of 'LIVES').
+// panel's, in place of 'LIVES', 'comboWord': the combo meter's, in place of 'COMBO').
 // `weather`, when a level has it, is { kind, from }: `kind` names the weather ('rain', 'stars',
 // 'petals', 'moon', 'dawn', 'sunrise'; ui/weather.js draws each kind and the pack words it) and
 // `from` is the number within the level of the wave it begins with; it lasts to the end, the

@@ -3,7 +3,8 @@
 //   localDigits(n, digits)          n written in `digits`, which maps each digit 0 to 9 (the pack's
 //                                   ten, or those and the thousands mark); any other character as it is
 //   showsPersian(level, part)       whether the level shows that part ('wave', 'waveWord', 'score',
-//                                   'scoreWord', 'bombsWord', 'livesWord', 'combo', 'level', 'boss') in Persian
+//                                   'scoreWord', 'bombsWord', 'livesWord', 'comboWord', 'combo', 'level',
+//                                   'boss') in Persian
 //   localText(level, part, s)       s with its digits and thousands marks in the pack's when the
 //                                   level shows that part in Persian
 //   levelName(level)                the level's name where play shows it (the HUD, its card, pause
@@ -15,7 +16,8 @@
 //                                   line then reads right to left: the word, then the count)
 //   scoreText(level, score)         a score, '146,800', in the pack's digits and grouping when the
 //                                   level shows its score in Persian (the HUD and the end cards)
-//   hudLabel(level, key)            a HUD panel's label, key 'score', 'bombs' or 'lives', as { text, persian }:
+//   hudLabel(level, key)            a HUD panel's label, key 'score', 'bombs', 'lives' or 'combo', as
+//                                   { text, persian }:
 //                                   the pack's word when the level shows its `${key}Word` in Persian,
 //                                   else the key in capitals
 //   bossName(level, def)            the giant's name on the HUD bar: its species' word in the pack when
