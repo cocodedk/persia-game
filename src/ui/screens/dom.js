@@ -36,6 +36,19 @@ export function button(label, onPick, cls = 'btn') {
 // A plain list (cols 1) wraps around and takes left/right as well, for menus laid out in a row.
 // In a grid left and right still walk the items in order and wrap, and up and down change row and
 // stop at the first and last. Enter / Space pick the focused item. Returns true when the key was handled.
+// A link that opens in a new tab and keeps out of the keys' way: the arrows move among a screen's buttons, and Tab skips it.
+export function link(cls, href, ...kids) {
+  const a = h('a', cls, ...kids);
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.tabIndex = -1;
+  return a;
+}
+
+// The author's credit, in the corner of every screen that is not play (title, pause, results, failed).
+export const credit = () => link('credit', 'https://cocode.dk', 'Babak Bandpey · cocode.dk');
+
 export function navigate(items, code, cols = 1) {
   const i = items.indexOf(document.activeElement);
   const mv = MOVE[code];

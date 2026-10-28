@@ -1,7 +1,7 @@
 // A failed level: SHOT DOWN, how far the run got (the wave, or what the giant had left), and
 // Retry / Title.
 //   failedScreen({ score, world }, { retry, title }) -> screen
-import { h, button, shell, armed, endKeys, scoreSpan } from './dom.js';
+import { h, button, credit, shell, armed, endKeys, scoreSpan } from './dom.js';
 import { levelName } from '../format.js';
 import { bossDef } from '../../core/bosses-data.js';
 import { waveNumber } from '../../core/levels.js';
@@ -26,6 +26,6 @@ export function failedScreen(o, act) {
       h('h2', 'banner-title', 'Shot down'),
       h('p', 'result-line', h('span', 'result-cap', 'Score'), scoreSpan(o.world.level, o.score)),
       h('p', 'result-best', progress(o.world))),
-    h('nav', 'menu menu-row', ...items));
+    h('nav', 'menu menu-row', ...items), credit());
   return { el, focus: items[0], onKey: endKeys(items, ready, armed(SETTLE)) };
 }

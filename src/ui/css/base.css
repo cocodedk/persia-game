@@ -60,6 +60,11 @@ body.playing canvas#game { cursor: none; }
 .stars i { font-style: normal; color: rgba(255, 255, 255, 0.2); }
 .stars i.on { color: var(--gold); text-shadow: 0 0 0.6rem rgba(255, 190, 60, 0.75); }
 
+/* The author's credit (dom.js credit()): bottom right on every screen that is not play. */
+.credit { position: absolute; right: 3rem; bottom: 2.2rem; font-size: 1.05rem; font-weight: 800; letter-spacing: 0.1em;
+  color: var(--ink-dim); text-decoration: none; text-shadow: 0 0.15rem 0.6rem #000; }
+.credit:hover { color: var(--gold); }
+
 .toast {
   position: fixed; left: 50%; bottom: 9rem; transform: translate(-50%, 1rem); opacity: 0;
   font: 900 1.6rem var(--font); padding: 0.8rem 1.8rem; border-radius: 1rem;

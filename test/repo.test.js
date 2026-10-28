@@ -44,14 +44,16 @@ test('the purity check flags real uses and lets prose and identifiers through', 
 });
 
 // index.html may name its own public address in metadata the browser never fetches: name/property
-// <meta> tags, rel="canonical" and the JSON-LD block (as Barrage). Any other external URL is a request.
+// <meta> tags, rel="canonical" and the JSON-LD block (as Barrage). src may name a page a click opens, as
+// the address literal given to dom.js's link() (the credit, the privacy note). Any other external URL is a request.
 const INERT = [
   /<meta (?:name|property)="[^"]*" content="[^"]*">/g,
   /<link rel="canonical" href="[^"]*">/g,
   /<script type="application\/ld\+json">[\s\S]*?<\/script>/g,
 ];
+const LINKS = /\blink\([^,()]*,\s*'[^']*'/g;
 const externalUrls = (text, html) => {
-  const live = html ? INERT.reduce((t, re) => t.replace(re, ''), text) : text;
+  const live = html ? INERT.reduce((t, re) => t.replace(re, ''), text) : text.replace(LINKS, '');
   return SCHEME.filter((s) => live.includes(s));
 };
 
@@ -69,6 +71,10 @@ test('the URL check lets head metadata through and still flags anything the brow
     '<img src="https://x.dk/a.png">', '<meta name="a" content="b"><script>fetch("https://x.dk/")</script>'];
   for (const html of live) assert.notDeepEqual(externalUrls(html, true), [], html);
   assert.notDeepEqual(externalUrls('// <meta name="a" content="https://x.dk/">', false), [], 'src gets no pass');
+  assert.deepEqual(externalUrls("link('credit', 'https://x.dk', 'X')", false), [], 'a link a click opens');
+  for (const src of ["fetch('https://x.dk/')", "img.src = 'https://x.dk/a.png'", "link(fetch('https://x.dk/'))", "unlink(a, 'https://x.dk')"]) {
+    assert.notDeepEqual(externalUrls(src, false), [], src);
+  }
 });
 
 // The code never holds a Persian word: tests take theirs from PACK or write them as \u escapes.

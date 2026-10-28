@@ -42,10 +42,16 @@
   content: ""; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
   background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0 0.22rem, rgba(0, 0, 20, 0.35) 0.22rem 0.36rem);
 }
-.title .hint { position: absolute; bottom: 2.4rem; }
-.now-showing { position: absolute; left: 3rem; bottom: 2.2rem; margin: 0; font-size: 1.15rem; font-weight: 800;
+.title .hint { position: absolute; bottom: 3rem; }
+.title .credit { bottom: 2.8rem; } /* the foot row stands clear of the privacy note */
+.now-showing { position: absolute; left: 3rem; bottom: 2.8rem; margin: 0; font-size: 1.15rem; font-weight: 800;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); text-shadow: 0 0.15rem 0.6rem #000; }
 .now-showing span { color: var(--gold); margin-right: 0.4rem; }
+/* The privacy note, under the hint: what the game keeps (nothing but this browser's own storage) and what its host logs. */
+.privacy { position: absolute; bottom: 0.7rem; margin: 0; font-size: 0.9rem; font-weight: 600; color: rgba(232, 238, 255, 0.5);
+  text-shadow: 0 0.1rem 0.4rem #000; }
+.privacy a { color: inherit; text-decoration: underline dotted; text-underline-offset: 0.2em; }
+.privacy a:hover { color: var(--gold); }
 @keyframes logo-in { from { opacity: 0; transform: scale(1.5); filter: blur(1rem); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes logo-float { 50% { transform: translateY(-0.5rem); } }
 @keyframes logo-pulse { 50% { opacity: 0.45; } }
