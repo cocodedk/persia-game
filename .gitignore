@@ -3,3 +3,6 @@ node_modules/
 .zvec-grep/
 .playwright-mcp/
 .mcp.json
+
+# Project notes live in a private repo; memory is a symlink to them
+memory
